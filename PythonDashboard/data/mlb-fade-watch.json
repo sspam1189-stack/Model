@@ -1,12 +1,58 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-03T18:34:44Z",
+  "generated": "2026-09-03T21:05:02Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-03T16:35:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Blade Tidwell",
+      "arm_team": "SF",
+      "fadeTeam": "SF",
+      "selection": "PIT",
+      "home": "PIT",
+      "away": "SF",
+      "venue": "away",
+      "odds": -166,
+      "suggest": "all",
+      "suggestUnits": 6.2,
+      "games": 3,
+      "result": "pending"
+    }
+  ],
   "candidates": [
+    {
+      "pitcher": "Blade Tidwell",
+      "team": "SF",
+      "suggest": "all",
+      "suggestUnits": 6.2,
+      "all": {
+        "w": 6,
+        "l": 0,
+        "u": 6.2,
+        "n": 6,
+        "roi": 0.6761
+      },
+      "home": {
+        "w": 3,
+        "l": 0,
+        "u": 3.2,
+        "n": 3,
+        "roi": 0.8989
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.5348
+      }
+    },
     {
       "pitcher": "Reid Detmers",
       "team": "LAA",
@@ -275,33 +321,6 @@
         "u": 3.26,
         "n": 3,
         "roi": 1.0584
-      }
-    },
-    {
-      "pitcher": "Blade Tidwell",
-      "team": "SF",
-      "suggest": "home",
-      "suggestUnits": 3.2,
-      "all": {
-        "w": 5,
-        "l": 0,
-        "u": 5.2,
-        "n": 5,
-        "roi": 0.6924
-      },
-      "home": {
-        "w": 3,
-        "l": 0,
-        "u": 3.2,
-        "n": 3,
-        "roi": 0.8989
-      },
-      "away": {
-        "w": 2,
-        "l": 0,
-        "u": 2.0,
-        "n": 2,
-        "roi": 0.5063
       }
     },
     {

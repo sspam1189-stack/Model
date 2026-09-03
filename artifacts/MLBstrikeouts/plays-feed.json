@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-03T18:35:00Z",
+ "generated": "2026-09-03T21:05:19Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -94,14 +94,14 @@
    "date": "2026-09-03",
    "play": "BAL ML (hot arm dog)",
    "market": "h2h",
-   "price": 108,
+   "price": 104,
    "rule": "hot-arm-dog-ml",
    "result": "pending",
    "profit": 0.0,
    "game": "BOS @ BAL",
    "gamePk": 824796,
    "commence": "2026-09-03T23:15:00Z",
-   "basis": "Hot arm dog ML: Brandon Young \u2014 team +49% over his last 8 starts, priced +108",
+   "basis": "Hot arm dog ML: Brandon Young \u2014 team +49% over his last 8 starts, priced +104",
    "name": "Hot arm dog ML",
    "group": "non-scout",
    "kind": "not_bet"
@@ -147,8 +147,8 @@
    "line": 8.5,
    "price": -108,
    "rule": "starter-over-run",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "CWS @ HOU",
    "gamePk": 824144,
    "commence": "2026-09-03T18:10:00Z",
@@ -164,8 +164,8 @@
    "line": 9,
    "price": -110,
    "rule": "flag-plays",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "WIN",
+   "profit": 0.91,
    "game": "SF @ PIT",
    "gamePk": 823337,
    "commence": "2026-09-03T16:35:00Z",
@@ -182,8 +182,8 @@
    "line": 9,
    "price": -110,
    "rule": "starter-over-run",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "SF @ PIT",
    "gamePk": 823337,
    "commence": "2026-09-03T16:35:00Z",
@@ -38835,20 +38835,20 @@
  ],
  "summary": {
   "all": {
-   "w": 1168,
-   "l": 990,
+   "w": 1169,
+   "l": 992,
    "push": 25,
    "n": 2194,
-   "pending": 11,
-   "units": 279.76
+   "pending": 8,
+   "units": 278.67
   },
   "card": {
-   "w": 592,
-   "l": 502,
+   "w": 593,
+   "l": 504,
    "push": 4,
    "n": 1105,
-   "pending": 7,
-   "units": 279.76
+   "pending": 4,
+   "units": 278.67
   },
   "by_rule": {
    "away-dog-ml": {
@@ -38908,12 +38908,12 @@
     "units": 30.62
    },
    "flag-plays": {
-    "w": 16,
+    "w": 17,
     "l": 13,
     "push": 0,
     "n": 31,
-    "pending": 2,
-    "units": 2.29
+    "pending": 1,
+    "units": 3.2
    },
    "form-under": {
     "w": 0,
@@ -38997,11 +38997,11 @@
    },
    "starter-over-run": {
     "w": 123,
-    "l": 89,
+    "l": 91,
     "push": 3,
     "n": 217,
-    "pending": 2,
-    "units": 33.23
+    "pending": 0,
+    "units": 31.23
    },
    "under-juice": {
     "w": 236,

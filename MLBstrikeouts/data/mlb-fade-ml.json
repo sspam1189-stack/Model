@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-03T18:32:21Z",
+  "generated": "2026-09-03T21:02:28Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 521,
+    "wins": 522,
     "losses": 203,
     "voids": 0,
     "skips": 48,
-    "staked": 906.55,
-    "units": 327.51,
-    "roi": 0.3613,
+    "staked": 907.63,
+    "units": 328.51,
+    "roi": 0.3619,
     "byType": {
       "ml": {
-        "wins": 509,
+        "wins": 510,
         "losses": 191,
         "voids": 0,
         "skips": 3,
-        "staked": 882.55,
-        "units": 323.03,
-        "roi": 0.366
+        "staked": 883.63,
+        "units": 324.03,
+        "roi": 0.3667
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-03",
-      "commence": "2026-09-03T17:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "TOR",
-      "line": null,
-      "odds": -108,
-      "stake": 1.08,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CLE",
-      "away": "TOR",
-      "gamePk": 824388,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-09-03",
       "commence": "2026-09-03T18:10:00Z",
@@ -198,7 +174,7 @@
       "market": "h2h",
       "selection": "TEX",
       "line": null,
-      "odds": 108,
+      "odds": 112,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -18808,6 +18784,30 @@
       "away": "SF",
       "gamePk": 823339,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-03T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "TOR",
+      "gamePk": 824388,
+      "fadeReason": "home"
     }
   ]
 }

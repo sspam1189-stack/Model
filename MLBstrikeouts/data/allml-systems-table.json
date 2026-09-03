@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-03T18:34:54Z",
+ "generated": "2026-09-03T21:05:13Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-02"
+  "to": "2026-09-03"
  },
- "games": 2096,
+ "games": 2099,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.2,
@@ -95,7 +95,7 @@
      "roi": 105.0
     }
    ],
-   "per_day": 1.04
+   "per_day": 1.03
   },
   {
    "baseline_key": "side",
@@ -235,7 +235,7 @@
      "roi": -24.7
     }
    ],
-   "per_day": 0.48
+   "per_day": 0.47
   },
   {
    "baseline_key": "side",
@@ -391,7 +391,7 @@
      "roi": 90.1
     }
    ],
-   "per_day": 1.53
+   "per_day": 1.52
   },
   {
    "baseline_key": "over",
@@ -406,14 +406,14 @@
    "ladder_fails": false,
    "record": {
     "w": 123,
-    "l": 89,
-    "n": 212,
-    "units": 23.05,
-    "roi": 10.9
+    "l": 91,
+    "n": 214,
+    "units": 21.05,
+    "roi": 9.8
    },
    "halves": [
     13.4,
-    9.7
+    8.2
    ],
    "monthly": [
     {
@@ -459,13 +459,13 @@
     {
      "month": "2026-09",
      "w": 3,
-     "l": 2,
-     "n": 5,
-     "units": 0.61,
-     "roi": 12.1
+     "l": 4,
+     "n": 7,
+     "units": -1.39,
+     "roi": -19.9
     }
    ],
-   "per_day": 1.33
+   "per_day": 1.34
   },
   {
    "baseline_key": "under",
@@ -621,7 +621,7 @@
      "roi": 89.3
     }
    ],
-   "per_day": 0.79
+   "per_day": 0.78
   },
   {
    "baseline_key": "under",
@@ -703,7 +703,7 @@
      "roi": -39.3
     }
    ],
-   "per_day": 2.58
+   "per_day": 2.57
   },
   {
    "baseline_key": "side",
@@ -777,7 +777,7 @@
      "roi": 32.0
     }
    ],
-   "per_day": 1.15
+   "per_day": 1.14
   },
   {
    "baseline_key": "over",
@@ -851,7 +851,7 @@
      "roi": 14.4
     }
    ],
-   "per_day": 1.47
+   "per_day": 1.46
   },
   {
    "baseline_key": "under",
@@ -925,47 +925,17 @@
      "roi": -36.4
     }
    ],
-   "per_day": 1.07
+   "per_day": 1.06
   }
  ],
  "today": [
   {
-   "rule": "starter-over-run",
-   "market": "totals",
-   "pick": "over",
-   "price": -110,
-   "side": "O",
-   "why": "over in Blade Tidwell 80% of last 8, total 9",
-   "gamePk": 823337,
-   "date": "2026-09-03",
-   "commence": "2026-09-03T16:35:00Z",
-   "matchup": "SF @ PIT",
-   "away": "SF",
-   "home": "PIT",
-   "total": 9
-  },
-  {
-   "rule": "starter-over-run",
-   "market": "totals",
-   "pick": "over",
-   "price": -108,
-   "side": "O",
-   "why": "over in Luis Castillo 75% of last 8, total 8.5",
-   "gamePk": 824144,
-   "date": "2026-09-03",
-   "commence": "2026-09-03T18:10:00Z",
-   "matchup": "CWS @ HOU",
-   "away": "CWS",
-   "home": "HOU",
-   "total": 8.5
-  },
-  {
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "BAL",
-   "price": 108,
+   "price": 104,
    "side": null,
-   "why": "Brandon Young \u2014 team +49% over his last 8 starts, priced +108",
+   "why": "Brandon Young \u2014 team +49% over his last 8 starts, priced +104",
    "gamePk": 824796,
    "date": "2026-09-03",
    "commence": "2026-09-03T23:15:00Z",
@@ -990,7 +960,7 @@
    "total": 8.5,
    "why": "favorite only -108 at a 8.5 total",
    "stale": true,
-   "stale_now": "favourite now -116, total still 8.5"
+   "stale_now": "favourite now -124, total still 8.5"
   },
   {
    "rule": "under-juice",
@@ -1008,7 +978,7 @@
    "total": 8.5,
    "why": "book laying -120 on the under",
    "stale": true,
-   "stale_now": "favourite now -126, total still 8.5"
+   "stale_now": "favourite now -122, total still 8.5"
   },
   {
    "rule": "cold-arms-under",

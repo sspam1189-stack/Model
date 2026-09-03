@@ -1,13 +1,57 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-03T18:34:43Z",
+  "generated": "2026-09-03T21:05:02Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-03T17:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Tanner Bibee",
+      "hand": "R",
+      "arm_team": "CLE",
+      "opp_team": "TOR",
+      "selection": "TOR",
+      "home": "CLE",
+      "away": "TOR",
+      "oppLefty": 7,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": -108,
+      "suggest": "fade",
+      "suggestUnits": 3.12,
+      "games": 13,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-03T17:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jos\u00e9 Soriano",
+      "hand": "R",
+      "arm_team": "TOR",
+      "opp_team": "CLE",
+      "selection": "TOR",
+      "home": "CLE",
+      "away": "TOR",
+      "oppLefty": 7,
+      "oppRighty": 5,
+      "lineupConfirmed": true,
+      "odds": -108,
+      "suggest": "take",
+      "suggestUnits": 4.54,
+      "games": 13,
+      "result": "pending"
+    },
     {
       "date": "2026-09-03",
       "commence": "2026-09-03T23:15:00Z",
@@ -23,12 +67,12 @@
       "away": "BOS",
       "oppLefty": 6,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 104,
       "suggest": "take",
       "suggestUnits": 6.26,
       "games": 9,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-03",
@@ -43,14 +87,14 @@
       "selection": "MIA",
       "home": "KC",
       "away": "MIA",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 7,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": -102,
       "suggest": "take",
       "suggestUnits": 6.22,
       "games": 11,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-03",
@@ -67,12 +111,12 @@
       "away": "TB",
       "oppLefty": 2,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -132,
       "suggest": "take",
       "suggestUnits": 4.52,
       "games": 20,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -473,6 +517,24 @@
       "era": 2.99
     },
     {
+      "pitcher": "Jos\u00e9 Soriano",
+      "hand": "R",
+      "games": 13,
+      "suggest": "take",
+      "suggestUnits": 4.54,
+      "fade": {
+        "w": 5,
+        "l": 8,
+        "u": -6.24
+      },
+      "take": {
+        "w": 8,
+        "l": 5,
+        "u": 4.54
+      },
+      "era": 3.45
+    },
+    {
       "pitcher": "Shane McClanahan",
       "hand": "L",
       "games": 20,
@@ -633,6 +695,24 @@
         "u": -3.44
       },
       "era": 5.81
+    },
+    {
+      "pitcher": "Tanner Bibee",
+      "hand": "R",
+      "games": 13,
+      "suggest": "fade",
+      "suggestUnits": 3.12,
+      "fade": {
+        "w": 8,
+        "l": 5,
+        "u": 3.12
+      },
+      "take": {
+        "w": 5,
+        "l": 8,
+        "u": -4.74
+      },
+      "era": 3.88
     },
     {
       "pitcher": "Spencer Miles",
