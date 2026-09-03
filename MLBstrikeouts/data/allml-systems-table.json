@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-03T02:43:29Z",
+ "generated": "2026-09-03T04:49:11Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-02"
@@ -319,19 +319,19 @@
    "market": "parlay",
    "rule": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
    "plain": "Parlays a +115 to +149 home underdog with the under. When the home team wins it does not bat in the ninth, so home wins skew under -- these dogs go under 73% of the time when they win, against 52% league-wide. The away-side version is correctly dead, which is the strongest structural check on the board.",
-   "case": "83-165 +43.6% (n=248) at book odds on both legs, 1.58 plays a day. Excluding the 5 games where the total pushed and the parlay reduced to its moneyline leg, 82-161 +45.6% on 243 -- the figure the scan reported before push handling existed. Average payout 4.35x, so it needs a 23.0% hit rate and gets 33.7%. Halves +45.9/+45.3, every month positive, and leave-one-team-out holds at all six most frequent hosts across 26 distinct home teams.\n\n        THE MECHANISM IS REAL AND ITS MIRROR FAILS CORRECTLY, which is what separates this from the rest of the board. A home win means the bottom of the ninth is never played, so home wins skew under: the league total averages 8.77 when the home side wins against 9.15 when it loses. An away win carries no such property, and the away mirror is duly dead -- away dog +115..+149 parlayed with the under is -11.1% over 517 games, joint 0.205 against 0.213 independent. It is the first mirror in nine scanning passes to fail for the right reason rather than by construction.\n\n        The edge is NOT the moneyline leg repeating another system. In non-division games that leg alone is 77-95 +1.8%, flat, and the parlay still returns +40.5%: the return comes from the correlation, with these home dogs going under 72.7% of the time when they win against 51.6% league-wide for any home win.\n\n        AGAINST IT. The no-bottom-ninth effect is worth about two points league-wide and here it is twenty, and only inside one price band: the under rate when home dogs win runs 0.486 at +100..+114, 0.717-0.742 at +115..+149, 0.500 at +150+. The under leg alone follows the same hump. The mechanism explains the direction and the mirror; it does not explain why +125 differs from +110. Variance is severe -- 13 straight losses and a -13.0u drawdown inside a recent 8-week stretch that finished +40u -- and plays cluster by series, so a bad matchup costs three units rather than one. Carded on the user's call 2026-09-02. NOTE: assumes the book prices a same-game ML+total parlay at multiplied odds; a correlation-priced parlay removes exactly the edge measured here.",
+   "case": "83-165 +43.6% (n=248) at book odds on both legs, 1.58 plays a day. Excluding the 5 games where the total pushed and the parlay reduced to its moneyline leg, 82-161 +45.6% on 243 -- the figure the scan reported before push handling existed. Average payout 4.35x, so it needs a 23.0% hit rate and gets 33.7%. Halves +45.9/+45.3, every month positive, and leave-one-team-out holds at all six most frequent hosts across 26 distinct home teams.\n\n        THE MECHANISM IS REAL AND ITS MIRROR FAILS CORRECTLY, which is what separates this from the rest of the board. A home win means the bottom of the ninth is never played, so home wins skew under: the league total averages 8.77 when the home side wins against 9.15 when it loses. An away win carries no such property, and the away mirror is duly dead -- away dog +115..+149 parlayed with the under is -11.1% over 517 games, joint 0.205 against 0.213 independent. It is the first mirror in nine scanning passes to fail for the right reason rather than by construction.\n\n        The edge is NOT the moneyline leg repeating another system. In non-division games that leg alone is 77-95 +1.8%, flat, and the parlay still returns +40.5%: the return comes from the correlation, with these home dogs going under 72.7% of the time when they win against 51.6% league-wide for any home win.\n\n        AGAINST IT. The no-bottom-ninth effect is worth about two points league-wide and here it is twenty, and only inside one price band: the under rate when home dogs win runs 0.486 at +100..+114, 0.717-0.742 at +115..+149, 0.500 at +150+. The under leg alone follows the same hump. The mechanism explains the direction and the mirror; it does not explain why +125 differs from +110. Variance is severe -- 13 straight losses and a -13.0u drawdown inside a recent 8-week stretch that finished +40u -- and plays cluster by series, so a bad matchup costs three units rather than one. Carded on the user's call 2026-09-02. NOTE: assumes the book prices a same-game ML+total parlay at multiplied odds; a correlation-priced parlay removes exactly the edge measured here.\n\n        UNDER LEG MUST BE 7.5 OR HIGHER (user, 2026-09-03). Below it the leg has no room to work: a number the book has already posted at 7 is one it expects to be low, so the correlation this rule is paid for has nothing left to add. Lines of 6.5 and 7 went 2-9 for -1.64u over 11 plays, and at a line of 7 the under leg hit 0.375 against 0.65 at 8.5-9 where the rule makes its money.\n\n        The record restated: 86-168 +45.5% (+115.55u, n=254) becomes 84-159 +48.2% (+117.19u, n=243). Eleven plays and +1.64u -- the ROI moves because a losing bucket left, not because anything got better. Ledger rows already logged under the old definition stay as the bets they were.\n\n        HONEST CAVEAT: this cut was found by looking at the rule's own bucket table after the fact, which is the move that produced the rust-over mirage. What is in its favour is that it removes a bucket rather than keeping one -- the 8.5 (+85.5%) and 9 (+74.3%) cells that carry the rule are untouched -- and that the mechanism reads forward: a low posted total is priced-in information, not a mispricing. What is against it is 11 games, which is nothing. The 10.5 bucket is worse (1-17, -74.1%) and is deliberately NOT cut, because cutting every losing bucket is how a rule gets fitted to its own history.",
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 86,
-    "l": 168,
-    "n": 254,
-    "units": 115.55,
-    "roi": 45.5
+    "w": 84,
+    "l": 159,
+    "n": 243,
+    "units": 117.19,
+    "roi": 48.2
    },
    "halves": [
-    42.6,
-    48.0
+    43.2,
+    52.5
    ],
    "monthly": [
     {
@@ -344,27 +344,27 @@
     },
     {
      "month": "2026-04",
-     "w": 16,
-     "l": 34,
-     "n": 50,
-     "units": 19.86,
-     "roi": 39.7
+     "w": 15,
+     "l": 31,
+     "n": 46,
+     "units": 18.98,
+     "roi": 41.3
     },
     {
      "month": "2026-05",
      "w": 15,
-     "l": 35,
-     "n": 50,
-     "units": 13.03,
-     "roi": 26.1
+     "l": 33,
+     "n": 48,
+     "units": 15.03,
+     "roi": 31.3
     },
     {
      "month": "2026-06",
-     "w": 15,
+     "w": 14,
      "l": 26,
-     "n": 41,
-     "units": 23.67,
-     "roi": 57.7
+     "n": 40,
+     "units": 20.19,
+     "roi": 50.5
     },
     {
      "month": "2026-07",
@@ -377,10 +377,10 @@
     {
      "month": "2026-08",
      "w": 24,
-     "l": 40,
-     "n": 64,
-     "units": 38.9,
-     "roi": 60.8
+     "l": 36,
+     "n": 60,
+     "units": 42.9,
+     "roi": 71.5
     },
     {
      "month": "2026-09",
@@ -391,7 +391,7 @@
      "roi": 121.8
     }
    ],
-   "per_day": 1.6
+   "per_day": 1.53
   },
   {
    "baseline_key": "over",
@@ -1025,8 +1025,6 @@
    "market": "parlay",
    "pick": "LAA",
    "price": 355,
-   "side": null,
-   "why": "LAA ML +136 with U6.5 -108, pays 4.55x",
    "line": 6.5,
    "ml_price": 136,
    "under_price": -108,
@@ -1035,9 +1033,10 @@
    "date": "2026-09-02",
    "commence": "2026-09-03T01:38:00Z",
    "matchup": "NYY @ LAA",
-   "away": "NYY",
-   "home": "LAA",
-   "total": 6.5
+   "total": 6.5,
+   "why": "LAA ML +136 with U6.5 -108, pays 4.55x",
+   "stale": true,
+   "stale_now": "favourite now -162, total still 6.5"
   },
   {
    "rule": "low-line-over",

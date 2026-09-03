@@ -210,7 +210,7 @@ When building a daily card from this repo's outputs, the tiers are:
    | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
    | Division home dog | home to a division rival, priced +115 to +149 | 46-27 | +43.0% | -3.2% |
    | Home dog getaway | day game, visitors played last night, home is a plus-money dog | 26-19 | +26.0% | -3.2% |
-   | Home dog + under | home dog +115 to +149, parlay the ML with the under | 83-165 | +43.6% | 0.0% |
+   | Home dog + under | home dog +115 to +149, **under 7.5+**, parlay the ML with the under | 84-159 | +48.2% | 0.0% |
 
    Three more were carded the same day and removed before any of them
    settled a play. **Hot arm dog ML** (back a plus-money side whose starter's
@@ -283,6 +283,28 @@ When building a daily card from this repo's outputs, the tiers are:
    +40u -- and plays cluster by series. **It also assumes the book prices a
    same-game ML+total parlay at multiplied odds; a correlation-priced parlay
    removes exactly the edge measured here.**
+
+   **Under leg must be 7.5 or higher (2026-09-03, user).** Below it the leg
+   has no room: a number the book already posted at 7 is one it expects to be
+   low, so the correlation the parlay is paid for has nothing left to add.
+   Lines of 6.5 and 7 went 2-9 for -1.64u over 11 plays, and the under leg hit
+   0.375 at a line of 7 against 0.65 at 8.5-9 where the rule earns. The record
+   restates from 86-168 +45.5% (+115.55u) to **84-159 +48.2% (+117.19u)** --
+   the ROI rises because a losing bucket left, not because anything improved.
+   Ledger rows logged under the old definition stay as the bets they were.
+
+   The bucket table this came from, for reference: <=7 -14.9% (11) · 7.5-8
+   +42.0% (84) · **8.5 +85.5% (49)** · **9 +74.3% (29)** · 9.5+ +22.8% (81).
+   78 of 254 plays at 8.5-9 produced +63.46u of the +115.55u, and those are
+   also the only lines where the under leg hits 0.65 rather than 0.54-0.57.
+
+   *Caveat, because it is the same move that produced the rust-over mirage:*
+   this cut was found by reading the rule's own bucket table after the fact.
+   In its favour, it REMOVES a bucket rather than keeping one, and the
+   mechanism reads forward -- a low posted total is priced-in information.
+   Against it, 11 games is nothing. The 10.5 bucket is worse (1-17, -74.1%)
+   and is deliberately left in, because cutting every losing bucket is how a
+   rule gets fitted to its own history.
 
    `parlay` is a market type across the whole tier now: the ledger stores the
    combined American price plus each leg, and a pushed total drops that leg

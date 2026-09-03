@@ -196,7 +196,27 @@ SYSTEMS = {
         "series, so a bad matchup costs three units rather than one. Carded "
         "on the user's call 2026-09-02. NOTE: assumes the book prices a "
         "same-game ML+total parlay at multiplied odds; a correlation-priced "
-        "parlay removes exactly the edge measured here."),
+        "parlay removes exactly the edge measured here.\n\n"
+        "        UNDER LEG MUST BE 7.5 OR HIGHER (user, 2026-09-03). Below it "
+        "the leg has no room to work: a number the book has already posted at "
+        "7 is one it expects to be low, so the correlation this rule is paid "
+        "for has nothing left to add. Lines of 6.5 and 7 went 2-9 for -1.64u "
+        "over 11 plays, and at a line of 7 the under leg hit 0.375 against "
+        "0.65 at 8.5-9 where the rule makes its money.\n\n"
+        "        The record restated: 86-168 +45.5% (+115.55u, n=254) becomes "
+        "84-159 +48.2% (+117.19u, n=243). Eleven plays and +1.64u -- the ROI "
+        "moves because a losing bucket left, not because anything got better. "
+        "Ledger rows already logged under the old definition stay as the bets "
+        "they were.\n\n"
+        "        HONEST CAVEAT: this cut was found by looking at the rule's "
+        "own bucket table after the fact, which is the move that produced the "
+        "rust-over mirage. What is in its favour is that it removes a bucket "
+        "rather than keeping one -- the 8.5 (+85.5%) and 9 (+74.3%) cells that "
+        "carry the rule are untouched -- and that the mechanism reads forward: "
+        "a low posted total is priced-in information, not a mispricing. What "
+        "is against it is 11 games, which is nothing. The 10.5 bucket is worse "
+        "(1-17, -74.1%) and is deliberately NOT cut, because cutting every "
+        "losing bucket is how a rule gets fitted to its own history."),
     "cold-arms-under": (
         "Cold arms under", "totals",
         "Both starters have gone over in 35% or less of their last 8: under.",
@@ -425,6 +445,12 @@ UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
 PARLAY_DOG_LO, PARLAY_DOG_HI = 115, 149
+# The under leg must be 7.5 or higher (user, 2026-09-03). Below it the leg has
+# no room: a total the book has already posted at 7 is one it expects to be
+# low, so the correlation the parlay is paid for has nothing left to add. The
+# 6.5 and 7 lines went 2-9 for -1.64u across 11 plays, and the under leg hit
+# 0.375 at a line of 7 against 0.65 at 8.5-9 where the rule makes its money.
+PARLAY_MIN_TOTAL = 7.5
 # Today's day-game window, as minutes past midnight UTC. This one does NOT
 # wrap, and that is the point: the test used to be `hour < 20`, which reads
 # as "before 4 pm ET" but let every night game starting after midnight UTC
@@ -611,7 +637,8 @@ def plays_for(g, feat):
             add("division-home-dog", "h2h", g["home"], home_ml,
                 why=f"home to a {DIVISION_OF[g['home']]} rival at +{home_ml}")
         if (PARLAY_DOG_LO <= home_ml <= PARLAY_DOG_HI
-                and total is not None and under_ml is not None):
+                and total is not None and total >= PARLAY_MIN_TOTAL
+                and under_ml is not None):
             payout = _dec(home_ml) * _dec(under_ml)
             add("home-dog-under-parlay", "parlay", g["home"],
                 to_american(payout), line=total, ml_price=home_ml,
