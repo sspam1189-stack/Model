@@ -204,11 +204,26 @@ SYSTEMS = {
         "parlay removes exactly the edge measured here."),
     "cold-arms-under": (
         "Cold arms under", "totals",
-        "Both starters have gone over in 35% or less of their last 8: under.",
-        "27-14 +23.5% (n=41, p=0.038), halves +28/+20, every month positive. "
-        "The smallest sample of the eight and the one most likely to be "
-        "noise on size alone; kept because it is the exact mirror of Starter "
-        "over run and agrees with it."),
+        "Both starters have gone over in 40% or less of their last 8 and the "
+        "total is 8.0 or lower: under. Was <=35% with no total gate before "
+        "2026-09-03.",
+        "27-14 +23.5% (n=41, p=0.038) under the old settings, halves +28/+20, "
+        "every month positive, the smallest sample of the eight. RESET "
+        "2026-09-03 (user, forward-only) to <=0.40 + total <=8.0: 43-26 "
+        "+19.1% z=+2.07 on n=69, the only cell in the rate x gate grid with "
+        "n>50 and z>2. See COLD_ARMS_RATE for why 8.0 and not 8.5/9.0, why "
+        "0.40 and not 0.45, and why the hot side does not mirror to 0.60. "
+        "CORRECTION to the original note: this is NOT the exact mirror of "
+        "Starter over run, and that was the stated reason for carding it. "
+        "Over-run fires on EITHER starter, this needs BOTH -- earned, since "
+        "in the 52 games with one arm >=75% and the other <=35% the over "
+        "goes 18-9 and the under 9-18, so a symmetric under rule would bet "
+        "the wrong side. The old 35-vs-75 thresholds only LOOKED asymmetric: "
+        "on a full 8-start window <=0.35 is 2-or-fewer of 8 and >=0.75 is "
+        "6-or-more, exact mirrors. The new 0.40 breaks that deliberately. "
+        "OPEN: ex-7.5 the rule is 15-13, so watch whether this is a "
+        "low-total cell rather than a cold-arms trend -- that is how Low "
+        "line over failed."),
     "away-dog-ml": (
         "Away dog ML", "h2h",
         "Away team priced as a dog in a game with a total of 9.5 or higher.",
@@ -342,8 +357,9 @@ PLAIN = {
         "market is slow to move on a starter's run -- the same lag the flag "
         "rules exploit.",
     "cold-arms-under":
-        "Takes the under when BOTH starters have gone over in 35% or less of "
-        "their last eight. The exact mirror of Starter over run, and it "
+        "Takes the under when BOTH starters have gone over in 40% or less of "
+        "their last eight and the total is 8.0 or lower (it was 35% with no "
+        "total gate before 2026-09-03). The near-mirror of Starter over run, and it "
         "agrees with it, which is why a 41-game cell is on the board at all.",
     "low-line-over":
         "Takes the over on any total of 7 or lower. Books post a 7 rarely, "
@@ -447,7 +463,44 @@ OVER_RUN_TOTAL = 8.5              # gate before OVER_RUN_TOTAL_FROM
 OVER_RUN_TOTAL_LATE = 8.0         # gate from OVER_RUN_TOTAL_FROM on
 OVER_RUN_TOTAL_FROM = "2026-09-03"
 LOW_LINE = 7.0
-COLD_ARMS_RATE = 0.35
+# 2026-09-03 (user): cold-arms-under moves to <=0.40 with a new <=8.0 total
+# gate, from this date on. Forward-only, like OVER_RUN_TOTAL_FROM above; the
+# rule had NO total gate before, and rows before the date keep grading that
+# way. Replayed: 43-26 +14.65u +19.1% z=+2.07 (n=69) against the ungated
+# 27-15 +10.04u +20.9% z=+1.80 (n=42). z is measured against the league
+# under-rate for the same posted totals, not against 50%.
+#
+# Why 8.0 is the boundary and not 8.5 or 9.0. Against the league under-rate
+# for the same number, the buckets split cleanly: 7.5 runs +14.3pp and 8.0
+# +12.7pp, while 8.5 (+0.2pp) and 9.0 (-1.1pp) sit exactly on baseline. A
+# <=9.0 gate is actively the worst option here -- it keeps a 9.0 bucket that
+# goes 7-8 and cuts a 9.5+ bucket that goes 13-9, landing below no gate at
+# all. <=8.0 is the only cell in the rate x gate grid pairing n>50 with z>2.
+#
+# Why 0.40 and not 0.45: identical on a full window (both mean 3-or-fewer of
+# 8; 3/8=.375 clears both, 4/8=.500 clears neither). They differ only on
+# short windows, where 3/7=.429 slips through at .45 -- and those 42 games
+# went 20-22, below baseline. 0.50 (4-of-8) is dead outright, 216-205 -2.2%.
+#
+# Why the hot side does NOT move to the mirror 0.60. On a full window
+# <=0.40 is 3-or-fewer and its mirror is >=0.625 (5-or-more), and that is a
+# 54-unit swing the wrong way: hot >=0.75 is 145-102 +33.17u +12.2% while
+# hot >=0.60 is 287-280 -20.90u -3.3% on 567 plays. The sides are allowed
+# to differ because they use different quantifiers -- "BOTH arms <=3/8" is
+# far more selective (n=140) than "EITHER arm >=5/8" (n=528), so loosening
+# the under side keeps it rare while loosening the over side floods it with
+# league-average arms.
+#
+# Against the change: +4.61u over roughly 67 picks changed is +0.069u per
+# pick, under the 0.20u bar. What improved is the evidence, not the money --
+# the 8.0 boundary is drawn by the baseline-relative buckets rather than
+# picked. OPEN, unchanged by this: ex-7.5 the rule is 15-13, so watch
+# whether it is a low-total cell rather than a cold-arms trend, which is how
+# Low line over failed.
+COLD_ARMS_RATE = 0.35             # rate before COLD_ARMS_FROM
+COLD_ARMS_RATE_LATE = 0.40        # rate from COLD_ARMS_FROM on
+COLD_ARMS_TOTAL = 8.0             # total cap from COLD_ARMS_FROM on (none before)
+COLD_ARMS_FROM = "2026-09-03"
 UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
@@ -599,6 +652,17 @@ class AsOf:
                 self.pit[g[f"{side}_pitcher"]].append(rec)
 
 
+def cold_arms_gates(date):
+    """(rate, total cap) for cold-arms-under as of `date`; cap None = no gate.
+
+    Forward-only: before COLD_ARMS_FROM the rule was <=0.35 with no total
+    gate, and rows from then keep grading that way.
+    """
+    if COLD_ARMS_FROM and date and str(date)[:10] >= COLD_ARMS_FROM:
+        return COLD_ARMS_RATE_LATE, COLD_ARMS_TOTAL
+    return COLD_ARMS_RATE, None
+
+
 def over_run_total(date):
     """The starter-over-run total gate as of `date`.
 
@@ -695,7 +759,8 @@ def plays_for(g, feat):
     if total <= LOW_LINE:
         add("low-line-over", "totals", "over", over_ml, side="O",
             why=f"posted total {total:g}; lines of 7 and under average 8.66 runs")
-    if len(hot) == 2 and max(r for _, r in hot) <= COLD_ARMS_RATE:
+    cold_rate, cold_cap = cold_arms_gates(g.get("date"))
+    if len(hot) == 2 and max(r for _, r in hot) <= cold_rate             and (cold_cap is None or (total is not None and total <= cold_cap)):
         add("cold-arms-under", "totals", "under", under_ml, side="U",
             why="both starters "
                 + ", ".join(f"{g.get(s + '_pitcher')} {r:.0%}" for s, r in hot)

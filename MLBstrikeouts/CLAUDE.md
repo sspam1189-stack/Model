@@ -207,7 +207,7 @@ When building a daily card from this repo's outputs, the tiers are:
    | Home slide ML | home on L4+, new opponent | 33-17 | +25.0% | -3.2% |
    | Pickem under | favorite -115 or shorter, total >= 8.5 | 98-69 | +11.5% | -3.5% |
    | Starter over run | a starter 75%+ overs in his last 8, total >= 8.0 (8.5 before 2026-09-03) | 120-87 | +10.8% | -6.1% |
-   | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
+   | Cold arms under | both starters <= 40% overs in last 8, total <= 8.0 (was <=35% ungated before 2026-09-03) | 27-14 | +23.5% | -3.5% |
    | Division home dog | home to a division rival, priced +115 to +149 | 46-27 | +43.0% | -3.2% |
    | Home dog getaway | day game, visitors played last night, home is a plus-money dog | 26-19 | +26.0% | -3.2% |
    | Home dog + under | home dog +115 to +149, parlay the ML with the under | 83-165 | +43.6% | 0.0% |
