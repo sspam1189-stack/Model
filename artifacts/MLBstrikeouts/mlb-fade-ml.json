@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-03T21:02:28Z",
+  "generated": "2026-09-03T21:22:11Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -140,6 +140,30 @@
     },
     {
       "date": "2026-09-03",
+      "commence": "2026-09-04T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane McClanahan"
+      ],
+      "fadeTeam": "TB",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "TB",
+      "gamePk": 822853,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-03",
       "commence": "2026-09-04T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -161,30 +185,6 @@
       "away": "OAK",
       "gamePk": 823095,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-03",
-      "commence": "2026-09-04T00:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Shane McClanahan"
-      ],
-      "fadeTeam": "TB",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": 112,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TEX",
-      "away": "TB",
-      "gamePk": 822853,
-      "fadeReason": "away"
     }
   ],
   "bets": [

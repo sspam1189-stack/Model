@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-03T21:05:13Z",
+ "generated": "2026-09-03T21:24:56Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-03"
@@ -399,21 +399,21 @@
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
-   "rule": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.5 or higher: over.",
-   "plain": "Takes the over when either starter has gone over in 75% or more of his last eight starts and the total is 8.5 or higher. The totals market is slow to move on a starter's run -- the same lag the flag rules exploit.",
-   "case": "120-87 +10.8% (n=207, p=0.004), halves +13/+10, all thirds positive. The L10 window agrees (+8.3%). Same story as the flag rules -- the totals market is slow to move on a starter's run. Weak point: monthly alternates (+27/-8/+20/-5/+9). The total>=8.5 half is what carries it; under 8 the same signal is -3.6%.",
+   "rule": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.0 or higher: over -- but only when BOTH starters have >=6 prior starts and the OTHER one is definitely cold (<=0.40) or definitely hot (>=0.75), never merely middling. The gate was 8.5 with no partner or start-count condition before 2026-09-03.",
+   "plain": "Takes the over when either starter has gone over in 75% or more of his last eight starts and the total is 8.0 or higher, and only when both starters have at least six prior starts and the other one is definitely cold or definitely hot rather than middling (the gate was 8.5 with no such condition before 2026-09-03). The totals market is slow to move on a starter's run -- the same lag the flag rules exploit.",
+   "case": "120-87 +10.8% (n=207, p=0.004) under the 8.5 gate, halves +13/+10, all thirds positive. The L10 window agrees (+8.3%). Same story as the flag rules -- the totals market is slow to move on a starter's run. Weak point: monthly alternates (+27/-8/+20/-5/+9). GATE MOVED 8.5 -> 8.0 on 2026-09-03 (user, forward-only): the dead zone is the 7.5 bucket (32-43 -18.9%, n=75), not everything under 8.5 -- the 8.0 bucket is 23-13 +22.1%, and >=8.0 replays to 145-102 +12.2% z=2.74 against 122-89 +10.5% z=2.27. See OVER_RUN_TOTAL for the full case and what argues against it. PARTNER + START-COUNT SKIP added 2026-09-03 (user, forward-only). By the other starter: COLD <=0.40 is 48-26 +24.4%, MID 0.40-0.75 is 51-43 +3.8%, HOT >=0.75 is 9-6 +14.0%, unknown is 37-27 +10.3%. Requiring 6 starts and dropping MID + unknown gives 50-25 +22.67u 27.7% z=+3.03 on 82u risked, against 145-102 +33.17u 12.2% z=+3.10 on 272u -- 68% of the profit on 30% of the capital. It COSTS 10.50u (-0.061u/pick) and both dropped cells are positive EV, so this is an allocation choice, not an edge. See OVER_RUN_MIN_STARTS.",
    "status": "card",
    "ladder_fails": false,
    "record": {
     "w": 123,
-    "l": 91,
-    "n": 214,
-    "units": 21.05,
-    "roi": 9.8
+    "l": 90,
+    "n": 213,
+    "units": 22.05,
+    "roi": 10.4
    },
    "halves": [
     13.4,
-    8.2
+    8.9
    ],
    "monthly": [
     {
@@ -459,13 +459,13 @@
     {
      "month": "2026-09",
      "w": 3,
-     "l": 4,
-     "n": 7,
-     "units": -1.39,
-     "roi": -19.9
+     "l": 3,
+     "n": 6,
+     "units": -0.39,
+     "roi": -6.6
     }
    ],
-   "per_day": 1.34
+   "per_day": 1.33
   },
   {
    "baseline_key": "under",
@@ -473,9 +473,9 @@
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
-   "rule": "Both starters have gone over in 35% or less of their last 8: under.",
-   "plain": "Takes the under when BOTH starters have gone over in 35% or less of their last eight. The exact mirror of Starter over run, and it agrees with it, which is why a 41-game cell is on the board at all.",
-   "case": "27-14 +23.5% (n=41, p=0.038), halves +28/+20, every month positive. The smallest sample of the eight and the one most likely to be noise on size alone; kept because it is the exact mirror of Starter over run and agrees with it.",
+   "rule": "Both starters have gone over in 40% or less of their last 8 and the total is 8.0 or lower: under. Was <=35% with no total gate before 2026-09-03.",
+   "plain": "Takes the under when BOTH starters have gone over in 40% or less of their last eight and the total is 8.0 or lower (it was 35% with no total gate before 2026-09-03). The near-mirror of Starter over run, and it agrees with it, which is why a 41-game cell is on the board at all.",
+   "case": "27-14 +23.5% (n=41, p=0.038) under the old settings, halves +28/+20, every month positive, the smallest sample of the eight. RESET 2026-09-03 (user, forward-only) to <=0.40 + total <=8.0: 43-26 +19.1% z=+2.07 on n=69, the only cell in the rate x gate grid with n>50 and z>2. See COLD_ARMS_RATE for why 8.0 and not 8.5/9.0, why 0.40 and not 0.45, and why the hot side does not mirror to 0.60. CORRECTION to the original note: this is NOT the exact mirror of Starter over run, and that was the stated reason for carding it. Over-run fires on EITHER starter, this needs BOTH -- earned, since in the 52 games with one arm >=75% and the other <=35% the over goes 18-9 and the under 9-18, so a symmetric under rule would bet the wrong side. The old 35-vs-75 thresholds only LOOKED asymmetric: on a full 8-start window <=0.35 is 2-or-fewer of 8 and >=0.75 is 6-or-more, exact mirrors. The new 0.40 breaks that deliberately. OPEN: ex-7.5 the rule is 15-13, so watch whether this is a low-total cell rather than a cold-arms trend -- that is how Low line over failed.",
    "status": "card",
    "ladder_fails": false,
    "record": {
@@ -985,15 +985,18 @@
    "market": "totals",
    "pick": "under",
    "price": -105,
-   "side": "U",
-   "why": "both starters Sandy Alcantara 12%, Michael Wacha 25% over in last 8",
+   "line": 9,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824069,
    "date": "2026-09-03",
    "commence": "2026-09-03T23:40:00Z",
    "matchup": "MIA @ KC",
-   "away": "MIA",
-   "home": "KC",
-   "total": 9
+   "total": 9,
+   "why": "both starters Sandy Alcantara 12%, Michael Wacha 25% over in last 8",
+   "stale": true,
+   "stale_now": "favourite now -116, total still 9"
   },
   {
    "rule": "pickem-under",

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-03T21:06:32Z",
+ "generated": "2026-09-03T21:26:23Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -88,7 +88,7 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "card"
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-03",
@@ -121,7 +121,7 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "card"
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-03",
@@ -38846,8 +38846,8 @@
    "w": 593,
    "l": 504,
    "push": 4,
-   "n": 1105,
-   "pending": 4,
+   "n": 1103,
+   "pending": 2,
    "units": 278.67
   },
   "by_rule": {
