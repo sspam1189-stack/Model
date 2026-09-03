@@ -11,8 +11,12 @@
 // are and, more usefully, where the inputs are untrustworthy: an arm back from
 // a two-month layoff still shows a full five-start line describing a different
 // month, and a swingman's five-start line silently drops every inning he threw
-// out of the bullpen. The advisory banner says so on the tab rather than in a
-// doc nobody opens.
+// out of the bullpen.
+//
+// The collapsible advisory banner that carried those caveats was REMOVED
+// 2026-09-03 (user). build_slate_scout.py still writes them into the payload
+// as `notes`, unread by this renderer; the standing caveats live in
+// MLBstrikeouts/CLAUDE.md.
 
 async function renderMLBSlateScout() {
   const el = document.getElementById('content');
@@ -203,32 +207,6 @@ async function renderMLBSlateScout() {
   const flagChip = (f) =>
     `<span style="display:inline-block;padding:1px 5px;margin-left:4px;border-radius:3px;`
     + `background:rgba(210,153,34,.18);color:#d29922;font-size:10px;white-space:nowrap">${esc(f)}</span>`;
-
-  // ---- Advisory notes ------------------------------------------------------
-  // Built here, appended LAST and collapsed (user, 2026-09-02). Nine
-  // paragraphs of caveats at the top of the tab pushed tonight's plays below
-  // the fold -- the thing you open the tab to read was the thing you had to
-  // scroll past the methodology to reach. The text is unchanged and one
-  // click away; it just no longer sits between you and the card.
-  const banner = document.createElement('div');
-  banner.className = 'card';
-  banner.style.cssText = 'border-left:3px solid #d29922;padding:8px 12px';
-  banner.innerHTML =
-    '<div id="scoutNotesHead" style="font-weight:600;color:#d29922;'
-    + 'font-size:15px;cursor:pointer;user-select:none">'
-    + '<span id="scoutNotesCaret">▸</span> Scouting view — not a betting model'
-    + '</div>'
-    + '<div id="scoutNotesBody" style="display:none;font-size:15px;color:' + DIM
-    + ';line-height:1.5;padding-top:6px">'
-    + (data.notes || []).map(esc).join('<br><br>') + '</div>';
-  const notesHead = banner.querySelector('#scoutNotesHead');
-  const notesBody = banner.querySelector('#scoutNotesBody');
-  let notesOpen = false;
-  notesHead.addEventListener('click', () => {
-    notesOpen = !notesOpen;
-    notesBody.style.display = notesOpen ? '' : 'none';
-    banner.querySelector('#scoutNotesCaret').textContent = notesOpen ? '▾' : '▸';
-  });
 
   // ---- Today's plays: the two under systems --------------------------------
   // 1) flagged under (CARD, live): a named data defect on either starter.
@@ -990,8 +968,8 @@ async function renderMLBSlateScout() {
   }
   rhtml += '</tbody></table></div>';
   ranked.innerHTML = rhtml;
-  // Order at the top of the tab: banner, then both plays panels (the actionable
-  // part), then the mismatch ranking, then the per-game table.
+  // Order at the top of the tab: both plays panels (the actionable part),
+  // then the mismatch ranking, then the per-game table.
   // ---- Season bet log ------------------------------------------------------
   // Every play the ledger holds, newest first, in the shape the fade-ML tab
   // uses. This replaced a date selector: that answered "what happened on one
@@ -1238,8 +1216,4 @@ async function renderMLBSlateScout() {
   }
 
   el.insertBefore(ranked, playsAnchor.nextSibling);
-
-  // Methodology last. Everything above it is either a play or a record; this
-  // is the standing caveat, and it belongs after both.
-  el.appendChild(banner);
 }
