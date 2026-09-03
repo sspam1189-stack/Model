@@ -677,7 +677,8 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
 @media (max-width: 700px) {
   .card-picks table th, .card-picks table td,
   .card-recap table th, .card-recap table td,
-  .card-games table th, .card-games table td {
+  .card-games table th, .card-games table td,
+  .scout-plays th, .scout-plays td {
     font-size: clamp(7px, 2.2vw, 12px) !important;
     padding: clamp(2px, 0.6vw, 5px) clamp(1px, 0.4vw, 6px) !important;
     white-space: nowrap;
@@ -793,6 +794,16 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
    columns are hidden and the actionable ones fit; the same information is a
    tap away on a wider screen and in the season table underneath. */
 .scout-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* The two today's-plays tables. Sized here rather than inline on the <table>
+   because an inline size on the table is only inherited by its cells, and
+   anything that writes a font-size onto a td -- the mobile clamps below, or
+   fitMLBTableToContainer in mlb-props.js, which stamps 13px !important on
+   every cell it manages -- beats inheritance and silently shrinks the panel.
+   A rule that targets the cells directly does not lose that fight. */
+.scout-plays { width: 100%; border-collapse: collapse; }
+.scout-plays th,
+.scout-plays td { font-size: 19px; line-height: 1.55; }
 
 @media (max-width: 560px) {
   .card-games [data-col="why"],

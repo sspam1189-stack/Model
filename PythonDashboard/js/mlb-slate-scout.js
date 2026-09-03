@@ -275,8 +275,9 @@ async function renderMLBSlateScout() {
   // The two today's-plays tables share one size. Defined once because they
   // were two separate hard-coded strings that had to be kept in step by
   // hand, and every size change so far has been an edit to both.
-  const PLAYS_TABLE = 'width:100%;border-collapse:collapse;'
-    + 'font-size:19px;line-height:1.55';
+  // Class, not an inline style -- see .scout-plays in styles.css for why an
+  // inline size on the table loses to anything that writes onto a cell.
+  const PLAYS_TABLE = 'scout-plays';
   const underPlays = [];
   for (const s of (data.slate || [])) {
     const sides = ['away', 'home'].map((k) => (s.sides || {})[k] || {});
@@ -426,7 +427,7 @@ async function renderMLBSlateScout() {
   } else {
     // The two plays panels are what gets read at a glance and acted on, so
     // they sit a step larger than the reference tables further down.
-    phtml += '<div class="scout-scroll"><table style="' + PLAYS_TABLE + '">'
+    phtml += '<div class="scout-scroll"><table class="' + PLAYS_TABLE + '">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
       + '<th data-col="why">Why</th>'
@@ -532,7 +533,7 @@ async function renderMLBSlateScout() {
       t += '<div style="padding:8px 10px;font-size:16px;color:' + DIM
         + '">No system qualifies on this slate.</div>';
     } else {
-      t += '<div class="scout-scroll"><table style="' + PLAYS_TABLE + '">'
+      t += '<div class="scout-scroll"><table class="' + PLAYS_TABLE + '">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>System</th><th data-col="season">Season</th>'
