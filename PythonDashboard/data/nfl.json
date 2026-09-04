@@ -69220,6 +69220,90 @@
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    153-111-3  (58.0%)  +30.9u",
       "ranAt": "09/02/2026, 03:25:13 PM"
+    },
+    {
+      "weekKey": "2026_W1",
+      "season": 2026,
+      "week": 1,
+      "date": "20260904",
+      "dateDisplay": "2026 Week 1",
+      "burnIn": true,
+      "weightsUsed": {
+        "wPassOff": 6.982,
+        "wRushOff": 4.583,
+        "wPassDef": 2.958,
+        "wRushDef": 0.021,
+        "wPace": 0.324,
+        "wRZ": 0.076,
+        "hfa": 2.945,
+        "wCPOE": 0.8,
+        "wPressure": -0.5,
+        "wSuccessRate": 1.5,
+        "wQBEPA": 2.0,
+        "wTurnover": 0.8,
+        "wPassMatchup": 1.0,
+        "wRushMatchup": 0.5,
+        "wPaceXEPA": 0.3,
+        "wThirdDown": 1.0,
+        "constant": -1.378,
+        "sprHigh": 3.0,
+        "ouHigh": 4.0,
+        "sprEliteBump": 2.0,
+        "ouEliteBump": 2.0,
+        "probHigh": 0.57,
+        "probOUHigh": 0.64,
+        "probElite": 0.63,
+        "probOUElite": 0.64,
+        "coefficients": [
+          2.633003606612212,
+          5.364444716579579,
+          -0.40541844159799134,
+          -3.064917119199841,
+          0.07755459496917025,
+          -3.032802180056292,
+          0.0,
+          0.4203848602866193,
+          0.0,
+          1.0129367576491741,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5102087219331306,
+          -2.21282338099015,
+          -0.06386223668882758,
+          -0.43537350728913504
+        ],
+        "intercept": 2.5565342931211954,
+        "alpha": 100.0,
+        "feature_columns": [
+          "passOffEPA_diff",
+          "rushOffEPA_diff",
+          "passDefEPA_diff",
+          "rushDefEPA_diff",
+          "pace_diff",
+          "rz_diff",
+          "home_flag",
+          "cpoe_diff",
+          "pressure_diff",
+          "success_rate_diff",
+          "qb_epa_diff",
+          "turnover_diff",
+          "injury_delta_a",
+          "injury_delta_b",
+          "pass_matchup",
+          "rush_matchup",
+          "pace_x_epa",
+          "third_down_diff"
+        ],
+        "n_train": 798,
+        "residual_var": 193.9385400652998,
+        "r_squared": 0.06163861807474502,
+        "source": "ridge_cv"
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    153-111-3  (58.0%)  +30.9u",
+      "ranAt": "09/03/2026, 07:30:54 PM"
     }
   ],
   "meta": {
@@ -74756,2440 +74840,7 @@
         "pressure_rate_contribution": null
       }
     },
-    "odds": [
-      {
-        "away": "New England Patriots",
-        "home": "Seattle Seahawks",
-        "line": -3.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-09-10T00:20:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "SEA",
-        "_awayAbbr": "NE",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 1.0,
-          "rest_note": "cross-country travel (3h TZ diff)"
-        }
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Los Angeles Rams",
-        "line": -3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-09-11T00:35:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "LA",
-        "_awayAbbr": "SF",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Pittsburgh Steelers",
-        "line": -3.0,
-        "total": 41.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "PIT",
-        "_awayAbbr": "ATL",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Indianapolis Colts",
-        "line": 3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "IND",
-        "_awayAbbr": "BAL",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Houston Texans",
-        "line": 1.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "HOU",
-        "_awayAbbr": "BUF",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Carolina Panthers",
-        "line": 2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "CAR",
-        "_awayAbbr": "CHI",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Cincinnati Bengals",
-        "line": -3.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "CIN",
-        "_awayAbbr": "TB",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "Jacksonville Jaguars",
-        "line": -7.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "JAX",
-        "_awayAbbr": "CLE",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Detroit Lions",
-        "line": -7.0,
-        "total": 49.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "DET",
-        "_awayAbbr": "NO",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "New York Jets",
-        "home": "Tennessee Titans",
-        "line": -1.5,
-        "total": 38.5,
-        "commenceTimeIso": "2026-09-13T17:00:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "TEN",
-        "_awayAbbr": "NYJ",
-        "_weatherAdj": {
-          "total_adj": 0.1,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": "clear"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "Los Angeles Chargers",
-        "line": -10.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-13T20:25:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "LAC",
-        "_awayAbbr": "ARI",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "Minnesota Vikings",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-13T20:25:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "MIN",
-        "_awayAbbr": "GB",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Las Vegas Raiders",
-        "line": -3.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-09-13T20:25:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "LV",
-        "_awayAbbr": "MIA",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 1.0,
-          "rest_note": "cross-country travel (3h TZ diff)"
-        }
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "Philadelphia Eagles",
-        "line": -5.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-13T20:25:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "PHI",
-        "_awayAbbr": "WAS",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "New York Giants",
-        "line": 2.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-09-14T00:20:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "NYG",
-        "_awayAbbr": "DAL",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "Kansas City Chiefs",
-        "line": -3.0,
-        "total": 42.5,
-        "commenceTimeIso": "2026-09-15T00:15:00Z",
-        "_book": "DraftKings",
-        "_homeAbbr": "KC",
-        "_awayAbbr": "DEN",
-        "_weatherAdj": {
-          "total_adj": 0.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": ""
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Buffalo Bills",
-        "line": -3.0,
-        "total": 52.5,
-        "commenceTimeIso": "2026-09-18T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Atlanta Falcons",
-        "line": -1.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Baltimore Ravens",
-        "line": -7.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "Chicago Bears",
-        "line": -3.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Houston Texans",
-        "line": -2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "Tampa Bay Buccaneers",
-        "line": -5.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "New York Jets",
-        "line": 5.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "New England Patriots",
-        "line": -4.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "Tennessee Titans",
-        "line": 4.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-09-20T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Denver Broncos",
-        "line": -2.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-09-20T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "Los Angeles Chargers",
-        "line": -8.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-09-20T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Arizona Cardinals",
-        "line": 10.0,
-        "total": 44.5,
-        "commenceTimeIso": "2026-09-20T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "Dallas Cowboys",
-        "line": -4.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-09-20T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "San Francisco 49ers",
-        "line": -10.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-20T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Kansas City Chiefs",
-        "line": -6.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-09-21T00:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Los Angeles Rams",
-        "line": -8.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-09-22T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Green Bay Packers",
-        "line": -7.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-25T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Buffalo Bills",
-        "line": -3.0,
-        "total": 48.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Cleveland Browns",
-        "line": 1.5,
-        "total": 39.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Pittsburgh Steelers",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Detroit Lions",
-        "line": -9.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Indianapolis Colts",
-        "line": 1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Jacksonville Jaguars",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Miami Dolphins",
-        "line": 7.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "New York Giants",
-        "line": -3.0,
-        "total": 44.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Washington Commanders",
-        "line": 3.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-27T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "San Francisco 49ers",
-        "line": -11.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-27T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "Tampa Bay Buccaneers",
-        "line": -1.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-09-27T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Dallas Cowboys",
-        "line": 2.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-09-27T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "New Orleans Saints",
-        "line": -3.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-09-27T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Denver Broncos",
-        "line": 3.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-09-28T00:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "Chicago Bears",
-        "line": -1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-09-29T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Cleveland Browns",
-        "line": 2.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-10-02T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Washington Commanders",
-        "line": -1.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-10-04T13:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "New York Giants",
-        "line": -7.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Baltimore Ravens",
-        "line": -8.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Buffalo Bills",
-        "line": -3.0,
-        "total": 49.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Chicago Bears",
-        "line": -8.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Cincinnati Bengals",
-        "line": -2.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Houston Texans",
-        "line": -2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "Tampa Bay Buccaneers",
-        "line": 1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Philadelphia Eagles",
-        "line": 1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-04T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Minnesota Vikings",
-        "line": -7.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-04T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "San Francisco 49ers",
-        "line": -2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-10-04T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Las Vegas Raiders",
-        "line": 5.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-04T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Seattle Seahawks",
-        "line": -3.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-04T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Carolina Panthers",
-        "line": 3.0,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-05T00:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "New Orleans Saints",
-        "line": -2.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-06T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Dallas Cowboys",
-        "line": -3.5,
-        "total": 52.5,
-        "commenceTimeIso": "2026-10-09T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "Jacksonville Jaguars",
-        "line": 1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-11T13:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Miami Dolphins",
-        "line": 6.0,
-        "total": 49.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "New York Jets",
-        "line": -2.5,
-        "total": 39.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Tennessee Titans",
-        "line": 3.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Pittsburgh Steelers",
-        "line": -2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "New England Patriots",
-        "line": -8.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "New Orleans Saints",
-        "line": 1.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Washington Commanders",
-        "line": -1.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-10-11T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "Los Angeles Chargers",
-        "line": -2.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-10-11T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Arizona Cardinals",
-        "line": 8.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-10-11T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Green Bay Packers",
-        "line": -3.0,
-        "total": 49.5,
-        "commenceTimeIso": "2026-10-11T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Seattle Seahawks",
-        "line": -3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-10-11T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Atlanta Falcons",
-        "line": 4.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-10-12T00:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Los Angeles Rams",
-        "line": -3.0,
-        "total": 53.5,
-        "commenceTimeIso": "2026-10-13T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Denver Broncos",
-        "line": 2.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-16T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Jacksonville Jaguars",
-        "line": -1.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-10-18T13:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Atlanta Falcons",
-        "line": 3.0,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Cleveland Browns",
-        "line": 6.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Philadelphia Eagles",
-        "line": -6.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Indianapolis Colts",
-        "line": -3.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "New England Patriots",
-        "line": -9.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "New York Giants",
-        "line": -2.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Tampa Bay Buccaneers",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-18T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "Los Angeles Rams",
-        "line": -13.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-18T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Las Vegas Raiders",
-        "line": 6.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-18T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Kansas City Chiefs",
-        "line": -2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-10-18T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Green Bay Packers",
-        "line": -3.0,
-        "total": 51.5,
-        "commenceTimeIso": "2026-10-19T00:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "San Francisco 49ers",
-        "line": -5.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-10-20T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Chicago Bears",
-        "line": -1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-23T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "New Orleans Saints",
-        "line": 2.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-10-25T13:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Atlanta Falcons",
-        "line": 4.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Baltimore Ravens",
-        "line": -3.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Carolina Panthers",
-        "line": 1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "Tennessee Titans",
-        "line": -2.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Houston Texans",
-        "line": -5.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Minnesota Vikings",
-        "line": -2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "New York Jets",
-        "line": -2.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-10-25T17:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "Arizona Cardinals",
-        "line": 7.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-10-25T20:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "Detroit Lions",
-        "line": -2.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-10-25T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Las Vegas Raiders",
-        "line": 7.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-10-25T20:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Seattle Seahawks",
-        "line": -3.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-26T00:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Philadelphia Eagles",
-        "line": -3.0,
-        "total": 48.5,
-        "commenceTimeIso": "2026-10-27T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Green Bay Packers",
-        "line": -7.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-10-30T00:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "Dallas Cowboys",
-        "line": -10.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Tampa Bay Buccaneers",
-        "line": -4.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Buffalo Bills",
-        "line": -2.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Cincinnati Bengals",
-        "line": -6.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "Pittsburgh Steelers",
-        "line": -6.0,
-        "total": 39.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "Detroit Lions",
-        "line": -4.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Jacksonville Jaguars",
-        "line": -4.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "New York Jets",
-        "line": -1.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-11-01T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Los Angeles Rams",
-        "line": -3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-01T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Denver Broncos",
-        "line": -1.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-11-01T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Miami Dolphins",
-        "line": 7.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-01T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "Washington Commanders",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-02T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Seattle Seahawks",
-        "line": -4.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-03T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Baltimore Ravens",
-        "line": -4.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-06T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Atlanta Falcons",
-        "line": 5.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-08T14:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "Carolina Panthers",
-        "line": 3.0,
-        "total": 42.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "New Orleans Saints",
-        "line": -3.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Indianapolis Colts",
-        "line": 1.5,
-        "total": 52.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Miami Dolphins",
-        "line": 6.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Kansas City Chiefs",
-        "line": -9.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Washington Commanders",
-        "line": 5.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Philadelphia Eagles",
-        "line": -5.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-11-08T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Los Angeles Chargers",
-        "line": -2.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-11-08T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "San Francisco 49ers",
-        "line": -8.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-08T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "Seattle Seahawks",
-        "line": -13.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-08T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "New England Patriots",
-        "line": -1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-08T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Chicago Bears",
-        "line": -3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-09T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Minnesota Vikings",
-        "line": 3.0,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-10T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "New York Giants",
-        "line": -1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-13T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Detroit Lions",
-        "line": -1.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-15T14:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Atlanta Falcons",
-        "line": 4.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "New York Jets",
-        "line": 7.0,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "New Orleans Saints",
-        "line": -1.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Cleveland Browns",
-        "line": 4.5,
-        "total": 38.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "Green Bay Packers",
-        "line": -4.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Indianapolis Colts",
-        "line": -6.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Tennessee Titans",
-        "line": 2.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-15T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Arizona Cardinals",
-        "line": 10.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-15T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Las Vegas Raiders",
-        "line": 7.0,
-        "total": 43.5,
-        "commenceTimeIso": "2026-11-15T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Dallas Cowboys",
-        "line": -1.5,
-        "total": 52.5,
-        "commenceTimeIso": "2026-11-15T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Cincinnati Bengals",
-        "line": -3.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-16T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Baltimore Ravens",
-        "line": -3.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-17T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Houston Texans",
-        "line": -5.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-20T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "Kansas City Chiefs",
-        "line": -11.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Carolina Panthers",
-        "line": 4.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Buffalo Bills",
-        "line": -11.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Chicago Bears",
-        "line": -6.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Dallas Cowboys",
-        "line": -6.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Detroit Lions",
-        "line": -4.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "New York Giants",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-22T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Los Angeles Chargers",
-        "line": -9.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-11-22T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "Denver Broncos",
-        "line": -7.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-11-22T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Philadelphia Eagles",
-        "line": -5.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-11-22T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "San Francisco 49ers",
-        "line": -3.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-23T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Washington Commanders",
-        "line": 1.5,
-        "total": 52.5,
-        "commenceTimeIso": "2026-11-24T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "Los Angeles Rams",
-        "line": -4.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-26T01:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Detroit Lions",
-        "line": -2.5,
-        "total": 52.5,
-        "commenceTimeIso": "2026-11-26T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "Dallas Cowboys",
-        "line": -1.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-26T20:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Buffalo Bills",
-        "line": -2.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-11-27T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "Pittsburgh Steelers",
-        "line": 1.5,
-        "total": 39.5,
-        "commenceTimeIso": "2026-11-27T20:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Minnesota Vikings",
-        "line": -4.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Houston Texans",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Cincinnati Bengals",
-        "line": -6.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "Cleveland Browns",
-        "line": -1.5,
-        "total": 39.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Indianapolis Colts",
-        "line": -2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Jacksonville Jaguars",
-        "line": -5.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Miami Dolphins",
-        "line": -1.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-11-29T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "Arizona Cardinals",
-        "line": 4.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-29T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "San Francisco 49ers",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-29T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Los Angeles Chargers",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-11-30T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Tampa Bay Buccaneers",
-        "line": -3.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-12-01T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Los Angeles Rams",
-        "line": -4.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-04T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Atlanta Falcons",
-        "line": 3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Chicago Bears",
-        "line": -3.0,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Cleveland Browns",
-        "line": 4.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Denver Broncos",
-        "line": -9.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "New Orleans Saints",
-        "line": 4.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Tampa Bay Buccaneers",
-        "line": 2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "New York Giants",
-        "line": 3.0,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "Tennessee Titans",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-06T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "Arizona Cardinals",
-        "line": 8.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-06T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "New England Patriots",
-        "line": -1.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-12-06T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Minnesota Vikings",
-        "line": -3.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-12-06T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Pittsburgh Steelers",
-        "line": 1.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-12-07T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Seattle Seahawks",
-        "line": -4.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-12-08T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "New England Patriots",
-        "line": -4.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-11T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Cleveland Browns",
-        "line": -1.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Baltimore Ravens",
-        "line": -6.0,
-        "total": 48.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Carolina Panthers",
-        "line": -2.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Miami Dolphins",
-        "line": 5.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "New York Jets",
-        "line": 5.5,
-        "total": 39.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Detroit Lions",
-        "line": -7.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Washington Commanders",
-        "line": 1.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Philadelphia Eagles",
-        "line": -5.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-13T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Las Vegas Raiders",
-        "line": 5.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-13T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Cincinnati Bengals",
-        "line": -1.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-12-13T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "San Francisco 49ers",
-        "line": 2.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-12-13T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Seattle Seahawks",
-        "line": -7.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-13T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Green Bay Packers",
-        "line": -1.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-12-14T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Jacksonville Jaguars",
-        "line": -3.0,
-        "total": 44.5,
-        "commenceTimeIso": "2026-12-15T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Los Angeles Chargers",
-        "line": -2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-18T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Philadelphia Eagles",
-        "line": -1.5,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-19T22:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Buffalo Bills",
-        "line": -3.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-12-20T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Washington Commanders",
-        "line": -3.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Pittsburgh Steelers",
-        "line": 2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Carolina Panthers",
-        "line": 2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "New York Giants",
-        "line": -4.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Green Bay Packers",
-        "line": -10.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Houston Texans",
-        "line": -3.0,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Tennessee Titans",
-        "line": 1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Tampa Bay Buccaneers",
-        "line": -3.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-20T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Arizona Cardinals",
-        "line": -1.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-12-20T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Los Angeles Rams",
-        "line": -6.0,
-        "total": 52.5,
-        "commenceTimeIso": "2026-12-20T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "Las Vegas Raiders",
-        "line": 4.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-12-20T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Minnesota Vikings",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-21T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "Kansas City Chiefs",
-        "line": -2.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-22T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Philadelphia Eagles",
-        "line": -2.5,
-        "total": 37.5,
-        "commenceTimeIso": "2026-12-25T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Green Bay Packers",
-        "home": "Chicago Bears",
-        "line": -1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-25T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Denver Broncos",
-        "line": 1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-25T21:30:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Seattle Seahawks",
-        "line": -1.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-12-26T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Arizona Cardinals",
-        "home": "New Orleans Saints",
-        "line": -5.5,
-        "total": 44.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "Atlanta Falcons",
-        "line": 1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "Baltimore Ravens",
-        "line": -10.0,
-        "total": 43.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "Pittsburgh Steelers",
-        "line": -3.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Indianapolis Colts",
-        "line": 1.5,
-        "total": 52.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Las Vegas Raiders",
-        "line": -1.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Miami Dolphins",
-        "line": 7.0,
-        "total": 45.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "Minnesota Vikings",
-        "line": -2.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New England Patriots",
-        "home": "New York Jets",
-        "line": 6.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-12-27T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Kansas City Chiefs",
-        "line": -3.0,
-        "total": 46.5,
-        "commenceTimeIso": "2026-12-27T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Dallas Cowboys",
-        "line": -3.0,
-        "total": 51.5,
-        "commenceTimeIso": "2026-12-28T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Detroit Lions",
-        "line": -4.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-12-29T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Baltimore Ravens",
-        "home": "Cincinnati Bengals",
-        "line": -2.5,
-        "total": 51.5,
-        "commenceTimeIso": "2027-01-01T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New Orleans Saints",
-        "home": "Atlanta Falcons",
-        "line": -1.5,
-        "total": 44.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "Miami Dolphins",
-        "line": 7.5,
-        "total": 47.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Carolina Panthers",
-        "line": 5.5,
-        "total": 42.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Indianapolis Colts",
-        "home": "Cleveland Browns",
-        "line": 2.5,
-        "total": 43.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Giants",
-        "home": "Dallas Cowboys",
-        "line": -4.5,
-        "total": 49.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Denver Broncos",
-        "home": "New England Patriots",
-        "line": -2.5,
-        "total": 42.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Washington Commanders",
-        "home": "Jacksonville Jaguars",
-        "line": -3.5,
-        "total": 48.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Tampa Bay Buccaneers",
-        "line": 4.5,
-        "total": 48.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "New York Jets",
-        "line": 3.5,
-        "total": 39.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Tennessee Titans",
-        "line": 1.5,
-        "total": 42.5,
-        "commenceTimeIso": "2027-01-03T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "Arizona Cardinals",
-        "line": 1.5,
-        "total": 42.5,
-        "commenceTimeIso": "2027-01-03T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Chicago Bears",
-        "line": -1.5,
-        "total": 49.5,
-        "commenceTimeIso": "2027-01-03T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Los Angeles Chargers",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2027-01-03T21:25:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "San Francisco 49ers",
-        "line": -1.5,
-        "total": 45.5,
-        "commenceTimeIso": "2027-01-04T01:20:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Green Bay Packers",
-        "line": -2.5,
-        "total": 42.5,
-        "commenceTimeIso": "2027-01-05T01:15:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Atlanta Falcons",
-        "home": "Carolina Panthers",
-        "line": -2.5,
-        "total": 41.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Baltimore Ravens",
-        "line": -5.5,
-        "total": 43.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "New York Jets",
-        "home": "Buffalo Bills",
-        "line": -10.0,
-        "total": 43.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Chicago Bears",
-        "home": "Minnesota Vikings",
-        "line": -1.5,
-        "total": 43.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Cleveland Browns",
-        "home": "Cincinnati Bengals",
-        "line": -7.5,
-        "total": 43.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Dallas Cowboys",
-        "home": "Washington Commanders",
-        "line": 1.5,
-        "total": 49.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Los Angeles Chargers",
-        "home": "Denver Broncos",
-        "line": -1.5,
-        "total": 41.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Detroit Lions",
-        "home": "Green Bay Packers",
-        "line": -2.5,
-        "total": 47.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tennessee Titans",
-        "home": "Houston Texans",
-        "line": -7.0,
-        "total": 39.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Indianapolis Colts",
-        "line": -1.5,
-        "total": 46.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Las Vegas Raiders",
-        "home": "Kansas City Chiefs",
-        "line": -8.5,
-        "total": 40.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "New England Patriots",
-        "line": -10.5,
-        "total": 42.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Tampa Bay Buccaneers",
-        "home": "New Orleans Saints",
-        "line": 1.5,
-        "total": 43.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Philadelphia Eagles",
-        "home": "New York Giants",
-        "line": 3.0,
-        "total": 41.5,
-        "commenceTimeIso": "2027-01-10T18:00:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Arizona Cardinals",
-        "line": 8.5,
-        "total": 44.5,
-        "commenceTimeIso": "2027-01-10T21:05:00Z",
-        "_book": "DraftKings"
-      },
-      {
-        "away": "Seattle Seahawks",
-        "home": "Los Angeles Rams",
-        "line": -3.0,
-        "total": 44.5,
-        "commenceTimeIso": "2027-01-10T21:05:00Z",
-        "_book": "DraftKings"
-      }
-    ],
+    "odds": [],
     "power_ratings": {
       "off": {
         "ARI": -0.004931439992077972,
@@ -77274,7 +74925,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "RB",
-          "description": "Love (ankle) was spotted at Tuesday's practice but wasn't suited up, Theo Mackie of The Arizona Republic reports.",
+          "description": "Coach Mike LaFleur said Thursday that Love (ankle) is \"progressing,\" Howard Balzer of Cards Wire reports.",
           "tier": "medium"
         },
         {
@@ -77340,25 +74991,17 @@
           "position": "G",
           "description": "ir",
           "tier": "low"
-        },
-        {
-          "player": "Joey Blount",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "ir",
-          "tier": "medium"
-        },
-        {
-          "player": "Jameson Geers",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "ir",
-          "tier": "medium"
         }
       ],
       "Atlanta Falcons": [
+        {
+          "player": "Michael Penix Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "The Falcons plan for Penix (knee) to start \"eventually\" this season, but head coach Kevin Stefanski has yet to decide whether Penix or Tua Tagovailoa will direct the offense Week 1 in Pittsburgh, Cameron Wolfe of NFL Network reports.",
+          "tier": "elite"
+        },
         {
           "player": "Keshawn Banks",
           "playerId": "",
@@ -77400,14 +75043,6 @@
           "tier": "high"
         },
         {
-          "player": "Michael Penix Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "QB",
-          "description": "Penix (knee) won't play in Friday's preseason game in Miami, but he believes he'll be available for a Week 1 road matchup with the Steelers on Sunday, Sept. 13, Tori McElhaney of the Falcons' official site reports.",
-          "tier": "elite"
-        },
-        {
           "player": "Trey Sermon",
           "playerId": "",
           "status": "out",
@@ -77430,7 +75065,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Flowers (lower body) did not participate in Wednesday's practice, but he did run sprints on the side, Jamison Hensley of ESPN.com reports.",
+          "description": "Flowers (lower body) is practicing Thursday, Cordell Woodland of 105.7 The Fan Baltimore reports.",
           "tier": "high"
         },
         {
@@ -77508,19 +75143,19 @@
       ],
       "Buffalo Bills": [
         {
+          "player": "Khalil Shakir",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Per Matt Zenitz of CBSSports.com, \"there's currently optimism\" that Shakir (undisclosed) will be available Week 1 against the Texans on Sunday, Sept. 13",
+          "tier": "high"
+        },
+        {
           "player": "Keon Coleman",
           "playerId": "",
           "status": "questionable",
           "position": "WR",
           "description": "Coleman (right foot/toe) was present at Tuesday's practice, Joe Buscaglia of The Athletic reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Khalil Shakir",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Shakir (undisclosed) remains sidelined at Tuesday's practice, Joe Buscaglia of The Athletic reports.",
           "tier": "high"
         },
         {
@@ -77574,6 +75209,14 @@
       ],
       "Carolina Panthers": [
         {
+          "player": "Ryan Hayes",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
           "player": "Jonathon Brooks",
           "playerId": "",
           "status": "questionable",
@@ -77596,22 +75239,6 @@
           "position": "RB",
           "description": "Hubbard (hamstring) returned to practice Tuesday, Joe Person of The Athletic  reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Ryan Hayes",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "Hayes (undisclosed) reverted to the Panthers' injured-reserve list Monday, per the NFL's official transaction log.",
-          "tier": "medium"
-        },
-        {
-          "player": "Tyrek Funderburk",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "Funderburk (undisclosed) reverted to the Panthers' injured-reserve list Monday, according to the NFL's official transaction log.",
-          "tier": "high"
         },
         {
           "player": "Bam Martin-Scott",
@@ -77684,9 +75311,41 @@
           "position": "WR",
           "description": "Legette (ankle) will remain in a walking boot on his foot until Thursday, Steve Reed of the Associated Press reports.",
           "tier": "high"
+        },
+        {
+          "player": "Jaelan Phillips",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Phillips (arm) will not play in Friday night's preseason game against the Jaguars, Darin Gantt of the Panthers' official site reports.",
+          "tier": "medium"
         }
       ],
       "Chicago Bears": [
+        {
+          "player": "Rome Odunze",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Odunze \"should be all good\" after leaving Thursday's practice with an apparent right leg injury, Dan Wiederer of the Chicago Tribune reports.",
+          "tier": "high"
+        },
+        {
+          "player": "D'Andre Swift",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Swift left Thursday's practice with an apparent injury and \"appeared to be in significant discomfort,\" Dan Wiederer of the Chicago Tribune reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Kyle Monangai",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Fellow RB D'Andre Swift said Monangai (knee) \"looked good\" while running Wednesday, Adam Hoge of AllCHGO.com reports.",
+          "tier": "medium"
+        },
         {
           "player": "Hayden Large",
           "playerId": "",
@@ -77710,14 +75369,6 @@
           "position": "WR",
           "description": "Coach Ben Johnson said Burden (groin) will participate in Tuesday's practice, Zack Pearson of BearReport reports.",
           "tier": "high"
-        },
-        {
-          "player": "Kyle Monangai",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Coach Ben Johnson said Tuesday that Monangai is \"week-to-week\" due to the right knee injury that he sustained in practice back on Sunday, Aug. 16, Chris Emma of 670TheScore.com reports.",
-          "tier": "medium"
         },
         {
           "player": "Dontae Manning",
@@ -77790,47 +75441,15 @@
           "position": "WR",
           "description": "McCloud (undisclosed) was placed on injured reserve by the Bears on Sunday.",
           "tier": "high"
-        },
-        {
-          "player": "Jaylon Johnson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Johnson is dealing with an arm injury, Patrick Finley of the Chicago Sun-Times reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Austin Booker",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Booker has a groin injury and his status is \"week-to-week,\" Brad Biggs of the Chicago Tribune reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Nephi Sewell",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "The Bears placed Sewell (concussion) on injured reserve Tuesday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Keyshaun Elliott",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "The Bears activated Elliott (undisclosed) from the active/PUP list Tuesday.",
-          "tier": "medium"
         }
       ],
       "Cincinnati Bengals": [
         {
-          "player": "Tee Higgins",
+          "player": "Shemar Stewart",
           "playerId": "",
           "status": "questionable",
-          "position": "WR",
-          "description": "Higgins is tending to a heel contusion, but coach Zac Taylor said Tuesday that it isn't considered to be a major concern ahead of Week 1, Ben Baby of ESPN.com reports.",
+          "position": "DE",
+          "description": "Stewart (knee) participated in Cincinnati's practice Wednesday, Yanni Tragellis of CBS reports.",
           "tier": "high"
         },
         {
@@ -77838,7 +75457,15 @@
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Coach Zac Taylor said Tuesday that Chase (knee) will be a limited participant in practice this week, and he \"feels good about\" where the wide receiver stands, Ben Baby of ESPN.com reports.",
+          "description": "Chase (knee) was present but not suited up at Wednesday's practice, Gabi Sorrentino of Fox 19 Cincinnati reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Tee Higgins",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Higgins (heel) didn't take part in practice Wednesday, Ben Baby of ESPN.com reports.",
           "tier": "high"
         },
         {
@@ -77871,14 +75498,6 @@
           "status": "questionable",
           "position": "CB",
           "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Shemar Stewart",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Stewart will miss several weeks due to a hyperextended knee, head coach Zac Taylor revealed Thursday, Charlie Goldsmith of FOX19 Cincinnati reports.",
           "tier": "high"
         }
       ],
@@ -77952,22 +75571,6 @@
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "ir",
-          "tier": "high"
-        },
-        {
-          "player": "Kendrick Green",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "ir",
-          "tier": "low"
-        },
-        {
-          "player": "Damarri Mathis",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
           "description": "ir",
           "tier": "high"
         }
@@ -78170,14 +75773,6 @@
           "tier": "medium"
         },
         {
-          "player": "Seth McLaughlin",
-          "playerId": "",
-          "status": "questionable",
-          "position": "C",
-          "description": "McLaughlin has been diagnosed with a concussion and is in the league's five-step protocol, Nolan Bianchi of The Detroit News reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Derrick Moore",
           "playerId": "",
           "status": "questionable",
@@ -78232,9 +75827,33 @@
           "position": "DT",
           "description": "questionable",
           "tier": "medium"
+        },
+        {
+          "player": "D.J. Reed",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Malcolm Rodriguez",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
         }
       ],
       "Green Bay Packers": [
+        {
+          "player": "Tucker Kraft",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Kraft (knee) appeared to be running without any limitations during Wednesday's practice, Matt Schneidman of The Athletic reports.",
+          "tier": "medium"
+        },
         {
           "player": "Collin Oliver",
           "playerId": "",
@@ -78300,14 +75919,6 @@
           "tier": "medium"
         },
         {
-          "player": "Tucker Kraft",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "Kraft (knee) is expected to be \"full go\" for the Packers' Week 1 regular-season opener against the Vikings, Rob Demovsky of ESPN.com reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Warren Brinson",
           "playerId": "",
           "status": "questionable",
@@ -78321,14 +75932,6 @@
           "status": "out",
           "position": "S",
           "description": "ir",
-          "tier": "medium"
-        },
-        {
-          "player": "Javon Bullard",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
           "tier": "medium"
         }
       ],
@@ -78460,14 +76063,6 @@
           "position": "LB",
           "description": "The Texans placed Ossai (undisclosed) on injured reserve Saturday.",
           "tier": "medium"
-        },
-        {
-          "player": "Jayden Higgins",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "The Texans placed Higgins (knee) on injured reserve Friday, Adam Schefter of ESPN reports.",
-          "tier": "high"
         }
       ],
       "Indianapolis Colts": [
@@ -78478,14 +76073,6 @@
           "position": "S",
           "description": "Haulcy (ankle) did not participate in Tuesday's practice, Jake Arthur of Roundtable.io reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Alec Pierce",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Colts GM Chris Ballard said Tuesday the \"hope\" is Pierce (ankle) will play in Week 1 against the Ravens.",
-          "tier": "high"
         },
         {
           "player": "Tyler Warren",
@@ -78644,19 +76231,19 @@
       ],
       "Kansas City Chiefs": [
         {
+          "player": "R Mason Thomas",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
           "player": "Josh Simmons",
           "playerId": "",
           "status": "questionable",
           "position": "OT",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Chris Jones",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DT",
-          "description": "questionable",
+          "description": "Simmons (back) did not participate at practice Wednesday, Pete Sweeney of The Kansas City Star reports.",
           "tier": "medium"
         },
         {
@@ -78816,6 +76403,14 @@
       ],
       "Los Angeles Chargers": [
         {
+          "player": "Keaton Mitchell",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Mitchell (undisclosed) remained a non-participant in Thursday's practice, Kris Rhim of ESPN.com reports.",
+          "tier": "medium"
+        },
+        {
           "player": "Denzel Perryman",
           "playerId": "",
           "status": "out",
@@ -78832,14 +76427,6 @@
           "tier": "medium"
         },
         {
-          "player": "Sincere Brown",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Brown (undisclosed) reverted to the Chargers' injured-reserve list Monday, per the NFL's transaction log.",
-          "tier": "high"
-        },
-        {
           "player": "Dalevon Campbell",
           "playerId": "",
           "status": "out",
@@ -78853,14 +76440,6 @@
           "status": "out",
           "position": "OT",
           "description": "The Chargers placed World (knee) on the reserve/non-football injury list Sunday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Keaton Mitchell",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Mitchell (undisclosed) is not practicing Monday but is working off to the side with a trainer, Kris Rhim of ESPN.com reports.",
           "tier": "medium"
         },
         {
@@ -79020,6 +76599,14 @@
       ],
       "Miami Dolphins": [
         {
+          "player": "Carter Warren",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
           "player": "Ollie Gordon II",
           "playerId": "",
           "status": "questionable",
@@ -79134,14 +76721,6 @@
           "tier": "medium"
         },
         {
-          "player": "Dontae Fleming",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Fleming (undisclosed) reverted to the Vikings' injured-reserve list Monday, per the NFL's transaction log.",
-          "tier": "high"
-        },
-        {
           "player": "Michael Jurgens",
           "playerId": "",
           "status": "out",
@@ -79196,7 +76775,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "RB",
-          "description": "Henderson continues to rehab a right ankle injury and hasn't been cleared for full participation in practice, Mike Reiss of ESPN.com reports.",
+          "description": "Henderson (ankle) wasn't present for Thursday's practice, Evan Lazar of the Patriots' official site reports.",
           "tier": "medium"
         },
         {
@@ -79221,14 +76800,6 @@
           "status": "out",
           "position": "DT",
           "description": "Iton (undisclosed) reverted to New England's injured reserve Monday, Mark Daniels of MassLive.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Eric Butler",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Butler (undisclosed) reverted to the Patriots' IR on Monday, Mark Daniels of MassLive.com reports.",
           "tier": "medium"
         },
         {
@@ -79266,6 +76837,22 @@
       ],
       "New Orleans Saints": [
         {
+          "player": "Michael Heldman",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Alvin Kamara",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Kamara (knee) remained sidelined at Thursday's practice, Mike Triplett of NewOrleans.Football reports.",
+          "tier": "medium"
+        },
+        {
           "player": "Kendre Miller",
           "playerId": "",
           "status": "questionable",
@@ -79280,22 +76867,6 @@
           "position": "S",
           "description": "The Saints placed Styles (calf) on injured reserve Tuesday, John Hendrix of AthlonSports.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Barry Wesley",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "The Saints placed Wesley on injured reserve Sunday due to an undisclosed issue.",
-          "tier": "medium"
-        },
-        {
-          "player": "Michael Heldman",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "The Saints placed Heldman (undisclosed) on injured reserve Sunday.",
-          "tier": "high"
         },
         {
           "player": "Jaylan Ford",
@@ -79320,14 +76891,6 @@
           "position": "WR",
           "description": "Tipton (leg) was moved to the reserve/PUP list by the Saints on Sunday.",
           "tier": "high"
-        },
-        {
-          "player": "Devin Neal",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "The Saints placed Neal (hamstring) on injured reserve Sunday, Nick Underhill of NewOrleans.Football reports.",
-          "tier": "medium"
         },
         {
           "player": "Jordyn Tyson",
@@ -79375,14 +76938,6 @@
           "status": "questionable",
           "position": "DT",
           "description": "Ridgeway exited Thursday's practice with a foot injury, Nick Underhill of NewOrleans.Football reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Alvin Kamara",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Kamara (knee) is expected to be out for at least one month after sustaining an MCL sprain during Tuesday's joint practice with the Cowboys, Adam Schefter of ESPN reports.",
           "tier": "medium"
         }
       ],
@@ -79494,27 +77049,27 @@
       ],
       "New York Jets": [
         {
-          "player": "Dominic Richardson",
+          "player": "Mykal Walker",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Breece Hall",
+          "playerId": "",
+          "status": "questionable",
           "position": "RB",
-          "description": "Richardson (undisclosed) reverted to the Jets' injured-reserve list Monday, according to the NFL's official transaction log.",
+          "description": "Hall (groin) is expected to be ready for Week 1 against the Titans on Sunday, Sept. 13, Jack Bell of the Jets' official site reports.",
           "tier": "medium"
         },
         {
-          "player": "Connor Hulstein",
+          "player": "Isaiah Davis",
           "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Hulstein (undisclosed) reverted to the Jets' injured-reserve list Monday, per the NFL's official transaction log.",
-          "tier": "medium"
-        },
-        {
-          "player": "Chase Curtis",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Curtis (knee) reverted to the Jets' injured-reserve list Monday, according to the NFL's official transaction log.",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Davis (knee) did not participate in Wednesday's practice, Zack Rosenblatt of The Athletic reports.",
           "tier": "medium"
         },
         {
@@ -79532,14 +77087,6 @@
           "position": "DE",
           "description": "The Jets moved Baron (knee) to the reserve/PUP list Sunday, Eric Allen and Amanda Vogt of the team's official site report.",
           "tier": "high"
-        },
-        {
-          "player": "Mykal Walker",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "The Jets placed Walker (undisclosed) on injured reserve Sunday, Eric Allen and Amanda Vogt of the team's official site report.",
-          "tier": "medium"
         },
         {
           "player": "D'Angelo Ponds",
@@ -79590,27 +77137,27 @@
           "tier": "low"
         },
         {
-          "player": "Isaiah Davis",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Davis (knee) worked out on a side field with a trainer during Tuesday's practice, Zack Rosenblatt of The Athletic reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Breece Hall",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Hall (groin) took part in agility drills on the side at Monday's practice, Brian Costello of the New York Post reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Kingsley Jonathan",
           "playerId": "",
           "status": "out",
           "position": "DE",
           "description": "Jonathan (thigh) reverted to the Jets' injured reserve Wednesday, Aaron Wilson of KPRC 2 Houston reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Qwan'tez Stiggers",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Stiggers (concussion) was a limited participant in Wednesday's practice, Rich Cimini of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Nahshon Wright",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
           "tier": "high"
         }
       ],
@@ -79645,14 +77192,6 @@
           "status": "questionable",
           "position": "TE",
           "description": "Stowers (hamstring) may not be active on gamedays even if he returns to health before the start of the regular season, according to Jimmy Kempski of PhillyVoice.",
-          "tier": "medium"
-        },
-        {
-          "player": "Ja'Quinden Jackson",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Jackson (undisclosed) reverted from waivers to Philadelphia's injured reserve list Tuesday, per the NFL's transaction log.",
           "tier": "medium"
         },
         {
@@ -79738,14 +77277,6 @@
           "tier": "high"
         },
         {
-          "player": "Will Howard",
-          "playerId": "",
-          "status": "questionable",
-          "position": "QB",
-          "description": "Howard suffered a concussion during Thursday's 28-27 preseason loss to the Bills, Brooke Pryor of ESPN.com reports.",
-          "tier": "elite"
-        },
-        {
           "player": "Michael Pittman Jr.",
           "playerId": "",
           "status": "questionable",
@@ -79792,23 +77323,47 @@
           "position": "S",
           "description": "questionable",
           "tier": "medium"
-        },
-        {
-          "player": "Cole Burgess",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "ir",
-          "tier": "high"
         }
       ],
       "San Francisco 49ers": [
+        {
+          "player": "Sam Okuayinonu",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "Okuayinonu (foot) will not travel with the team to Melbourne, Australia ahead of the Week 1 game versus the Rams, Nick Wagoner of ESPN.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Victor Dimukeje",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Kyle Juszczyk",
+          "playerId": "",
+          "status": "questionable",
+          "position": "FB",
+          "description": "Juszczyk (finger) was a full participant in Wednesday's practice, Nick Wagoner of ESPN.com reports.",
+          "tier": "low"
+        },
+        {
+          "player": "Nick Bosa",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Bosa (knee) is making the trip to Australia and still could have a chance to play in the 49ers' Week 1 matchup against the Rams in Melbourne, Ian Rapoport of ESPN and NFL Network reports.",
+          "tier": "high"
+        },
         {
           "player": "Mike Evans",
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Evans (groin) returned to Wednesday, Nick Wagoner of ESPN.com reports.",
+          "description": "Evans (groin) returned to practice Wednesday, Nick Wagoner of ESPN.com reports.",
           "tier": "high"
         },
         {
@@ -79850,22 +77405,6 @@
           "position": "RB",
           "description": "McCaffrey (undisclosed) suited up and went through drills at Tuesday's practice, according to Matt Lively of CBS Sports Bay Area.",
           "tier": "medium"
-        },
-        {
-          "player": "Kyle Juszczyk",
-          "playerId": "",
-          "status": "questionable",
-          "position": "FB",
-          "description": "Juszczyk (finger) is not practicing Tuesday, Matt Barrows of The Athletic reports.",
-          "tier": "low"
-        },
-        {
-          "player": "Nick Bosa",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Bosa (knee) worked off to the side in Monday's practice and is expected to do the same Tuesday, with a return to fuller participation planned for Wednesday, Matt Maiocco of NBC Sports Bay Area reports.",
-          "tier": "high"
         },
         {
           "player": "Nick Zakelj",
@@ -79922,31 +77461,15 @@
           "position": "CB",
           "description": "Prysock suffered a shoulder injury and will not return to Thursday's preseason matchup with the Raiders, Noah Furtado of the San Francisco Chronicle reports.",
           "tier": "high"
-        },
-        {
-          "player": "Victor Dimukeje",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "Dimukeje (undisclosed) was placed on injured reserve by the 49ers on Thursday.",
-          "tier": "high"
-        },
-        {
-          "player": "De'Zhaun Stribling",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Stribling (shoulder) won't suit up for Thursday's preseason contest at Las Vegas, David Lombardi of SFStandard.com reports.",
-          "tier": "high"
         }
       ],
       "Seattle Seahawks": [
         {
           "player": "Amari Kight",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "OT",
-          "description": "Kight (undisclosed) reverted to the Seahawks' injured-reserve list Monday, according to the NFL's official transaction log.",
+          "description": "questionable",
           "tier": "medium"
         },
         {
@@ -80036,14 +77559,6 @@
           "position": "FB",
           "description": "ir",
           "tier": "low"
-        },
-        {
-          "player": "Nick Emmanwori",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
-          "tier": "medium"
         }
       ],
       "Tampa Bay Buccaneers": [
@@ -80122,6 +77637,14 @@
       ],
       "Tennessee Titans": [
         {
+          "player": "Dominique Hampton",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
           "player": "Carnell Tate",
           "playerId": "",
           "status": "questionable",
@@ -80178,14 +77701,6 @@
           "tier": "high"
         },
         {
-          "player": "Dominique Hampton",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Hampton (undisclosed) reverted to the Titans' injured reserve list Wednesday, per the NFL's transaction log.",
-          "tier": "medium"
-        },
-        {
           "player": "Milo Eifler",
           "playerId": "",
           "status": "out",
@@ -80210,14 +77725,6 @@
           "tier": "elite"
         },
         {
-          "player": "Kalel Mullings",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
           "player": "Jaylen Harrell",
           "playerId": "",
           "status": "out",
@@ -80235,6 +77742,22 @@
         }
       ],
       "Washington Commanders": [
+        {
+          "player": "Drake Jackson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Malik Spencer",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "T.J. Maguranyanga",
           "playerId": "",
@@ -80332,43 +77855,11 @@
           "tier": "medium"
         },
         {
-          "player": "Malik Spencer",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Spencer (undisclosed) reverted to injured reserve with the Commanders on Wednesday, per the NFL's official transaction log.",
-          "tier": "medium"
-        },
-        {
-          "player": "Drake Jackson",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "Jackson (hamstring) was placed on the Reserve/Injured list on Monday.",
-          "tier": "high"
-        },
-        {
           "player": "Ben Sinnott",
           "playerId": "",
           "status": "questionable",
           "position": "TE",
           "description": "Commanders head coach Dan Quinn said that Sinnott is dealing with an oblique injury and is unlikely to play in Friday's preseason finale versus the Ravens, Nicki Jhabvala of The Athletic reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Tim Settle",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DT",
-          "description": "Settle (calf) will not play against the Lions in Saturday's preseason game.",
-          "tier": "medium"
-        },
-        {
-          "player": "K'Lavon Chaisson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Chaisson (knee) will not play in Saturday's preseason game against the Lions.",
           "tier": "medium"
         }
       ]
