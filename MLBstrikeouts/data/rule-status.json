@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-03T02:21:21Z",
+ "generated": "2026-09-04T00:35:47Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -73,13 +73,13 @@
   "starter-over-run": {
    "status": "card",
    "name": "Starter over run",
-   "why": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.5 or higher: over.",
+   "why": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.0 or higher: over -- but only when BOTH starters have >=6 prior starts and the OTHER one is definitely cold (<=0.40) or definitely hot (>=0.75), never merely middling. The gate was 8.5 with no partner or start-count condition before 2026-09-03.",
    "group": "non-scout"
   },
   "cold-arms-under": {
    "status": "card",
    "name": "Cold arms under",
-   "why": "Both starters have gone over in 35% or less of their last 8: under.",
+   "why": "Both starters have gone over in 40% or less of their last 8 and the total is 8.0 or lower: under. Was <=35% with no total gate before 2026-09-03.",
    "group": "non-scout"
   },
   "low-line-over": {

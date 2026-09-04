@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-03T00:32:42Z",
+  "generated": "2026-09-04T00:33:59Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -114,8 +114,8 @@
     {
       "name": "Noah Cameron",
       "hand": "L",
-      "games": 18,
-      "units": 4.04,
+      "games": 19,
+      "units": 5.04,
       "since": "2026-06-18"
     }
   ],
@@ -159,7 +159,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-04T01:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Jack Perkins",
+      "entry": "Jack Perkins",
+      "hand": "R",
+      "arm_team": "OAK",
+      "opp_team": "SEA",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "OAK",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -215,
+      "stake": 2.15,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1374,8 +1399,8 @@
       "selection": "CLE",
       "home": "CWS",
       "away": "CLE",
-      "oppLefty": 6,
-      "oppRighty": 7,
+      "oppLefty": 5,
+      "oppRighty": 6,
       "lineupConfirmed": true,
       "odds": -138,
       "stake": 1.38,

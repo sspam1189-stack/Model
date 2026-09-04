@@ -82,12 +82,27 @@ SYSTEMS = {
     "starter-over-run": (
         "Starter over run", "totals",
         "Either starter has gone over in 75% or more of his last 8 starts "
-        "and the total is 8.5 or higher: over.",
-        "120-87 +10.8% (n=207, p=0.004), halves +13/+10, all thirds positive. "
-        "The L10 window agrees (+8.3%). Same story as the flag rules -- the "
-        "totals market is slow to move on a starter's run. Weak point: "
-        "monthly alternates (+27/-8/+20/-5/+9). The total>=8.5 half is what "
-        "carries it; under 8 the same signal is -3.6%."),
+        "and the total is 8.0 or higher: over -- but only when BOTH starters "
+        "have >=6 prior starts and the OTHER one is definitely cold (<=0.40) "
+        "or definitely hot (>=0.75), never merely middling. The gate was 8.5 "
+        "with no partner or start-count condition before 2026-09-03.",
+        "120-87 +10.8% (n=207, p=0.004) under the 8.5 gate, halves +13/+10, "
+        "all thirds positive. The L10 window agrees (+8.3%). Same story as "
+        "the flag rules -- the totals market is slow to move on a starter's "
+        "run. Weak point: monthly alternates (+27/-8/+20/-5/+9). "
+        "GATE MOVED 8.5 -> 8.0 on 2026-09-03 (user, forward-only): the dead "
+        "zone is the 7.5 bucket (32-43 -18.9%, n=75), not everything under "
+        "8.5 -- the 8.0 bucket is 23-13 +22.1%, and >=8.0 replays to "
+        "145-102 +12.2% z=2.74 against 122-89 +10.5% z=2.27. See "
+        "OVER_RUN_TOTAL for the full case and what argues against it. "
+        "PARTNER + START-COUNT SKIP added 2026-09-03 (user, forward-only). "
+        "By the other starter: COLD <=0.40 is 48-26 +24.4%, MID 0.40-0.75 is "
+        "51-43 +3.8%, HOT >=0.75 is 9-6 +14.0%, unknown is 37-27 +10.3%. "
+        "Requiring 6 starts and dropping MID + unknown gives 50-25 +22.67u "
+        "27.7% z=+3.03 on 82u risked, against 145-102 +33.17u 12.2% z=+3.10 "
+        "on 272u -- 68% of the profit on 30% of the capital. It COSTS 10.50u "
+        "(-0.061u/pick) and both dropped cells are positive EV, so this is "
+        "an allocation choice, not an edge. See OVER_RUN_MIN_STARTS."),
     "division-home-dog": (
         "Division home dog", "h2h",
         "Home team hosting a division rival and priced +115 to +149: back the "
@@ -219,11 +234,26 @@ SYSTEMS = {
         "losing bucket is how a rule gets fitted to its own history."),
     "cold-arms-under": (
         "Cold arms under", "totals",
-        "Both starters have gone over in 35% or less of their last 8: under.",
-        "27-14 +23.5% (n=41, p=0.038), halves +28/+20, every month positive. "
-        "The smallest sample of the eight and the one most likely to be "
-        "noise on size alone; kept because it is the exact mirror of Starter "
-        "over run and agrees with it."),
+        "Both starters have gone over in 40% or less of their last 8 and the "
+        "total is 8.0 or lower: under. Was <=35% with no total gate before "
+        "2026-09-03.",
+        "27-14 +23.5% (n=41, p=0.038) under the old settings, halves +28/+20, "
+        "every month positive, the smallest sample of the eight. RESET "
+        "2026-09-03 (user, forward-only) to <=0.40 + total <=8.0: 43-26 "
+        "+19.1% z=+2.07 on n=69, the only cell in the rate x gate grid with "
+        "n>50 and z>2. See COLD_ARMS_RATE for why 8.0 and not 8.5/9.0, why "
+        "0.40 and not 0.45, and why the hot side does not mirror to 0.60. "
+        "CORRECTION to the original note: this is NOT the exact mirror of "
+        "Starter over run, and that was the stated reason for carding it. "
+        "Over-run fires on EITHER starter, this needs BOTH -- earned, since "
+        "in the 52 games with one arm >=75% and the other <=35% the over "
+        "goes 18-9 and the under 9-18, so a symmetric under rule would bet "
+        "the wrong side. The old 35-vs-75 thresholds only LOOKED asymmetric: "
+        "on a full 8-start window <=0.35 is 2-or-fewer of 8 and >=0.75 is "
+        "6-or-more, exact mirrors. The new 0.40 breaks that deliberately. "
+        "OPEN: ex-7.5 the rule is 15-13, so watch whether this is a "
+        "low-total cell rather than a cold-arms trend -- that is how Low "
+        "line over failed."),
     "away-dog-ml": (
         "Away dog ML", "h2h",
         "Away team priced as a dog in a game with a total of 9.5 or higher.",
@@ -352,12 +382,16 @@ PLAIN = {
         "positive in both halves.",
     "starter-over-run":
         "Takes the over when either starter has gone over in 75% or more of "
-        "his last eight starts and the total is 8.5 or higher. The totals "
+        "his last eight starts and the total is 8.0 or higher, and only when "
+        "both starters have at least six prior starts and the other one is "
+        "definitely cold or definitely hot rather than middling (the gate was "
+        "8.5 with no such condition before 2026-09-03). The totals "
         "market is slow to move on a starter's run -- the same lag the flag "
         "rules exploit.",
     "cold-arms-under":
-        "Takes the under when BOTH starters have gone over in 35% or less of "
-        "their last eight. The exact mirror of Starter over run, and it "
+        "Takes the under when BOTH starters have gone over in 40% or less of "
+        "their last eight and the total is 8.0 or lower (it was 35% with no "
+        "total gate before 2026-09-03). The near-mirror of Starter over run, and it "
         "agrees with it, which is why a 41-game cell is on the board at all.",
     "low-line-over":
         "Takes the over on any total of 7 or lower. Books post a 7 rarely, "
@@ -428,7 +462,7 @@ SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml",
 # because that is what the rule IS from here; only the ledger waits.
 #
 # Remove an entry once its date has passed; it is inert after that.
-SHADOW_FROM = {"pickem-under": "2026-09-04"}   # user, 2026-09-03
+SHADOW_FROM = {"pickem-under": "2026-09-03"}   # user, 2026-09-03
 
 # Every system the engine knows, card tier first. Consumers that render or
 # replay all of them walk this; CARD_ORDER alone is the bet list.
@@ -438,9 +472,100 @@ HOT_ARM_ROI = 40.0       # trailing team ROI% in the starter's last 8
 PICKEM_ML = -115         # favorite no shorter than this
 PICKEM_TOTAL = 8.5
 OVER_RUN_RATE = 0.75
-OVER_RUN_TOTAL = 8.5
+# 2026-09-03 (user): the starter-over-run total gate moves 8.5 -> 8.0 from
+# this date on. Forward-only, the same shape as MUTUAL_SKIP_START in
+# fade_ml_common, so a row before the date still grades against the gate it
+# was actually bet under.
+#
+# The 8.5 sat one notch above what the evidence supported. The case for it
+# below -- "under 8 the same signal is -3.6%" -- is an aggregate the 7.5
+# bucket drags negative by itself (32-43, -18.9%, n=75); the 8.0 bucket
+# inside that same aggregate is 23-13 +22.1%. Laddered, >=8.0 dominates
+# >=8.5 on every metric at once: 145-102 +33.17u +12.2% z=2.74 against
+# 122-89 +24.44u +10.5% z=2.27, and runs-line +1.40 against +1.32. It adds
+# 36 plays worth +8.73u, or +0.243u per pick added.
+#
+# Against it, stated plainly: one season, in-sample, and n=36 on the added
+# bucket (z=+1.67 on its own). What makes it a gate move rather than a
+# re-tune is that a 42-cell sweep of window x rate around it is a plateau --
+# every L8-L16 x 0.75-0.80 cell lands between +12.0% and +15.6% -- so the
+# edge does not depend on hitting an exact setting. Rates <=0.625 are dead
+# at every window, which is the low-side boundary holding.
+# 2026-09-03 (user): starter-over-run additionally requires BOTH starters to
+# have >=6 prior starts, and SKIPS when the opposing starter is neither cold
+# nor hot (rate strictly between the two gates). Forward-only.
+#
+# This is an ALLOCATION change, not an edge discovery, and it costs units.
+# On the >=0.75 / >=8.0 config, split by the other starter:
+#   partner COLD <=0.40   48-26  64.9%  +19.69u  +24.4%  z=+2.61
+#   partner MID 0.40-0.75 51-43  54.3%   +3.96u   +3.8%  z=+1.09
+#   partner HOT  >=0.75    9-6   60.0%   +2.30u  +14.0%  z=+0.79
+#   partner unknown       37-27  57.8%   +7.22u  +10.3%  z=+1.58
+# Requiring 6 starts and dropping MID + unknown: 50-25 +22.67u 27.7% z=+3.03
+# on 82u risked, against 145-102 +33.17u 12.2% z=+3.10 on 272u. That is 68%
+# of the profit on 30% of the capital, with significance essentially intact.
+#
+# Stated plainly against it: -10.50u, which is -0.061u per pick changed, on
+# the wrong side of the 0.20u bar. Neither dropped cell is losing -- MID is
+# 51-43 +3.8% and unknown is 37-27 +10.3%, both positive EV -- so this
+# declines two small edges to free capital, and only pays if that capital
+# earns more elsewhere. The cold-vs-mid contrast is z=+1.36, so the cells
+# are NOT statistically distinguishable; nothing says MID is broken.
+#
+# The 6-start floor cuts against the evidence and is kept only because it is
+# part of the chosen allocation. Three independent tests in this pass say
+# thin-sample arms do at least as well: hot-arm window depth 8/7/<=6 ->
+# 56.6/60.0/60.5; the short-window arms cold-arms 0.35 adds went 14-8; and
+# the 5-start arms this floor removes went 16-10 (61.5%), BETTER than the
+# rule's own rate. The global MIN_STARTS stays 5 -- it also feeds pit_roi
+# for hot-arm-dog-ml, which is not part of this change.
+OVER_RUN_MIN_STARTS = 6           # both starters, from OVER_RUN_PARTNER_FROM
+OVER_RUN_PARTNER_LO = 0.40        # skip band low  (currently = COLD_ARMS_RATE_LATE)
+OVER_RUN_PARTNER_HI = 0.75        # skip band high (currently = OVER_RUN_RATE)
+OVER_RUN_PARTNER_FROM = "2026-09-03"
+
+OVER_RUN_TOTAL = 8.5              # gate before OVER_RUN_TOTAL_FROM
+OVER_RUN_TOTAL_LATE = 8.0         # gate from OVER_RUN_TOTAL_FROM on
+OVER_RUN_TOTAL_FROM = "2026-09-03"
 LOW_LINE = 7.0
-COLD_ARMS_RATE = 0.35
+# 2026-09-03 (user): cold-arms-under moves to <=0.40 with a new <=8.0 total
+# gate, from this date on. Forward-only, like OVER_RUN_TOTAL_FROM above; the
+# rule had NO total gate before, and rows before the date keep grading that
+# way. Replayed: 43-26 +14.65u +19.1% z=+2.07 (n=69) against the ungated
+# 27-15 +10.04u +20.9% z=+1.80 (n=42). z is measured against the league
+# under-rate for the same posted totals, not against 50%.
+#
+# Why 8.0 is the boundary and not 8.5 or 9.0. Against the league under-rate
+# for the same number, the buckets split cleanly: 7.5 runs +14.3pp and 8.0
+# +12.7pp, while 8.5 (+0.2pp) and 9.0 (-1.1pp) sit exactly on baseline. A
+# <=9.0 gate is actively the worst option here -- it keeps a 9.0 bucket that
+# goes 7-8 and cuts a 9.5+ bucket that goes 13-9, landing below no gate at
+# all. <=8.0 is the only cell in the rate x gate grid pairing n>50 with z>2.
+#
+# Why 0.40 and not 0.45: identical on a full window (both mean 3-or-fewer of
+# 8; 3/8=.375 clears both, 4/8=.500 clears neither). They differ only on
+# short windows, where 3/7=.429 slips through at .45 -- and those 42 games
+# went 20-22, below baseline. 0.50 (4-of-8) is dead outright, 216-205 -2.2%.
+#
+# Why the hot side does NOT move to the mirror 0.60. On a full window
+# <=0.40 is 3-or-fewer and its mirror is >=0.625 (5-or-more), and that is a
+# 54-unit swing the wrong way: hot >=0.75 is 145-102 +33.17u +12.2% while
+# hot >=0.60 is 287-280 -20.90u -3.3% on 567 plays. The sides are allowed
+# to differ because they use different quantifiers -- "BOTH arms <=3/8" is
+# far more selective (n=140) than "EITHER arm >=5/8" (n=528), so loosening
+# the under side keeps it rare while loosening the over side floods it with
+# league-average arms.
+#
+# Against the change: +4.61u over roughly 67 picks changed is +0.069u per
+# pick, under the 0.20u bar. What improved is the evidence, not the money --
+# the 8.0 boundary is drawn by the baseline-relative buckets rather than
+# picked. OPEN, unchanged by this: ex-7.5 the rule is 15-13, so watch
+# whether it is a low-total cell rather than a cold-arms trend, which is how
+# Low line over failed.
+COLD_ARMS_RATE = 0.35             # rate before COLD_ARMS_FROM
+COLD_ARMS_RATE_LATE = 0.40        # rate from COLD_ARMS_FROM on
+COLD_ARMS_TOTAL = 8.0             # total cap from COLD_ARMS_FROM on (none before)
+COLD_ARMS_FROM = "2026-09-03"
 UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
@@ -574,6 +699,7 @@ class AsOf:
                 f["streak"] = k if last["won"] else -k
                 f["last_opp"] = last["opp"]
             plog = self.pit[g.get(f"{side}_pitcher") or ""]
+            f["pit_n"] = len(plog)          # prior starts, ungated
             if len(plog) >= MIN_STARTS:
                 w = plog[-PIT_WINDOW:]
                 f["pit_roi"] = sum(x["p"] for x in w) / len(w) * 100.0
@@ -596,6 +722,48 @@ class AsOf:
             self.team[g[side]].append(rec)
             if g.get(f"{side}_pitcher"):
                 self.pit[g[f"{side}_pitcher"]].append(rec)
+
+
+def cold_arms_gates(date):
+    """(rate, total cap) for cold-arms-under as of `date`; cap None = no gate.
+
+    Forward-only: before COLD_ARMS_FROM the rule was <=0.35 with no total
+    gate, and rows from then keep grading that way.
+    """
+    if COLD_ARMS_FROM and date and str(date)[:10] >= COLD_ARMS_FROM:
+        return COLD_ARMS_RATE_LATE, COLD_ARMS_TOTAL
+    return COLD_ARMS_RATE, None
+
+
+def over_run_partner_skip(date, rates, starts):
+    """True if starter-over-run should skip on the opposing starter.
+
+    From OVER_RUN_PARTNER_FROM, the rule needs BOTH starters' rates known,
+    both with >=OVER_RUN_MIN_STARTS prior starts, and the lower rate outside
+    the (LO, HI) band -- i.e. a partner who is definitely cold or definitely
+    hot, never merely middling and never unmeasured. Always False before the
+    date, so history grades as it was bet.
+    """
+    if not (OVER_RUN_PARTNER_FROM and date
+            and str(date)[:10] >= OVER_RUN_PARTNER_FROM):
+        return False
+    if len(rates) != 2 or len(starts) != 2:
+        return True                          # unknown partner -> skip
+    if min(starts) < OVER_RUN_MIN_STARTS:
+        return True
+    return OVER_RUN_PARTNER_LO < min(rates) < OVER_RUN_PARTNER_HI
+
+
+def over_run_total(date):
+    """The starter-over-run total gate as of `date`.
+
+    Forward-only: rows dated before OVER_RUN_TOTAL_FROM keep the 8.5 they
+    were bet under, so the ledger does not rewrite itself. Set
+    OVER_RUN_TOTAL_FROM to "" to apply the new gate to all history.
+    """
+    if OVER_RUN_TOTAL_FROM and date and str(date)[:10] >= OVER_RUN_TOTAL_FROM:
+        return OVER_RUN_TOTAL_LATE
+    return OVER_RUN_TOTAL
 
 
 def plays_for(g, feat):
@@ -675,7 +843,9 @@ def plays_for(g, feat):
             why=f"favorite only {min(away_ml, home_ml):+d} at a {total:g} total")
     hot = [(s, (a if s == "away" else h).get("pit_over")) for s in ("away", "home")]
     hot = [(s, r) for s, r in hot if r is not None]
-    if hot and total >= OVER_RUN_TOTAL and max(r for _, r in hot) >= OVER_RUN_RATE:
+    starts = [f.get("pit_n") for f in (a, h) if f.get("pit_n") is not None]
+    if hot and total >= over_run_total(g.get("date"))             and max(r for _, r in hot) >= OVER_RUN_RATE             and not over_run_partner_skip(g.get("date"),
+                                          [r for _, r in hot], starts):
         who = ", ".join(f"{g.get(s + '_pitcher')} {r:.0%}"
                         for s, r in hot if r >= OVER_RUN_RATE)
         add("starter-over-run", "totals", "over", over_ml, side="O",
@@ -683,7 +853,8 @@ def plays_for(g, feat):
     if total <= LOW_LINE:
         add("low-line-over", "totals", "over", over_ml, side="O",
             why=f"posted total {total:g}; lines of 7 and under average 8.66 runs")
-    if len(hot) == 2 and max(r for _, r in hot) <= COLD_ARMS_RATE:
+    cold_rate, cold_cap = cold_arms_gates(g.get("date"))
+    if len(hot) == 2 and max(r for _, r in hot) <= cold_rate             and (cold_cap is None or (total is not None and total <= cold_cap)):
         add("cold-arms-under", "totals", "under", under_ml, side="U",
             why="both starters "
                 + ", ".join(f"{g.get(s + '_pitcher')} {r:.0%}" for s, r in hot)
