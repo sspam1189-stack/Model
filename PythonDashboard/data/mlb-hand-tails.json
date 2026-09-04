@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-04T21:07:53Z",
+  "generated": "2026-09-04T23:04:51Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -160,6 +160,30 @@
     }
   },
   "today": [
+    {
+      "date": "2026-09-04",
+      "commence": "2026-09-04T22:45:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Ryan Johnson",
+      "entry": "Ryan Johnson",
+      "hand": "R",
+      "arm_team": "LAA",
+      "opp_team": "PIT",
+      "selection": "PIT",
+      "home": "PIT",
+      "away": "LAA",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": true,
+      "odds": -196,
+      "stake": 1.96,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
     {
       "date": "2026-09-04",
       "commence": "2026-09-04T23:05:00Z",

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-04T21:13:35Z",
+ "generated": "2026-09-04T23:10:36Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -9,7 +9,7 @@
    "play": "OAK/SEA O7",
    "market": "totals",
    "line": 7,
-   "price": -124,
+   "price": -120,
    "rule": "low-line-over",
    "result": "pending",
    "profit": 0.0,
@@ -116,10 +116,10 @@
   },
   {
    "date": "2026-09-04",
-   "play": "STL/COL U11",
+   "play": "STL/COL U11.5",
    "market": "totals",
-   "line": 11,
-   "price": -108,
+   "line": 11.5,
+   "price": -128,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -139,14 +139,14 @@
    "play": "STL/COL U11.5",
    "market": "totals",
    "line": 11.5,
-   "price": -120,
+   "price": -128,
    "rule": "under-juice",
    "result": "pending",
    "profit": 0.0,
    "game": "STL @ COL",
    "gamePk": 824311,
    "commence": "2026-09-05T00:40:00Z",
-   "basis": "Under juice: book laying -120 on the under",
+   "basis": "Under juice: book laying -128 on the under",
    "open_line": 11.5,
    "open_price": -120,
    "name": "Under juice",
@@ -164,7 +164,7 @@
    "game": "TOR @ KC",
    "gamePk": 824067,
    "commence": "2026-09-05T00:10:00Z",
-   "basis": "Away dog ML: away dog at a 10 total",
+   "basis": "Away dog ML: away dog at a 9.5 total",
    "open_price": 100,
    "name": "Away dog ML",
    "group": "non-scout",
@@ -172,10 +172,10 @@
   },
   {
    "date": "2026-09-04",
-   "play": "ARI/HOU U9",
+   "play": "ARI/HOU U8.5",
    "market": "totals",
-   "line": 9,
-   "price": -120,
+   "line": 8.5,
+   "price": 106,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -339,6 +339,25 @@
   },
   {
    "date": "2026-09-04",
+   "play": "CHC/MIA U8.5",
+   "market": "totals",
+   "line": 8.5,
+   "price": -122,
+   "rule": "under-juice",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "CHC @ MIA",
+   "gamePk": 823824,
+   "commence": "2026-09-04T23:10:00Z",
+   "basis": "Under juice: book laying -122 on the under",
+   "open_line": 8.5,
+   "open_price": -122,
+   "name": "Under juice",
+   "group": "non-scout",
+   "kind": "not_bet"
+  },
+  {
+   "date": "2026-09-04",
    "play": "BAL ML (dog, m_sum +59.3)",
    "market": "h2h",
    "price": 102,
@@ -490,15 +509,18 @@
    "line": 8.5,
    "price": -120,
    "rule": "flag-plays",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "DET @ CLE",
    "gamePk": 824424,
    "commence": "2026-09-04T18:10:00Z",
    "basis": "Verdict under for swingman+layoff+opener. Logan Allen swingman-4g, layoff-48d, opener.",
    "combo": "swingman+layoff+opener",
    "open_line": 8.5,
+   "close_line": 8.5,
+   "line_move": 0.0,
    "open_price": -122,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -510,14 +532,17 @@
    "line": 8.5,
    "price": -120,
    "rule": "under-juice",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "DET @ CLE",
    "gamePk": 824424,
    "commence": "2026-09-04T18:10:00Z",
    "basis": "Under juice: book laying -120 on the under",
    "open_line": 8.5,
+   "close_line": 8.5,
+   "line_move": 0.0,
    "open_price": -122,
+   "clv": "flat",
    "name": "Under juice",
    "group": "non-scout",
    "kind": "not_bet"
@@ -39393,19 +39418,19 @@
  "summary": {
   "all": {
    "w": 1171,
-   "l": 998,
+   "l": 1000,
    "push": 25,
-   "n": 2222,
-   "pending": 28,
-   "units": 276.67
+   "n": 2223,
+   "pending": 27,
+   "units": 275.67
   },
   "card": {
    "w": 593,
-   "l": 506,
+   "l": 507,
    "push": 4,
    "n": 1113,
-   "pending": 10,
-   "units": 276.67
+   "pending": 9,
+   "units": 275.67
   },
   "by_rule": {
    "away-dog-ml": {
@@ -39466,11 +39491,11 @@
    },
    "flag-plays": {
     "w": 17,
-    "l": 14,
+    "l": 15,
     "push": 0,
     "n": 35,
-    "pending": 4,
-    "units": 2.2
+    "pending": 3,
+    "units": 1.2
    },
    "form-under": {
     "w": 0,
@@ -39562,9 +39587,9 @@
    },
    "under-juice": {
     "w": 236,
-    "l": 177,
+    "l": 178,
     "push": 1,
-    "n": 421,
+    "n": 422,
     "pending": 7,
     "units": 0
    }
