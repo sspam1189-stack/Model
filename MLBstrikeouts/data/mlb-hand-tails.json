@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-04T00:33:59Z",
+  "generated": "2026-09-04T13:10:40Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -122,17 +122,17 @@
   "demotions": [],
   "summary": {
     "wins": 61,
-    "losses": 24,
-    "units": 37.16,
-    "staked": 102.3,
-    "roi": 0.3632,
+    "losses": 25,
+    "units": 35.01,
+    "staked": 104.45,
+    "roi": 0.3352,
     "byAction": {
       "fade": {
         "wins": 61,
-        "losses": 24,
-        "units": 37.16,
-        "staked": 102.3,
-        "roi": 0.3632
+        "losses": 25,
+        "units": 35.01,
+        "staked": 104.45,
+        "roi": 0.3352
       },
       "take": {
         "wins": 0,
@@ -145,10 +145,10 @@
     "byHand": {
       "R": {
         "wins": 35,
-        "losses": 11,
-        "units": 24.18,
-        "staked": 55.56,
-        "roi": 0.4352
+        "losses": 12,
+        "units": 22.03,
+        "staked": 57.71,
+        "roi": 0.3817
       },
       "L": {
         "wins": 26,
@@ -161,24 +161,24 @@
   },
   "today": [
     {
-      "date": "2026-09-03",
-      "commence": "2026-09-04T01:40:00Z",
+      "date": "2026-09-04",
+      "commence": "2026-09-04T23:05:00Z",
       "betType": "hand_fade",
       "action": "fade",
-      "pitcher": "Jack Perkins",
-      "entry": "Jack Perkins",
+      "pitcher": "Shane Baz",
+      "entry": "Shane Baz",
       "hand": "R",
-      "arm_team": "OAK",
-      "opp_team": "SEA",
-      "selection": "SEA",
-      "home": "SEA",
-      "away": "OAK",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -215,
-      "stake": 2.15,
-      "result": "pending",
+      "arm_team": "BAL",
+      "opp_team": "BOS",
+      "selection": "BOS",
+      "home": "BAL",
+      "away": "BOS",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -1399,8 +1399,8 @@
       "selection": "CLE",
       "home": "CWS",
       "away": "CLE",
-      "oppLefty": 5,
-      "oppRighty": 6,
+      "oppLefty": 6,
+      "oppRighty": 7,
       "lineupConfirmed": true,
       "odds": -138,
       "stake": 1.38,
@@ -2223,6 +2223,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-04T01:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Jack Perkins",
+      "entry": "Jack Perkins",
+      "hand": "R",
+      "arm_team": "OAK",
+      "opp_team": "SEA",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "OAK",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -215,
+      "stake": 2.15,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -2.15,
       "book": "fanduel",
       "source": "fanduel_api"
     }

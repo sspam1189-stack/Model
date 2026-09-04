@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-04T00:35:17Z",
+  "generated": "2026-09-04T13:12:41Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,114 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-03",
-      "commence": "2026-09-03T17:10:00Z",
+      "date": "2026-09-04",
+      "commence": "2026-09-04T22:10:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Tanner Bibee",
+      "pitcher": "Rhett Lowder",
       "hand": "R",
-      "arm_team": "CLE",
-      "opp_team": "TOR",
-      "selection": "TOR",
-      "home": "CLE",
-      "away": "TOR",
-      "oppLefty": 7,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -108,
-      "suggest": "fade",
-      "suggestUnits": 3.12,
-      "games": 13,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-03",
-      "commence": "2026-09-03T17:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Jos\u00e9 Soriano",
-      "hand": "R",
-      "arm_team": "TOR",
-      "opp_team": "CLE",
-      "selection": "TOR",
-      "home": "CLE",
-      "away": "TOR",
-      "oppLefty": 7,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -108,
-      "suggest": "take",
-      "suggestUnits": 4.54,
-      "games": 13,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-03",
-      "commence": "2026-09-03T23:15:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "BOS",
-      "selection": "BAL",
-      "home": "BAL",
-      "away": "BOS",
+      "arm_team": "CIN",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "CIN",
+      "away": "MIL",
       "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 104,
-      "suggest": "take",
-      "suggestUnits": 6.26,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-03",
-      "commence": "2026-09-03T23:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Sandy Alcantara",
-      "hand": "R",
-      "arm_team": "MIA",
-      "opp_team": "KC",
-      "selection": "MIA",
-      "home": "KC",
-      "away": "MIA",
-      "oppLefty": 7,
       "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -102,
-      "suggest": "take",
-      "suggestUnits": 6.22,
-      "games": 11,
-      "result": "pending"
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 3.5,
+      "games": 8,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-03",
-      "commence": "2026-09-04T00:05:00Z",
+      "date": "2026-09-04",
+      "commence": "2026-09-04T22:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Shane McClanahan",
+      "pitcher": "Cristopher S\u00e1nchez",
       "hand": "L",
-      "arm_team": "TB",
-      "opp_team": "TEX",
-      "selection": "TB",
-      "home": "TEX",
-      "away": "TB",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -126,
+      "arm_team": "PHI",
+      "opp_team": "ATL",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "ATL",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 4.52,
-      "games": 20,
-      "result": "pending"
+      "suggestUnits": 8.36,
+      "games": 26,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-04",
+      "commence": "2026-09-04T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Foster Griffin",
+      "hand": "L",
+      "arm_team": "CLE",
+      "opp_team": "DET",
+      "selection": "CLE",
+      "home": "CLE",
+      "away": "DET",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 13.96,
+      "games": 21,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -283,42 +239,6 @@
       "era": 2.82
     },
     {
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "games": 9,
-      "suggest": "take",
-      "suggestUnits": 6.26,
-      "fade": {
-        "w": 2,
-        "l": 7,
-        "u": -7.44
-      },
-      "take": {
-        "w": 7,
-        "l": 2,
-        "u": 6.26
-      },
-      "era": 3.38
-    },
-    {
-      "pitcher": "Sandy Alcantara",
-      "hand": "R",
-      "games": 11,
-      "suggest": "take",
-      "suggestUnits": 6.22,
-      "fade": {
-        "w": 3,
-        "l": 8,
-        "u": -7.75
-      },
-      "take": {
-        "w": 8,
-        "l": 3,
-        "u": 6.22
-      },
-      "era": 3.46
-    },
-    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 9,
@@ -445,6 +365,42 @@
       "era": 2.68
     },
     {
+      "pitcher": "Brandon Young",
+      "hand": "R",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 5.26,
+      "fade": {
+        "w": 3,
+        "l": 7,
+        "u": -6.44
+      },
+      "take": {
+        "w": 7,
+        "l": 3,
+        "u": 5.26
+      },
+      "era": 3.42
+    },
+    {
+      "pitcher": "Sandy Alcantara",
+      "hand": "R",
+      "games": 12,
+      "suggest": "take",
+      "suggestUnits": 5.2,
+      "fade": {
+        "w": 4,
+        "l": 8,
+        "u": -6.75
+      },
+      "take": {
+        "w": 8,
+        "l": 4,
+        "u": 5.2
+      },
+      "era": 3.54
+    },
+    {
       "pitcher": "Luinder Avila",
       "hand": "R",
       "games": 6,
@@ -532,25 +488,7 @@
         "l": 5,
         "u": 4.54
       },
-      "era": 3.45
-    },
-    {
-      "pitcher": "Shane McClanahan",
-      "hand": "L",
-      "games": 20,
-      "suggest": "take",
-      "suggestUnits": 4.52,
-      "fade": {
-        "w": 7,
-        "l": 13,
-        "u": -5.3
-      },
-      "take": {
-        "w": 13,
-        "l": 7,
-        "u": 4.52
-      },
-      "era": 3.19
+      "era": 3.52
     },
     {
       "pitcher": "Sean Burke",
@@ -712,7 +650,7 @@
         "l": 8,
         "u": -4.74
       },
-      "era": 3.88
+      "era": 4.06
     },
     {
       "pitcher": "Spencer Miles",
@@ -820,7 +758,7 @@
         "l": 6,
         "u": -3.86
       },
-      "era": 5.29
+      "era": 5.57
     },
     {
       "pitcher": "Aaron Civale",

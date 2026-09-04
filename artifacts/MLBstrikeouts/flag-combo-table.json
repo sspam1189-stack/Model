@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-04T00:35:32Z",
+ "generated": "2026-09-04T13:12:55Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-03"
  },
  "games": {
-  "gradeable": 2043,
-  "flagged": 521,
+  "gradeable": 2049,
+  "flagged": 522,
   "pushes_dropped": 54
  },
  "card_requires": "swingman",
@@ -54,22 +54,22 @@
   "layoff": "2026-09-02",
   "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-03",
+ "verdicts_as_of": "2026-09-04",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1030,
-   "l": 1013,
-   "n": 2043,
-   "units": -83.1,
+   "w": 1033,
+   "l": 1016,
+   "n": 2049,
+   "units": -83.37,
    "roi": -4.1
   },
   "over": {
-   "w": 1013,
-   "l": 1030,
-   "n": 2043,
-   "units": -111.23,
+   "w": 1016,
+   "l": 1033,
+   "n": 2049,
+   "units": -111.41,
    "roi": -5.4
   }
  },
@@ -85,17 +85,17 @@
    "shadow_from": null,
    "under": {
     "w": 38,
-    "l": 23,
-    "n": 61,
-    "units": 11.61,
-    "roi": 19.0
+    "l": 24,
+    "n": 62,
+    "units": 10.61,
+    "roi": 17.1
    },
    "over": {
-    "w": 23,
+    "w": 24,
     "l": 38,
-    "n": 61,
-    "units": -16.63,
-    "roi": -27.3
+    "n": 62,
+    "units": -15.63,
+    "roi": -25.2
    }
   },
   {
@@ -508,17 +508,17 @@
    "flag": "swingman",
    "under": {
     "w": 170,
-    "l": 126,
-    "n": 296,
-    "units": 28.04,
-    "roi": 9.5
+    "l": 127,
+    "n": 297,
+    "units": 27.04,
+    "roi": 9.1
    },
    "over": {
-    "w": 126,
+    "w": 127,
     "l": 170,
-    "n": 296,
-    "units": -54.98,
-    "roi": -18.6
+    "n": 297,
+    "units": -53.98,
+    "roi": -18.2
    }
   }
  ]
