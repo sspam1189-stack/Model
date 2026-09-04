@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-04T16:12:37Z",
+ "generated": "2026-09-04T17:19:41Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -226,10 +226,48 @@
   },
   {
    "date": "2026-09-04",
+   "play": "TB/TEX U8.5",
+   "market": "totals",
+   "line": 8.5,
+   "price": -122,
+   "rule": "pickem-under",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "TB @ TEX",
+   "gamePk": 822852,
+   "commence": "2026-09-05T00:05:00Z",
+   "basis": "Pickem under: favorite only -110 at a 8.5 total",
+   "open_line": 8.5,
+   "open_price": -122,
+   "name": "Pickem under",
+   "group": "non-scout",
+   "kind": "not_bet"
+  },
+  {
+   "date": "2026-09-04",
+   "play": "TB/TEX U8.5",
+   "market": "totals",
+   "line": 8.5,
+   "price": -122,
+   "rule": "under-juice",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "TB @ TEX",
+   "gamePk": 822852,
+   "commence": "2026-09-05T00:05:00Z",
+   "basis": "Under juice: book laying -122 on the under",
+   "open_line": 8.5,
+   "open_price": -122,
+   "name": "Under juice",
+   "group": "non-scout",
+   "kind": "not_bet"
+  },
+  {
+   "date": "2026-09-04",
    "play": "MIN/CWS O9",
    "market": "totals",
    "line": 9,
-   "price": -105,
+   "price": -114,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -39338,8 +39376,8 @@
    "w": 1171,
    "l": 998,
    "push": 25,
-   "n": 2219,
-   "pending": 25,
+   "n": 2221,
+   "pending": 27,
    "units": 276.67
   },
   "card": {
@@ -39483,8 +39521,8 @@
     "w": 100,
     "l": 73,
     "push": 4,
-    "n": 177,
-    "pending": 0,
+    "n": 178,
+    "pending": 1,
     "units": 13.39
    },
    "scout-ml-both-halves-aligned": {
@@ -39507,8 +39545,8 @@
     "w": 236,
     "l": 177,
     "push": 1,
-    "n": 419,
-    "pending": 5,
+    "n": 420,
+    "pending": 6,
     "units": 0
    }
   }

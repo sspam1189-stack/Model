@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-04T16:08:32Z",
+ "generated": "2026-09-04T17:15:43Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-03"
@@ -1077,6 +1077,36 @@
    "why": "Zebby Matthews \u2014 team +60% over his last 8 starts, priced +100",
    "stale": true,
    "stale_now": "favourite now -116, total still 9"
+  },
+  {
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "favorite only -110 at a 8.5 total",
+   "gamePk": 822852,
+   "date": "2026-09-04",
+   "commence": "2026-09-05T00:05:00Z",
+   "matchup": "TB @ TEX",
+   "away": "TB",
+   "home": "TEX",
+   "total": 8.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 822852,
+   "date": "2026-09-04",
+   "commence": "2026-09-05T00:05:00Z",
+   "matchup": "TB @ TEX",
+   "away": "TB",
+   "home": "TEX",
+   "total": 8.5
   },
   {
    "rule": "away-dog-ml",

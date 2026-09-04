@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-04T16:08:43Z",
+  "generated": "2026-09-04T17:15:54Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -40712,7 +40712,7 @@
       "play": "MIN/CWS O9",
       "market": "totals",
       "game": "MIN @ CWS",
-      "price": -105,
+      "price": -114,
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
@@ -41005,6 +41005,26 @@
     },
     {
       "date": "2026-09-04",
+      "play": "TB/TEX U8.5",
+      "market": "totals",
+      "game": "TB @ TEX",
+      "price": -122,
+      "stake": 1.0,
+      "rule": "pickem-under",
+      "auto": true,
+      "basis": "Pickem under: favorite only -110 at a 8.5 total",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.5,
+      "gamePk": 822852,
+      "commence": "2026-09-05T00:05:00Z",
+      "non_scout": true,
+      "shadow": true,
+      "open_line": 8.5,
+      "open_price": -122
+    },
+    {
+      "date": "2026-09-04",
       "play": "BOS/BAL O8",
       "market": "totals",
       "game": "BOS @ BAL",
@@ -41120,6 +41140,26 @@
       "non_scout": true,
       "shadow": true,
       "open_line": 7.5,
+      "open_price": -122
+    },
+    {
+      "date": "2026-09-04",
+      "play": "TB/TEX U8.5",
+      "market": "totals",
+      "game": "TB @ TEX",
+      "price": -122,
+      "stake": 1.0,
+      "rule": "under-juice",
+      "auto": true,
+      "basis": "Under juice: book laying -122 on the under",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.5,
+      "gamePk": 822852,
+      "commence": "2026-09-05T00:05:00Z",
+      "non_scout": true,
+      "shadow": true,
+      "open_line": 8.5,
       "open_price": -122
     }
   ]
