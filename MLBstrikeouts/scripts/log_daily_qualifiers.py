@@ -596,6 +596,20 @@ def main():
             prior.update(changed)
             moved.append((prior, changed))
             continue
+        # OPENING QUOTE, stamped once and never re-priced (2026-09-03). The
+        # row tracks the market until first pitch and then locks, so the
+        # locked line/price IS the close -- but the first quote was being
+        # overwritten by every re-price, which is why CLAUDE.md's own gate
+        # ("grade closing-line value, not just W/L") had 13 hand-entered rows
+        # against 2,185. These fields are outside PRICE_FIELDS, so a re-price
+        # cannot touch them, and grade_scout_ledger computes clv from the pair.
+        # "Open" here is the first run of the workflow that saw the play, not
+        # the book's true opener; it is the same instrument for every row.
+        entry["open_line"] = entry.get("line")
+        entry["open_price"] = entry.get("price")
+        if entry.get("market") == "parlay":
+            entry["open_ml_price"] = entry.get("ml_price")
+            entry["open_under_price"] = entry.get("under_price")
         by_sig[sig_of(entry)] = entry
         added.append(entry)
 

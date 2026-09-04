@@ -91,6 +91,48 @@ def _teams(entry):
     return (parts[0], parts[1]) if len(parts) == 2 else (None, None)
 
 
+def _imp(ml):
+    """Implied probability of an American price."""
+    return (100.0 / (ml + 100.0)) if ml > 0 else (-ml / (-ml + 100.0))
+
+
+def stamp_clv(e):
+    """Closing-line value from the opening quote to the locked one.
+
+    The daily logger stamps open_line / open_price on first sight and re-prices
+    line / price until first pitch, so at grade time the pair is open vs close.
+    A hand-entered clv (scout_card_log --close-line) is never overwritten, and
+    rows logged before open_* existed are left alone.
+
+    Convention matches the hand path: for a total, "beat" means the number
+    moved TOWARD the read (down for an under, up for an over); line_move is
+    close - open. For a side, "beat" means the market moved toward the pick --
+    its implied probability at close exceeds the one at open -- and
+    price_move is that difference in points. A parlay is graded on its under
+    leg's line, which is the leg with a number, plus the ML leg's price move.
+    """
+    if e.get("clv") is not None or e.get("open_line") is None and e.get("open_price") is None:
+        return
+    play = (e.get("play") or "").lower()
+    mk = e.get("market")
+    if mk in ("totals", "parlay") and e.get("open_line") is not None and e.get("line") is not None:
+        move = round(float(e["line"]) - float(e["open_line"]), 1)
+        e["close_line"] = e["line"]
+        e["line_move"] = move
+        side = "under" if (mk == "parlay" or "under" in play or " u" in play) else "over"
+        if side == "under":
+            e["clv"] = "beat" if move < 0 else ("lost" if move > 0 else "flat")
+        else:
+            e["clv"] = "beat" if move > 0 else ("lost" if move < 0 else "flat")
+    if mk == "h2h" and e.get("open_price") is not None and e.get("price") is not None:
+        pm = round((_imp(e["price"]) - _imp(e["open_price"])) * 100, 1)
+        e["close_price"] = e["price"]
+        e["price_move"] = pm
+        e["clv"] = "beat" if pm > 0 else ("lost" if pm < 0 else "flat")
+    if mk == "parlay" and e.get("open_ml_price") is not None and e.get("ml_price") is not None:
+        e["ml_price_move"] = round((_imp(e["ml_price"]) - _imp(e["open_ml_price"])) * 100, 1)
+
+
 def grade_entry(entry, scores, by_id=None):
     """(result, profit) or None when it cannot be graded yet.
 
@@ -183,6 +225,7 @@ def main():
         if not args.dry_run:
             e["result"] = result
             e["profit"] = round(profit, 2)
+            stamp_clv(e)
         done.append((e, result, profit))
 
     for e, result, profit in done:

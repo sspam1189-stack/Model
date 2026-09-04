@@ -343,6 +343,32 @@ When building a daily card from this repo's outputs, the tiers are:
 The mismatch score and full-game wRC+ remain scouting context, never
 signals (see build_slate_scout.py header for the backtests).
 
+## Closing-line value is captured automatically (2026-09-03)
+
+The gate below says "grade closing-line value, not just W/L" -- and until
+today 13 of 2,185 rows carried it, all hand-entered via `scout_card_log.py
+--close-line`. The daily logger already re-prices every row until first
+pitch and then locks it, so the locked line/price IS the close; it was just
+overwriting the opening quote on every run.
+
+Now: `log_daily_qualifiers.py` stamps `open_line` / `open_price` (and the
+parlay's `open_ml_price` / `open_under_price`) once, on first sight, outside
+`PRICE_FIELDS` so a re-price cannot touch them. `grade_scout_ledger.py`
+computes `clv` at grade time from open vs locked close, using the hand
+path's convention -- a total "beat" if the number moved toward the read,
+`line_move` = close - open; a side "beat" if the market moved toward the
+pick, `price_move` in implied-probability points. A hand-entered `clv` is
+never overwritten; rows logged before the stamp existed are left alone.
+The fields ride into `plays-feed.json`.
+
+"Open" is the first workflow run that saw the play, not the book's true
+opener -- roughly six quotes a day. It is the same instrument for every row,
+which is what makes rules comparable. **This is the number that separates a
+sound read on a bad night from a broken read**: a rule that beats the close
+60% of the time and loses is variance; one that loses to the close and wins
+is getting lucky. Neither W/L nor ROI can tell those apart. Expect the first
+per-rule CLV table to mean something after ~20 graded rows per rule.
+
 ## Changing a scout rule (2026-08-26)
 
 Every scout rule change before this date was made same-day off two or

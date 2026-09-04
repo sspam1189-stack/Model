@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-03T04:49:11Z",
+ "generated": "2026-09-04T05:20:40Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -1807,6 +1807,9 @@
    "gamePk": 824961,
    "commence": "2026-08-30T02:05:00Z",
    "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
+   "close_line": 9.5,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -1880,6 +1883,9 @@
    "gamePk": 824392,
    "commence": "2026-08-29T20:10:00Z",
    "basis": "Daniel Lynch IV opener (3.08 IP/GS) + thin-sample. Plus money on a 7.5. CLE bats 114/113 is the objection.",
+   "close_line": 7.5,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2019,6 +2025,9 @@
    "gamePk": 823011,
    "commence": "2026-08-29T18:15:00Z",
    "basis": "Bachar TRIPLE flag: opener + stale-window-78d + swingman-21g, 2.27 IP/GS. PIT bats frozen 81/71/65. TEMPER: STL pen 7.62 L7 (#29) inherits most of the game.",
+   "close_line": 8.5,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2070,6 +2079,9 @@
    "gamePk": 823665,
    "commence": "2026-08-29T18:10:00Z",
    "basis": "Fedde TRIPLE flag: layoff-29d + stale-window-58d + swingman-12g. TEMPER (loudest on the card): MIN pen 11.34 L7 = dead last, and CWS bats hot all four 111/122/130/130. Weakest of the seven.",
+   "close_line": 9.0,
+   "line_move": -0.5,
+   "clv": "beat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2122,6 +2134,9 @@
    "gamePk": 824230,
    "commence": "2026-08-29T17:10:00Z",
    "basis": "Snell stale-window-106d + thin-sample: his L5 line (2.57) describes a pitcher from 3.5 months ago. DET bats collapsing 99/58/49. LAD pen 1.50 L7 (#5). Lowest total on the board.",
+   "close_line": 7.0,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2188,6 +2203,9 @@
    "profit": -1.0,
    "game": "BOS @ NYY (G2)",
    "basis": "Fried layoff-16d, 4.93 IP/GS. NYY pen is #2 L30 and #1 L7 (0.44) -- short leash lands on the best bullpen in baseball right now.",
+   "close_line": 7.0,
+   "line_move": -0.5,
+   "clv": "beat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2203,6 +2221,9 @@
    "profit": 0.83,
    "game": "BOS @ NYY (G1)",
    "basis": "Rodon stale-window-67d, 4.67 IP/GS. Same elite NYY pen behind him (#1 L7, 0.44).",
+   "close_line": 7.5,
+   "line_move": -0.5,
+   "clv": "beat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2220,6 +2241,9 @@
    "gamePk": 823178,
    "commence": "2026-08-29T02:15:00Z",
    "basis": "Kohl Drake layoff-22d + thin-sample; Tidwell also thin-sample. SF bats ice cold in all four windows (91/89/80/60) -- the ladder AGREES with the flag today, unlike yesterday's ARI/SF where it opposed. Both pens mid (#10/#22). Suppressing park.",
+   "close_line": 7.5,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2415,6 +2439,9 @@
    "gamePk": 824231,
    "commence": "2026-08-28T22:40:00Z",
    "basis": "Drew Anderson carries BOTH qualifying defects: stale-window-68d AND swingman-14g. His 3.54 L5 ERA describes relief work, not the 4.07 IP/GS starts he is priced off. Skubal opposite (3.52 L5, 6.13 IP/GS) and DET bats frozen vs him 107/73/56. LAD pen hot L7 2.41 (#8).",
+   "close_line": 7.5,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2486,6 +2513,9 @@
    "gamePk": 823179,
    "commence": "2026-08-28T01:45:00Z",
    "basis": "Cabrera layoff-50d + thin-sample; Roupp poor form (6.20 ERA, 4.93 IP/GS, 14.5 K%) at a suppressing park. TEMPER: SF bats are hot in all four windows (113/112/125/139) - the loudest ladder objection on the card, and ladder is inert per the 8/26 backtest so it does not veto, but this is the weaker of the two flagged unders.",
+   "close_line": 8.0,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2557,6 +2587,9 @@
    "gamePk": 822771,
    "commence": "2026-08-27T23:07:00Z",
    "basis": "Arrighetti layoff-34d: L5-start line (9.95 ERA, 3.8 IP/GS) describes a different month and is not what the number is priced off. TOR pen absorbs the short leash (L30 3.15 #6, L7 3.16 #11). Cameron in form (1.26 ERA, 7.13 IP/GS L5). Ladder neutral (TOR bats 83/90/107 vs L; KC 97/104/106/112) - context only.",
+   "close_line": 8.5,
+   "line_move": 0.0,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -2983,6 +3016,9 @@
    "gamePk": 823098,
    "commence": "2026-08-26T01:40:00Z",
    "basis": "Both offenses hot-aligned all four windows: SEA bats 112/117/132/128 vs Nola, PHI bats 116/120/117/122 vs Kirby. SEA pen #30 (10.16 L7) as context. Direction-neutral application of the 8/25 amendment.",
+   "close_line": 8.0,
+   "line_move": 0.5,
+   "clv": "beat",
    "name": "Both-aligned total (retired)",
    "group": "scout",
    "kind": "card"
@@ -3072,6 +3108,9 @@
    "gamePk": 823989,
    "commence": "2026-08-26T01:38:00Z",
    "basis": "Both offenses cold-aligned all four windows: LAA bats 71/79/82/79 vs Williams, CLE bats 82/87/80/87 vs Urena. First play under the 8/25 policy amendment retiring the flag clause for totals (benched profile was 2-0).",
+   "close_line": 7.0,
+   "line_move": -0.5,
+   "clv": "beat",
    "name": "Both-aligned total (retired)",
    "group": "scout",
    "kind": "card"

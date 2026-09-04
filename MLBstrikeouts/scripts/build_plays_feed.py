@@ -46,7 +46,10 @@ OUTPUT_PATHS = [
 ]
 
 FIELDS = ("date", "play", "market", "line", "price", "rule", "result",
-          "profit", "game", "gamePk", "commence", "basis", "combo")
+          "profit", "game", "gamePk", "commence", "basis", "combo",
+          # closing-line value, from the logger's open_* stamp and the grader
+          "open_line", "close_line", "line_move", "open_price", "close_price",
+          "price_move", "clv")
 
 
 # Rules retired before the 2026-09-01 naming migration, which never had an
