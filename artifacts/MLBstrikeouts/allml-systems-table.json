@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-04T23:06:30Z",
+ "generated": "2026-09-05T00:35:12Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-04"
@@ -1161,15 +1161,18 @@
    "market": "h2h",
    "pick": "SD",
    "price": 100,
-   "side": null,
-   "why": "Walker Buehler \u2014 team +47% over his last 8 starts, priced +100",
+   "line": null,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 823256,
    "date": "2026-09-04",
    "commence": "2026-09-05T01:40:00Z",
    "matchup": "NYY @ SD",
-   "away": "NYY",
-   "home": "SD",
-   "total": 7.5
+   "total": null,
+   "why": "Walker Buehler \u2014 team +47% over his last 8 starts, priced +100",
+   "stale": true,
+   "stale_now": "favourite now -116, total still 7.5"
   },
   {
    "rule": "low-line-over",
