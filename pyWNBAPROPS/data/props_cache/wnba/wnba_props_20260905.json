@@ -1,9 +1,9 @@
 [
   {
-    "player": "Angel Reese",
-    "line": 2.5,
-    "over_price": -114,
-    "under_price": -114,
+    "player": "Jordin Canada",
+    "line": 6.5,
+    "over_price": -136,
+    "under_price": 102,
     "market": "assists",
     "event_home": "ATL",
     "event_away": "CON",
@@ -20,20 +20,20 @@
     "source": "odds_api"
   },
   {
-    "player": "Jordin Canada",
-    "line": 6.5,
-    "over_price": -136,
-    "under_price": 102,
+    "player": "Rhyne Howard",
+    "line": 3.5,
+    "over_price": 102,
+    "under_price": -136,
     "market": "assists",
     "event_home": "ATL",
     "event_away": "CON",
     "source": "odds_api"
   },
   {
-    "player": "Rhyne Howard",
-    "line": 3.5,
-    "over_price": 102,
-    "under_price": -136,
+    "player": "Angel Reese",
+    "line": 2.5,
+    "over_price": -114,
+    "under_price": -114,
     "market": "assists",
     "event_home": "ATL",
     "event_away": "CON",
@@ -90,10 +90,10 @@
     "source": "odds_api"
   },
   {
-    "player": "Angel Reese",
-    "line": 30.5,
-    "over_price": -128,
-    "under_price": -104,
+    "player": "Jordin Canada",
+    "line": 20.5,
+    "over_price": -130,
+    "under_price": -102,
     "market": "pts_rebs_asts",
     "event_home": "ATL",
     "event_away": "CON",
@@ -120,11 +120,21 @@
     "source": "odds_api"
   },
   {
-    "player": "Jordin Canada",
-    "line": 20.5,
-    "over_price": -130,
-    "under_price": -102,
+    "player": "Angel Reese",
+    "line": 30.5,
+    "over_price": -128,
+    "under_price": -104,
     "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "CON",
+    "source": "odds_api"
+  },
+  {
+    "player": "Allisha Gray",
+    "line": 3.5,
+    "over_price": 130,
+    "under_price": -174,
+    "market": "rebounds",
     "event_home": "ATL",
     "event_away": "CON",
     "source": "odds_api"
@@ -134,16 +144,6 @@
     "line": 3.5,
     "over_price": 108,
     "under_price": -144,
-    "market": "rebounds",
-    "event_home": "ATL",
-    "event_away": "CON",
-    "source": "odds_api"
-  },
-  {
-    "player": "Angel Reese",
-    "line": 12.5,
-    "over_price": -132,
-    "under_price": 100,
     "market": "rebounds",
     "event_home": "ATL",
     "event_away": "CON",
@@ -160,6 +160,16 @@
     "source": "odds_api"
   },
   {
+    "player": "Angel Reese",
+    "line": 12.5,
+    "over_price": -132,
+    "under_price": 100,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "CON",
+    "source": "odds_api"
+  },
+  {
     "player": "Naz Hillmon",
     "line": 4.5,
     "over_price": 112,
@@ -170,11 +180,11 @@
     "source": "odds_api"
   },
   {
-    "player": "Allisha Gray",
+    "player": "Rhyne Howard",
     "line": 3.5,
-    "over_price": 130,
-    "under_price": -174,
-    "market": "rebounds",
+    "over_price": 140,
+    "under_price": -188,
+    "market": "threes",
     "event_home": "ATL",
     "event_away": "CON",
     "source": "odds_api"
@@ -184,16 +194,6 @@
     "line": 1.5,
     "over_price": -178,
     "under_price": 132,
-    "market": "threes",
-    "event_home": "ATL",
-    "event_away": "CON",
-    "source": "odds_api"
-  },
-  {
-    "player": "Rhyne Howard",
-    "line": 3.5,
-    "over_price": 140,
-    "under_price": -188,
     "market": "threes",
     "event_home": "ATL",
     "event_away": "CON",
@@ -750,20 +750,20 @@
     "source": "odds_api"
   },
   {
-    "player": "Kelsey Mitchell",
-    "line": 2.5,
-    "over_price": -112,
-    "under_price": -118,
+    "player": "Aliyah Boston",
+    "line": 3.5,
+    "over_price": 142,
+    "under_price": -192,
     "market": "assists",
     "event_home": "TOR",
     "event_away": "IND",
     "source": "odds_api"
   },
   {
-    "player": "Aliyah Boston",
-    "line": 3.5,
-    "over_price": 142,
-    "under_price": -192,
+    "player": "Kelsey Mitchell",
+    "line": 2.5,
+    "over_price": -112,
+    "under_price": -118,
     "market": "assists",
     "event_home": "TOR",
     "event_away": "IND",
@@ -790,6 +790,16 @@
     "source": "odds_api"
   },
   {
+    "player": "Aliyah Boston",
+    "line": 16.5,
+    "over_price": -115,
+    "under_price": -113,
+    "market": "points",
+    "event_home": "TOR",
+    "event_away": "IND",
+    "source": "odds_api"
+  },
+  {
     "player": "Kelsey Mitchell",
     "line": 25.5,
     "over_price": -118,
@@ -810,11 +820,11 @@
     "source": "odds_api"
   },
   {
-    "player": "Aliyah Boston",
-    "line": 16.5,
-    "over_price": -115,
-    "under_price": -113,
-    "market": "points",
+    "player": "Kelsey Mitchell",
+    "line": 30.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
     "event_home": "TOR",
     "event_away": "IND",
     "source": "odds_api"
@@ -824,16 +834,6 @@
     "line": 36.5,
     "over_price": -108,
     "under_price": -122,
-    "market": "pts_rebs_asts",
-    "event_home": "TOR",
-    "event_away": "IND",
-    "source": "odds_api"
-  },
-  {
-    "player": "Kelsey Mitchell",
-    "line": 30.5,
-    "over_price": -114,
-    "under_price": -114,
     "market": "pts_rebs_asts",
     "event_home": "TOR",
     "event_away": "IND",
@@ -850,20 +850,20 @@
     "source": "odds_api"
   },
   {
-    "player": "Makayla Timpson",
-    "line": 7.5,
-    "over_price": 100,
-    "under_price": -132,
+    "player": "Kelsey Mitchell",
+    "line": 2.5,
+    "over_price": 144,
+    "under_price": -194,
     "market": "rebounds",
     "event_home": "TOR",
     "event_away": "IND",
     "source": "odds_api"
   },
   {
-    "player": "Kelsey Mitchell",
-    "line": 2.5,
-    "over_price": 144,
-    "under_price": -194,
+    "player": "Makayla Timpson",
+    "line": 7.5,
+    "over_price": 100,
+    "under_price": -132,
     "market": "rebounds",
     "event_home": "TOR",
     "event_away": "IND",
@@ -1240,20 +1240,20 @@
     "source": "odds_api"
   },
   {
-    "player": "Veronica Burton",
-    "line": 6.5,
-    "over_price": -118,
-    "under_price": -112,
+    "player": "Gabby Williams",
+    "line": 2.5,
+    "over_price": 104,
+    "under_price": -138,
     "market": "assists",
     "event_home": "GSV",
     "event_away": "PDX",
     "source": "odds_api"
   },
   {
-    "player": "Gabby Williams",
-    "line": 2.5,
-    "over_price": 104,
-    "under_price": -138,
+    "player": "Veronica Burton",
+    "line": 6.5,
+    "over_price": -118,
+    "under_price": -112,
     "market": "assists",
     "event_home": "GSV",
     "event_away": "PDX",
@@ -1280,20 +1280,20 @@
     "source": "odds_api"
   },
   {
-    "player": "Veronica Burton",
-    "line": 24.5,
-    "over_price": -112,
-    "under_price": -118,
+    "player": "Gabby Williams",
+    "line": 19.5,
+    "over_price": -125,
+    "under_price": -106,
     "market": "pts_rebs_asts",
     "event_home": "GSV",
     "event_away": "PDX",
     "source": "odds_api"
   },
   {
-    "player": "Gabby Williams",
-    "line": 19.5,
-    "over_price": -125,
-    "under_price": -106,
+    "player": "Veronica Burton",
+    "line": 24.5,
+    "over_price": -112,
+    "under_price": -118,
     "market": "pts_rebs_asts",
     "event_home": "GSV",
     "event_away": "PDX",
