@@ -69304,6 +69304,90 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    153-111-3  (58.0%)  +30.9u",
       "ranAt": "09/03/2026, 07:30:54 PM"
+    },
+    {
+      "weekKey": "2026_W1",
+      "season": 2026,
+      "week": 1,
+      "date": "20260905",
+      "dateDisplay": "2026 Week 1",
+      "burnIn": true,
+      "weightsUsed": {
+        "wPassOff": 6.982,
+        "wRushOff": 4.583,
+        "wPassDef": 2.958,
+        "wRushDef": 0.021,
+        "wPace": 0.324,
+        "wRZ": 0.076,
+        "hfa": 2.945,
+        "wCPOE": 0.8,
+        "wPressure": -0.5,
+        "wSuccessRate": 1.5,
+        "wQBEPA": 2.0,
+        "wTurnover": 0.8,
+        "wPassMatchup": 1.0,
+        "wRushMatchup": 0.5,
+        "wPaceXEPA": 0.3,
+        "wThirdDown": 1.0,
+        "constant": -1.378,
+        "sprHigh": 3.0,
+        "ouHigh": 4.0,
+        "sprEliteBump": 2.0,
+        "ouEliteBump": 2.0,
+        "probHigh": 0.57,
+        "probOUHigh": 0.64,
+        "probElite": 0.63,
+        "probOUElite": 0.64,
+        "coefficients": [
+          2.633003606612212,
+          5.364444716579579,
+          -0.40541844159799134,
+          -3.064917119199841,
+          0.07755459496917025,
+          -3.032802180056292,
+          0.0,
+          0.4203848602866193,
+          0.0,
+          1.0129367576491741,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5102087219331306,
+          -2.21282338099015,
+          -0.06386223668882758,
+          -0.43537350728913504
+        ],
+        "intercept": 2.5565342931211954,
+        "alpha": 100.0,
+        "feature_columns": [
+          "passOffEPA_diff",
+          "rushOffEPA_diff",
+          "passDefEPA_diff",
+          "rushDefEPA_diff",
+          "pace_diff",
+          "rz_diff",
+          "home_flag",
+          "cpoe_diff",
+          "pressure_diff",
+          "success_rate_diff",
+          "qb_epa_diff",
+          "turnover_diff",
+          "injury_delta_a",
+          "injury_delta_b",
+          "pass_matchup",
+          "rush_matchup",
+          "pace_x_epa",
+          "third_down_diff"
+        ],
+        "n_train": 798,
+        "residual_var": 193.9385400652998,
+        "r_squared": 0.06163861807474502,
+        "source": "ridge_cv"
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    153-111-3  (58.0%)  +30.9u",
+      "ranAt": "09/04/2026, 07:30:37 PM"
     }
   ],
   "meta": {
@@ -75131,14 +75215,6 @@
           "position": "LB",
           "description": "questionable",
           "tier": "medium"
-        },
-        {
-          "player": "Teddye Buchanan",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
         }
       ],
       "Buffalo Bills": [
@@ -75197,25 +75273,9 @@
           "position": "OT",
           "description": "Bowry (foot) did not participate at the Bills' training camp practice Monday, Alaina Getzenberg of ESPN.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Demetrius Flannigan-Fowles",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "ir",
-          "tier": "medium"
         }
       ],
       "Carolina Panthers": [
-        {
-          "player": "Ryan Hayes",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "questionable",
-          "tier": "medium"
-        },
         {
           "player": "Jonathon Brooks",
           "playerId": "",
@@ -75319,9 +75379,25 @@
           "position": "LB",
           "description": "Phillips (arm) will not play in Friday night's preseason game against the Jaguars, Darin Gantt of the Panthers' official site reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Derrick Brown",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
         }
       ],
       "Chicago Bears": [
+        {
+          "player": "D'Andre Swift",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Swift (abdomen) is believed to have left Thursday's practice with \"a cramp,\" Adam Schefter of ESPN reports.",
+          "tier": "medium"
+        },
         {
           "player": "Rome Odunze",
           "playerId": "",
@@ -75329,14 +75405,6 @@
           "position": "WR",
           "description": "Odunze \"should be all good\" after leaving Thursday's practice with an apparent right leg injury, Dan Wiederer of the Chicago Tribune reports.",
           "tier": "high"
-        },
-        {
-          "player": "D'Andre Swift",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Swift left Thursday's practice with an apparent injury and \"appeared to be in significant discomfort,\" Dan Wiederer of the Chicago Tribune reports.",
-          "tier": "medium"
         },
         {
           "player": "Kyle Monangai",
@@ -75435,11 +75503,11 @@
           "tier": "medium"
         },
         {
-          "player": "Ray-Ray McCloud III",
+          "player": "Jaylon Johnson",
           "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "McCloud (undisclosed) was placed on injured reserve by the Bears on Sunday.",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Johnson is dealing with an arm injury, Patrick Finley of the Chicago Sun-Times reports.",
           "tier": "high"
         }
       ],
@@ -75725,6 +75793,14 @@
       ],
       "Detroit Lions": [
         {
+          "player": "Sam LaPorta",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "LaPorta (hip) didn't play in any of the Lions' preseason contests.",
+          "tier": "medium"
+        },
+        {
           "player": "Isiah Pacheco",
           "playerId": "",
           "status": "out",
@@ -75797,14 +75873,6 @@
           "tier": "medium"
         },
         {
-          "player": "Sam LaPorta",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "LaPorta (hip) returned to practice Tuesday, Richard Silva of The Detroit News reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Ennis Rakestraw Jr.",
           "playerId": "",
           "status": "questionable",
@@ -75847,6 +75915,14 @@
       ],
       "Green Bay Packers": [
         {
+          "player": "Josh Jacobs",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Jacobs' next court date has been moved up from Nov. 17 to Sept. 10, Michael Gross of Fox 11 Green Bay reports. Jacobs is expected to be represented by his attorney and won't personally appear at the hearing.",
+          "tier": "medium"
+        },
+        {
           "player": "Tucker Kraft",
           "playerId": "",
           "status": "questionable",
@@ -75885,14 +75961,6 @@
           "position": "DE",
           "description": "Packers general manager Brian Gutekunst said Tuesday that Parsons (knee) could return from the PUP list when first eligible in Week 5, Ryan Wood of USA Today reports. \"We have a pretty good idea once we get out of that four-game window we're going to be pretty close,\" Gutekunst said.",
           "tier": "high"
-        },
-        {
-          "player": "Josh Jacobs",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "General manager Brian Gutekunst said Tuesday that he anticipates Jacobs (personal) playing for the Packers at some point in 2026, Matt Schneidman of The Athletic reports.",
-          "tier": "medium"
         },
         {
           "player": "Trey Dean III",
@@ -75937,6 +76005,14 @@
       ],
       "Houston Texans": [
         {
+          "player": "Tank Dell",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Dell (knee) agreed to take a pay cut from the Texans on Friday, Aaron Wilson of KPRC 2 Houston reports.",
+          "tier": "high"
+        },
+        {
           "player": "Sam Hagen",
           "playerId": "",
           "status": "out",
@@ -75966,14 +76042,6 @@
           "status": "questionable",
           "position": "DE",
           "description": "Clowney (hip/ankle) is expected to be good to go for Week 1 versus Buffalo, Aaron Wilson of KPRC 2 Houston reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Tank Dell",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Texans general manager Nick Caserio said Tuesday that Dell (knee) is getting \"closer\" to a return, Aaron Wilson of KPRC 2 Houston reports. \"He's close, he's not quite there,\" Caserio said. \"He's closer than he was during training camp.\"",
           "tier": "high"
         },
         {
@@ -76235,7 +76303,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "DE",
-          "description": "questionable",
+          "description": "Thomas (hamstring) did not participate at practice Thursday, Pete Sweeney of The Kansas City Star reports.",
           "tier": "high"
         },
         {
@@ -76245,30 +76313,6 @@
           "position": "OT",
           "description": "Simmons (back) did not participate at practice Wednesday, Pete Sweeney of The Kansas City Star reports.",
           "tier": "medium"
-        },
-        {
-          "player": "C.J. Hanson",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "Hanson (undisclosed) reverted to Kansas City's injured reserve Monday, Matt Derrick of ChiefsDigest.com reports.",
-          "tier": "low"
-        },
-        {
-          "player": "EJ Smith",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Smith (undisclosed) reverted to the Chiefs' injured-reserve list Monday, Matt Derrick of ChiefsDigest.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Chris Oladokun",
-          "playerId": "",
-          "status": "out",
-          "position": "QB",
-          "description": "Oladokun (undisclosed) reverted to the Chiefs' injured reserve list Monday, Matt Derrick of ChiefsDigest.com reports.",
-          "tier": "elite"
         },
         {
           "player": "Omarr Norman-Lott",
@@ -76325,6 +76369,22 @@
           "position": "DE",
           "description": "Gillotte has a ruptured plantar fascia, but the injury is not considered serious, Matt Derrick of ChiefsDigest.com reports.",
           "tier": "high"
+        },
+        {
+          "player": "Drue Tranquill",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Trey Smith",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
         }
       ],
       "Las Vegas Raiders": [
@@ -76335,14 +76395,6 @@
           "position": "RB",
           "description": "Coach Klint Kubiak expressed optimism Wednesday that Jeanty (ankle) will be ready for Week 1 against the Dolphins, Adam Hill of the Las Vegas Review-Journal reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Chase Roberts",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Roberts (undisclosed) reverted to the Raiders' IR on Monday, Sam Warren of The Athletic reports.",
-          "tier": "high"
         },
         {
           "player": "Dont'e Thornton Jr.",
@@ -76416,14 +76468,6 @@
           "status": "out",
           "position": "LB",
           "description": "The Chargers placed Perryman (undisclosed) on injured reserve Tuesday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Kyle Kennard",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Kennard (undisclosed) reverted to the Chargers' injured reserve Monday, per the NFL's transaction log.",
           "tier": "medium"
         },
         {
@@ -76599,14 +76643,6 @@
       ],
       "Miami Dolphins": [
         {
-          "player": "Carter Warren",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
           "player": "Ollie Gordon II",
           "playerId": "",
           "status": "questionable",
@@ -76677,25 +76713,9 @@
           "position": "TE",
           "description": "Turner (undisclosed) reverted to the Dolphins' injured-reserve list Thursday, Aaron Wilson of KPRC 2 Houston reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Ronnie Harrison Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Harrison is unlikely to play in the Dolphins' preseason finale against the Falcons on Friday due to a hamstring injury, Joe Schad of The Palm Beach Post reports.",
-          "tier": "medium"
         }
       ],
       "Minnesota Vikings": [
-        {
-          "player": "Jacob Roberts",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Roberts (undisclosed) cleared waivers and reverted to the Vikings' injured-reserve list Monday, according to the NFL's official transaction log.",
-          "tier": "medium"
-        },
         {
           "player": "Kenny Dyson Jr.",
           "playerId": "",
@@ -76837,14 +76857,6 @@
       ],
       "New Orleans Saints": [
         {
-          "player": "Michael Heldman",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
           "player": "Alvin Kamara",
           "playerId": "",
           "status": "questionable",
@@ -76938,6 +76950,14 @@
           "status": "questionable",
           "position": "DT",
           "description": "Ridgeway exited Thursday's practice with a foot injury, Nick Underhill of NewOrleans.Football reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Pete Werner",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
           "tier": "medium"
         }
       ],
@@ -77048,14 +77068,6 @@
         }
       ],
       "New York Jets": [
-        {
-          "player": "Mykal Walker",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
-        },
         {
           "player": "Breece Hall",
           "playerId": "",
@@ -77331,16 +77343,8 @@
           "playerId": "",
           "status": "questionable",
           "position": "DT",
-          "description": "Okuayinonu (foot) will not travel with the team to Melbourne, Australia ahead of the Week 1 game versus the Rams, Nick Wagoner of ESPN.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Victor Dimukeje",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
           "description": "questionable",
-          "tier": "high"
+          "tier": "medium"
         },
         {
           "player": "Kyle Juszczyk",
@@ -77461,17 +77465,17 @@
           "position": "CB",
           "description": "Prysock suffered a shoulder injury and will not return to Thursday's preseason matchup with the Raiders, Noah Furtado of the San Francisco Chronicle reports.",
           "tier": "high"
+        },
+        {
+          "player": "De'Zhaun Stribling",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Stribling (shoulder) won't suit up for Thursday's preseason contest at Las Vegas, David Lombardi of SFStandard.com reports.",
+          "tier": "high"
         }
       ],
       "Seattle Seahawks": [
-        {
-          "player": "Amari Kight",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "questionable",
-          "tier": "medium"
-        },
         {
           "player": "Aaron Smith",
           "playerId": "",
@@ -77559,6 +77563,14 @@
           "position": "FB",
           "description": "ir",
           "tier": "low"
+        },
+        {
+          "player": "Nick Emmanwori",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
         }
       ],
       "Tampa Bay Buccaneers": [
@@ -77636,14 +77648,6 @@
         }
       ],
       "Tennessee Titans": [
-        {
-          "player": "Dominique Hampton",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
-        },
         {
           "player": "Carnell Tate",
           "playerId": "",
@@ -77743,30 +77747,6 @@
       ],
       "Washington Commanders": [
         {
-          "player": "Drake Jackson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Malik Spencer",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "T.J. Maguranyanga",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "Maguranyanga (undisclosed) reverted to the Commanders' injured reserve Monday, per the NFL's transaction log.",
-          "tier": "high"
-        },
-        {
           "player": "Curtis Jacobs",
           "playerId": "",
           "status": "out",
@@ -77861,6 +77841,22 @@
           "position": "TE",
           "description": "Commanders head coach Dan Quinn said that Sinnott is dealing with an oblique injury and is unlikely to play in Friday's preseason finale versus the Ravens, Nicki Jhabvala of The Athletic reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Tim Settle",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "Settle (calf) will not play against the Lions in Saturday's preseason game.",
+          "tier": "medium"
+        },
+        {
+          "player": "Nick Allegretti",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "Allegretti (calf) will not play in Saturday's preseason game against Detroit, Ben Standig of Big 100 Washington D.C. reports.",
+          "tier": "low"
         }
       ]
     },
