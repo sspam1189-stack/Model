@@ -1,48 +1,11 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-05T00:34:52Z",
+  "generated": "2026-09-05T13:09:18Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [
-    {
-      "date": "2026-09-04",
-      "commence": "2026-09-04T18:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Keider Montero",
-      "arm_team": "DET",
-      "fadeTeam": "DET",
-      "selection": "CLE",
-      "home": "CLE",
-      "away": "DET",
-      "venue": "away",
-      "odds": -130,
-      "suggest": "away",
-      "suggestUnits": 2.96,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-04",
-      "commence": "2026-09-04T22:40:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Chris Sale",
-      "arm_team": "ATL",
-      "fadeTeam": "ATL",
-      "selection": "PHI",
-      "home": "PHI",
-      "away": "ATL",
-      "venue": "away",
-      "odds": -108,
-      "suggest": "away",
-      "suggestUnits": 3.76,
-      "games": 12,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Blade Tidwell",
@@ -177,33 +140,6 @@
         "u": -4.26,
         "n": 11,
         "roi": -0.3824
-      }
-    },
-    {
-      "pitcher": "Chris Sale",
-      "team": "ATL",
-      "suggest": "away",
-      "suggestUnits": 3.76,
-      "all": {
-        "w": 10,
-        "l": 12,
-        "u": 2.27,
-        "n": 22,
-        "roi": 0.0996
-      },
-      "home": {
-        "w": 3,
-        "l": 7,
-        "u": -1.49,
-        "n": 10,
-        "roi": -0.149
-      },
-      "away": {
-        "w": 7,
-        "l": 5,
-        "u": 3.76,
-        "n": 12,
-        "roi": 0.2942
       }
     },
     {
@@ -450,6 +386,33 @@
       }
     },
     {
+      "pitcher": "Jackson Kent",
+      "team": "WSH",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 4,
+        "l": 1,
+        "u": 2.68,
+        "n": 5,
+        "roi": 0.3146
+      },
+      "home": {
+        "w": 1,
+        "l": 1,
+        "u": -0.32,
+        "n": 2,
+        "roi": -0.1111
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.5319
+      }
+    },
+    {
       "pitcher": "Emerson Hancock",
       "team": "SEA",
       "suggest": "home",
@@ -531,6 +494,33 @@
       }
     },
     {
+      "pitcher": "Max Fried",
+      "team": "NYY",
+      "suggest": "away",
+      "suggestUnits": 2.88,
+      "all": {
+        "w": 8,
+        "l": 7,
+        "u": 5.19,
+        "n": 15,
+        "roi": 0.3414
+      },
+      "home": {
+        "w": 3,
+        "l": 4,
+        "u": 2.31,
+        "n": 7,
+        "roi": 0.33
+      },
+      "away": {
+        "w": 5,
+        "l": 3,
+        "u": 2.88,
+        "n": 8,
+        "roi": 0.3512
+      }
+    },
+    {
       "pitcher": "Tanner Gordon",
       "team": "COL",
       "suggest": "home",
@@ -609,6 +599,33 @@
         "u": 2.74,
         "n": 7,
         "roi": 0.2927
+      }
+    },
+    {
+      "pitcher": "Chris Sale",
+      "team": "ATL",
+      "suggest": "away",
+      "suggestUnits": 2.68,
+      "all": {
+        "w": 10,
+        "l": 13,
+        "u": 1.19,
+        "n": 23,
+        "roi": 0.0499
+      },
+      "home": {
+        "w": 3,
+        "l": 7,
+        "u": -1.49,
+        "n": 10,
+        "roi": -0.149
+      },
+      "away": {
+        "w": 7,
+        "l": 6,
+        "u": 2.68,
+        "n": 13,
+        "roi": 0.1934
       }
     },
     {

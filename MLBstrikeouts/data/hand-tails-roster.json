@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-05T00:33:02Z",
+  "generated": "2026-09-05T13:07:30Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 26,
-  "qualifiedCount": 25,
+  "qualifiedCount": 26,
   "promotions": [
     {
       "name": "Noah Cameron",
@@ -17,6 +17,13 @@
       "games": 19,
       "units": 5.04,
       "since": "2026-06-18"
+    },
+    {
+      "name": "Rhett Lowder",
+      "hand": "R",
+      "games": 9,
+      "units": 4.5,
+      "since": "2026-09-04"
     }
   ],
   "demotions": [],
@@ -75,7 +82,7 @@
       "windows": [
         [
           "2026-08-28",
-          "2026-09-04"
+          "2026-09-05"
         ]
       ]
     },
@@ -226,7 +233,7 @@
       "windows": [
         [
           "2026-08-18",
-          "2026-09-04"
+          "2026-09-05"
         ]
       ]
     },
@@ -248,7 +255,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-09-04"
+          "2026-09-05"
         ]
       ]
     },
@@ -261,7 +268,7 @@
         ],
         [
           "2026-08-30",
-          "2026-09-04"
+          "2026-09-05"
         ]
       ]
     },
@@ -377,6 +384,10 @@
         [
           "2026-07-30",
           "2026-08-12"
+        ],
+        [
+          "2026-09-04",
+          null
         ]
       ]
     },

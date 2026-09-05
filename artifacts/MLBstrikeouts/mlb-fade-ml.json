@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-05T00:31:28Z",
+  "generated": "2026-09-05T13:05:54Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,27 +85,27 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 523,
-    "losses": 204,
+    "losses": 205,
     "voids": 0,
-    "skips": 49,
-    "staked": 910.78,
-    "units": 327.44,
-    "roi": 0.3595,
+    "skips": 51,
+    "staked": 911.78,
+    "units": 326.44,
+    "roi": 0.358,
     "byType": {
       "ml": {
         "wins": 511,
-        "losses": 192,
+        "losses": 193,
         "voids": 0,
-        "skips": 3,
-        "staked": 886.78,
-        "units": 322.96,
-        "roi": 0.3642
+        "skips": 4,
+        "staked": 887.78,
+        "units": 321.96,
+        "roi": 0.3627
       },
       "ml_dog": {
         "wins": 12,
         "losses": 12,
         "voids": 0,
-        "skips": 46,
+        "skips": 47,
         "staked": 24.0,
         "units": 4.48,
         "roi": 0.1867
@@ -114,77 +114,52 @@
   },
   "today": [
     {
-      "date": "2026-09-04",
-      "commence": "2026-09-05T00:10:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly",
-        "Cristian Javier"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "HOU",
-      "away": "ARI",
-      "gamePk": 824146,
-      "fadeReason": "away/all"
-    },
-    {
-      "date": "2026-09-04",
-      "commence": "2026-09-04T23:10:00Z",
+      "date": "2026-09-05",
+      "commence": "2026-09-05T22:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Shota Imanaga"
+        "Framber Valdez"
       ],
-      "fadeTeam": "CHC",
+      "fadeTeam": "DET",
       "market": "h2h",
-      "selection": "MIA",
+      "selection": "CLE",
       "line": null,
-      "odds": 142,
-      "stake": 1.0,
+      "odds": -162,
+      "stake": 1.62,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIA",
-      "away": "CHC",
-      "gamePk": 823824,
-      "fadeReason": "away"
+      "home": "CLE",
+      "away": "DET",
+      "gamePk": 824389,
+      "fadeReason": "all"
     },
     {
-      "date": "2026-09-04",
-      "commence": "2026-09-04T22:45:00Z",
+      "date": "2026-09-05",
+      "commence": "2026-09-05T22:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jared Jones"
+        "Yusei Kikuchi"
       ],
-      "fadeTeam": "PIT",
+      "fadeTeam": "LAA",
       "market": "h2h",
-      "selection": null,
+      "selection": "PIT",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
+      "odds": -184,
+      "stake": 1.84,
+      "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "hand_fade_override",
+      "reason": null,
       "home": "PIT",
       "away": "LAA",
-      "gamePk": 823338,
-      "fadeReason": "home"
+      "gamePk": 823335,
+      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -18881,6 +18856,79 @@
       "away": "OAK",
       "gamePk": 823095,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-04",
+      "commence": "2026-09-04T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "hand_fade_override",
+      "home": "PIT",
+      "away": "LAA",
+      "gamePk": 823338,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-04",
+      "commence": "2026-09-04T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shota Imanaga"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 142,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIA",
+      "away": "CHC",
+      "gamePk": 823824,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-04",
+      "commence": "2026-09-05T00:10:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Cristian Javier",
+        "Merrill Kelly"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "HOU",
+      "away": "ARI",
+      "gamePk": 824146,
+      "fadeReason": "all/away"
     }
   ]
 }
