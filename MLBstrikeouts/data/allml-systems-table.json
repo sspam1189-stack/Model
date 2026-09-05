@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-05T21:12:36Z",
+ "generated": "2026-09-05T23:06:24Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-04"
+  "to": "2026-09-05"
  },
- "games": 2121,
+ "games": 2122,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.2,
-  "over": -5.5,
-  "under": -4.0,
+  "over": -5.4,
+  "under": -4.1,
   "parlay": 0.0
  },
  "systems": [
@@ -95,7 +95,7 @@
      "roi": 103.3
     }
    ],
-   "per_day": 1.03
+   "per_day": 1.02
   },
   {
    "baseline_key": "side",
@@ -309,7 +309,7 @@
      "roi": 59.3
     }
    ],
-   "per_day": 0.52
+   "per_day": 0.51
   },
   {
    "baseline_key": "parlay",
@@ -391,11 +391,11 @@
      "roi": 47.9
     }
    ],
-   "per_day": 1.53
+   "per_day": 1.52
   },
   {
    "baseline_key": "over",
-   "baseline": -5.5,
+   "baseline": -5.4,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -465,11 +465,11 @@
      "roi": -19.9
     }
    ],
-   "per_day": 1.33
+   "per_day": 1.32
   },
   {
    "baseline_key": "under",
-   "baseline": -4.0,
+   "baseline": -4.1,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -543,7 +543,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.5,
+   "baseline": -5.4,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -621,11 +621,11 @@
      "roi": 84.9
     }
    ],
-   "per_day": 0.79
+   "per_day": 0.78
   },
   {
    "baseline_key": "under",
-   "baseline": -4.0,
+   "baseline": -4.1,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -703,7 +703,7 @@
      "roi": -34.0
     }
    ],
-   "per_day": 2.58
+   "per_day": 2.57
   },
   {
    "baseline_key": "side",
@@ -777,11 +777,11 @@
      "roi": -47.2
     }
    ],
-   "per_day": 1.16
+   "per_day": 1.15
   },
   {
    "baseline_key": "over",
-   "baseline": -5.5,
+   "baseline": -5.4,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -851,11 +851,11 @@
      "roi": 14.4
     }
    ],
-   "per_day": 1.45
+   "per_day": 1.44
   },
   {
    "baseline_key": "under",
-   "baseline": -4.0,
+   "baseline": -4.1,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -925,7 +925,7 @@
      "roi": -36.4
     }
    ],
-   "per_day": 1.06
+   "per_day": 1.05
   }
  ],
  "today": [
@@ -1009,7 +1009,7 @@
    "total": null,
    "why": "home to a AL East rival at +120",
    "stale": true,
-   "stale_now": "favourite now -132, total still 7.5"
+   "stale_now": "favourite now -130, total still 7.5"
   },
   {
    "rule": "home-dog-under-parlay",
@@ -1027,7 +1027,7 @@
    "total": 8,
    "why": "BAL ML +120 with U8 -106, pays 4.28x Carded over and under on this game; neither side taken.",
    "stale": true,
-   "stale_now": "favourite now -132, total now 7.5 (was 8)",
+   "stale_now": "favourite now -130, total now 7.5 (was 8)",
    "conflict_skip": true
   },
   {
@@ -1061,7 +1061,7 @@
    "total": 8,
    "why": "over in Chris Bassitt 75% of last 8, total 8 Carded over and under on this game; neither side taken.",
    "stale": true,
-   "stale_now": "favourite now -132, total now 7.5 (was 8)",
+   "stale_now": "favourite now -130, total now 7.5 (was 8)",
    "conflict_skip": true
   },
   {
@@ -1117,21 +1117,24 @@
    "market": "totals",
    "pick": "under",
    "price": 102,
-   "side": "U",
-   "why": "favorite only -108 at a 8.5 total",
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824145,
    "date": "2026-09-05",
    "commence": "2026-09-05T23:15:00Z",
    "matchup": "ARI @ HOU",
-   "away": "ARI",
-   "home": "HOU",
-   "total": 8.5
+   "total": 8.5,
+   "why": "favorite only -108 at a 8.5 total",
+   "stale": true,
+   "stale_now": "favourite now -116, total still 8.5"
   },
   {
    "rule": "cold-arms-under",
    "market": "totals",
    "pick": "under",
-   "price": -124,
+   "price": -110,
    "side": "U",
    "why": "both starters Cade Cavalli 38%, Tyler Glasnow 38% over in last 8",
    "gamePk": 823904,
@@ -1140,7 +1143,7 @@
    "matchup": "WSH @ LAD",
    "away": "WSH",
    "home": "LAD",
-   "total": 7.5
+   "total": 7
   },
   {
    "rule": "hot-arm-dog-ml",
@@ -1155,22 +1158,40 @@
    "matchup": "WSH @ LAD",
    "away": "WSH",
    "home": "LAD",
-   "total": 7.5
+   "total": 7
   },
   {
-   "rule": "under-juice",
+   "rule": "low-line-over",
    "market": "totals",
-   "pick": "under",
-   "price": -124,
-   "side": "U",
-   "why": "book laying -124 on the under",
+   "pick": "over",
+   "price": -110,
+   "side": "O",
+   "why": "posted total 7; lines of 7 and under average 8.66 runs",
    "gamePk": 823904,
    "date": "2026-09-05",
    "commence": "2026-09-06T01:10:00Z",
    "matchup": "WSH @ LAD",
    "away": "WSH",
    "home": "LAD",
-   "total": 7.5
+   "total": 7
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -124,
+   "line": 7.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
+   "gamePk": 823904,
+   "date": "2026-09-05",
+   "commence": "2026-09-06T01:10:00Z",
+   "matchup": "WSH @ LAD",
+   "total": 7.5,
+   "why": "book laying -124 on the under",
+   "stale": true,
+   "stale_now": "favourite now -215, total now 7 (was 7.5)"
   }
  ],
  "today_date": "2026-09-05"

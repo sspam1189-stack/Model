@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-05T21:16:39Z",
+ "generated": "2026-09-05T23:10:27Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
    "date": "2026-09-05",
-   "play": "OAK ML (dog, m_sum +66.3)",
+   "play": "OAK ML (dog, m_sum +56.3)",
    "market": "h2h",
    "price": 200,
    "rule": "better-arm-ml",
@@ -15,7 +15,7 @@
    "game": "OAK @ SEA",
    "gamePk": 823094,
    "commence": "2026-09-06T01:40:00Z",
-   "basis": "Better arm Jeffrey Springs (+17.1) vs +49.2, m_sum +66.3.",
+   "basis": "Better arm Jeffrey Springs (+11.1) vs +45.2, m_sum +56.3.",
    "open_price": 200,
    "name": "Better arm ML",
    "group": "scout",
@@ -23,10 +23,10 @@
   },
   {
    "date": "2026-09-05",
-   "play": "WSH/LAD U7.5",
+   "play": "WSH/LAD U7",
    "market": "totals",
-   "line": 7.5,
-   "price": -124,
+   "line": 7,
+   "price": -110,
    "rule": "cold-arms-under",
    "result": "pending",
    "profit": 0.0,
@@ -42,17 +42,17 @@
   },
   {
    "date": "2026-09-05",
-   "play": "WSH/LAD U7.5",
+   "play": "WSH/LAD U7",
    "market": "totals",
-   "line": 7.5,
-   "price": -124,
+   "line": 7,
+   "price": -110,
    "rule": "form-under",
    "result": "pending",
    "profit": 0.0,
    "game": "WSH @ LAD",
    "gamePk": 823904,
    "commence": "2026-09-06T01:10:00Z",
-   "basis": "m_sum -90.2 <= -40; both arms outclass the bats. Also flagged.",
+   "basis": "m_sum -83.2 <= -40; both arms outclass the bats. Also flagged.",
    "open_line": 7.5,
    "open_price": -124,
    "name": "Form under",
@@ -73,6 +73,25 @@
    "basis": "Hot arm dog ML: Cade Cavalli \u2014 team +65% over his last 8 starts, priced +180",
    "open_price": 188,
    "name": "Hot arm dog ML",
+   "group": "non-scout",
+   "kind": "not_bet"
+  },
+  {
+   "date": "2026-09-05",
+   "play": "WSH/LAD O7",
+   "market": "totals",
+   "line": 7,
+   "price": -110,
+   "rule": "low-line-over",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "WSH @ LAD",
+   "gamePk": 823904,
+   "commence": "2026-09-06T01:10:00Z",
+   "basis": "Low line over: posted total 7; lines of 7 and under average 8.66 runs",
+   "open_line": 7,
+   "open_price": -110,
+   "name": "Low line over",
    "group": "non-scout",
    "kind": "not_bet"
   },
@@ -111,6 +130,25 @@
    "name": "Under juice",
    "group": "non-scout",
    "kind": "not_bet"
+  },
+  {
+   "date": "2026-09-05",
+   "play": "STL/COL U10.5",
+   "market": "totals",
+   "line": 10.5,
+   "price": -104,
+   "rule": "form-under",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "STL @ COL",
+   "gamePk": 824310,
+   "commence": "2026-09-06T00:10:00Z",
+   "basis": "m_sum -40.8 <= -40; both arms outclass the bats. Unflagged.",
+   "open_line": 10.5,
+   "open_price": -104,
+   "name": "Form under",
+   "group": "scout",
+   "kind": "card"
   },
   {
    "date": "2026-09-05",
@@ -431,19 +469,39 @@
   },
   {
    "date": "2026-09-05",
+   "play": "ATL ML (dog, m_sum +41.0)",
+   "market": "h2h",
+   "price": 138,
+   "rule": "better-arm-ml",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "ATL @ PHI",
+   "gamePk": 823419,
+   "commence": "2026-09-05T22:05:00Z",
+   "basis": "Better arm Mart\u00edn P\u00e9rez (+18.1) vs +22.9, m_sum +41.0.",
+   "open_price": 138,
+   "name": "Better arm ML",
+   "group": "scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-05",
    "play": "SF/NYM U8",
    "market": "totals",
    "line": 8,
    "price": -110,
    "rule": "form-under",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "SF @ NYM",
    "gamePk": 823577,
    "commence": "2026-09-05T20:10:00Z",
    "basis": "m_sum -43.8 <= -40; both arms outclass the bats. Unflagged.",
    "open_line": 8,
+   "close_line": 8,
+   "line_move": 0.0,
    "open_price": -115,
+   "clv": "flat",
    "name": "Form under",
    "group": "scout",
    "kind": "card"
@@ -39943,19 +40001,19 @@
  "summary": {
   "all": {
    "w": 1182,
-   "l": 1016,
+   "l": 1017,
    "push": 25,
-   "n": 2247,
-   "pending": 24,
-   "units": 272.58
+   "n": 2250,
+   "pending": 26,
+   "units": 271.58
   },
   "card": {
    "w": 596,
-   "l": 513,
+   "l": 514,
    "push": 4,
-   "n": 1123,
-   "pending": 10,
-   "units": 272.58
+   "n": 1125,
+   "pending": 11,
+   "units": 271.58
   },
   "by_rule": {
    "away-dog-ml": {
@@ -39970,8 +40028,8 @@
     "w": 2,
     "l": 1,
     "push": 0,
-    "n": 4,
-    "pending": 1,
+    "n": 5,
+    "pending": 2,
     "units": 1.68
    },
    "better-arm-ml-fav": {
@@ -40024,11 +40082,11 @@
    },
    "form-under": {
     "w": 1,
-    "l": 3,
+    "l": 4,
     "push": 0,
-    "n": 9,
+    "n": 10,
     "pending": 5,
-    "units": -1.15
+    "units": -2.15
    },
    "home-dog-getaway": {
     "w": 44,
@@ -40066,8 +40124,8 @@
     "w": 76,
     "l": 52,
     "push": 11,
-    "n": 141,
-    "pending": 2,
+    "n": 142,
+    "pending": 3,
     "units": 0
    },
    "mismatch-ml": {
