@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-05T18:40:01Z",
+ "generated": "2026-09-05T21:12:36Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-04"
@@ -963,9 +963,9 @@
    "rule": "division-home-dog",
    "market": "h2h",
    "pick": "CIN",
-   "price": 136,
+   "price": 132,
    "side": null,
-   "why": "home to a NL Central rival at +136",
+   "why": "home to a NL Central rival at +132",
    "gamePk": 824468,
    "date": "2026-09-05",
    "commence": "2026-09-05T22:40:00Z",
@@ -978,13 +978,13 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "CIN",
-   "price": 359,
+   "price": 351,
    "side": null,
-   "why": "CIN ML +136 with U9 -106, pays 4.59x",
+   "why": "CIN ML +132 with U9 -106, pays 4.51x",
    "line": 9,
-   "ml_price": 136,
+   "ml_price": 132,
    "under_price": -106,
-   "payout": 4.586,
+   "payout": 4.509,
    "gamePk": 824468,
    "date": "2026-09-05",
    "commence": "2026-09-05T22:40:00Z",
@@ -1009,7 +1009,7 @@
    "total": null,
    "why": "home to a AL East rival at +120",
    "stale": true,
-   "stale_now": "favourite now -132, total still 8"
+   "stale_now": "favourite now -132, total still 7.5"
   },
   {
    "rule": "home-dog-under-parlay",
@@ -1027,7 +1027,7 @@
    "total": 8,
    "why": "BAL ML +120 with U8 -106, pays 4.28x Carded over and under on this game; neither side taken.",
    "stale": true,
-   "stale_now": "favourite now -132, total still 8",
+   "stale_now": "favourite now -132, total now 7.5 (was 8)",
    "conflict_skip": true
   },
   {
@@ -1050,15 +1050,18 @@
    "market": "totals",
    "pick": "over",
    "price": -114,
-   "side": "O",
-   "why": "over in Chris Bassitt 75% of last 8, total 8",
+   "line": 8,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824795,
    "date": "2026-09-05",
    "commence": "2026-09-05T23:05:00Z",
    "matchup": "BOS @ BAL",
-   "away": "BOS",
-   "home": "BAL",
    "total": 8,
+   "why": "over in Chris Bassitt 75% of last 8, total 8 Carded over and under on this game; neither side taken.",
+   "stale": true,
+   "stale_now": "favourite now -132, total now 7.5 (was 8)",
    "conflict_skip": true
   },
   {
