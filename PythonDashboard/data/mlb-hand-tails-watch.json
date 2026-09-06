@@ -1,13 +1,57 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-06T18:37:30Z",
+  "generated": "2026-09-06T21:04:57Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T17:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Christian Scott",
+      "hand": "R",
+      "arm_team": "NYM",
+      "opp_team": "SF",
+      "selection": "NYM",
+      "home": "NYM",
+      "away": "SF",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": -172,
+      "suggest": "take",
+      "suggestUnits": 4.56,
+      "games": 11,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T17:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Clay Holmes",
+      "hand": "R",
+      "arm_team": "CHC",
+      "opp_team": "MIA",
+      "selection": "MIA",
+      "home": "MIA",
+      "away": "CHC",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": 124,
+      "suggest": "fade",
+      "suggestUnits": 2.88,
+      "games": 8,
+      "result": "pending"
+    },
     {
       "date": "2026-09-06",
       "commence": "2026-09-06T18:10:00Z",
@@ -509,6 +553,24 @@
       "era": 4.56
     },
     {
+      "pitcher": "Christian Scott",
+      "hand": "R",
+      "games": 11,
+      "suggest": "take",
+      "suggestUnits": 4.56,
+      "fade": {
+        "w": 3,
+        "l": 8,
+        "u": -5.2
+      },
+      "take": {
+        "w": 8,
+        "l": 3,
+        "u": 4.56
+      },
+      "era": 3.8
+    },
+    {
       "pitcher": "Jos\u00e9 Soriano",
       "hand": "R",
       "games": 13,
@@ -795,6 +857,24 @@
         "u": -3.02
       },
       "era": 6.14
+    },
+    {
+      "pitcher": "Clay Holmes",
+      "hand": "R",
+      "games": 8,
+      "suggest": "fade",
+      "suggestUnits": 2.88,
+      "fade": {
+        "w": 5,
+        "l": 3,
+        "u": 2.88
+      },
+      "take": {
+        "w": 3,
+        "l": 5,
+        "u": -3.36
+      },
+      "era": 2.09
     },
     {
       "pitcher": "Trevor Rogers",

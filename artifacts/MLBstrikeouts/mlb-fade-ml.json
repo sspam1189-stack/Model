@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-06T18:32:09Z",
+  "generated": "2026-09-06T21:01:36Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 523,
-    "losses": 207,
+    "losses": 209,
     "voids": 0,
     "skips": 51,
-    "staked": 915.2,
-    "units": 323.02,
-    "roi": 0.353,
+    "staked": 917.76,
+    "units": 320.46,
+    "roi": 0.3492,
     "byType": {
       "ml": {
         "wins": 511,
-        "losses": 195,
+        "losses": 197,
         "voids": 0,
         "skips": 4,
-        "staked": 891.2,
-        "units": 318.54,
-        "roi": 0.3574
+        "staked": 893.76,
+        "units": 315.98,
+        "roi": 0.3535
       },
       "ml_dog": {
         "wins": 12,
@@ -113,54 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-06",
-      "commence": "2026-09-06T17:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tyler Mahle"
-      ],
-      "fadeTeam": "ATL",
-      "market": "h2h",
-      "selection": "PHI",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PHI",
-      "away": "ATL",
-      "gamePk": 823417,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-06",
-      "commence": "2026-09-06T16:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Brady Singer"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CIN",
-      "away": "MIL",
-      "gamePk": 824469,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-09-06",
       "commence": "2026-09-06T17:35:00Z",
@@ -19002,6 +18954,54 @@
       "away": "LAA",
       "gamePk": 823335,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T16:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "LOSS",
+      "profit": -1.46,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "MIL",
+      "gamePk": 824469,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "ATL",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "ATL",
+      "gamePk": 823417,
+      "fadeReason": "away"
     }
   ]
 }

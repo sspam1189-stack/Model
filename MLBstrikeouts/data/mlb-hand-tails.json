@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-06T18:34:19Z",
+  "generated": "2026-09-06T21:03:39Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -129,17 +129,17 @@
   "demotions": [],
   "summary": {
     "wins": 63,
-    "losses": 27,
-    "units": 33.59,
-    "staked": 110.99,
-    "roi": 0.3026,
+    "losses": 28,
+    "units": 32.13,
+    "staked": 112.45,
+    "roi": 0.2857,
     "byAction": {
       "fade": {
         "wins": 63,
-        "losses": 27,
-        "units": 33.59,
-        "staked": 110.99,
-        "roi": 0.3026
+        "losses": 28,
+        "units": 32.13,
+        "staked": 112.45,
+        "roi": 0.2857
       },
       "take": {
         "wins": 0,
@@ -152,10 +152,10 @@
     "byHand": {
       "R": {
         "wins": 37,
-        "losses": 12,
-        "units": 24.03,
-        "staked": 60.83,
-        "roi": 0.395
+        "losses": 13,
+        "units": 22.57,
+        "staked": 62.29,
+        "roi": 0.3623
       },
       "L": {
         "wins": 26,
@@ -167,30 +167,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-06",
-      "commence": "2026-09-06T16:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Brady Singer",
-      "entry": "Brady Singer",
-      "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "MIL",
-      "selection": "MIL",
-      "home": "CIN",
-      "away": "MIL",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-06",
       "commence": "2026-09-06T18:35:00Z",
@@ -2398,6 +2374,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.84,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T16:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Brady Singer",
+      "entry": "Brady Singer",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "CIN",
+      "away": "MIL",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": true,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.46,
       "book": "fanduel",
       "source": "fanduel_api"
     }

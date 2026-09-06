@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-06T18:37:34Z",
+  "generated": "2026-09-06T21:05:01Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -19,12 +19,28 @@
       "venue": "away",
       "matchup": "TOR @ KC",
       "odds": 104,
-      "eraVsOpp": 6.3,
-      "startsVsOpp": 2,
+      "eraVsOpp": 7.98,
+      "startsVsOpp": 3,
       "result": "pending"
     }
   ],
   "candidates": [
+    {
+      "pitcher": "Spencer Arrighetti",
+      "opp": "KC",
+      "arm_team": "TOR",
+      "eraVsOpp": 7.98,
+      "ipVsOpp": 14.7,
+      "erVsOpp": 13,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 3,
+        "l": 0,
+        "u": 3.04,
+        "n": 3,
+        "roi": 0.9383
+      }
+    },
     {
       "pitcher": "Jos\u00e9 Soriano",
       "opp": "LAD",
@@ -488,22 +504,6 @@
         "u": -0.04,
         "n": 2,
         "roi": -0.019
-      }
-    },
-    {
-      "pitcher": "Spencer Arrighetti",
-      "opp": "KC",
-      "arm_team": "TOR",
-      "eraVsOpp": 6.3,
-      "ipVsOpp": 10.0,
-      "erVsOpp": 7,
-      "startsVsOpp": 2,
-      "fadeRecord": {
-        "w": 2,
-        "l": 0,
-        "u": 2.0,
-        "n": 2,
-        "roi": 0.8929
       }
     },
     {
