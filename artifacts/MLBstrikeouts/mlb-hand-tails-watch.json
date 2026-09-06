@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-06T21:04:57Z",
+  "generated": "2026-09-06T23:05:33Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -70,8 +70,8 @@
       "lineupConfirmed": true,
       "odds": -106,
       "suggest": "take",
-      "suggestUnits": 16.58,
-      "games": 20,
+      "suggestUnits": 17.58,
+      "games": 21,
       "result": "pending"
     },
     {
@@ -92,8 +92,8 @@
       "lineupConfirmed": true,
       "odds": -138,
       "suggest": "take",
-      "suggestUnits": 6.12,
-      "games": 9,
+      "suggestUnits": 7.12,
+      "games": 10,
       "result": "pending"
     },
     {
@@ -114,8 +114,8 @@
       "lineupConfirmed": true,
       "odds": -104,
       "suggest": "fade",
-      "suggestUnits": 3.56,
-      "games": 11,
+      "suggestUnits": 2.52,
+      "games": 12,
       "result": "pending"
     }
   ],
@@ -123,18 +123,18 @@
     {
       "pitcher": "Eduardo Rodriguez",
       "hand": "L",
-      "games": 20,
+      "games": 21,
       "suggest": "take",
-      "suggestUnits": 16.58,
+      "suggestUnits": 17.58,
       "fade": {
         "w": 2,
-        "l": 18,
-        "u": -18.36
+        "l": 19,
+        "u": -19.46
       },
       "take": {
-        "w": 18,
+        "w": 19,
         "l": 2,
-        "u": 16.58
+        "u": 17.58
       },
       "era": 2.59
     },
@@ -229,6 +229,24 @@
       "era": 2.48
     },
     {
+      "pitcher": "Kyle Leahy",
+      "hand": "R",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 7.12,
+      "fade": {
+        "w": 2,
+        "l": 8,
+        "u": -8.12
+      },
+      "take": {
+        "w": 8,
+        "l": 2,
+        "u": 7.12
+      },
+      "era": 3.13
+    },
+    {
       "pitcher": "Grant Holmes",
       "hand": "R",
       "games": 12,
@@ -263,24 +281,6 @@
         "u": 6.62
       },
       "era": 1.97
-    },
-    {
-      "pitcher": "Kyle Leahy",
-      "hand": "R",
-      "games": 9,
-      "suggest": "take",
-      "suggestUnits": 6.12,
-      "fade": {
-        "w": 2,
-        "l": 7,
-        "u": -7.12
-      },
-      "take": {
-        "w": 7,
-        "l": 2,
-        "u": 6.12
-      },
-      "era": 3.13
     },
     {
       "pitcher": "Anthony Kay",
@@ -661,24 +661,6 @@
       "era": 3.0
     },
     {
-      "pitcher": "Michael King",
-      "hand": "R",
-      "games": 11,
-      "suggest": "fade",
-      "suggestUnits": 3.56,
-      "fade": {
-        "w": 7,
-        "l": 4,
-        "u": 3.56
-      },
-      "take": {
-        "w": 4,
-        "l": 7,
-        "u": -4.62
-      },
-      "era": 3.11
-    },
-    {
       "pitcher": "Matthew Liberatore",
       "hand": "L",
       "games": 23,
@@ -965,6 +947,24 @@
         "u": -2.96
       },
       "era": 6.34
+    },
+    {
+      "pitcher": "Michael King",
+      "hand": "R",
+      "games": 12,
+      "suggest": "fade",
+      "suggestUnits": 2.52,
+      "fade": {
+        "w": 7,
+        "l": 5,
+        "u": 2.52
+      },
+      "take": {
+        "w": 5,
+        "l": 7,
+        "u": -3.62
+      },
+      "era": 3.11
     }
   ]
 }

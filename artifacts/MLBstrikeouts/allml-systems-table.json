@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-06T21:05:19Z",
+ "generated": "2026-09-06T23:05:54Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-06"
  },
- "games": 2144,
+ "games": 2149,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.2,
@@ -34,8 +34,8 @@
     "roi": 24.9
    },
    "halves": [
-    25.4,
-    24.6
+    17.7,
+    29.5
    ],
    "monthly": [
     {
@@ -249,15 +249,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 46,
-    "l": 40,
-    "n": 86,
+    "w": 47,
+    "l": 41,
+    "n": 88,
     "units": 15.86,
-    "roi": 18.4
+    "roi": 18.0
    },
    "halves": [
     7.3,
-    28.6
+    27.4
    ],
    "monthly": [
     {
@@ -302,14 +302,14 @@
     },
     {
      "month": "2026-09",
-     "w": 4,
-     "l": 2,
-     "n": 6,
+     "w": 5,
+     "l": 3,
+     "n": 8,
      "units": 3.06,
-     "roi": 51.0
+     "roi": 38.2
     }
    ],
-   "per_day": 0.53
+   "per_day": 0.54
   },
   {
    "baseline_key": "parlay",
@@ -324,14 +324,14 @@
    "ladder_fails": false,
    "record": {
     "w": 85,
-    "l": 164,
-    "n": 249,
-    "units": 115.7,
-    "roi": 46.5
+    "l": 165,
+    "n": 250,
+    "units": 114.7,
+    "roi": 45.9
    },
    "halves": [
     48.2,
-    45.0
+    44.0
    ],
    "monthly": [
     {
@@ -385,10 +385,10 @@
     {
      "month": "2026-09",
      "w": 4,
-     "l": 8,
-     "n": 12,
-     "units": 5.82,
-     "roi": 48.5
+     "l": 9,
+     "n": 13,
+     "units": 4.82,
+     "roi": 37.1
     }
    ],
    "per_day": 1.53
@@ -412,8 +412,8 @@
     "roi": 9.8
    },
    "halves": [
-    14.3,
-    7.4
+    11.3,
+    9.0
    ],
    "monthly": [
     {
@@ -554,14 +554,14 @@
    "ladder_fails": false,
    "record": {
     "w": 77,
-    "l": 55,
-    "n": 132,
-    "units": 12.35,
-    "roi": 9.4
+    "l": 56,
+    "n": 133,
+    "units": 11.35,
+    "roi": 8.5
    },
    "halves": [
     8.4,
-    10.7
+    8.7
    ],
    "monthly": [
     {
@@ -615,13 +615,13 @@
     {
      "month": "2026-09",
      "w": 5,
-     "l": 3,
-     "n": 8,
-     "units": 1.3,
-     "roi": 16.3
+     "l": 4,
+     "n": 9,
+     "units": 0.3,
+     "roi": 3.4
     }
    ],
-   "per_day": 0.81
+   "per_day": 0.82
   },
   {
    "baseline_key": "under",
@@ -642,8 +642,8 @@
     "roi": 4.5
    },
    "halves": [
-    3.7,
-    5.3
+    3.6,
+    5.5
    ],
    "monthly": [
     {
@@ -724,8 +724,8 @@
     "roi": 10.5
    },
    "halves": [
-    19.8,
-    4.9
+    18.1,
+    5.8
    ],
    "monthly": [
     {
@@ -798,8 +798,8 @@
     "roi": 5.1
    },
    "halves": [
-    4.2,
-    5.9
+    2.1,
+    8.5
    ],
    "monthly": [
     {
@@ -929,118 +929,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "home-dog-getaway",
-   "market": "h2h",
-   "pick": "TEX",
-   "price": 100,
-   "side": null,
-   "why": "TB played a night game yesterday, day game today, home dog at +100",
-   "gamePk": 822848,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T18:35:00Z",
-   "matchup": "TB @ TEX",
-   "away": "TB",
-   "home": "TEX",
-   "total": 7.5
-  },
-  {
-   "rule": "home-dog-getaway",
-   "market": "h2h",
-   "pick": "COL",
-   "price": 118,
-   "side": null,
-   "why": "STL played a night game yesterday, day game today, home dog at +118",
-   "gamePk": 824309,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T19:10:00Z",
-   "matchup": "STL @ COL",
-   "away": "STL",
-   "home": "COL",
-   "total": 11
-  },
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "COL",
-   "price": 313,
-   "side": null,
-   "why": "COL ML +118 with U11 -112, pays 4.13x",
-   "line": 11,
-   "ml_price": 118,
-   "under_price": -112,
-   "payout": 4.126,
-   "gamePk": 824309,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T19:10:00Z",
-   "matchup": "STL @ COL",
-   "away": "STL",
-   "home": "COL",
-   "total": 11
-  },
-  {
-   "rule": "cold-arms-under",
-   "market": "totals",
-   "pick": "under",
-   "price": -115,
-   "side": "U",
-   "why": "both starters Gerrit Cole 25%, Michael King 38% over in last 8",
-   "gamePk": 823253,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T20:10:00Z",
-   "matchup": "NYY @ SD",
-   "away": "NYY",
-   "home": "SD",
-   "total": 7
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": -120,
-   "side": "O",
-   "why": "posted total 7; lines of 7 and under average 8.66 runs",
-   "gamePk": 823091,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T20:10:00Z",
-   "matchup": "OAK @ SEA",
-   "away": "OAK",
-   "home": "SEA",
-   "total": 7
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": -105,
-   "side": "O",
-   "why": "posted total 7; lines of 7 and under average 8.66 runs",
-   "gamePk": 823253,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T20:10:00Z",
-   "matchup": "NYY @ SD",
-   "away": "NYY",
-   "home": "SD",
-   "total": 7
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -124,
-   "line": 7.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823091,
-   "date": "2026-09-06",
-   "commence": "2026-09-06T20:10:00Z",
-   "matchup": "OAK @ SEA",
-   "total": 7.5,
-   "why": "book laying -124 on the under",
-   "stale": true,
-   "stale_now": "favourite now -215, total now 7 (was 7.5)"
-  },
   {
    "rule": "under-juice",
    "market": "totals",

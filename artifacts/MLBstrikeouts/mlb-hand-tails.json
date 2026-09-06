@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-06T21:03:39Z",
+  "generated": "2026-09-06T23:04:13Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -128,18 +128,18 @@
   ],
   "demotions": [],
   "summary": {
-    "wins": 63,
+    "wins": 64,
     "losses": 28,
-    "units": 32.13,
-    "staked": 112.45,
-    "roi": 0.2857,
+    "units": 33.13,
+    "staked": 113.45,
+    "roi": 0.292,
     "byAction": {
       "fade": {
-        "wins": 63,
+        "wins": 64,
         "losses": 28,
-        "units": 32.13,
-        "staked": 112.45,
-        "roi": 0.2857
+        "units": 33.13,
+        "staked": 113.45,
+        "roi": 0.292
       },
       "take": {
         "wins": 0,
@@ -158,39 +158,15 @@
         "roi": 0.3623
       },
       "L": {
-        "wins": 26,
+        "wins": 27,
         "losses": 15,
-        "units": 9.56,
-        "staked": 50.16,
-        "roi": 0.1906
+        "units": 10.56,
+        "staked": 51.16,
+        "roi": 0.2064
       }
     }
   },
   "today": [
-    {
-      "date": "2026-09-06",
-      "commence": "2026-09-06T18:35:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Ian Seymour",
-      "entry": "Ian Seymour",
-      "hand": "L",
-      "arm_team": "TB",
-      "opp_team": "TEX",
-      "selection": "TEX",
-      "home": "TEX",
-      "away": "TB",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-06",
       "commence": "2026-09-07T02:10:00Z",
@@ -205,11 +181,11 @@
       "home": "LAD",
       "away": "WSH",
       "oppLefty": 4,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -205,
+      "stake": 2.05,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -2398,6 +2374,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.46,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T18:35:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Ian Seymour",
+      "entry": "Ian Seymour",
+      "hand": "L",
+      "arm_team": "TB",
+      "opp_team": "TEX",
+      "selection": "TEX",
+      "home": "TEX",
+      "away": "TB",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

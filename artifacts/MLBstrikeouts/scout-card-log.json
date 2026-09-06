@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-06T21:05:31Z",
+  "generated": "2026-09-06T23:06:07Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -41978,14 +41978,17 @@
       "rule": "cold-arms-under",
       "auto": true,
       "basis": "Cold arms under: both starters Gerrit Cole 25%, Michael King 38% over in last 8",
-      "result": "pending",
+      "result": "PUSH",
       "profit": 0.0,
       "line": 7,
       "gamePk": 823253,
       "commence": "2026-09-06T20:10:00Z",
       "non_scout": true,
       "open_line": 7,
-      "open_price": -115
+      "open_price": -115,
+      "close_line": 7,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42062,15 +42065,18 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict over for swingman+stale-window. Tanner Gordon swingman-5g, stale-window-57d.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.93,
       "line": 11,
       "combo": "swingman+stale-window",
       "gamePk": 824309,
       "commence": "2026-09-06T19:10:00Z",
       "shadow": true,
       "open_line": 11,
-      "open_price": -115
+      "open_price": -115,
+      "close_line": 11,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42165,14 +42171,17 @@
       "rule": "form-under",
       "auto": true,
       "basis": "m_sum -41.7 <= -40; both arms outclass the bats. Also flagged.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 11,
       "flagged_overlap": true,
       "gamePk": 824309,
       "commence": "2026-09-06T19:10:00Z",
       "open_line": 11,
-      "open_price": -105
+      "open_price": -105,
+      "close_line": 11,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42184,14 +42193,17 @@
       "rule": "form-under",
       "auto": true,
       "basis": "m_sum -52.5 <= -40; both arms outclass the bats. Unflagged.",
-      "result": "pending",
+      "result": "PUSH",
       "profit": 0.0,
       "line": 7,
       "flagged_overlap": false,
       "gamePk": 823253,
       "commence": "2026-09-06T20:10:00Z",
       "open_line": 7,
-      "open_price": -115
+      "open_price": -115,
+      "close_line": 7,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42266,13 +42278,16 @@
       "rule": "home-dog-getaway",
       "auto": true,
       "basis": "Home dog getaway: STL played a night game yesterday, day game today, home dog at +118",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 824309,
       "commence": "2026-09-06T19:10:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 114
+      "open_price": 114,
+      "close_price": 118,
+      "price_move": -0.9,
+      "clv": "lost"
     },
     {
       "date": "2026-09-06",
@@ -42284,13 +42299,16 @@
       "rule": "home-dog-getaway",
       "auto": true,
       "basis": "Home dog getaway: TB played a night game yesterday, day game today, home dog at +100",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.0,
       "gamePk": 822848,
       "commence": "2026-09-06T18:35:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 100
+      "open_price": 100,
+      "close_price": 100,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42386,8 +42404,8 @@
       "rule": "home-dog-under-parlay",
       "auto": true,
       "basis": "Home dog + under: COL ML +118 with U11 -112, pays 4.13x",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 11,
       "gamePk": 824309,
       "commence": "2026-09-06T19:10:00Z",
@@ -42398,7 +42416,11 @@
       "open_line": 11,
       "open_price": 313,
       "open_ml_price": 118,
-      "open_under_price": -112
+      "open_under_price": -112,
+      "close_line": 11,
+      "line_move": 0.0,
+      "clv": "flat",
+      "ml_price_move": 0.0
     },
     {
       "date": "2026-09-06",
@@ -42433,7 +42455,7 @@
       "rule": "low-line-over",
       "auto": true,
       "basis": "Low line over: posted total 7; lines of 7 and under average 8.66 runs",
-      "result": "pending",
+      "result": "PUSH",
       "profit": 0.0,
       "line": 7,
       "gamePk": 823253,
@@ -42441,7 +42463,10 @@
       "non_scout": true,
       "shadow": true,
       "open_line": 7,
-      "open_price": -105
+      "open_price": -105,
+      "close_line": 7,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42476,15 +42501,18 @@
       "rule": "low-line-over",
       "auto": true,
       "basis": "Low line over: posted total 7; lines of 7 and under average 8.66 runs",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 7,
       "gamePk": 823091,
       "commence": "2026-09-06T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 7,
-      "open_price": -120
+      "open_price": -120,
+      "close_line": 7,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
@@ -42603,15 +42631,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -124 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.81,
       "line": 7.5,
       "gamePk": 823091,
       "commence": "2026-09-06T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 7.5,
-      "open_price": -124
+      "open_price": -124,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-06",
