@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-06T16:12:04Z",
+  "generated": "2026-09-06T18:41:47Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -42240,6 +42240,24 @@
       "non_scout": true,
       "open_line": null,
       "open_price": 114
+    },
+    {
+      "date": "2026-09-06",
+      "play": "TEX ML (home dog getaway)",
+      "market": "h2h",
+      "game": "TB @ TEX",
+      "price": 100,
+      "stake": 1.0,
+      "rule": "home-dog-getaway",
+      "auto": true,
+      "basis": "Home dog getaway: TB played a night game yesterday, day game today, home dog at +100",
+      "result": "pending",
+      "profit": 0.0,
+      "gamePk": 822848,
+      "commence": "2026-09-06T18:35:00Z",
+      "non_scout": true,
+      "open_line": null,
+      "open_price": 100
     },
     {
       "date": "2026-09-06",

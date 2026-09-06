@@ -3418,11 +3418,11 @@
       "away": "TB",
       "home": "TEX",
       "commence": "2026-09-06T18:35:00Z",
-      "away_ml": -108,
-      "home_ml": -108,
+      "away_ml": -118,
+      "home_ml": 100,
       "total": 7.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": -118,
+      "under_ml": -104,
       "sides": {
         "away": {
           "pitcher": "Ian Seymour",
@@ -4213,8 +4213,8 @@
       "away": "OAK",
       "home": "SEA",
       "commence": "2026-09-06T20:10:00Z",
-      "away_ml": 172,
-      "home_ml": -205,
+      "away_ml": 180,
+      "home_ml": -215,
       "total": 7,
       "over_ml": -120,
       "under_ml": -102,
@@ -4588,7 +4588,7 @@
       "offense_edge": 54,
       "aligned_ml": {
         "pick": "OAK",
-        "ml": 172,
+        "ml": 180,
         "away_offense": [
           120,
           120,
@@ -4609,8 +4609,8 @@
       "away": "NYY",
       "home": "SD",
       "commence": "2026-09-06T20:10:00Z",
-      "away_ml": -110,
-      "home_ml": -106,
+      "away_ml": -104,
+      "home_ml": -112,
       "total": 7,
       "over_ml": -105,
       "under_ml": -115,
@@ -6089,7 +6089,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-06T16:07:53Z",
+  "generated": "2026-09-06T18:37:44Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

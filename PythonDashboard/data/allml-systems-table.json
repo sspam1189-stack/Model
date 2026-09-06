@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-06T16:08:00Z",
+ "generated": "2026-09-06T18:37:51Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-05"
@@ -1171,6 +1171,21 @@
   {
    "rule": "home-dog-getaway",
    "market": "h2h",
+   "pick": "TEX",
+   "price": 100,
+   "side": null,
+   "why": "TB played a night game yesterday, day game today, home dog at +100",
+   "gamePk": 822848,
+   "date": "2026-09-06",
+   "commence": "2026-09-06T18:35:00Z",
+   "matchup": "TB @ TEX",
+   "away": "TB",
+   "home": "TEX",
+   "total": 7.5
+  },
+  {
+   "rule": "home-dog-getaway",
+   "market": "h2h",
    "pick": "COL",
    "price": 118,
    "side": null,
@@ -1263,7 +1278,7 @@
    "total": 7.5,
    "why": "book laying -124 on the under",
    "stale": true,
-   "stale_now": "favourite now -205, total now 7 (was 7.5)"
+   "stale_now": "favourite now -215, total now 7 (was 7.5)"
   },
   {
    "rule": "under-juice",
