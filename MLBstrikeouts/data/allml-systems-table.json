@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-05T23:06:24Z",
+ "generated": "2026-09-06T00:37:22Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-05"
  },
- "games": 2122,
+ "games": 2124,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.2,
@@ -1134,7 +1134,7 @@
    "rule": "cold-arms-under",
    "market": "totals",
    "pick": "under",
-   "price": -110,
+   "price": -115,
    "side": "U",
    "why": "both starters Cade Cavalli 38%, Tyler Glasnow 38% over in last 8",
    "gamePk": 823904,
@@ -1149,9 +1149,9 @@
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "WSH",
-   "price": 180,
+   "price": 160,
    "side": null,
-   "why": "Cade Cavalli \u2014 team +65% over his last 8 starts, priced +180",
+   "why": "Cade Cavalli \u2014 team +65% over his last 8 starts, priced +160",
    "gamePk": 823904,
    "date": "2026-09-05",
    "commence": "2026-09-06T01:10:00Z",
@@ -1164,7 +1164,7 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -110,
+   "price": -105,
    "side": "O",
    "why": "posted total 7; lines of 7 and under average 8.66 runs",
    "gamePk": 823904,
@@ -1191,7 +1191,7 @@
    "total": 7.5,
    "why": "book laying -124 on the under",
    "stale": true,
-   "stale_now": "favourite now -215, total now 7 (was 7.5)"
+   "stale_now": "favourite now -190, total now 7 (was 7.5)"
   }
  ],
  "today_date": "2026-09-05"

@@ -1,11 +1,30 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-05T23:06:04Z",
+  "generated": "2026-09-06T00:37:02Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-05",
+      "commence": "2026-09-05T22:05:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Mart\u00edn P\u00e9rez",
+      "arm_team": "ATL",
+      "fadeTeam": "ATL",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "ATL",
+      "venue": "away",
+      "odds": -164,
+      "suggest": "away",
+      "suggestUnits": 2.92,
+      "games": 11,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Blade Tidwell",
@@ -491,6 +510,33 @@
         "u": -7.5,
         "n": 9,
         "roi": -0.5304
+      }
+    },
+    {
+      "pitcher": "Mart\u00edn P\u00e9rez",
+      "team": "ATL",
+      "suggest": "away",
+      "suggestUnits": 2.92,
+      "all": {
+        "w": 11,
+        "l": 12,
+        "u": -1.26,
+        "n": 23,
+        "roi": -0.0488
+      },
+      "home": {
+        "w": 4,
+        "l": 8,
+        "u": -4.18,
+        "n": 12,
+        "roi": -0.3266
+      },
+      "away": {
+        "w": 7,
+        "l": 4,
+        "u": 2.92,
+        "n": 11,
+        "roi": 0.2239
       }
     },
     {

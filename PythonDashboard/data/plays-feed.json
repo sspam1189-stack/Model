@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-05T23:10:27Z",
+ "generated": "2026-09-06T00:40:16Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -26,7 +26,7 @@
    "play": "WSH/LAD U7",
    "market": "totals",
    "line": 7,
-   "price": -110,
+   "price": -115,
    "rule": "cold-arms-under",
    "result": "pending",
    "profit": 0.0,
@@ -45,14 +45,14 @@
    "play": "WSH/LAD U7",
    "market": "totals",
    "line": 7,
-   "price": -110,
+   "price": -115,
    "rule": "form-under",
    "result": "pending",
    "profit": 0.0,
    "game": "WSH @ LAD",
    "gamePk": 823904,
    "commence": "2026-09-06T01:10:00Z",
-   "basis": "m_sum -83.2 <= -40; both arms outclass the bats. Also flagged.",
+   "basis": "m_sum -84.2 <= -40; both arms outclass the bats. Also flagged.",
    "open_line": 7.5,
    "open_price": -124,
    "name": "Form under",
@@ -63,14 +63,14 @@
    "date": "2026-09-05",
    "play": "WSH ML (hot arm dog)",
    "market": "h2h",
-   "price": 180,
+   "price": 160,
    "rule": "hot-arm-dog-ml",
    "result": "pending",
    "profit": 0.0,
    "game": "WSH @ LAD",
    "gamePk": 823904,
    "commence": "2026-09-06T01:10:00Z",
-   "basis": "Hot arm dog ML: Cade Cavalli \u2014 team +65% over his last 8 starts, priced +180",
+   "basis": "Hot arm dog ML: Cade Cavalli \u2014 team +65% over his last 8 starts, priced +160",
    "open_price": 188,
    "name": "Hot arm dog ML",
    "group": "non-scout",
@@ -81,7 +81,7 @@
    "play": "WSH/LAD O7",
    "market": "totals",
    "line": 7,
-   "price": -110,
+   "price": -105,
    "rule": "low-line-over",
    "result": "pending",
    "profit": 0.0,
@@ -473,13 +473,16 @@
    "market": "h2h",
    "price": 138,
    "rule": "better-arm-ml",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "ATL @ PHI",
    "gamePk": 823419,
    "commence": "2026-09-05T22:05:00Z",
    "basis": "Better arm Mart\u00edn P\u00e9rez (+18.1) vs +22.9, m_sum +41.0.",
    "open_price": 138,
+   "close_price": 138,
+   "price_move": 0.0,
+   "clv": "flat",
    "name": "Better arm ML",
    "group": "scout",
    "kind": "card"
@@ -40001,19 +40004,19 @@
  "summary": {
   "all": {
    "w": 1182,
-   "l": 1017,
+   "l": 1018,
    "push": 25,
    "n": 2250,
-   "pending": 26,
-   "units": 271.58
+   "pending": 25,
+   "units": 270.58
   },
   "card": {
    "w": 596,
-   "l": 514,
+   "l": 515,
    "push": 4,
    "n": 1125,
-   "pending": 11,
-   "units": 271.58
+   "pending": 10,
+   "units": 270.58
   },
   "by_rule": {
    "away-dog-ml": {
@@ -40026,11 +40029,11 @@
    },
    "better-arm-ml": {
     "w": 2,
-    "l": 1,
+    "l": 2,
     "push": 0,
     "n": 5,
-    "pending": 2,
-    "units": 1.68
+    "pending": 1,
+    "units": 0.68
    },
    "better-arm-ml-fav": {
     "w": 0,
