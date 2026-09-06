@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-06T00:37:01Z",
+  "generated": "2026-09-06T13:08:50Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-05",
-      "commence": "2026-09-05T23:05:00Z",
+      "date": "2026-09-06",
+      "commence": "2026-09-06T18:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Sonny Gray",
-      "hand": "R",
-      "arm_team": "BOS",
-      "opp_team": "BAL",
-      "selection": "BOS",
-      "home": "BAL",
-      "away": "BOS",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -130,
+      "pitcher": "Eduardo Rodriguez",
+      "hand": "L",
+      "arm_team": "ARI",
+      "opp_team": "HOU",
+      "selection": "ARI",
+      "home": "HOU",
+      "away": "ARI",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 6.56,
-      "games": 16,
-      "result": "pending"
+      "suggestUnits": 16.58,
+      "games": 20,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-05",
-      "commence": "2026-09-05T23:10:00Z",
+      "date": "2026-09-06",
+      "commence": "2026-09-06T19:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "arm_team": "CWS",
-      "opp_team": "MIN",
-      "selection": "CWS",
-      "home": "CWS",
-      "away": "MIN",
-      "oppLefty": 3,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -124,
+      "pitcher": "Kyle Leahy",
+      "hand": "R",
+      "arm_team": "STL",
+      "opp_team": "COL",
+      "selection": "STL",
+      "home": "COL",
+      "away": "STL",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 7.2,
-      "games": 22,
-      "result": "pending"
+      "suggestUnits": 6.12,
+      "games": 9,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T20:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Michael King",
+      "hand": "R",
+      "arm_team": "SD",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "SD",
+      "away": "NYY",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 3.56,
+      "games": 11,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -89,6 +111,24 @@
         "u": 14.96
       },
       "era": 3.26
+    },
+    {
+      "pitcher": "Sonny Gray",
+      "hand": "R",
+      "games": 17,
+      "suggest": "take",
+      "suggestUnits": 7.56,
+      "fade": {
+        "w": 4,
+        "l": 13,
+        "u": -9.06
+      },
+      "take": {
+        "w": 13,
+        "l": 4,
+        "u": 7.56
+      },
+      "era": 2.69
     },
     {
       "pitcher": "Jes\u00fas Luzardo",
@@ -145,24 +185,6 @@
       "era": 2.48
     },
     {
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "games": 22,
-      "suggest": "take",
-      "suggestUnits": 7.2,
-      "fade": {
-        "w": 8,
-        "l": 14,
-        "u": -9.48
-      },
-      "take": {
-        "w": 14,
-        "l": 8,
-        "u": 7.2
-      },
-      "era": 4.3
-    },
-    {
       "pitcher": "Grant Holmes",
       "hand": "R",
       "games": 12,
@@ -199,24 +221,6 @@
       "era": 1.97
     },
     {
-      "pitcher": "Sonny Gray",
-      "hand": "R",
-      "games": 16,
-      "suggest": "take",
-      "suggestUnits": 6.56,
-      "fade": {
-        "w": 4,
-        "l": 12,
-        "u": -8.06
-      },
-      "take": {
-        "w": 12,
-        "l": 4,
-        "u": 6.56
-      },
-      "era": 2.82
-    },
-    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 9,
@@ -233,6 +237,24 @@
         "u": 6.12
       },
       "era": 3.13
+    },
+    {
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 23,
+      "suggest": "take",
+      "suggestUnits": 5.96,
+      "fade": {
+        "w": 9,
+        "l": 14,
+        "u": -8.42
+      },
+      "take": {
+        "w": 14,
+        "l": 9,
+        "u": 5.96
+      },
+      "era": 4.5
     },
     {
       "pitcher": "Joey Cantillo",
@@ -268,7 +290,7 @@
         "l": 9,
         "u": 5.72
       },
-      "era": 3.28
+      "era": 3.54
     },
     {
       "pitcher": "Jacob Lopez",
@@ -359,6 +381,24 @@
         "u": 5.26
       },
       "era": 3.42
+    },
+    {
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "games": 23,
+      "suggest": "take",
+      "suggestUnits": 5.22,
+      "fade": {
+        "w": 10,
+        "l": 13,
+        "u": -7.34
+      },
+      "take": {
+        "w": 13,
+        "l": 10,
+        "u": 5.22
+      },
+      "era": 4.43
     },
     {
       "pitcher": "Sandy Alcantara",
@@ -556,7 +596,7 @@
         "l": 2,
         "u": 4.2
       },
-      "era": 2.91
+      "era": 3.0
     },
     {
       "pitcher": "Michael King",
@@ -575,6 +615,24 @@
         "u": -4.62
       },
       "era": 3.11
+    },
+    {
+      "pitcher": "Matthew Liberatore",
+      "hand": "L",
+      "games": 23,
+      "suggest": "fade",
+      "suggestUnits": 3.5,
+      "fade": {
+        "w": 14,
+        "l": 9,
+        "u": 3.5
+      },
+      "take": {
+        "w": 9,
+        "l": 14,
+        "u": -4.92
+      },
+      "era": 5.57
     },
     {
       "pitcher": "Bubba Chandler",

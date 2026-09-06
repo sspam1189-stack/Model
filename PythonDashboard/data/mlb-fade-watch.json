@@ -1,27 +1,81 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-06T00:37:02Z",
+  "generated": "2026-09-06T13:08:51Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-05",
-      "commence": "2026-09-05T22:05:00Z",
+      "date": "2026-09-06",
+      "commence": "2026-09-06T17:40:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Mart\u00edn P\u00e9rez",
-      "arm_team": "ATL",
-      "fadeTeam": "ATL",
-      "selection": "PHI",
-      "home": "PHI",
-      "away": "ATL",
+      "pitcher": "Clay Holmes",
+      "arm_team": "CHC",
+      "fadeTeam": "CHC",
+      "selection": "MIA",
+      "home": "MIA",
+      "away": "CHC",
       "venue": "away",
-      "odds": -164,
+      "odds": 124,
       "suggest": "away",
-      "suggestUnits": 2.92,
-      "games": 11,
+      "suggestUnits": 3.4,
+      "games": 5,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T19:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Tanner Gordon",
+      "arm_team": "COL",
+      "fadeTeam": "COL",
+      "selection": "STL",
+      "home": "COL",
+      "away": "STL",
+      "venue": "home",
+      "odds": -134,
+      "suggest": "home",
+      "suggestUnits": 2.82,
+      "games": 5,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-07T02:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Justin Wrobleski",
+      "arm_team": "LAD",
+      "fadeTeam": "LAD",
+      "selection": "WSH",
+      "home": "LAD",
+      "away": "WSH",
+      "venue": "home",
+      "odds": 180,
+      "suggest": "home",
+      "suggestUnits": 2.58,
+      "games": 8,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-07T02:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Andrew Alvarez",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "LAD",
+      "home": "LAD",
+      "away": "WSH",
+      "venue": "away",
+      "odds": -215,
+      "suggest": "away",
+      "suggestUnits": 2.74,
+      "games": 7,
       "result": "pending"
     }
   ],
@@ -86,18 +140,18 @@
       "suggest": "away",
       "suggestUnits": 4.3,
       "all": {
-        "w": 13,
+        "w": 14,
         "l": 11,
-        "u": 3.28,
-        "n": 24,
-        "roi": 0.1306
+        "u": 5.28,
+        "n": 25,
+        "roi": 0.2021
       },
       "home": {
-        "w": 5,
+        "w": 6,
         "l": 7,
-        "u": -1.02,
-        "n": 12,
-        "roi": -0.0849
+        "u": 0.98,
+        "n": 13,
+        "roi": 0.0753
       },
       "away": {
         "w": 8,
@@ -267,6 +321,33 @@
         "u": 3.4,
         "n": 5,
         "roi": 0.5667
+      }
+    },
+    {
+      "pitcher": "Parker Messick",
+      "team": "CLE",
+      "suggest": "home",
+      "suggestUnits": 3.36,
+      "all": {
+        "w": 13,
+        "l": 14,
+        "u": 0.56,
+        "n": 27,
+        "roi": 0.0196
+      },
+      "home": {
+        "w": 8,
+        "l": 7,
+        "u": 3.36,
+        "n": 15,
+        "roi": 0.2193
+      },
+      "away": {
+        "w": 5,
+        "l": 7,
+        "u": -2.8,
+        "n": 12,
+        "roi": -0.2121
       }
     },
     {

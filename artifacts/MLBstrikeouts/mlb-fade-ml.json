@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-06T00:31:30Z",
+  "generated": "2026-09-06T13:05:30Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 523,
-    "losses": 205,
+    "losses": 207,
     "voids": 0,
     "skips": 51,
-    "staked": 911.78,
-    "units": 326.44,
-    "roi": 0.358,
+    "staked": 915.2,
+    "units": 323.02,
+    "roi": 0.353,
     "byType": {
       "ml": {
         "wins": 511,
-        "losses": 193,
+        "losses": 195,
         "voids": 0,
         "skips": 4,
-        "staked": 887.78,
-        "units": 321.96,
-        "roi": 0.3627
+        "staked": 891.2,
+        "units": 318.54,
+        "roi": 0.3574
       },
       "ml_dog": {
         "wins": 12,
@@ -114,52 +114,77 @@
   },
   "today": [
     {
-      "date": "2026-09-05",
-      "commence": "2026-09-05T22:10:00Z",
+      "date": "2026-09-06",
+      "commence": "2026-09-06T17:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Framber Valdez"
+        "Tyler Mahle"
       ],
-      "fadeTeam": "DET",
+      "fadeTeam": "ATL",
       "market": "h2h",
-      "selection": "CLE",
+      "selection": "PHI",
       "line": null,
-      "odds": -158,
-      "stake": 1.58,
+      "odds": -110,
+      "stake": 1.1,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "CLE",
-      "away": "DET",
-      "gamePk": 824389,
+      "home": "PHI",
+      "away": "ATL",
+      "gamePk": 823417,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-06",
+      "commence": "2026-09-06T16:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -164,
+      "stake": 1.64,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "MIL",
+      "gamePk": 824469,
       "fadeReason": "all"
     },
     {
-      "date": "2026-09-05",
-      "commence": "2026-09-05T22:40:00Z",
-      "betType": "ml",
+      "date": "2026-09-06",
+      "commence": "2026-09-06T17:35:00Z",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Yusei Kikuchi"
+        "Walbert Ure\u00f1a",
+        "Paul Skenes"
       ],
-      "fadeTeam": "LAA",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "PIT",
+      "selection": null,
       "line": null,
-      "odds": -184,
-      "stake": 1.84,
-      "result": "pending",
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
+      "reason": "mutual_skip",
       "home": "PIT",
       "away": "LAA",
-      "gamePk": 823335,
-      "fadeReason": "all"
+      "gamePk": 823336,
+      "fadeReason": "away/all"
     }
   ],
   "bets": [
@@ -18929,6 +18954,54 @@
       "away": "ARI",
       "gamePk": 824146,
       "fadeReason": "all/away"
+    },
+    {
+      "date": "2026-09-05",
+      "commence": "2026-09-05T22:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -158,
+      "stake": 1.58,
+      "result": "LOSS",
+      "profit": -1.58,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "DET",
+      "gamePk": 824389,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-05",
+      "commence": "2026-09-05T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "LOSS",
+      "profit": -1.84,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "LAA",
+      "gamePk": 823335,
+      "fadeReason": "all"
     }
   ]
 }
