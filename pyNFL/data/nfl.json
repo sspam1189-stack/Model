@@ -69388,6 +69388,90 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    153-111-3  (58.0%)  +30.9u",
       "ranAt": "09/04/2026, 07:30:37 PM"
+    },
+    {
+      "weekKey": "2026_W1",
+      "season": 2026,
+      "week": 1,
+      "date": "20260906",
+      "dateDisplay": "2026 Week 1",
+      "burnIn": true,
+      "weightsUsed": {
+        "wPassOff": 6.982,
+        "wRushOff": 4.583,
+        "wPassDef": 2.958,
+        "wRushDef": 0.021,
+        "wPace": 0.324,
+        "wRZ": 0.076,
+        "hfa": 2.945,
+        "wCPOE": 0.8,
+        "wPressure": -0.5,
+        "wSuccessRate": 1.5,
+        "wQBEPA": 2.0,
+        "wTurnover": 0.8,
+        "wPassMatchup": 1.0,
+        "wRushMatchup": 0.5,
+        "wPaceXEPA": 0.3,
+        "wThirdDown": 1.0,
+        "constant": -1.378,
+        "sprHigh": 3.0,
+        "ouHigh": 4.0,
+        "sprEliteBump": 2.0,
+        "ouEliteBump": 2.0,
+        "probHigh": 0.57,
+        "probOUHigh": 0.64,
+        "probElite": 0.63,
+        "probOUElite": 0.64,
+        "coefficients": [
+          2.633003606612212,
+          5.364444716579579,
+          -0.40541844159799134,
+          -3.064917119199841,
+          0.07755459496917025,
+          -3.032802180056292,
+          0.0,
+          0.4203848602866193,
+          0.0,
+          1.0129367576491741,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5102087219331306,
+          -2.21282338099015,
+          -0.06386223668882758,
+          -0.43537350728913504
+        ],
+        "intercept": 2.5565342931211954,
+        "alpha": 100.0,
+        "feature_columns": [
+          "passOffEPA_diff",
+          "rushOffEPA_diff",
+          "passDefEPA_diff",
+          "rushDefEPA_diff",
+          "pace_diff",
+          "rz_diff",
+          "home_flag",
+          "cpoe_diff",
+          "pressure_diff",
+          "success_rate_diff",
+          "qb_epa_diff",
+          "turnover_diff",
+          "injury_delta_a",
+          "injury_delta_b",
+          "pass_matchup",
+          "rush_matchup",
+          "pace_x_epa",
+          "third_down_diff"
+        ],
+        "n_train": 798,
+        "residual_var": 193.9385400652998,
+        "r_squared": 0.06163861807474502,
+        "source": "ridge_cv"
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    153-111-3  (58.0%)  +30.9u",
+      "ranAt": "09/06/2026, 12:28:47 PM"
     }
   ],
   "meta": {
@@ -75219,6 +75303,14 @@
       ],
       "Buffalo Bills": [
         {
+          "player": "Jedrick Wills Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
           "player": "Khalil Shakir",
           "playerId": "",
           "status": "questionable",
@@ -75257,14 +75349,6 @@
           "position": "WR",
           "description": "Shavers (knee) was moved to the reserve/PUP list by the Bills on Sunday.",
           "tier": "high"
-        },
-        {
-          "player": "Terrel Bernard",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
         },
         {
           "player": "Jude Bowry",
@@ -75903,14 +75987,6 @@
           "position": "CB",
           "description": "questionable",
           "tier": "high"
-        },
-        {
-          "player": "Malcolm Rodriguez",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
         }
       ],
       "Green Bay Packers": [
@@ -76241,14 +76317,6 @@
           "tier": "high"
         },
         {
-          "player": "Keivie Rose",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "Rose (undisclosed) reverted to the Jaguars' injured-reserve list Monday, per the NFL's transaction log.",
-          "tier": "medium"
-        },
-        {
           "player": "Carter Bradley",
           "playerId": "",
           "status": "out",
@@ -76295,6 +76363,14 @@
           "position": "G",
           "description": "questionable",
           "tier": "low"
+        },
+        {
+          "player": "Jared Bartlett",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "ir",
+          "tier": "medium"
         }
       ],
       "Kansas City Chiefs": [
@@ -76545,6 +76621,14 @@
       ],
       "Los Angeles Rams": [
         {
+          "player": "Puka Nacua",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Nacua (groin), per head coach Sean McVay, is \"making good progress\" in his recovery, Sarah Barshop of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
           "player": "Alex Johnson",
           "playerId": "",
           "status": "out",
@@ -76558,14 +76642,6 @@
           "status": "questionable",
           "position": "DE",
           "description": "Head coach Sean McVay said Monday that Garrett (knee) is making \"really good progress\" in the edge rusher's recovery, with the goal of playing in Week 1 against the 49ers, Lindsey Thiry of ESPN.com reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Puka Nacua",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Nacua (groin) was off to the side for team drills at Monday's practice, Nate Atkins of The Athletic reports.",
           "tier": "high"
         },
         {
@@ -76609,14 +76685,6 @@
           "tier": "medium"
         },
         {
-          "player": "Zech McPhearson",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "McPhearson (undisclosed) was placed on injured reserve by the Rams on Monday.",
-          "tier": "high"
-        },
-        {
           "player": "Keir Thomas II",
           "playerId": "",
           "status": "out",
@@ -76638,6 +76706,14 @@
           "status": "questionable",
           "position": "OT",
           "description": "Jackson missed practice Wednesday due to management of his blood clot issue, Stu Jackson and Zach Edwards of the Rams' official site report.",
+          "tier": "medium"
+        },
+        {
+          "player": "Eddie Walls III",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "The Rams placed Walls (undisclosed) on their injured reserve list Thursday, Cameron DaSilva of USA Today reports.",
           "tier": "medium"
         }
       ],
@@ -76717,14 +76793,6 @@
       ],
       "Minnesota Vikings": [
         {
-          "player": "Kenny Dyson Jr.",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Dyson (undisclosed) reverted to the Vikings' injured-reserve list Monday, per the NFL's official transaction log.",
-          "tier": "medium"
-        },
-        {
           "player": "Marcus Allen",
           "playerId": "",
           "status": "out",
@@ -76795,7 +76863,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "RB",
-          "description": "Henderson (ankle) wasn't present for Thursday's practice, Evan Lazar of the Patriots' official site reports.",
+          "description": "Henderson (ankle) was in street clothes ahead of Saturday's practice, Andrew Callahan of the Boston Herald reports.",
           "tier": "medium"
         },
         {
@@ -77341,9 +77409,9 @@
         {
           "player": "Sam Okuayinonu",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "DT",
-          "description": "questionable",
+          "description": "The 49ers placed Okuayinonu (foot) on injured reserve Friday.",
           "tier": "medium"
         },
         {
@@ -77393,14 +77461,6 @@
           "position": "CB",
           "description": "The 49ers placed Hobbs (groin) on injured reserve Tuesday, Aaron Wilson of KPRC 2 Houston reports.",
           "tier": "high"
-        },
-        {
-          "player": "Brayden Willis",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "Willis (concussion) participated in Tuesday's practice, Nick Wagoner of ESPN.com reports.",
-          "tier": "medium"
         },
         {
           "player": "Christian McCaffrey",
@@ -77473,23 +77533,31 @@
           "position": "WR",
           "description": "Stribling (shoulder) won't suit up for Thursday's preseason contest at Las Vegas, David Lombardi of SFStandard.com reports.",
           "tier": "high"
+        },
+        {
+          "player": "Kurtis Rourke",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "Coach Kyle Shanahan said Tuesday that Rourke (ribs) has a chance to return to the field next week, Nick Wagoner of ESPN.com reports.",
+          "tier": "elite"
         }
       ],
       "Seattle Seahawks": [
+        {
+          "player": "Nick Emmanwori",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "There is uncertainty about whether Emmanwori (ankle) will be cleared to play against the Patriots on Wednesday, Gregg Bell of The Tacoma News Tribune reports.",
+          "tier": "medium"
+        },
         {
           "player": "Aaron Smith",
           "playerId": "",
           "status": "out",
           "position": "LB",
           "description": "Smith (undisclosed) reverted to the Seahawks' injured-reserve list Monday, according to the NFL's official transaction log.",
-          "tier": "medium"
-        },
-        {
-          "player": "Power Echols",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Echols (undisclosed) cleared waivers and reverted to injured reserve Monday, per the NFL's official transaction log.",
           "tier": "medium"
         },
         {
@@ -77563,14 +77631,6 @@
           "position": "FB",
           "description": "ir",
           "tier": "low"
-        },
-        {
-          "player": "Nick Emmanwori",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
-          "tier": "medium"
         }
       ],
       "Tampa Bay Buccaneers": [
@@ -77849,14 +77909,6 @@
           "position": "DT",
           "description": "Settle (calf) will not play against the Lions in Saturday's preseason game.",
           "tier": "medium"
-        },
-        {
-          "player": "Nick Allegretti",
-          "playerId": "",
-          "status": "questionable",
-          "position": "G",
-          "description": "Allegretti (calf) will not play in Saturday's preseason game against Detroit, Ben Standig of Big 100 Washington D.C. reports.",
-          "tier": "low"
         }
       ]
     },
