@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-09T00:34:07Z",
+  "generated": "2026-09-09T13:12:36Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,136 +9,136 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-08",
-      "commence": "2026-09-08T22:35:00Z",
+      "date": "2026-09-09",
+      "commence": "2026-09-09T20:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Brandon Young",
+      "pitcher": "Walker Buehler",
       "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "CLE",
-      "selection": "BAL",
-      "home": "BAL",
-      "away": "CLE",
-      "oppLefty": 8,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -120,
+      "arm_team": "SD",
+      "opp_team": "WSH",
+      "selection": "SD",
+      "home": "SD",
+      "away": "WSH",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.26,
-      "games": 10,
-      "result": "pending"
+      "suggestUnits": 4.56,
+      "games": 8,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-08",
-      "commence": "2026-09-08T22:35:00Z",
+      "date": "2026-09-09",
+      "commence": "2026-09-09T20:10:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Tanner Bibee",
-      "hand": "R",
+      "pitcher": "Jackson Kent",
+      "hand": "L",
+      "arm_team": "WSH",
+      "opp_team": "SD",
+      "selection": "SD",
+      "home": "SD",
+      "away": "WSH",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 2.68,
+      "games": 5,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T22:35:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Foster Griffin",
+      "hand": "L",
       "arm_team": "CLE",
       "opp_team": "BAL",
-      "selection": "BAL",
+      "selection": "CLE",
       "home": "BAL",
       "away": "CLE",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -120,
-      "suggest": "fade",
-      "suggestUnits": 3.12,
-      "games": 13,
-      "result": "pending"
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 14.96,
+      "games": 22,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-08",
-      "commence": "2026-09-08T22:40:00Z",
+      "date": "2026-09-09",
+      "commence": "2026-09-09T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "HOU",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "HOU",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 7.28,
+      "games": 27,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T23:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Dean Kremer",
+      "pitcher": "Zac Gallen",
       "hand": "R",
-      "arm_team": "MIN",
-      "opp_team": "DET",
-      "selection": "DET",
-      "home": "DET",
-      "away": "MIN",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "fade",
-      "suggestUnits": 3.16,
-      "games": 7,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-08",
-      "commence": "2026-09-08T22:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Sandy Alcantara",
-      "hand": "R",
-      "arm_team": "MIA",
-      "opp_team": "NYM",
-      "selection": "MIA",
-      "home": "MIA",
-      "away": "NYM",
+      "arm_team": "ARI",
+      "opp_team": "KC",
+      "selection": "KC",
+      "home": "KC",
+      "away": "ARI",
       "oppLefty": 6,
       "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -112,
-      "suggest": "take",
-      "suggestUnits": 5.2,
-      "games": 12,
-      "result": "pending"
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 2.66,
+      "games": 5,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-08",
-      "commence": "2026-09-08T23:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
+      "date": "2026-09-09",
+      "commence": "2026-09-10T02:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
       "watch": true,
-      "pitcher": "Sean Burke",
+      "pitcher": "Rhett Lowder",
       "hand": "R",
-      "arm_team": "CWS",
-      "opp_team": "PIT",
-      "selection": "CWS",
-      "home": "CWS",
-      "away": "PIT",
+      "arm_team": "CIN",
+      "opp_team": "LAD",
+      "selection": "LAD",
+      "home": "LAD",
+      "away": "CIN",
       "oppLefty": 6,
       "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -146,
-      "suggest": "take",
-      "suggestUnits": 4.52,
-      "games": 10,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-08",
-      "commence": "2026-09-08T23:40:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Bubba Chandler",
-      "hand": "R",
-      "arm_team": "PIT",
-      "opp_team": "CWS",
-      "selection": "CWS",
-      "home": "CWS",
-      "away": "PIT",
-      "oppLefty": 7,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -146,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 3.32,
-      "games": 8,
-      "result": "pending"
+      "suggestUnits": 4.5,
+      "games": 9,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -302,7 +302,7 @@
         "l": 1,
         "u": 6.62
       },
-      "era": 1.97
+      "era": 1.95
     },
     {
       "pitcher": "Grant Holmes",
@@ -431,24 +431,6 @@
       "era": 2.68
     },
     {
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "games": 10,
-      "suggest": "take",
-      "suggestUnits": 5.26,
-      "fade": {
-        "w": 3,
-        "l": 7,
-        "u": -6.44
-      },
-      "take": {
-        "w": 7,
-        "l": 3,
-        "u": 5.26
-      },
-      "era": 3.42
-    },
-    {
       "pitcher": "Andrew Abbott",
       "hand": "L",
       "games": 23,
@@ -465,24 +447,6 @@
         "u": 5.22
       },
       "era": 4.43
-    },
-    {
-      "pitcher": "Sandy Alcantara",
-      "hand": "R",
-      "games": 12,
-      "suggest": "take",
-      "suggestUnits": 5.2,
-      "fade": {
-        "w": 4,
-        "l": 8,
-        "u": -6.75
-      },
-      "take": {
-        "w": 8,
-        "l": 4,
-        "u": 5.2
-      },
-      "era": 3.54
     },
     {
       "pitcher": "Luinder Avila",
@@ -608,25 +572,7 @@
         "l": 5,
         "u": 4.54
       },
-      "era": 3.52
-    },
-    {
-      "pitcher": "Sean Burke",
-      "hand": "R",
-      "games": 10,
-      "suggest": "take",
-      "suggestUnits": 4.52,
-      "fade": {
-        "w": 3,
-        "l": 7,
-        "u": -5.3
-      },
-      "take": {
-        "w": 7,
-        "l": 3,
-        "u": 4.52
-      },
-      "era": 3.47
+      "era": 3.48
     },
     {
       "pitcher": "Rhett Lowder",
@@ -683,6 +629,42 @@
       "era": 3.0
     },
     {
+      "pitcher": "Sandy Alcantara",
+      "hand": "R",
+      "games": 13,
+      "suggest": "take",
+      "suggestUnits": 4.08,
+      "fade": {
+        "w": 5,
+        "l": 8,
+        "u": -5.75
+      },
+      "take": {
+        "w": 8,
+        "l": 5,
+        "u": 4.08
+      },
+      "era": 3.78
+    },
+    {
+      "pitcher": "Brandon Young",
+      "hand": "R",
+      "games": 11,
+      "suggest": "take",
+      "suggestUnits": 4.06,
+      "fade": {
+        "w": 4,
+        "l": 7,
+        "u": -5.42
+      },
+      "take": {
+        "w": 7,
+        "l": 4,
+        "u": 4.06
+      },
+      "era": 3.71
+    },
+    {
       "pitcher": "Matthew Liberatore",
       "hand": "L",
       "games": 23,
@@ -701,24 +683,6 @@
       "era": 5.57
     },
     {
-      "pitcher": "Bubba Chandler",
-      "hand": "R",
-      "games": 8,
-      "suggest": "fade",
-      "suggestUnits": 3.32,
-      "fade": {
-        "w": 6,
-        "l": 2,
-        "u": 3.32
-      },
-      "take": {
-        "w": 2,
-        "l": 6,
-        "u": -4.02
-      },
-      "era": 4.34
-    },
-    {
       "pitcher": "Trey Gibson",
       "hand": "R",
       "games": 3,
@@ -735,42 +699,6 @@
         "u": -3.46
       },
       "era": 7.55
-    },
-    {
-      "pitcher": "Dean Kremer",
-      "hand": "R",
-      "games": 7,
-      "suggest": "fade",
-      "suggestUnits": 3.16,
-      "fade": {
-        "w": 5,
-        "l": 2,
-        "u": 3.16
-      },
-      "take": {
-        "w": 2,
-        "l": 5,
-        "u": -3.44
-      },
-      "era": 5.81
-    },
-    {
-      "pitcher": "Tanner Bibee",
-      "hand": "R",
-      "games": 13,
-      "suggest": "fade",
-      "suggestUnits": 3.12,
-      "fade": {
-        "w": 8,
-        "l": 5,
-        "u": 3.12
-      },
-      "take": {
-        "w": 5,
-        "l": 8,
-        "u": -4.74
-      },
-      "era": 4.06
     },
     {
       "pitcher": "Spencer Miles",

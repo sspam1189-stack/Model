@@ -1,11 +1,84 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-09T00:34:08Z",
+  "generated": "2026-09-09T13:12:37Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T19:45:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Blade Tidwell",
+      "arm_team": "SF",
+      "fadeTeam": "SF",
+      "selection": "STL",
+      "home": "SF",
+      "away": "STL",
+      "venue": "home",
+      "odds": -126,
+      "suggest": "all",
+      "suggestUnits": 6.2,
+      "games": 3,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T20:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Jackson Kent",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "SD",
+      "home": "SD",
+      "away": "WSH",
+      "venue": "away",
+      "odds": -190,
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "games": 3,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T20:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Cody Bradford",
+      "arm_team": "TEX",
+      "fadeTeam": "TEX",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "TEX",
+      "venue": "away",
+      "odds": -156,
+      "suggest": "away",
+      "suggestUnits": 3.58,
+      "games": 3,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-10T02:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Yoshinobu Yamamoto",
+      "arm_team": "LAD",
+      "fadeTeam": "LAD",
+      "selection": "CIN",
+      "home": "LAD",
+      "away": "CIN",
+      "venue": "home",
+      "odds": 240,
+      "suggest": "home",
+      "suggestUnits": 3.97,
+      "games": 12,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Blade Tidwell",
@@ -41,10 +114,10 @@
       "suggestUnits": 4.9,
       "all": {
         "w": 17,
-        "l": 9,
-        "u": 6.0,
-        "n": 26,
-        "roi": 0.1814
+        "l": 10,
+        "u": 4.56,
+        "n": 27,
+        "roi": 0.1321
       },
       "home": {
         "w": 10,
@@ -55,10 +128,10 @@
       },
       "away": {
         "w": 7,
-        "l": 4,
-        "u": 1.1,
-        "n": 11,
-        "roi": 0.0679
+        "l": 5,
+        "u": -0.34,
+        "n": 12,
+        "roi": -0.0193
       }
     },
     {
@@ -305,6 +378,33 @@
       }
     },
     {
+      "pitcher": "Sean Burke",
+      "team": "CWS",
+      "suggest": "home",
+      "suggestUnits": 3.52,
+      "all": {
+        "w": 11,
+        "l": 13,
+        "u": -3.62,
+        "n": 24,
+        "roi": -0.1214
+      },
+      "home": {
+        "w": 9,
+        "l": 6,
+        "u": 3.52,
+        "n": 15,
+        "roi": 0.1972
+      },
+      "away": {
+        "w": 2,
+        "l": 7,
+        "u": -7.14,
+        "n": 9,
+        "roi": -0.597
+      }
+    },
+    {
       "pitcher": "Parker Messick",
       "team": "CLE",
       "suggest": "home",
@@ -337,18 +437,18 @@
       "suggest": "away",
       "suggestUnits": 3.26,
       "all": {
-        "w": 3,
+        "w": 4,
         "l": 1,
-        "u": 2.04,
-        "n": 4,
-        "roi": 0.4744
+        "u": 3.04,
+        "n": 5,
+        "roi": 0.5714
       },
       "home": {
-        "w": 0,
+        "w": 1,
         "l": 1,
-        "u": -1.22,
-        "n": 1,
-        "roi": -1.0
+        "u": -0.22,
+        "n": 2,
+        "roi": -0.0982
       },
       "away": {
         "w": 3,
@@ -464,6 +564,33 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.7692
+      }
+    },
+    {
+      "pitcher": "Quinn Mathews",
+      "team": "STL",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 4,
+        "l": 2,
+        "u": 1.88,
+        "n": 6,
+        "roi": 0.2028
+      },
+      "home": {
+        "w": 0,
+        "l": 1,
+        "u": -1.12,
+        "n": 1,
+        "roi": -1.0
+      },
+      "away": {
+        "w": 4,
+        "l": 1,
+        "u": 3.0,
+        "n": 5,
+        "roi": 0.3681
       }
     },
     {
