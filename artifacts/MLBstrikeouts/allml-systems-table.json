@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-09T21:07:47Z",
+ "generated": "2026-09-09T23:03:49Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-08"
+  "to": "2026-09-09"
  },
- "games": 2177,
+ "games": 2181,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
@@ -34,8 +34,8 @@
     "roi": 24.9
    },
    "halves": [
-    17.7,
-    29.5
+    21.5,
+    27.2
    ],
    "monthly": [
     {
@@ -95,7 +95,7 @@
      "roi": 103.3
     }
    ],
-   "per_day": 1.01
+   "per_day": 1.0
   },
   {
    "baseline_key": "side",
@@ -331,15 +331,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 85,
+    "w": 86,
     "l": 165,
-    "n": 250,
-    "units": 114.7,
-    "roi": 45.9
+    "n": 251,
+    "units": 118.03,
+    "roi": 47.0
    },
    "halves": [
     48.2,
-    44.0
+    46.1
    ],
    "monthly": [
     {
@@ -392,14 +392,14 @@
     },
     {
      "month": "2026-09",
-     "w": 4,
+     "w": 5,
      "l": 9,
-     "n": 13,
-     "units": 4.82,
-     "roi": 37.1
+     "n": 14,
+     "units": 8.15,
+     "roi": 58.2
     }
    ],
-   "per_day": 1.52
+   "per_day": 1.51
   },
   {
    "baseline_key": "over",
@@ -420,8 +420,8 @@
     "roi": 9.7
    },
    "halves": [
-    11.3,
-    8.8
+    9.4,
+    9.8
    ],
    "monthly": [
     {
@@ -473,7 +473,7 @@
      "roi": -16.9
     }
    ],
-   "per_day": 1.31
+   "per_day": 1.3
   },
   {
    "baseline_key": "under",
@@ -629,7 +629,7 @@
      "roi": 3.4
     }
    ],
-   "per_day": 0.81
+   "per_day": 0.8
   },
   {
    "baseline_key": "under",
@@ -643,15 +643,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 246,
+    "w": 247,
     "l": 183,
-    "n": 429,
-    "units": 18.31,
-    "roi": 4.3
+    "n": 430,
+    "units": 19.13,
+    "roi": 4.4
    },
    "halves": [
-    3.6,
-    4.9
+    4.3,
+    4.5
    ],
    "monthly": [
     {
@@ -704,14 +704,14 @@
     },
     {
      "month": "2026-09",
-     "w": 12,
+     "w": 13,
      "l": 12,
-     "n": 24,
-     "units": -2.26,
-     "roi": -9.4
+     "n": 25,
+     "units": -1.44,
+     "roi": -5.8
     }
    ],
-   "per_day": 2.6
+   "per_day": 2.59
   },
   {
    "baseline_key": "side",
@@ -726,14 +726,14 @@
    "ladder_fails": false,
    "record": {
     "w": 93,
-    "l": 97,
-    "n": 190,
-    "units": 18.76,
-    "roi": 9.9
+    "l": 98,
+    "n": 191,
+    "units": 17.76,
+    "roi": 9.3
    },
    "halves": [
-    18.1,
-    5.0
+    14.8,
+    5.9
    ],
    "monthly": [
     {
@@ -779,10 +779,10 @@
     {
      "month": "2026-09",
      "w": 2,
-     "l": 7,
-     "n": 9,
-     "units": -4.16,
-     "roi": -46.2
+     "l": 8,
+     "n": 10,
+     "units": -5.16,
+     "roi": -51.6
     }
    ],
    "per_day": 1.15
@@ -867,7 +867,7 @@
      "roi": 5.2
     }
    ],
-   "per_day": 1.48
+   "per_day": 1.47
   },
   {
    "baseline_key": "under",
@@ -888,8 +888,8 @@
     "roi": 11.9
    },
    "halves": [
-    8.9,
-    13.8
+    10.1,
+    13.0
    ],
    "monthly": [
     {
@@ -941,77 +941,10 @@
      "roi": 23.2
     }
    ],
-   "per_day": 1.05
+   "per_day": 1.04
   }
  ],
  "today": [
-  {
-   "rule": "hot-arm-dog-ml",
-   "market": "h2h",
-   "pick": "MIN",
-   "price": 108,
-   "side": null,
-   "why": "Zebby Matthews \u2014 team +60% over his last 8 starts, priced +108",
-   "gamePk": 824226,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T17:10:00Z",
-   "matchup": "MIN @ DET",
-   "away": "MIN",
-   "home": "DET",
-   "total": 8.5
-  },
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "OAK",
-   "price": 333,
-   "side": null,
-   "why": "OAK ML +138 with U9.5 -122, pays 4.33x",
-   "line": 9.5,
-   "ml_price": 138,
-   "under_price": -122,
-   "payout": 4.331,
-   "gamePk": 824956,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T19:05:00Z",
-   "matchup": "TOR @ OAK",
-   "away": "TOR",
-   "home": "OAK",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
-   "gamePk": 824956,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T19:05:00Z",
-   "matchup": "TOR @ OAK",
-   "away": "TOR",
-   "home": "OAK",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -130,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823172,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T19:45:00Z",
-   "matchup": "STL @ SF",
-   "total": 8.5,
-   "why": "book laying -130 on the under",
-   "stale": true,
-   "stale_now": "favourite now -118, total now 7.5 (was 8.5)"
-  },
   {
    "rule": "under-juice",
    "market": "totals",
@@ -1112,9 +1045,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -128,
+   "price": -122,
    "side": "U",
-   "why": "book laying -128 on the under",
+   "why": "book laying -122 on the under",
    "gamePk": 823497,
    "date": "2026-09-09",
    "commence": "2026-09-09T23:05:00Z",
@@ -1157,9 +1090,9 @@
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "PIT",
-   "price": 116,
+   "price": 112,
    "side": null,
-   "why": "Lake Bachar \u2014 team +46% over his last 8 starts, priced +116",
+   "why": "Lake Bachar \u2014 team +46% over his last 8 starts, priced +112",
    "gamePk": 824549,
    "date": "2026-09-09",
    "commence": "2026-09-09T23:40:00Z",
@@ -1202,15 +1135,15 @@
    "total": 8.5,
    "why": "book laying -120 on the under",
    "stale": true,
-   "stale_now": "favourite now -136, total still 8.5"
+   "stale_now": "favourite now -132, total still 8.5"
   },
   {
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "CIN",
-   "price": 240,
+   "price": 225,
    "side": null,
-   "why": "Rhett Lowder \u2014 team +69% over his last 8 starts, priced +240",
+   "why": "Rhett Lowder \u2014 team +69% over his last 8 starts, priced +225",
    "gamePk": 823900,
    "date": "2026-09-09",
    "commence": "2026-09-10T02:10:00Z",

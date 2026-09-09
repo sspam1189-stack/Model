@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-09T21:07:26Z",
+  "generated": "2026-09-09T23:03:38Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -45,12 +45,12 @@
       "away": "CLE",
       "oppLefty": 3,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -116,
       "suggest": "take",
       "suggestUnits": 14.96,
       "games": 22,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-09",
@@ -95,28 +95,6 @@
       "suggestUnits": 2.66,
       "games": 5,
       "result": "pending"
-    },
-    {
-      "date": "2026-09-09",
-      "commence": "2026-09-10T02:10:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Rhett Lowder",
-      "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "LAD",
-      "selection": "LAD",
-      "home": "LAD",
-      "away": "CIN",
-      "oppLefty": 6,
-      "oppRighty": 5,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "fade",
-      "suggestUnits": 4.5,
-      "games": 9,
-      "result": "unconfirmed"
     }
   ],
   "candidates": [
