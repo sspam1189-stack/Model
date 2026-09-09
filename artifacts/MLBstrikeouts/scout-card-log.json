@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-09T18:36:25Z",
+  "generated": "2026-09-09T21:07:59Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -43884,7 +43884,7 @@
       "play": "KC ML (dog, m_sum +99.5)",
       "market": "h2h",
       "game": "ARI @ KC",
-      "price": 104,
+      "price": 102,
       "stake": 1.0,
       "rule": "better-arm-ml",
       "auto": true,
@@ -44115,7 +44115,7 @@
       "play": "KC ML (mismatch +71.8)",
       "market": "h2h",
       "game": "ARI @ KC",
-      "price": 104,
+      "price": 102,
       "stake": 1.0,
       "rule": "mismatch-ml",
       "auto": true,

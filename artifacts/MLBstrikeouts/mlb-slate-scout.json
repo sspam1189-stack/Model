@@ -1984,11 +1984,11 @@
       "away": "CLE",
       "home": "BAL",
       "commence": "2026-09-09T22:35:00Z",
-      "away_ml": -112,
-      "home_ml": -104,
+      "away_ml": -116,
+      "home_ml": -102,
       "total": 8.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "over_ml": -114,
+      "under_ml": -106,
       "sides": {
         "away": {
           "pitcher": "Foster Griffin",
@@ -4122,31 +4122,111 @@
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Reynaldo L\u00f3pez",
+          "listed_as": "Reynaldo L\u00f3pez",
+          "resolved": true,
+          "hand": "R",
           "team": "ATL",
           "opponent_offense": "TB",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 88,
+          "opp_wrc_game": 85,
+          "opp_wrc_recent": 114,
+          "opp_wrc_recent_pa": 947,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 115,
+              "pa": 725,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 88,
+              "pa": 449,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 105,
+              "pa": 335,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 107,
+              "pa": 162,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 13,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 11,
+              "ip": 49.7,
+              "ip_per_gs": 4.52,
+              "era": 3.81,
+              "whip": 1.35,
+              "k_pct": 22.2,
+              "bb_pct": 9.0,
+              "k_bb_pct": 13.2,
+              "hr9": 1.45,
+              "k": 47,
+              "bb": 19,
+              "hr": 8,
+              "er": 21
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 25.0,
+              "ip_per_gs": 5.0,
+              "era": 3.96,
+              "whip": 1.28,
+              "k_pct": 24.8,
+              "bb_pct": 7.6,
+              "k_bb_pct": 17.1,
+              "hr9": 1.44,
+              "k": 26,
+              "bb": 8,
+              "hr": 4,
+              "er": 11
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 15.0,
+              "ip_per_gs": 5.0,
+              "era": 5.4,
+              "whip": 1.6,
+              "k_pct": 22.4,
+              "bb_pct": 7.5,
+              "k_bb_pct": 14.9,
+              "hr9": 1.8,
+              "k": 15,
+              "bb": 5,
+              "hr": 3,
+              "er": 9
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 25.0,
+              "ip_per_g": 5.0,
+              "era": 3.96,
+              "whip": 1.28,
+              "k_pct": 24.8,
+              "bb_pct": 7.6,
+              "k_bb_pct": 17.1,
+              "hr9": 1.44,
+              "k": 26,
+              "bb": 8,
+              "hr": 4,
+              "er": 11,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": 0.15,
+            "whip": -0.07,
+            "k_pct": 2.6,
+            "bb_pct": -1.4,
+            "ip_per_gs": 0.48,
+            "hr9": -0.01
+          },
           "pen": {
             "last30": {
               "g": 73,
@@ -4214,21 +4294,21 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "layoff-45d"
           ],
-          "mismatch": null,
+          "mismatch": -18.0,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            115,
+            88,
+            105,
+            107
           ]
         }
       },
       "home_offense_game": 96,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 85,
+      "game_offense": 90,
+      "offense_edge": -11,
       "aligned_ml": null
     },
     {
@@ -4236,8 +4316,8 @@
       "away": "ARI",
       "home": "KC",
       "commence": "2026-09-09T23:40:00Z",
-      "away_ml": -122,
-      "home_ml": 104,
+      "away_ml": -120,
+      "home_ml": 102,
       "total": 8.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -5018,8 +5098,8 @@
       "away": "CHC",
       "home": "MIL",
       "commence": "2026-09-09T23:40:00Z",
-      "away_ml": 116,
-      "home_ml": -134,
+      "away_ml": 110,
+      "home_ml": -130,
       "total": 7.5,
       "over_ml": -110,
       "under_ml": -110,
@@ -6045,6 +6125,18 @@
       "flags": []
     },
     {
+      "pitcher": "Reynaldo L\u00f3pez",
+      "hand": "R",
+      "team": "ATL",
+      "opponent_offense": "TB",
+      "opp_wrc_vs_hand": 88,
+      "opp_wrc_recent": 114,
+      "mismatch": -18.0,
+      "flags": [
+        "layoff-45d"
+      ]
+    },
+    {
       "pitcher": "Cristopher S\u00e1nchez",
       "hand": "L",
       "team": "PHI",
@@ -6085,7 +6177,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-09T18:36:17Z",
+  "generated": "2026-09-09T21:07:40Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
