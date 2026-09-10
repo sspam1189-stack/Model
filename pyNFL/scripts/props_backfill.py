@@ -670,6 +670,17 @@ def backtest_props(seasons, start_week=4):
                         best_p = max(p_over, p_under)
 
                         thresh = MARKET_THRESHOLDS.get(market, 0.80) if isinstance(MARKET_THRESHOLDS.get(market), (int, float)) else 0.80
+                        # Sweep hook: PROPS_THRESH_OVERRIDE lowers the gate so a
+                        # single pass emits every candidate, which can then be
+                        # scored at any threshold offline instead of re-running
+                        # the backfill once per value. No-op unless set, and
+                        # deliberately absent from the live engine.
+                        _ovr = os.environ.get("PROPS_THRESH_OVERRIDE")
+                        if _ovr:
+                            try:
+                                thresh = float(_ovr)
+                            except ValueError:
+                                pass
                         if best_p >= thresh:
                             pick = "OVER" if p_over > p_under else "UNDER"
                             # the backfill has to gate exactly like the live

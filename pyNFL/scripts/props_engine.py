@@ -154,14 +154,22 @@ EMPIRICAL_STD = {
 # that plateau and the differences inside it are noise on a 3-season sample.
 # Loosening rush_yds to 0.80 is worth +2.6u over 11 extra picks (0.24u/pick,
 # borderline) and loosening rush_att to 0.78 buys +2.5u while giving up 7pp
-# of ROI -- neither clears the bar for moving a live threshold. Below 0.75
-# both degrade sharply. Do not tune on total units alone: rush_att peaks in
-# raw units at 0.55 (+46.2u) purely by tripling volume at a third the ROI.
+# of ROI -- neither clears the bar for moving a live threshold. A fresh sweep
+# on 2026-09-10 reproduced both numbers exactly; rush_yds was left at 0.82 on
+# that basis, rush_att was loosened anyway (see below). Below 0.75 both
+# degrade sharply. Do not tune on total units alone: rush_att peaks in raw
+# units at 0.55 (+46.2u) purely by tripling volume at a third the ROI.
 MARKET_THRESHOLDS = {
     "pass_yds":   0.80,   # disabled; no picks fire at any threshold anyway
     "pass_tds":   0.80,   # disabled via DISABLED_MARKETS
     "rush_yds":   0.82,   # plateau 0.78-0.86, see sweep above
-    "rush_att":   0.84,   # plateau 0.78-0.86, best ROI of the two markets
+    # 0.84 -> 0.78 on 2026-09-10, by choice and against the note above, which
+    # a fresh sweep reproduced: +2.61u over 13 extra picks (+0.201u/pick, the
+    # bar itself rather than past it), win rate 82.4 -> 79.0, ROI 54.3 -> 48.6.
+    # The pro-case is 2025, which goes +3.5u -> +7.5u — but that rests on the
+    # four added picks that season going 4-0, so treat it as thin. Revert to
+    # 0.84 if the extra volume grades below ~75%.
+    "rush_att":   0.78,   # plateau 0.78-0.86, best ROI of the two markets
     "rec_yds":    0.80,   # disabled; losing on real lines at EVERY threshold
     "receptions": 0.80,   # disabled; 62% headline was simulated-line picks
 }
