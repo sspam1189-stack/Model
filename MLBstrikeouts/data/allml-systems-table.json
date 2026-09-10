@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-09T23:03:49Z",
+ "generated": "2026-09-10T00:36:58Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-09"
  },
- "games": 2181,
+ "games": 2182,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
   "over": -5.5,
-  "under": -4.0,
+  "under": -4.1,
   "parlay": 0.0
  },
  "systems": [
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.0,
+   "baseline": -4.1,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.0,
+   "baseline": -4.1,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -871,7 +871,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.0,
+   "baseline": -4.1,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -945,24 +945,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -120,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823251,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T20:10:00Z",
-   "matchup": "WSH @ SD",
-   "total": 8.5,
-   "why": "book laying -120 on the under",
-   "stale": true,
-   "stale_now": "favourite now -184, total still 8.5"
-  },
   {
    "rule": "pickem-under",
    "market": "totals",
@@ -1144,6 +1126,21 @@
    "price": 225,
    "side": null,
    "why": "Rhett Lowder \u2014 team +69% over his last 8 starts, priced +225",
+   "gamePk": 823900,
+   "date": "2026-09-09",
+   "commence": "2026-09-10T02:10:00Z",
+   "matchup": "CIN @ LAD",
+   "away": "CIN",
+   "home": "LAD",
+   "total": 8.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
    "gamePk": 823900,
    "date": "2026-09-09",
    "commence": "2026-09-10T02:10:00Z",
