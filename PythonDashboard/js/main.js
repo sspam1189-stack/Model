@@ -2240,6 +2240,7 @@ function nflRenderSystemPlays(run) {
         standDowns.push(`<div class="pick-item" style="opacity:.7">
           <span class="pick-team" style="color:#8a8f98">NO PLAY</span>
           <span class="pick-meta">${matchup}</span>
+        ${g._weekLabel ? `<span class="pick-meta">${esc(g._weekLabel)}</span>` : ''}
           <span class="pick-meta">${fired.map(id => esc(NFL_SYSTEM_LABELS[id] || id)).join(' vs ')}</span>
           <span class="result-badge" style="background:transparent;border:1px solid #555;color:#8a8f98">CONFLICT</span>
         </div>`);
@@ -2257,6 +2258,7 @@ function nflRenderSystemPlays(run) {
       push(g.situationalPick, `<div class="pick-item">
         <span class="pick-team">${esc(g.oPick)} ${fmtNum(g.total, 1)}</span>
         <span class="pick-meta">${matchup}</span>
+        ${g._weekLabel ? `<span class="pick-meta">${esc(g._weekLabel)}</span>` : ''}
         ${g.pOU != null ? `<span class="pick-meta">P=${fmtProb(g.pOU)}</span>` : ''}
         ${extra}${conflict}
         ${res ? resultBadge(res) : '<span class="result-badge pending">PENDING</span>'}
@@ -2267,6 +2269,7 @@ function nflRenderSystemPlays(run) {
       push(g.situationalSpreadPick, `<div class="pick-item">
         <span class="pick-team">${esc(g.sPick)}</span>
         <span class="pick-meta">${matchup}</span>
+        ${g._weekLabel ? `<span class="pick-meta">${esc(g._weekLabel)}</span>` : ''}
         ${g.pCover != null ? `<span class="pick-meta">P=${fmtProb(g.pCover)}</span>` : ''}
         ${conflict}
         ${res ? resultBadge(res) : '<span class="result-badge pending">PENDING</span>'}

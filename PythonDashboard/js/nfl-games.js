@@ -87,9 +87,16 @@ async function renderNFL() {
     // Situational systems are the actual betting product — show them first.
     // They have NO burn-in: they don't use the projection, so they fire from
     // week 1. Pick their run from all runs, not just non-burn-in ones.
-    const systemsRun = (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all')
-      ? selectedRun
-      : (runs.length ? runs[runs.length - 1] : selectedRun);
+    // "All Weeks" used to fall through to the same branch as "Latest" and show
+    // a single week. Fold every run's games into one pseudo-run instead, each
+    // tagged with the week it came from so the rows stay identifiable.
+    const systemsRun = nflWeekFilter === 'all'
+      ? { dateDisplay: 'All Weeks',
+          games: runs.flatMap(r => (r.games || []).map(g =>
+            ({ ...g, _weekLabel: nflGetWeekLabel(r) }))) }
+      : (nflWeekFilter !== 'latest'
+          ? selectedRun
+          : (runs.length ? runs[runs.length - 1] : selectedRun));
     // ── THE PRODUCT: situational systems ──────────────────────────────
     // This tab is a SYSTEM NOTIFIER. The spread/total projection has no
     // measurable edge over the market (see engine_v2 header), so it is
