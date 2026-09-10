@@ -633,14 +633,44 @@ def stage_grade(season, week, store):
 # STAGE: props
 # ---------------------------------------------------------------------------
 
+def archive_prop_lines(season, week):
+    """Snapshot FanDuel's prop board and return it.
+
+    Picks need 3+ games per player, so weeks 1-3 produce none — but FanDuel
+    publishes no history, and a line not captured while it is up is gone. The
+    Odds API sells historical props; this is the free way to already have them
+    when the model is ready to use them. Archived every run regardless of
+    whether picks are possible, and handed to the projection so the board is
+    only fetched once.
+    """
+    try:
+        from sources.odds_fanduel import fetch_fanduel_nfl_player_props
+        lines = fetch_fanduel_nfl_player_props()
+        if not lines:
+            return None
+        out_dir = os.path.join(SCRIPT_DIR, "..", "..", "data", "props_cache", "nfl")
+        os.makedirs(out_dir, exist_ok=True)
+        today = datetime.now().strftime("%Y%m%d")
+        name = f"fanduel_props_{season}_W{week}_{today}.json"
+        with open(os.path.join(out_dir, name), "w", encoding="utf-8") as f:
+            json.dump(lines, f, indent=2)
+        print(f"  [props] archived {len(lines)} FanDuel prop lines -> {name}")
+        return lines
+    except Exception as e:
+        print(f"  WARNING: prop-line archive failed: {e}")
+        return None
+
+
 def stage_props(season, week, store):
     """Project player props for the current week (live picks)."""
+    prop_lines = archive_prop_lines(season, week)
     try:
         from props_weekly import project_week_props
         project_week_props(
             season, week,
             odds_list=store.get("_fetch", {}).get("odds") or None,
             injury_report=store.get("_injuries", {}).get("report") or None,
+            prop_lines=prop_lines,
         )
     except Exception as e:
         import traceback

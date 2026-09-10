@@ -28,6 +28,7 @@ from scipy.stats import t as t_dist
 
 from sources.nflfastr import fetch_pbp, NoPBPDataError
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_nfl_player_props
+from sources.odds_fanduel import fetch_fanduel_nfl_player_props
 from team_environment import (
     compute_team_pace, compute_team_pass_rate, project_game_environment,
 )
@@ -170,7 +171,8 @@ def _summarize(props):
 # PROJECT — generate this week's picks
 # ---------------------------------------------------------------------------
 
-def project_week_props(season, week, odds_list=None, injury_report=None):
+def project_week_props(season, week, odds_list=None, injury_report=None,
+                       prop_lines=None):
     """
     Project player props for (season, week) and merge picks into
     nfl-props.json.  Re-running refreshes picks for games that have not yet
@@ -237,11 +239,24 @@ def project_week_props(season, week, odds_list=None, injury_report=None):
         return
 
     # --- Prop lines (real lines only; no simulated fallback in live mode) ---
-    try:
-        prop_lines = fetch_nfl_player_props(season=season, week=week)
-    except Exception as e:
-        print(f"  [props] Prop lines fetch failed: {e}")
+    # FanDuel primary, Odds API fallback — the same order the game lines use.
+    # Props are the expensive call on the shared key (per event x per market,
+    # ~8 credits a game), so this is where most of the saving is. FanDuel does
+    # not post attempts or completions, so those markets only appear on the
+    # fallback path.
+    if prop_lines is None:
         prop_lines = []
+        try:
+            prop_lines = fetch_fanduel_nfl_player_props()
+        except Exception as e:
+            print(f"  [props] FanDuel prop fetch failed: {e}")
+    if not prop_lines:
+        print("  [props] FanDuel returned nothing — falling back to The Odds API")
+        try:
+            prop_lines = fetch_nfl_player_props(season=season, week=week)
+        except Exception as e:
+            print(f"  [props] Prop lines fetch failed: {e}")
+            prop_lines = []
     if allowed_matchups and prop_lines:
         prop_lines = [
             pl for pl in prop_lines

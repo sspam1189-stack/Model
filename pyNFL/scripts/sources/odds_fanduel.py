@@ -8,6 +8,8 @@
 # closing-line grading stay on odds_theoddsapi.fetch_historical_odds.
 
 import datetime
+import time
+
 import requests
 from zoneinfo import ZoneInfo
 
@@ -21,8 +23,52 @@ FD_HEADERS = {
 }
 
 
+# Player props live behind per-tab event requests, the same way MLB fetches
+# them. Market names carry a _HIGH/_MEDIUM/_LOW suffix that is FanDuel's own
+# tiering of which players sit in which block — all three are the same market.
+FD_PROP_TABS = ("passing-props", "rushing-props", "receiving-props")
+FD_PROP_MARKETS = {
+    "PLAYER_X_PASSING_YARDS": "pass_yds",
+    "PLAYER_X_PASSING_TOUCHDOWNS": "pass_tds",
+    "PLAYER_X_RUSHING_YARDS": "rush_yds",
+    "PLAYER_X_RECEIVING_YARDS": "rec_yds",
+    "PLAYER_X_RECEPTIONS": "receptions",
+}
+
+
 def _norm_team(name):
     return str(name or "").strip()
+
+
+def _american(runner):
+    """American price off a FanDuel runner, or None. The payload shape is not
+    contractual, so a change here must degrade to "no price" rather than take
+    the fetch down."""
+    try:
+        wro = runner.get("winRunnerOdds") or {}
+        for key in ("americanDisplayOdds", "americanOdds"):
+            node = wro.get(key)
+            if isinstance(node, dict):
+                for f in ("americanOddsInt", "americanOdds"):
+                    v = node.get(f)
+                    if isinstance(v, (int, float)):
+                        return int(v)
+                    if isinstance(v, str) and v.strip().lstrip("+-").isdigit():
+                        return int(v.replace("+", ""))
+            elif isinstance(node, (int, float)):
+                return int(node)
+    except Exception:
+        pass
+    return None
+
+
+def _prop_market(market_type):
+    """Strip FanDuel's tier suffix and map to our internal market name."""
+    mt = str(market_type or "")
+    for prefix, internal in FD_PROP_MARKETS.items():
+        if mt.startswith(prefix):
+            return internal
+    return None
 
 
 def _same_team(runner_name, team):
@@ -127,3 +173,91 @@ def fetch_fanduel_nfl_odds():
 
     print(f"  [fanduel] Fetched {len(games)} upcoming NFL games with spreads/totals")
     return games
+
+
+def fetch_fanduel_nfl_player_props(days_ahead=8, sleep_s=0.15):
+    """
+    Fetch player prop lines from FanDuel for every upcoming NFL game inside
+    *days_ahead*.
+
+    Returns the same shape odds_theoddsapi.fetch_nfl_player_props returns, so
+    the two are interchangeable:
+        [{player, market, line, over_price, under_price,
+          event_home, event_away, commenceTimeIso}]
+
+    Markets covered: pass_yds, pass_tds, rush_yds, rec_yds, receptions.
+    FanDuel does not post attempts or completions, so pass_att / rush_att /
+    completions come back empty here and stay Odds-API-only.
+
+    One request per event per tab, so ~3x the games — free, but not instant.
+    """
+    url = f"{FD_BASE}/content-managed-page?page=CUSTOM&customPageId=nfl&_ak={FD_API_KEY}"
+    try:
+        r = requests.get(url, headers=FD_HEADERS, timeout=30)
+        if r.status_code != 200:
+            print(f"  [fanduel-props] event list returned {r.status_code}")
+            return []
+        events = r.json().get("attachments", {}).get("events", {})
+    except Exception as e:
+        print(f"  [fanduel-props] event list failed: {e}")
+        return []
+
+    now = datetime.datetime.now(datetime.timezone.utc)
+    horizon = now + datetime.timedelta(days=days_ahead)
+    wanted = []
+    for eid, ev in events.items():
+        name = ev.get("name", "")
+        if " @ " not in name:
+            continue
+        try:
+            when = datetime.datetime.fromisoformat(
+                (ev.get("openDate") or "").replace("Z", "+00:00"))
+        except (ValueError, TypeError):
+            continue
+        if now < when <= horizon:
+            away, home = (_norm_team(p) for p in name.split(" @ ", 1))
+            wanted.append((eid, away, home, ev.get("openDate")))
+
+    out = []
+    for eid, away, home, open_date in wanted:
+        for tab in FD_PROP_TABS:
+            try:
+                rr = requests.get(
+                    f"{FD_BASE}/event-page?eventId={eid}&tab={tab}&_ak={FD_API_KEY}",
+                    headers=FD_HEADERS, timeout=30)
+                if rr.status_code != 200:
+                    continue
+                markets = rr.json().get("attachments", {}).get("markets", {})
+            except Exception:
+                continue
+            for m in markets.values():
+                internal = _prop_market(m.get("marketType"))
+                if not internal:
+                    continue
+                # "Brock Purdy - Passing Yds" -> "Brock Purdy"
+                player = str(m.get("marketName") or "").split(" - ")[0].strip()
+                if not player:
+                    continue
+                line = over = under = None
+                for runner in m.get("runners", []):
+                    rn = str(runner.get("runnerName") or "")
+                    h = runner.get("handicap")
+                    if h is not None and line is None:
+                        line = float(h)
+                    if " Over" in rn or rn.endswith("Over"):
+                        over = _american(runner)
+                    elif " Under" in rn or rn.endswith("Under"):
+                        under = _american(runner)
+                if line is None:
+                    continue
+                out.append({
+                    "player": player, "market": internal, "line": line,
+                    "over_price": over, "under_price": under,
+                    "event_home": home, "event_away": away,
+                    "commenceTimeIso": open_date,
+                })
+            if sleep_s:
+                time.sleep(sleep_s)
+
+    print(f"  [fanduel-props] {len(out)} prop lines across {len(wanted)} games")
+    return out
