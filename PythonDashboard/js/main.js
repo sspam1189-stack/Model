@@ -371,7 +371,9 @@ function nflWeekSelector(runs) {
       const val = showSeason && r.season ? `${r.season}_${r.week}` : String(r.week);
       return { week: r.week, season: r.season || 0, label, val, playoff: r.playoff };
     })
-    .sort((a, b) => a.season !== b.season ? a.season - b.season : a.week - b.week);
+    // Newest first — the current week is the one you open this to reach, and
+    // ascending buried it three seasons down the list.
+    .sort((a, b) => a.season !== b.season ? b.season - a.season : b.week - a.week);
   if (weeks.length <= 1) return '';
   let opts = `<option value="latest" ${nflWeekFilter === 'latest' ? 'selected' : ''}>Latest</option>`;
   opts += `<option value="all" ${nflWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
@@ -395,7 +397,7 @@ function nflHistoryWeekSelector(runs) {
     }
   }
   const weeks = [...seen.entries()].sort((a, b) =>
-    a[1].season !== b[1].season ? a[1].season - b[1].season : a[1].week - b[1].week
+    a[1].season !== b[1].season ? b[1].season - a[1].season : b[1].week - a[1].week
   );
   if (weeks.length <= 1) return '';
   let opts = `<option value="all" ${nflHistoryWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
@@ -436,7 +438,8 @@ function filterBySeason(runs) {
 }
 
 function seasonSelector(runs) {
-  const seasons = [...new Set(runs.map(r => getRunSeason(r)).filter(Boolean))].sort();
+  // Newest first. NBA-style labels ("2025-26") reverse-sort correctly as strings.
+  const seasons = [...new Set(runs.map(r => getRunSeason(r)).filter(Boolean))].sort().reverse();
   if (seasons.length <= 1) return '';
   let opts = `<option value="all" ${seasonFilter === 'all' ? 'selected' : ''}>All Seasons</option>`;
   for (const s of seasons) {
@@ -2193,7 +2196,7 @@ function nflSystemMatches(g, market) {
 
 function nflRenderSystemPlays(run) {
   const games = (run.games || []).filter(g =>
-    (g.situationalPick || g.situationalSpreadPick) &&
+    (g.situationalPick || g.situationalSpreadPick || (g.systemsConflict || []).length) &&
     g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
   // Chronological: Thursday night first, Monday night last. A game with no
   // kickoff is one carried forward from before the field existed — in a mixed
@@ -2215,6 +2218,7 @@ function nflRenderSystemPlays(run) {
   // reads as "here is what each system is telling me" rather than a flat list
   // you have to scan for the system name.
   const bySystem = new Map();
+  const standDowns = [];
   const push = (id, row) => {
     if (!bySystem.has(id)) bySystem.set(id, []);
     bySystem.get(id).push(row);
@@ -2223,7 +2227,22 @@ function nflRenderSystemPlays(run) {
     const matchup = `${esc(g.away)} @ ${esc(g.home)}`;
     const showTotal = g.situationalPick && nflSystemMatches(g, 'total');
     const showSpread = g.situationalSpreadPick && nflSystemMatches(g, 'spread');
-    if (!showTotal && !showSpread) return;
+    if (!showTotal && !showSpread) {
+      // Two systems pointed opposite ways on the same market, so the engine
+      // took neither. It still needs a row: dropped silently, the game just
+      // goes missing and the week reads short of the actual slate.
+      const fired = g.systemsFired || [];
+      if ((g.systemsConflict || []).length &&
+          (nflSystemFilter === 'all' || fired.includes(nflSystemFilter))) {
+        standDowns.push(`<div class="pick-item" style="opacity:.7">
+          <span class="pick-team" style="color:#8a8f98">NO PLAY</span>
+          <span class="pick-meta">${matchup}</span>
+          <span class="pick-meta">${fired.map(id => esc(NFL_SYSTEM_LABELS[id] || id)).join(' vs ')}</span>
+          <span class="result-badge" style="background:transparent;border:1px solid #555;color:#8a8f98">CONFLICT</span>
+        </div>`);
+      }
+      return;
+    }
     // every system that fired, so overlaps are visible rather than hidden
     const fired = (g.systemsFired || []);
     const extra = fired.length > 1
@@ -2251,7 +2270,7 @@ function nflRenderSystemPlays(run) {
       </div>`);
     }
   });
-  if (!bySystem.size) {
+  if (!bySystem.size && !standDowns.length) {
     return `<div class="card card-picks"><div class="card-title">${title}</div>
       <div class="no-picks">No system plays this week.</div></div>`;
   }
@@ -2267,7 +2286,12 @@ function nflRenderSystemPlays(run) {
         </span>
       </div>${rows.join('')}`;
   }).join('');
-  return `<div class="card card-picks"><div class="card-title">${title}</div>${body}</div>`;
+  const stoodDown = standDowns.length ? `<div class="pick-item" style="border:none;padding:12px 0 4px">
+      <span class="pick-team" style="color:#8a8f98;font-size:12px;letter-spacing:.04em;text-transform:uppercase;border-left:3px solid #8a8f98;padding-left:8px">
+        Stood down — systems conflict <span style="opacity:.7">(${standDowns.length})</span>
+      </span>
+    </div>${standDowns.join('')}` : '';
+  return `<div class="card card-picks"><div class="card-title">${title}</div>${body}${stoodDown}</div>`;
 }
 
 // Cumulative record per system. Rows are clickable to filter the whole tab
