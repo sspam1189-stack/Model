@@ -47,16 +47,15 @@ def _mismatch(c, n):
     return (not c.get("primetime")) and abs(c.get("spread") or 0) >= n
 
 SYSTEMS = [
-    # -- the mismatch family. These are NESTED on purpose: >=10 and the
-    # wk14-18 cut are tighter slices of the >=7 parent, with higher raw rates
-    # on fewer games. They are all registered so overlap is visible ("3
-    # systems agree"), but only one bet per market is ever placed.
+    # -- the mismatch family. These are NESTED on purpose: >=10 is a tighter
+    # slice of the >=7 parent, with a higher raw rate on fewer games. Both are
+    # registered so overlap is visible ("2 systems agree"), but only one bet
+    # per market is ever placed.
     {
         "id": "day_mismatch_over",
         "market": "total", "side": "OVER", "prob": 0.549,
-        # The test is >= 7, but 10+ games are credited to day_mismatch_10_over
-        # and weeks 14-18 to day_mismatch_late_over, so what this system is
-        # ever graded on is the 7-to-under-10 slice.
+        # The test is >= 7, but 10+ games are credited to day_mismatch_10_over,
+        # so what this system is ever graded on is the 7-to-under-10 slice.
         "desc": "day game, |spread| 7 to <10 -> OVER",
         # raw 61.8% (n=173, p=0.002, seasons 62/58/65) -- the anchor:
         # most volume (~58/yr) and the only system at p<0.01.
@@ -70,16 +69,6 @@ SYSTEMS = [
         # raw 65.2% (n=66, p=0.019, seasons 61/65/68)
         "specificity": 1,
         "test": lambda c: _mismatch(c, 10),
-    },
-    {
-        "id": "day_mismatch_late_over",
-        "market": "total", "side": "OVER", "prob": 0.541,
-        "desc": "day game, |spread| >= 7, weeks 14-18 -> OVER",
-        # raw 66.7% (n=57, p=0.016, seasons 67/62/71) -- highest raw rate,
-        # and the narrowest slice, so it is the one that gets attributed
-        # when it fires alongside its parents.
-        "specificity": 2,
-        "test": lambda c: _mismatch(c, 7) and 14 <= (c.get("week") or 0) <= 18,
     },
     {
         "id": "mismatch_10_any_over",
@@ -127,6 +116,16 @@ SYSTEMS = [
     },
 ]
 
+# RETIRED 2026-09-10 -- day_mismatch_late_over ("day game, |spread| >= 7,
+# weeks 14-18 -> OVER", specificity 2, raw 66.7%). Being the narrowest slice it
+# was credited with every play it touched, which pulled 52 games out of its two
+# parents: 27 at 7-9.5 and 25 at 10+. Split by spread size it ran 59.3% and
+# 68.0% against all-weeks parent rates of 60.6% and 70.7% -- late season was
+# measuring nothing the spread size did not already say, while making both
+# parent rows understate the rule they name. Returning those games leaves
+# 7-<10 at 63-41-1 (n=105) and 10+ at 41-17 (n=58); the family's overall record
+# is unchanged, because all three always bet the same side.
+#
 # RETIRED 2026-08-27 -- all three cleared the original screen but came in
 # under 59% once the primetime filter was fixed and they were re-measured on
 # the live backfill rather than the screen:

@@ -2155,7 +2155,6 @@ const NFL_SYSTEM_LABELS = {
   // is the 7-to-under-10 slice only.
   day_mismatch_over:     'Day mismatch (|spread| 7–<10) — OVER',
   day_mismatch_10_over:  'Day mismatch (|spread| 10+) — OVER',
-  day_mismatch_late_over:'Day mismatch 7+, wks 14-18 — OVER',
   mismatch_10_any_over:  'Mismatch 10+ (any window) — OVER · confirms',
   week1_under:           'Week 1 — UNDER',
   snf_under:             'Sunday Night Football — UNDER',
@@ -2169,7 +2168,6 @@ const NFL_SYSTEM_LABELS = {
 const NFL_SYSTEM_COLORS = {
   day_mismatch_over:      'var(--orange)',
   day_mismatch_10_over:   '#fdba74',
-  day_mismatch_late_over: '#f59e0b',
   mismatch_10_any_over:   'var(--muted)',   // advisory — never a bet
   week1_under:            'var(--purple)',
   snf_under:              '#818cf8',
