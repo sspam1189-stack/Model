@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-10T18:34:28Z",
+ "generated": "2026-09-10T21:08:42Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-10"
  },
- "games": 2193,
+ "games": 2194,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
-  "over": -5.3,
+  "over": -5.4,
   "under": -4.2,
   "parlay": 0.0
  },
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.3,
+   "baseline": -5.4,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.3,
+   "baseline": -5.4,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -789,7 +789,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.3,
+   "baseline": -5.4,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -964,7 +964,7 @@
    "rule": "starter-over-run",
    "market": "totals",
    "pick": "over",
-   "price": -108,
+   "price": -105,
    "side": "O",
    "why": "over in Ryan Feltner 88% of last 8, total 8.5",
    "gamePk": 823499,

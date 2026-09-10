@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-10T18:31:42Z",
+  "generated": "2026-09-10T21:03:17Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 529,
-    "losses": 215,
+    "losses": 216,
     "voids": 0,
     "skips": 52,
-    "staked": 937.49,
-    "units": 318.72,
-    "roi": 0.34,
+    "staked": 939.33,
+    "units": 316.88,
+    "roi": 0.3373,
     "byType": {
       "ml": {
         "wins": 517,
-        "losses": 203,
+        "losses": 204,
         "voids": 0,
         "skips": 4,
-        "staked": 913.49,
-        "units": 314.24,
-        "roi": 0.344
+        "staked": 915.33,
+        "units": 312.4,
+        "roi": 0.3413
       },
       "ml_dog": {
         "wins": 12,
@@ -113,54 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-10",
-      "commence": "2026-09-10T17:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Cristian Javier"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "PHI",
-      "line": null,
-      "odds": -184,
-      "stake": 1.84,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PHI",
-      "away": "HOU",
-      "gamePk": 823413,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-10",
-      "commence": "2026-09-10T23:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Ryan Feltner"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -295,
-      "stake": 2.95,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYY",
-      "away": "COL",
-      "gamePk": 823499,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-09-10",
       "commence": "2026-09-10T20:10:00Z",
@@ -183,6 +135,30 @@
       "home": "SEA",
       "away": "TEX",
       "gamePk": 823088,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-10",
+      "commence": "2026-09-10T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -290,
+      "stake": 2.9,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "COL",
+      "gamePk": 823499,
       "fadeReason": "away"
     }
   ],
@@ -19362,6 +19338,30 @@
       "away": "CIN",
       "gamePk": 823900,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-10",
+      "commence": "2026-09-10T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Cristian Javier"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "LOSS",
+      "profit": -1.84,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "HOU",
+      "gamePk": 823413,
+      "fadeReason": "all"
     }
   ]
 }
