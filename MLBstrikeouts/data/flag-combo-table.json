@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-10T00:36:52Z",
+ "generated": "2026-09-10T13:09:36Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-09"
  },
  "games": {
-  "gradeable": 2124,
-  "flagged": 543,
+  "gradeable": 2134,
+  "flagged": 546,
   "pushes_dropped": 56
  },
  "card_requires": "swingman",
@@ -54,23 +54,23 @@
   "layoff": "2026-09-02",
   "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-09",
+ "verdicts_as_of": "2026-09-10",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1070,
-   "l": 1054,
-   "n": 2124,
-   "units": -88.24,
-   "roi": -4.2
+   "w": 1073,
+   "l": 1061,
+   "n": 2134,
+   "units": -92.42,
+   "roi": -4.3
   },
   "over": {
-   "w": 1054,
-   "l": 1070,
-   "n": 2124,
-   "units": -114.39,
-   "roi": -5.4
+   "w": 1061,
+   "l": 1073,
+   "n": 2134,
+   "units": -110.65,
+   "roi": -5.2
   }
  },
  "combos": [
@@ -214,18 +214,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 16,
+    "w": 17,
     "l": 6,
-    "n": 22,
-    "units": 8.25,
-    "roi": 37.5
+    "n": 23,
+    "units": 9.25,
+    "roi": 40.2
    },
    "over": {
     "w": 6,
-    "l": 16,
-    "n": 22,
-    "units": -10.53,
-    "roi": -47.9
+    "l": 17,
+    "n": 23,
+    "units": -11.53,
+    "roi": -50.1
    }
   },
   {
@@ -263,18 +263,18 @@
    "shadow": true,
    "shadow_from": "2026-09-02",
    "under": {
-    "w": 44,
+    "w": 45,
     "l": 41,
-    "n": 85,
-    "units": -0.65,
-    "roi": -0.8
+    "n": 86,
+    "units": 0.35,
+    "roi": 0.4
    },
    "over": {
     "w": 41,
-    "l": 44,
-    "n": 85,
-    "units": -6.75,
-    "roi": -7.9
+    "l": 45,
+    "n": 86,
+    "units": -7.75,
+    "roi": -9.0
    }
   },
   {
@@ -365,17 +365,17 @@
    "shadow_from": null,
    "under": {
     "w": 0,
-    "l": 5,
-    "n": 5,
-    "units": -5.0,
+    "l": 6,
+    "n": 6,
+    "units": -6.0,
     "roi": -100.0
    },
    "over": {
-    "w": 5,
+    "w": 6,
     "l": 0,
-    "n": 5,
-    "units": 4.34,
-    "roi": 86.9
+    "n": 6,
+    "units": 5.36,
+    "roi": 89.4
    }
   },
   {
@@ -456,69 +456,69 @@
   {
    "flag": "layoff",
    "under": {
-    "w": 122,
-    "l": 103,
-    "n": 225,
+    "w": 123,
+    "l": 104,
+    "n": 227,
     "units": 8.06,
-    "roi": 3.6
+    "roi": 3.5
    },
    "over": {
-    "w": 103,
-    "l": 122,
-    "n": 225,
-    "units": -29.16,
-    "roi": -13.0
+    "w": 104,
+    "l": 123,
+    "n": 227,
+    "units": -29.14,
+    "roi": -12.8
    }
   },
   {
    "flag": "stale-window",
    "under": {
-    "w": 109,
-    "l": 94,
-    "n": 203,
+    "w": 110,
+    "l": 95,
+    "n": 205,
     "units": 4.49,
     "roi": 2.2
    },
    "over": {
-    "w": 94,
-    "l": 109,
-    "n": 203,
-    "units": -23.36,
-    "roi": -11.5
+    "w": 95,
+    "l": 110,
+    "n": 205,
+    "units": -23.34,
+    "roi": -11.4
    }
   },
   {
    "flag": "opener",
    "under": {
-    "w": 108,
+    "w": 109,
     "l": 75,
-    "n": 183,
-    "units": 22.97,
-    "roi": 12.5
+    "n": 184,
+    "units": 23.97,
+    "roi": 13.0
    },
    "over": {
     "w": 75,
-    "l": 108,
-    "n": 183,
-    "units": -39.89,
-    "roi": -21.8
+    "l": 109,
+    "n": 184,
+    "units": -40.89,
+    "roi": -22.2
    }
   },
   {
    "flag": "swingman",
    "under": {
-    "w": 176,
+    "w": 177,
     "l": 132,
-    "n": 308,
-    "units": 27.29,
-    "roi": 8.9
+    "n": 309,
+    "units": 28.29,
+    "roi": 9.2
    },
    "over": {
     "w": 132,
-    "l": 176,
-    "n": 308,
-    "units": -55.44,
-    "roi": -18.0
+    "l": 177,
+    "n": 309,
+    "units": -56.44,
+    "roi": -18.3
    }
   }
  ]

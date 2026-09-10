@@ -1,191 +1,71 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-09-09",
-  "generated": "2026-09-10T00:31:32Z",
+  "date": "2026-09-10",
+  "generated": "2026-09-10T13:04:04Z",
   "hands": {
-    "keider montero": "R",
-    "zebby matthews": "R",
-    "brady basso": "L",
-    "braydon fisher": "R",
-    "blade tidwell": "R",
-    "andre pallante": "R",
-    "walker buehler": "R",
-    "jackson kent": "L",
-    "kade anderson": "L",
-    "cody bradford": "L",
-    "shane baz": "R",
-    "foster griffin": "L",
-    "cristopher sanchez": "L",
-    "hunter brown": "R",
-    "janson junk": "R",
-    "robert stock": "R",
-    "jake bennett": "L",
-    "ryan johnson": "R",
-    "will warren": "R",
-    "tomoyuki sugano": "R",
-    "reynaldo lopez": "R",
-    "griffin jax": "R",
-    "daniel lynch iv": "L",
-    "zac gallen": "R",
-    "davis martin": "R",
-    "lake bachar": "R",
-    "logan henderson": "R",
-    "kevin gausman": "R",
-    "yoshinobu yamamoto": "R",
-    "rhett lowder": "R"
+    "martin perez": "L",
+    "nick martinez": "R",
+    "zack wheeler": "R",
+    "cristian javier": "R",
+    "logan gilbert": "R",
+    "jacob degrom": "R",
+    "max fried": "L",
+    "ryan feltner": "R",
+    "hagen smith": "L",
+    "jared jones": "R"
   },
   "names": {
-    "keider montero": "Keider Montero",
-    "zebby matthews": "Zebby Matthews",
-    "brady basso": "Brady Basso",
-    "braydon fisher": "Braydon Fisher",
-    "blade tidwell": "Blade Tidwell",
-    "andre pallante": "Andre Pallante",
-    "walker buehler": "Walker Buehler",
-    "jackson kent": "Jackson Kent",
-    "kade anderson": "Kade Anderson",
-    "cody bradford": "Cody Bradford",
-    "shane baz": "Shane Baz",
-    "foster griffin": "Foster Griffin",
-    "cristopher sanchez": "Cristopher S\u00e1nchez",
-    "hunter brown": "Hunter Brown",
-    "janson junk": "Janson Junk",
-    "robert stock": "Robert Stock",
-    "jake bennett": "Jake Bennett",
-    "ryan johnson": "Ryan Johnson",
-    "will warren": "Will Warren",
-    "tomoyuki sugano": "Tomoyuki Sugano",
-    "reynaldo lopez": "Reynaldo L\u00f3pez",
-    "griffin jax": "Griffin Jax",
-    "daniel lynch iv": "Daniel Lynch IV",
-    "zac gallen": "Zac Gallen",
-    "davis martin": "Davis Martin",
-    "lake bachar": "Lake Bachar",
-    "logan henderson": "Logan Henderson",
-    "kevin gausman": "Kevin Gausman",
-    "yoshinobu yamamoto": "Yoshinobu Yamamoto",
-    "rhett lowder": "Rhett Lowder"
+    "martin perez": "Mart\u00edn P\u00e9rez",
+    "nick martinez": "Nick Martinez",
+    "zack wheeler": "Zack Wheeler",
+    "cristian javier": "Cristian Javier",
+    "logan gilbert": "Logan Gilbert",
+    "jacob degrom": "Jacob deGrom",
+    "max fried": "Max Fried",
+    "ryan feltner": "Ryan Feltner",
+    "hagen smith": "Hagen Smith",
+    "jared jones": "Jared Jones"
   },
   "starters": {
-    "DET": {
-      "name": "Keider Montero",
-      "hand": "R"
-    },
-    "MIN": {
-      "name": "Zebby Matthews",
-      "hand": "R"
-    },
-    "OAK": {
-      "name": "Brady Basso",
+    "ATL": {
+      "name": "Mart\u00edn P\u00e9rez",
       "hand": "L"
     },
-    "TOR": {
-      "name": "Braydon Fisher",
+    "TB": {
+      "name": "Nick Martinez",
       "hand": "R"
-    },
-    "SF": {
-      "name": "Blade Tidwell",
-      "hand": "R"
-    },
-    "STL": {
-      "name": "Andre Pallante",
-      "hand": "R"
-    },
-    "SD": {
-      "name": "Walker Buehler",
-      "hand": "R"
-    },
-    "WSH": {
-      "name": "Jackson Kent",
-      "hand": "L"
-    },
-    "SEA": {
-      "name": "Kade Anderson",
-      "hand": "L"
-    },
-    "TEX": {
-      "name": "Cody Bradford",
-      "hand": "L"
-    },
-    "BAL": {
-      "name": "Shane Baz",
-      "hand": "R"
-    },
-    "CLE": {
-      "name": "Foster Griffin",
-      "hand": "L"
     },
     "PHI": {
-      "name": "Cristopher S\u00e1nchez",
-      "hand": "L"
+      "name": "Zack Wheeler",
+      "hand": "R"
     },
     "HOU": {
-      "name": "Hunter Brown",
+      "name": "Cristian Javier",
       "hand": "R"
     },
-    "MIA": {
-      "name": "Janson Junk",
+    "SEA": {
+      "name": "Logan Gilbert",
       "hand": "R"
     },
-    "NYM": {
-      "name": "Robert Stock",
-      "hand": "R"
-    },
-    "BOS": {
-      "name": "Jake Bennett",
-      "hand": "L"
-    },
-    "LAA": {
-      "name": "Ryan Johnson",
+    "TEX": {
+      "name": "Jacob deGrom",
       "hand": "R"
     },
     "NYY": {
-      "name": "Will Warren",
-      "hand": "R"
-    },
-    "COL": {
-      "name": "Tomoyuki Sugano",
-      "hand": "R"
-    },
-    "ATL": {
-      "name": "Reynaldo L\u00f3pez",
-      "hand": "R"
-    },
-    "TB": {
-      "name": "Griffin Jax",
-      "hand": "R"
-    },
-    "KC": {
-      "name": "Daniel Lynch IV",
+      "name": "Max Fried",
       "hand": "L"
     },
-    "ARI": {
-      "name": "Zac Gallen",
+    "COL": {
+      "name": "Ryan Feltner",
       "hand": "R"
     },
     "CWS": {
-      "name": "Davis Martin",
-      "hand": "R"
+      "name": "Hagen Smith",
+      "hand": "L"
     },
     "PIT": {
-      "name": "Lake Bachar",
-      "hand": "R"
-    },
-    "MIL": {
-      "name": "Logan Henderson",
-      "hand": "R"
-    },
-    "CHC": {
-      "name": "Kevin Gausman",
-      "hand": "R"
-    },
-    "LAD": {
-      "name": "Yoshinobu Yamamoto",
-      "hand": "R"
-    },
-    "CIN": {
-      "name": "Rhett Lowder",
+      "name": "Jared Jones",
       "hand": "R"
     }
   }

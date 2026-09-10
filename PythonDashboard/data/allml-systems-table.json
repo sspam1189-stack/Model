@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-10T00:36:58Z",
+ "generated": "2026-09-10T13:09:42Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-09"
  },
- "games": 2182,
+ "games": 2192,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
-  "over": -5.5,
-  "under": -4.1,
+  "over": -5.3,
+  "under": -4.2,
   "parlay": 0.0
  },
  "systems": [
@@ -27,15 +27,15 @@
    "status": "card",
    "ladder_fails": true,
    "record": {
-    "w": 90,
-    "l": 76,
-    "n": 166,
-    "units": 41.32,
-    "roi": 24.9
+    "w": 91,
+    "l": 77,
+    "n": 168,
+    "units": 42.12,
+    "roi": 25.1
    },
    "halves": [
     21.5,
-    27.2
+    27.4
    ],
    "monthly": [
     {
@@ -88,14 +88,14 @@
     },
     {
      "month": "2026-09",
-     "w": 3,
-     "l": 0,
-     "n": 3,
-     "units": 3.1,
-     "roi": 103.3
+     "w": 4,
+     "l": 1,
+     "n": 5,
+     "units": 3.9,
+     "roi": 78.0
     }
    ],
-   "per_day": 1.0
+   "per_day": 1.01
   },
   {
    "baseline_key": "side",
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.5,
+   "baseline": -5.3,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -488,14 +488,14 @@
    "ladder_fails": false,
    "record": {
     "w": 28,
-    "l": 20,
-    "n": 48,
-    "units": 4.51,
-    "roi": 9.4
+    "l": 21,
+    "n": 49,
+    "units": 3.51,
+    "roi": 7.2
    },
    "halves": [
     10.6,
-    8.4
+    4.4
    ],
    "monthly": [
     {
@@ -541,17 +541,17 @@
     {
      "month": "2026-09",
      "w": 1,
-     "l": 6,
-     "n": 7,
-     "units": -5.13,
-     "roi": -73.3
+     "l": 7,
+     "n": 8,
+     "units": -6.13,
+     "roi": -76.6
     }
    ],
-   "per_day": 0.29
+   "per_day": 0.3
   },
   {
    "baseline_key": "over",
-   "baseline": -5.5,
+   "baseline": -5.3,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -643,15 +643,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 247,
-    "l": 183,
-    "n": 430,
-    "units": 19.13,
-    "roi": 4.4
+    "w": 248,
+    "l": 187,
+    "n": 435,
+    "units": 15.95,
+    "roi": 3.7
    },
    "halves": [
     4.3,
-    4.5
+    3.0
    ],
    "monthly": [
     {
@@ -704,14 +704,14 @@
     },
     {
      "month": "2026-09",
-     "w": 13,
-     "l": 12,
-     "n": 25,
-     "units": -1.44,
-     "roi": -5.8
+     "w": 14,
+     "l": 16,
+     "n": 30,
+     "units": -4.62,
+     "roi": -15.4
     }
    ],
-   "per_day": 2.59
+   "per_day": 2.62
   },
   {
    "baseline_key": "side",
@@ -725,10 +725,10 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 93,
-    "l": 98,
-    "n": 191,
-    "units": 17.76,
+    "w": 94,
+    "l": 99,
+    "n": 193,
+    "units": 17.88,
     "roi": 9.3
    },
    "halves": [
@@ -778,18 +778,18 @@
     },
     {
      "month": "2026-09",
-     "w": 2,
-     "l": 8,
-     "n": 10,
-     "units": -5.16,
-     "roi": -51.6
+     "w": 3,
+     "l": 9,
+     "n": 12,
+     "units": -5.04,
+     "roi": -42.0
     }
    ],
-   "per_day": 1.15
+   "per_day": 1.16
   },
   {
    "baseline_key": "over",
-   "baseline": -5.5,
+   "baseline": -5.3,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -871,7 +871,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -946,209 +946,35 @@
  ],
  "today": [
   {
-   "rule": "pickem-under",
+   "rule": "low-line-over",
    "market": "totals",
-   "pick": "under",
-   "price": 100,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 824791,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T22:35:00Z",
-   "matchup": "CLE @ BAL",
-   "total": 8.5,
-   "why": "favorite only -112 at a 8.5 total",
-   "stale": true,
-   "stale_now": "favourite now -116, total still 8.5"
+   "pick": "over",
+   "price": -115,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 823088,
+   "date": "2026-09-10",
+   "commence": "2026-09-10T20:10:00Z",
+   "matchup": "TEX @ SEA",
+   "away": "TEX",
+   "home": "SEA",
+   "total": 6.5
   },
   {
-   "rule": "under-juice",
+   "rule": "starter-over-run",
    "market": "totals",
-   "pick": "under",
-   "price": -132,
-   "side": "U",
-   "why": "book laying -132 on the under",
-   "gamePk": 823416,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T22:40:00Z",
-   "matchup": "HOU @ PHI",
-   "away": "HOU",
-   "home": "PHI",
-   "total": 8.5
-  },
-  {
-   "rule": "away-dog-ml",
-   "market": "h2h",
-   "pick": "LAA",
-   "price": 180,
-   "side": null,
-   "why": "away dog at a 9.5 total",
-   "gamePk": 824713,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T22:45:00Z",
-   "matchup": "LAA @ BOS",
-   "away": "LAA",
-   "home": "BOS",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 824713,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T22:45:00Z",
-   "matchup": "LAA @ BOS",
-   "away": "LAA",
-   "home": "BOS",
-   "total": 9.5
-  },
-  {
-   "rule": "away-dog-ml",
-   "market": "h2h",
-   "pick": "COL",
-   "price": 200,
-   "side": null,
-   "why": "away dog at a 9.5 total",
-   "gamePk": 823497,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:05:00Z",
+   "pick": "over",
+   "price": -122,
+   "side": "O",
+   "why": "over in Ryan Feltner 88% of last 8, total 8.5",
+   "gamePk": 823499,
+   "date": "2026-09-10",
+   "commence": "2026-09-10T23:05:00Z",
    "matchup": "COL @ NYY",
    "away": "COL",
    "home": "NYY",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
-   "gamePk": 823497,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:05:00Z",
-   "matchup": "COL @ NYY",
-   "away": "COL",
-   "home": "NYY",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -124,
-   "side": "U",
-   "why": "book laying -124 on the under",
-   "gamePk": 824871,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:15:00Z",
-   "matchup": "TB @ ATL",
-   "away": "TB",
-   "home": "ATL",
-   "total": 8.5
-  },
-  {
-   "rule": "cold-arms-under",
-   "market": "totals",
-   "pick": "under",
-   "price": -110,
-   "side": "U",
-   "why": "both starters Kevin Gausman 25%, Logan Henderson 25% over in last 8",
-   "gamePk": 823739,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:40:00Z",
-   "matchup": "CHC @ MIL",
-   "away": "CHC",
-   "home": "MIL",
-   "total": 7.5
-  },
-  {
-   "rule": "hot-arm-dog-ml",
-   "market": "h2h",
-   "pick": "PIT",
-   "price": 112,
-   "side": null,
-   "why": "Lake Bachar \u2014 team +46% over his last 8 starts, priced +112",
-   "gamePk": 824549,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:40:00Z",
-   "matchup": "PIT @ CWS",
-   "away": "PIT",
-   "home": "CWS",
-   "total": 8.5
-  },
-  {
-   "rule": "pickem-under",
-   "market": "totals",
-   "pick": "under",
-   "price": 100,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 824064,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:40:00Z",
-   "matchup": "ARI @ KC",
-   "total": 8.5,
-   "why": "favorite only -112 at a 8.5 total",
-   "stale": true,
-   "stale_now": "favourite now -120, total still 8.5"
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -120,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 824549,
-   "date": "2026-09-09",
-   "commence": "2026-09-09T23:40:00Z",
-   "matchup": "PIT @ CWS",
-   "total": 8.5,
-   "why": "book laying -120 on the under",
-   "stale": true,
-   "stale_now": "favourite now -132, total still 8.5"
-  },
-  {
-   "rule": "hot-arm-dog-ml",
-   "market": "h2h",
-   "pick": "CIN",
-   "price": 225,
-   "side": null,
-   "why": "Rhett Lowder \u2014 team +69% over his last 8 starts, priced +225",
-   "gamePk": 823900,
-   "date": "2026-09-09",
-   "commence": "2026-09-10T02:10:00Z",
-   "matchup": "CIN @ LAD",
-   "away": "CIN",
-   "home": "LAD",
-   "total": 8.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
-   "gamePk": 823900,
-   "date": "2026-09-09",
-   "commence": "2026-09-10T02:10:00Z",
-   "matchup": "CIN @ LAD",
-   "away": "CIN",
-   "home": "LAD",
    "total": 8.5
   }
  ],
- "today_date": "2026-09-09"
+ "today_date": "2026-09-10"
 }

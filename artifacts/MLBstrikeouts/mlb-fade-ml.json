@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-10T00:31:30Z",
+  "generated": "2026-09-10T13:04:03Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 525,
+    "wins": 529,
     "losses": 215,
     "voids": 0,
     "skips": 52,
-    "staked": 930.9,
-    "units": 314.7,
-    "roi": 0.3381,
+    "staked": 937.49,
+    "units": 318.72,
+    "roi": 0.34,
     "byType": {
       "ml": {
-        "wins": 513,
+        "wins": 517,
         "losses": 203,
         "voids": 0,
         "skips": 4,
-        "staked": 906.9,
-        "units": 310.22,
-        "roi": 0.3421
+        "staked": 913.49,
+        "units": 314.24,
+        "roi": 0.344
       },
       "ml_dog": {
         "wins": 12,
@@ -114,67 +114,43 @@
   },
   "today": [
     {
-      "date": "2026-09-09",
-      "commence": "2026-09-09T23:40:00Z",
+      "date": "2026-09-10",
+      "commence": "2026-09-10T23:05:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zac Gallen"
+        "Ryan Feltner"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "COL",
       "market": "h2h",
-      "selection": "KC",
+      "selection": "NYY",
       "line": null,
-      "odds": 102,
-      "stake": 1.0,
+      "odds": -320,
+      "stake": 3.2,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "KC",
-      "away": "ARI",
-      "gamePk": 824064,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-09",
-      "commence": "2026-09-09T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kevin Gausman"
-      ],
-      "fadeTeam": "CHC",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -130,
-      "stake": 1.3,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIL",
-      "away": "CHC",
-      "gamePk": 823739,
+      "home": "NYY",
+      "away": "COL",
+      "gamePk": 823499,
       "fadeReason": "away"
     },
     {
-      "date": "2026-09-09",
-      "commence": "2026-09-09T22:40:00Z",
+      "date": "2026-09-10",
+      "commence": "2026-09-10T17:05:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Hunter Brown"
+        "Cristian Javier"
       ],
       "fadeTeam": "HOU",
       "market": "h2h",
       "selection": "PHI",
       "line": null,
-      "odds": -154,
-      "stake": 1.54,
+      "odds": -188,
+      "stake": 1.88,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -182,31 +158,31 @@
       "reason": null,
       "home": "PHI",
       "away": "HOU",
-      "gamePk": 823416,
+      "gamePk": 823413,
       "fadeReason": "all"
     },
     {
-      "date": "2026-09-09",
-      "commence": "2026-09-10T02:10:00Z",
+      "date": "2026-09-10",
+      "commence": "2026-09-10T20:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Rhett Lowder"
+        "Jacob deGrom"
       ],
-      "fadeTeam": "CIN",
+      "fadeTeam": "TEX",
       "market": "h2h",
-      "selection": "LAD",
+      "selection": "SEA",
       "line": null,
-      "odds": -275,
-      "stake": 2.75,
+      "odds": -126,
+      "stake": 1.26,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "LAD",
-      "away": "CIN",
-      "gamePk": 823900,
+      "home": "SEA",
+      "away": "TEX",
+      "gamePk": 823088,
       "fadeReason": "away"
     }
   ],
@@ -19290,6 +19266,102 @@
       "away": "TOR",
       "gamePk": 824957,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Hunter Brown"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "HOU",
+      "gamePk": 823416,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "ARI",
+      "gamePk": 824064,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-09T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "CHC",
+      "gamePk": 823739,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-09",
+      "commence": "2026-09-10T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Rhett Lowder"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -275,
+      "stake": 2.75,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "CIN",
+      "gamePk": 823900,
+      "fadeReason": "away"
     }
   ]
 }
