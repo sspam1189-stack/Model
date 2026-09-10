@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-10T16:04:35Z",
+ "generated": "2026-09-10T18:34:34Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
    "date": "2026-09-10",
-   "play": "NYY ML (mismatch -50.6)",
+   "play": "NYY ML (mismatch -47.6)",
    "market": "h2h",
    "price": -295,
    "rule": "mismatch-ml",
@@ -15,7 +15,7 @@
    "game": "COL @ NYY",
    "gamePk": 823499,
    "commence": "2026-09-10T23:05:00Z",
-   "basis": "tail at L20 mismatch -50.6 (Max Fried). Shadow revival; expectation +9.4%, not +17.2%.",
+   "basis": "tail at L20 mismatch -47.6 (Max Fried). Shadow revival; expectation +9.4%, not +17.2%.",
    "open_price": -320,
    "name": "Mismatch ML",
    "group": "scout",
@@ -45,7 +45,7 @@
    "play": "TEX/SEA O6.5",
    "market": "totals",
    "line": 6.5,
-   "price": -112,
+   "price": -124,
    "rule": "low-line-over",
    "result": "pending",
    "profit": 0.0,

@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-10T16:04:29Z",
+ "generated": "2026-09-10T18:34:28Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-09"
+  "to": "2026-09-10"
  },
- "games": 2192,
+ "games": 2193,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
@@ -243,7 +243,7 @@
      "roi": 13.7
     }
    ],
-   "per_day": 0.48
+   "per_day": 0.47
   },
   {
    "baseline_key": "side",
@@ -399,7 +399,7 @@
      "roi": 58.2
     }
    ],
-   "per_day": 1.51
+   "per_day": 1.5
   },
   {
    "baseline_key": "over",
@@ -473,7 +473,7 @@
      "roi": -16.9
     }
    ],
-   "per_day": 1.3
+   "per_day": 1.29
   },
   {
    "baseline_key": "under",
@@ -547,7 +547,7 @@
      "roi": -76.6
     }
    ],
-   "per_day": 0.3
+   "per_day": 0.29
   },
   {
    "baseline_key": "over",
@@ -711,7 +711,7 @@
      "roi": -15.4
     }
    ],
-   "per_day": 2.62
+   "per_day": 2.6
   },
   {
    "baseline_key": "side",
@@ -867,7 +867,7 @@
      "roi": 5.2
     }
    ],
-   "per_day": 1.47
+   "per_day": 1.46
   },
   {
    "baseline_key": "under",
@@ -949,7 +949,7 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -112,
+   "price": -124,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
    "gamePk": 823088,
