@@ -2195,6 +2195,14 @@ function nflRenderSystemPlays(run) {
   const games = (run.games || []).filter(g =>
     (g.situationalPick || g.situationalSpreadPick) &&
     g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
+  // Chronological: Thursday night first, Monday night last. Runs from before
+  // kickoff time was persisted have none, so those keep their feed order at
+  // the end rather than jumping the queue.
+  const kickoff = g => {
+    const t = Date.parse(g.commenceTimeIso || '');
+    return Number.isFinite(t) ? t : Infinity;
+  };
+  games.sort((a, b) => kickoff(a) - kickoff(b));
   const filterLabel = nflSystemFilter === 'all'
     ? '' : ` · ${esc(NFL_SYSTEM_LABELS[nflSystemFilter] || nflSystemFilter)}`;
   const title = `System Plays — ${nflGetWeekLabel(run)}${filterLabel}`;

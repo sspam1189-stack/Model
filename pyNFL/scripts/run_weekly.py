@@ -889,6 +889,11 @@ def stage_project(season, week, store):
             games.append({**g, "status": "SKIPPED", "note": "analyze_game returned None"})
             continue
 
+        # analyze_game returns a fresh record, so the kickoff time from the odds
+        # feed does not survive it. The dashboard orders the week by this.
+        if g.get("commenceTimeIso"):
+            r["commenceTimeIso"] = g["commenceTimeIso"]
+
         # LR confirmation / veto gate
         games.append(r)
 
