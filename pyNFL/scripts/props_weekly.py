@@ -28,7 +28,9 @@ from scipy.stats import t as t_dist
 
 from sources.nflfastr import fetch_pbp, NoPBPDataError
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_nfl_player_props
-from sources.odds_fanduel import fetch_fanduel_nfl_player_props
+from sources.odds_fanduel import (
+    fetch_fanduel_nfl_odds, fetch_fanduel_nfl_player_props,
+)
 from team_environment import (
     compute_team_pace, compute_team_pass_rate, project_game_environment,
 )
@@ -196,11 +198,19 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
 
     # --- Game odds (for team environments + commence times) ---
     if odds_list is None:
+        # FanDuel primary here too, so no NFL path reaches for the shared key
+        # first. Normally stage_props hands the board in and this never runs.
         try:
-            odds_list = fetch_nfl_odds(season=season, week=week)
+            odds_list = fetch_fanduel_nfl_odds()
         except Exception as e:
-            print(f"  [props] Odds fetch failed: {e}")
-            odds_list = []
+            print(f"  [props] FanDuel odds fetch failed: {e}")
+            odds_list = None
+        if not odds_list:
+            try:
+                odds_list = fetch_nfl_odds(season=season, week=week)
+            except Exception as e:
+                print(f"  [props] Odds fetch failed: {e}")
+                odds_list = []
 
     now = datetime.now(timezone.utc)
     horizon = now + timedelta(days=GAME_WINDOW_DAYS)
