@@ -2345,13 +2345,12 @@ function nflRenderSystemPlays(run) {
     // Risk-to-win-1u at -110: every graded play risks 1.1u, so ROI is profit
     // over what was actually put up, not over the number of bets.
     const roi = u / (1.1 * graded) * 100;
-    // Units and ROI share a sign by construction, so they take one colour.
+    // One colour for the whole line, driven by units. Win% needs no separate
+    // rule: W - 1.1L > 0 is exactly W/(W+L) > 52.38%, so a break-even test on
+    // the percentage can never disagree with the sign of the units.
     const col = u >= 0 ? 'var(--green)' : 'var(--red)';
     const wpct = tally.w / graded * 100;
-    // Win% is coloured against the -110 break-even, not against 50 — a 51%
-    // week is a losing week and should not read green.
-    const wcol = wpct >= 52.38 ? 'var(--green)' : 'var(--red)';
-    bits.push(`<span style="color:${wcol}">${wpct.toFixed(1)}%</span>`);
+    bits.push(`<span style="color:${col}">${wpct.toFixed(1)}%</span>`);
     bits.push(`<span style="color:${col};font-weight:600">${fmtUnits(u)}</span>`);
     bits.push(`<span style="color:${col};font-weight:600">ROI ${roi >= 0 ? '+' : ''}${roi.toFixed(1)}%</span>`);
   }
