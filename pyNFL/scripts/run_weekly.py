@@ -50,9 +50,10 @@ from calibration import build_calibration_table
 import defaults
 
 # Source modules
-from sources.nflfastr import fetch_pbp, current_season, NoPBPDataError
+from sources.nflfastr import fetch_pbp, current_season
 from sources.nfl_stats import compute_team_stats, compute_team_stats_through_week, compute_player_stats
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_historical_odds
+from sources.odds_fanduel import fetch_fanduel_nfl_odds
 from sources.espn_scoreboard import (
     fetch_nfl_scoreboard, extract_final_scores, fetch_week_scores, extract_all_games,
 )
@@ -375,6 +376,24 @@ def compute_summary_text(store):
 # STAGE: fetch
 # ---------------------------------------------------------------------------
 
+def fetch_live_odds():
+    """Live game lines: FanDuel primary (free), The Odds API fallback.
+
+    Every other sport in the repo already runs this way. NFL stayed Odds-API-only
+    and so was the one sport that went dark for the whole first week of the 2026
+    season when the shared key hit OUT_OF_USAGE_CREDITS.
+    """
+    odds = fetch_fanduel_nfl_odds()
+    if odds:
+        return odds
+    print("  [odds] FanDuel returned nothing — falling back to The Odds API")
+    try:
+        return fetch_nfl_odds()
+    except Exception as e:
+        print(f"  [odds] Odds API fallback failed: {e}")
+        return []
+
+
 def stage_fetch(season, week, store):
     """
     Pull current week's play-by-play, compute team stats, fetch odds.
@@ -386,30 +405,29 @@ def stage_fetch(season, week, store):
     print("[fetch 1/3] Pulling play-by-play via nflfastR...")
     pbp_season = season
     through_week = week - 1   # strictly prior weeks — never include this one
-    try:
-        pbp = fetch_pbp(season)
-        print(f"  Got {len(pbp):,} plays for {season}")
-    except NoPBPDataError as e:
-        # nflverse publishes nothing for a season until Week 1 has been played,
-        # so every pre-season / Week 1 run 404s here.  Week 1 has no
-        # current-season form anyway: use the full prior season (decay-weighted
-        # toward its end) as the prior.  That is what the Kalman initialises
-        # from after the rollover, and it gives backup-QB detection real
-        # starter data.  Only Week 1 qualifies — a missing season in Week 2+
-        # is an outage, and silently projecting off last year would be wrong.
-        if week != 1:
-            print(f"  ERROR: PBP fetch failed: {e}")
-            raise
+    if week == 1:
+        # Week 1 has no current-season form to project off — through_week is 0 —
+        # so use the full prior season (decay-weighted toward its end) as the
+        # prior. That is what the Kalman initialises from after the rollover,
+        # and it gives backup-QB detection real starter data.
+        #
+        # Keyed off the week, not off the nflverse 404 it used to hang on: the
+        # hour the season opener posts, fetch_pbp(season) starts succeeding with
+        # that one game, and stats through week 0 come back empty.
         pbp_season = season - 1
         through_week = NFL_WEEKS_MAX
-        print(f"  {e}")
-        print(f"  Week 1: no {season} play-by-play yet — using full {pbp_season} "
-              f"season as the prior")
+        print(f"  Week 1: using full {pbp_season} season as the prior")
         pbp = fetch_pbp(pbp_season)
         print(f"  Got {len(pbp):,} plays for {pbp_season}")
-    except Exception as e:
-        print(f"  ERROR: PBP fetch failed: {e}")
-        raise
+    else:
+        # A missing season in Week 2+ is an outage — silently projecting off
+        # last year would be wrong.
+        try:
+            pbp = fetch_pbp(season)
+            print(f"  Got {len(pbp):,} plays for {season}")
+        except Exception as e:
+            print(f"  ERROR: PBP fetch failed: {e}")
+            raise
 
     # 2. Compute team stats with decay (through previous week)
     print("[fetch 2/3] Computing team stats with exponential decay...")
@@ -430,12 +448,8 @@ def stage_fetch(season, week, store):
 
     # 3. Fetch odds
     print("[fetch 3/3] Fetching current NFL odds...")
-    try:
-        odds = fetch_nfl_odds()
-        print(f"  Got odds for {len(odds)} games")
-    except Exception as e:
-        print(f"  WARNING: Odds fetch failed: {e}")
-        odds = []
+    odds = fetch_live_odds()
+    print(f"  Got odds for {len(odds)} games")
 
     # PFR and Next Gen Stats used to be fetched here as "optional supplementary
     # data". Both are blocked (PFR 403s every user agent; NGS wants an auth
@@ -716,11 +730,7 @@ def stage_project(season, week, store):
     odds = store.get("_fetch", {}).get("odds", [])
     if not odds:
         print("  WARNING: No odds available — fetching now...")
-        try:
-            odds = fetch_nfl_odds()
-        except Exception as e:
-            print(f"  ERROR: Could not fetch odds: {e}")
-            odds = []
+        odds = fetch_live_odds()
 
     # Get injury deltas
     injury_deltas = store.get("_injuries", {}).get("deltas", {})
