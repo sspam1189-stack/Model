@@ -2146,7 +2146,10 @@ function nflRenderTodayPicks(run) {
 // Validated pricing-bias systems (see pyNFL/scripts/situational_systems.py).
 // These are the actual betting product; the projection is monitor-only.
 const NFL_SYSTEM_LABELS = {
-  day_mismatch_over:     'Day mismatch (|spread| 7+) — OVER',
+  // "7+" read as if it included the 10+ games. It never does: attribution goes
+  // to the narrowest matching system, so 10+ books to its own row and this one
+  // is the 7-to-under-10 slice only.
+  day_mismatch_over:     'Day mismatch (|spread| 7–<10) — OVER',
   day_mismatch_10_over:  'Day mismatch (|spread| 10+) — OVER',
   day_mismatch_late_over:'Day mismatch 7+, wks 14-18 — OVER',
   mismatch_10_any_over:  'Mismatch 10+ (any window) — OVER · confirms',

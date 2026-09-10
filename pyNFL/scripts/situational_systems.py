@@ -54,7 +54,10 @@ SYSTEMS = [
     {
         "id": "day_mismatch_over",
         "market": "total", "side": "OVER", "prob": 0.549,
-        "desc": "day game, |spread| >= 7 -> OVER",
+        # The test is >= 7, but 10+ games are credited to day_mismatch_10_over
+        # and weeks 14-18 to day_mismatch_late_over, so what this system is
+        # ever graded on is the 7-to-under-10 slice.
+        "desc": "day game, |spread| 7 to <10 -> OVER",
         # raw 61.8% (n=173, p=0.002, seasons 62/58/65) -- the anchor:
         # most volume (~58/yr) and the only system at p<0.01.
         "specificity": 0,
