@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-10T21:12:51Z",
+ "generated": "2026-09-10T23:12:47Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -47,14 +47,17 @@
    "line": 6.5,
    "price": -124,
    "rule": "low-line-over",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "WIN",
+   "profit": 0.81,
    "game": "TEX @ SEA",
    "gamePk": 823088,
    "commence": "2026-09-10T20:10:00Z",
    "basis": "Low line over: posted total 6.5; lines of 7 and under average 8.66 runs",
    "open_line": 6.5,
+   "close_line": 6.5,
+   "line_move": 0.0,
    "open_price": -115,
+   "clv": "flat",
    "name": "Low line over",
    "group": "non-scout",
    "kind": "not_bet"
@@ -42569,11 +42572,11 @@
  ],
  "summary": {
   "all": {
-   "w": 1245,
+   "w": 1246,
    "l": 1090,
    "push": 28,
    "n": 2366,
-   "pending": 3,
+   "pending": 2,
    "units": 267.83
   },
   "card": {
@@ -42690,11 +42693,11 @@
     "units": 0
    },
    "low-line-over": {
-    "w": 78,
+    "w": 79,
     "l": 56,
     "push": 12,
     "n": 147,
-    "pending": 1,
+    "pending": 0,
     "units": 0
    },
    "mismatch-ml": {

@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-10T21:08:42Z",
+ "generated": "2026-09-10T23:08:31Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-10"
  },
- "games": 2194,
+ "games": 2195,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
-  "over": -5.4,
+  "over": -5.3,
   "under": -4.2,
   "parlay": 0.0
  },
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.4,
+   "baseline": -5.3,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.4,
+   "baseline": -5.3,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -561,15 +561,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 77,
+    "w": 78,
     "l": 56,
-    "n": 133,
-    "units": 11.35,
-    "roi": 8.5
+    "n": 134,
+    "units": 12.16,
+    "roi": 9.1
    },
    "halves": [
     8.4,
-    8.7
+    9.9
    ],
    "monthly": [
     {
@@ -622,11 +622,11 @@
     },
     {
      "month": "2026-09",
-     "w": 5,
+     "w": 6,
      "l": 4,
-     "n": 9,
-     "units": 0.3,
-     "roi": 3.4
+     "n": 10,
+     "units": 1.11,
+     "roi": 11.1
     }
    ],
    "per_day": 0.8
@@ -789,7 +789,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.4,
+   "baseline": -5.3,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -945,21 +945,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": -124,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 823088,
-   "date": "2026-09-10",
-   "commence": "2026-09-10T20:10:00Z",
-   "matchup": "TEX @ SEA",
-   "away": "TEX",
-   "home": "SEA",
-   "total": 6.5
-  },
   {
    "rule": "starter-over-run",
    "market": "totals",

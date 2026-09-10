@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-10T21:03:17Z",
+  "generated": "2026-09-10T23:03:04Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 529,
+    "wins": 530,
     "losses": 216,
     "voids": 0,
     "skips": 52,
-    "staked": 939.33,
-    "units": 316.88,
-    "roi": 0.3373,
+    "staked": 940.59,
+    "units": 317.88,
+    "roi": 0.338,
     "byType": {
       "ml": {
-        "wins": 517,
+        "wins": 518,
         "losses": 204,
         "voids": 0,
         "skips": 4,
-        "staked": 915.33,
-        "units": 312.4,
-        "roi": 0.3413
+        "staked": 916.59,
+        "units": 313.4,
+        "roi": 0.3419
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-10",
-      "commence": "2026-09-10T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jacob deGrom"
-      ],
-      "fadeTeam": "TEX",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SEA",
-      "away": "TEX",
-      "gamePk": 823088,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-09-10",
       "commence": "2026-09-10T23:05:00Z",
@@ -19362,6 +19338,30 @@
       "away": "HOU",
       "gamePk": 823413,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-10",
+      "commence": "2026-09-10T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob deGrom"
+      ],
+      "fadeTeam": "TEX",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "TEX",
+      "gamePk": 823088,
+      "fadeReason": "away"
     }
   ]
 }
