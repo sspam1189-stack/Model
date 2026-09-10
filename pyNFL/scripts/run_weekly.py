@@ -633,6 +633,49 @@ def stage_grade(season, week, store):
 # STAGE: props
 # ---------------------------------------------------------------------------
 
+def alert_if_keys_exhausted(season, week):
+    """Email once when every Odds API key has run dry.
+
+    Silent credit exhaustion is what cost the 2026 season its first week: the
+    key died on 09-03, every scheduled run stayed green, and nothing projected
+    until someone noticed on 09-10. FanDuel covers live lines and most props
+    now, so a dry key no longer empties the card — but historical odds, closing
+    line grading and the rush_att prop have no free source, so it still
+    degrades the pipeline quietly. This is the part that stops it being quiet.
+    """
+    try:
+        from sources.odds_theoddsapi import all_keys_exhausted, _api_keys
+        if not all_keys_exhausted():
+            return
+        n = len(_api_keys())
+        from core.email_report import send_email
+        send_email(
+            subject=f"[NFL] All {n} Odds API keys are out of credits",
+            text=(
+                f"Every configured Odds API key returned OUT_OF_USAGE_CREDITS "
+                f"during the {season} Week {week} run.\n\n"
+                f"Keys tried: ODDS_API_KEY, ODDS_API_KEY_2, ODDS_API_KEY_3 "
+                f"({n} configured).\n\n"
+                "Still working — these do not use the key:\n"
+                "  * game spreads and totals (FanDuel)\n"
+                "  * player props: pass yds/TDs, rush yds, rec yds, receptions "
+                "(FanDuel)\n"
+                "  * the situational systems, which are the betting product\n\n"
+                "Degraded until a key resets or is replaced:\n"
+                "  * historical odds and closing-line value (backfill)\n"
+                "  * the rush_att prop — FanDuel does not post attempts, and "
+                "it is one of only two live prop markets\n\n"
+                "Free-plan keys are 500 credits and reset monthly on their own "
+                "cycles, so a spent key usually comes back on its own. Add a "
+                "new one at https://the-odds-api.com and set it with:\n"
+                "  gh secret set ODDS_API_KEY\n"
+            ),
+        )
+        print("  [odds] all keys dry — alert emailed")
+    except Exception as e:
+        print(f"  WARNING: key-exhaustion alert failed: {e}")
+
+
 def archive_prop_lines(season, week):
     """Snapshot FanDuel's prop board and return it.
 
@@ -1046,6 +1089,8 @@ def main():
         stage_project(season, week, store)
     elif stage == "props":
         stage_props(season, week, store)
+
+    alert_if_keys_exhausted(season, week)
 
     print("\nPipeline complete.\n")
 

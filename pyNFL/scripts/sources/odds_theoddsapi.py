@@ -92,6 +92,12 @@ def _api_keys(explicit=None):
 _EXHAUSTED_KEYS = set()
 
 
+def all_keys_exhausted():
+    """True once every configured key has answered OUT_OF_USAGE_CREDITS."""
+    keys = _api_keys()
+    return bool(keys) and all(k in _EXHAUSTED_KEYS for k in keys)
+
+
 def _get_rotating(build_url, explicit=None, timeout=30):
     """GET build_url(key), moving to the next key when one is out of credits.
 
