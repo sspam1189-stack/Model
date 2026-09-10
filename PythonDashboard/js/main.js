@@ -2258,10 +2258,18 @@ function nflRenderSystemPlays(run) {
       }
       return;
     }
-    // every system that fired, so overlaps are visible rather than hidden
+    // every system that fired, so overlaps are visible rather than hidden.
+    // A system that lost the market on precedence did NOT agree — it wanted the
+    // other side — so it is named rather than counted as agreement.
     const fired = (g.systemsFired || []);
-    const extra = fired.length > 1
-      ? `<span class="pick-meta">+${fired.length - 1} more system${fired.length > 2 ? 's' : ''} agree</span>` : '';
+    const overruled = (g.systemsOverruled || []);
+    const agreeing = fired.length - 1 - overruled.length;
+    const extra =
+      (agreeing > 0
+        ? `<span class="pick-meta">+${agreeing} more system${agreeing > 1 ? 's' : ''} agree</span>` : '')
+      + (overruled.length
+        ? `<span class="pick-meta" style="color:#8a8f98">overrules ${
+            overruled.map(id => esc(NFL_SYSTEM_LABELS[id] || id)).join(', ')}</span>` : '');
     const conflict = (g.systemsConflict || []).length
       ? `<span class="pick-meta" style="color:var(--red)">CONFLICT — stood down</span>` : '';
     if (showTotal) {
