@@ -1,3 +1,10 @@
+// pCover as a percentage. It is the model's probability the pick covers, so
+// it is the number that actually ranks two picks against each other — the
+// Conf column only says whether it cleared the bar.
+function _pct(v) {
+  return (typeof v === 'number' && isFinite(v)) ? (v * 100).toFixed(1) + '%' : '—';
+}
+
 // NFL Player Props rendering
     async function renderNFLProps() {
       const el = document.getElementById('content');
@@ -60,8 +67,8 @@
       // Market breakdown placeholder (rendered dynamically inside renderNFLPropsTable)
 
       const headers = isBacktest
-        ? ['Wk','Player','Proj','Line','Actual','Pick','Result','Conf']
-        : ['Player','Team','vs','Proj','Line','Pick','Conf'];
+        ? ['Wk','Player','Proj','Line','Actual','Pick','Result','Conf','%']
+        : ['Player','Team','vs','Proj','Line','Pick','Conf','%'];
       const colClasses = isBacktest
         ? ['col-wk','col-player','col-proj','col-line','col-actual','col-pick','col-result','col-conf']
         : ['col-player','col-team','col-opp','col-proj','col-line','col-pick','col-conf'];
@@ -205,12 +212,14 @@
             p.actual != null ? String(p.actual) : '\u2014',
             p.pick === 'OVER' ? 'O' : 'U',
             p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014',
-            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            p.conf === 'elite' ? 'ELITE' : 'HIGH',
+            _pct(p.pCover)
           ] : [
             p.player, p.team, p.opp || '', String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
             p.pick === 'OVER' ? 'O' : 'U',
-            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            p.conf === 'elite' ? 'ELITE' : 'HIGH',
+            _pct(p.pCover)
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -403,8 +412,8 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Wk','Player','Cat','Proj','Line','Actual','Pick','Result','Conf']
-          : ['Player','Team','vs','Cat','Proj','Line','Pick','Conf'];
+          ? ['Wk','Player','Cat','Proj','Line','Actual','Pick','Result','Conf','%']
+          : ['Player','Team','vs','Cat','Proj','Line','Pick','Conf','%'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
@@ -425,12 +434,14 @@
             p.actual!=null?String(p.actual):'\u2014',
             p.pick==='OVER'?'O':'U',
             p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014',
-            p.conf==='elite'?'ELITE':'HIGH'
+            p.conf==='elite'?'ELITE':'HIGH',
+            _pct(p.pCover)
           ] : [
             p.player, p.team, p.opp||'', ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
             p.pick==='OVER'?'O':'U',
-            p.conf==='elite'?'ELITE':'HIGH'
+            p.conf==='elite'?'ELITE':'HIGH',
+            _pct(p.pCover)
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
