@@ -70,20 +70,6 @@ SYSTEMS = [
         "specificity": 1,
         "test": lambda c: _mismatch(c, 10),
     },
-    {
-        "id": "mismatch_10_any_over",
-        "market": "total", "side": "OVER", "prob": 0.525,
-        "desc": "|spread| >= 10, any window -> OVER  [ADVISORY ONLY]",
-        # ADVISORY: fires and displays, but is never selected as the bet.
-        # Its raw 60.5% (n=81) comes entirely from the day-game subset that
-        # day_mismatch_over already covers. Strip those out and all that is
-        # left is primetime mismatch, which is the ONE slice we know the
-        # market prices correctly (45.5% over 3 seasons, residual -0.25 vs
-        # +2.95 on day games). Backtested as a standalone pick it went 4-7.
-        # It earns its place as a confirmation signal, not as a play.
-        "advisory": True,
-        "test": lambda c: abs(c.get("spread") or 0) >= 10,
-    },
     # -- UNDER systems. LOWER CONFIDENCE: both cleared 60% raw but FAILED the
     # every-season test that the others passed, so they are the first to drop
     # if live results disappoint. They also make CONFLICTS possible for the
@@ -126,6 +112,21 @@ SYSTEMS = [
     },
 ]
 
+# RETIRED 2026-09-10 -- mismatch_10_any_over ("|spread| >= 10, any window ->
+# OVER", advisory). It differed from day_mismatch_10_over by exactly one
+# condition, the primetime filter, and that condition was the whole point:
+#
+#   day 10+ (bettable)              41-18   69.49%  +21.20u   n=59   p=0.006
+#   primetime 10+ (this system's    4-8     33.33%   -4.80u   n=12   p=0.947
+#                  only addition)
+#   any window 10+ (the union)      45-26   63.38%  +16.40u   n=71   p=0.040
+#
+# Adding those 12 games made the rule worse on every measure. It was never
+# credited with a bet in three seasons -- 0 of 71 -- so retiring it changes no
+# pick; it only stops appearing as phantom agreement on day blowouts, where it
+# was really the same rule with a filter removed. Its last live effect was the
+# conflict veto, fixed separately the same day.
+#
 # RETIRED 2026-09-10 -- day_mismatch_late_over ("day game, |spread| >= 7,
 # weeks 14-18 -> OVER", specificity 2, raw 66.7%). Being the narrowest slice it
 # was credited with every play it touched, which pulled 52 games out of its two
