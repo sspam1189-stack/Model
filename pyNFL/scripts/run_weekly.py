@@ -633,6 +633,29 @@ def stage_grade(season, week, store):
 # STAGE: props
 # ---------------------------------------------------------------------------
 
+def report_key_balances():
+    """Print what each Odds API key has left. Costs no credits.
+
+    Run before the stages so the log says the state of the keys up front,
+    rather than the run discovering it by failing halfway through. Also marks
+    spent keys so the first real request skips them without probing.
+    """
+    try:
+        from sources.odds_theoddsapi import check_key_balances
+        rows = check_key_balances()
+        if not rows:
+            print("  [odds] no Odds API key configured")
+            return
+        parts = []
+        for r in rows:
+            rem = r["remaining"]
+            parts.append(f"key {r['index']}: {'?' if rem is None else rem} left")
+        total = sum(r["remaining"] or 0 for r in rows)
+        print(f"  [odds] credits — {', '.join(parts)}  (total {total})")
+    except Exception as e:
+        print(f"  WARNING: key balance check failed: {e}")
+
+
 def alert_if_keys_exhausted(season, week):
     """Email once when every Odds API key has run dry.
 
@@ -1061,6 +1084,8 @@ def main():
     print(f"\n{'='*60}")
     print(f"  NFL Pipeline — {season} Week {week} — Stage: {args.stage}")
     print(f"{'='*60}\n")
+
+    report_key_balances()
 
     # New season -> brand new team Kalman. nfl.json is deliberately NOT rolled:
     # it holds 2023..2025 in one store because the ridge model trains across

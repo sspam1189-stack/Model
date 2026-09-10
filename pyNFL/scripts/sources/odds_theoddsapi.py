@@ -92,6 +92,36 @@ def _api_keys(explicit=None):
 _EXHAUSTED_KEYS = set()
 
 
+def check_key_balances():
+    """Report every key's remaining credits, and pre-mark the spent ones.
+
+    /v4/sports is not billed and its response still carries the quota headers,
+    so this is a free health check. Two things fall out of it: the run can say
+    what it has left before it needs it, rather than finding out by failing,
+    and a key already at zero goes straight into _EXHAUSTED_KEYS — which saves
+    the probe the first real request would otherwise pay.
+
+    Returns [{index, remaining, used}] and never the key itself.
+    """
+    out = []
+    for i, key in enumerate(_api_keys(), 1):
+        remaining = used = None
+        try:
+            r = requests.get(f"{BASE}/sports", params={"apiKey": key}, timeout=20)
+            rem = r.headers.get("x-requests-remaining")
+            used = r.headers.get("x-requests-used")
+            if rem is not None and str(rem).lstrip("-").isdigit():
+                remaining = int(rem)
+            elif r.status_code == 401 and "OUT_OF_USAGE_CREDITS" in (r.text or ""):
+                remaining = 0
+        except Exception:
+            pass
+        if remaining == 0:
+            _EXHAUSTED_KEYS.add(key)
+        out.append({"index": i, "remaining": remaining, "used": used})
+    return out
+
+
 def all_keys_exhausted():
     """True once every configured key has answered OUT_OF_USAGE_CREDITS."""
     keys = _api_keys()
