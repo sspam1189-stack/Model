@@ -2233,6 +2233,15 @@ function nflRenderSystemPlays(run) {
   const collect = (loose) => {
   const bySystem = new Map();
   const standDowns = [];
+  // Tallied here rather than over `games` so the summary counts exactly the
+  // rows on screen — a filtered card should not report the whole week.
+  const tally = { w: 0, l: 0, p: 0, pending: 0 };
+  const score = res => {
+    if (res === 'WIN') tally.w++;
+    else if (res === 'LOSS') tally.l++;
+    else if (res === 'PUSH') tally.p++;
+    else tally.pending++;
+  };
   const push = (id, row) => {
     if (!bySystem.has(id)) bySystem.set(id, []);
     bySystem.get(id).push(row);
@@ -2274,6 +2283,7 @@ function nflRenderSystemPlays(run) {
       ? `<span class="pick-meta" style="color:var(--red)">CONFLICT — stood down</span>` : '';
     if (showTotal) {
       const res = g.oResult || null;
+      score(res);
       push(g.situationalPick, `<div class="pick-item">
         <span class="pick-team">${esc(g.oPick)} ${fmtNum(g.total, 1)}</span>
         <span class="pick-meta">${matchup}</span>
@@ -2285,6 +2295,7 @@ function nflRenderSystemPlays(run) {
     }
     if (showSpread) {
       const res = g.sResult || null;
+      score(res);
       push(g.situationalSpreadPick, `<div class="pick-item">
         <span class="pick-team">${esc(g.sPick)}</span>
         <span class="pick-meta">${matchup}</span>
@@ -2295,13 +2306,13 @@ function nflRenderSystemPlays(run) {
       </div>`);
     }
   });
-    return { bySystem, standDowns };
+    return { bySystem, standDowns, tally };
   };
-  let { bySystem, standDowns } = collect(false);
+  let { bySystem, standDowns, tally } = collect(false);
   // A confirm-only system is never the credited pick, so a strict pass finds
   // nothing for it. Only then fall back to the games where it merely fired.
   if (!bySystem.size && nflSystemFilter !== 'all') {
-    ({ bySystem, standDowns } = collect(true));
+    ({ bySystem, standDowns, tally } = collect(true));
   }
   if (!bySystem.size && !standDowns.length) {
     return `<div class="card card-picks"><div class="card-title">${title}</div>
@@ -2324,7 +2335,24 @@ function nflRenderSystemPlays(run) {
         Stood down — systems conflict <span style="opacity:.7">(${standDowns.length})</span>
       </span>
     </div>${standDowns.join('')}` : '';
-  return `<div class="card card-picks"><div class="card-title">${title}</div>${body}${stoodDown}</div>`;
+  const graded = tally.w + tally.l;
+  const bits = [];
+  if (graded || tally.p) {
+    bits.push(`${tally.w}-${tally.l}${tally.p ? '-' + tally.p : ''}`);
+  }
+  if (graded) {
+    const u = calcUnits(tally.w, tally.l);
+    // Risk-to-win-1u at -110: every graded play risks 1.1u, so ROI is profit
+    // over what was actually put up, not over the number of bets.
+    const roi = u / (1.1 * graded) * 100;
+    bits.push(`${(tally.w / graded * 100).toFixed(1)}%`);
+    bits.push(fmtUnits(u));
+    bits.push(`ROI ${roi >= 0 ? '+' : ''}${roi.toFixed(1)}%`);
+  }
+  if (tally.pending) bits.push(`${tally.pending} pending`);
+  const summary = bits.length
+    ? `<div class="card-subtitle">${bits.join(' &middot; ')}</div>` : '';
+  return `<div class="card card-picks"><div class="card-title">${title}</div>${summary}${body}${stoodDown}</div>`;
 }
 
 // Cumulative record per system. Rows are clickable to filter the whole tab
