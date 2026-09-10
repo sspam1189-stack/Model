@@ -21,7 +21,12 @@ async function renderNFL() {
     (a.season || 0) - (b.season || 0) || (a.week || 0) - (b.week || 0));
   const runs = filterBySeason(allRuns);
   const nonBurnIn = runs.filter(r => !r.burnIn);
-  const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
+  // Falls back to the last run overall when every run in view is burn-in. The
+  // systems have no burn-in and fire from week 1, so a fresh season — nothing
+  // but weeks 1-3 — has plays to show; without this the whole tab collapsed to
+  // "No NFL picks available yet." the moment you filtered to it.
+  const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1]
+    : (runs.length ? runs[runs.length - 1] : null);
   const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
 
   // Week filter: pick which run to show in the "Latest" view.

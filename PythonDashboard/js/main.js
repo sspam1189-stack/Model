@@ -282,10 +282,11 @@ function aliasInText(text) {
 
 function setSeasonFilter(val) {
   seasonFilter = val;
-  // Changing season while a system is selected keeps every week in view —
-  // snapping back to one week is how you end up staring at an empty card for
-  // a system that simply didn't fire that week.
-  nflWeekFilter = (activeTab === 'nfl' && nflSystemFilter !== 'all') ? 'all' : 'latest';
+  // Changing one filter shouldn't move another. "latest" and "all" mean the
+  // same thing in any season, so they carry over untouched. A specific week
+  // can't: its option value is season-scoped ("2025_9" vs "9"), so it would no
+  // longer match anything and has to fall back.
+  if (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all') nflWeekFilter = 'latest';
   nflHistoryWeekFilter = 'all';
   historyPage = 0;
   render();
@@ -2180,8 +2181,9 @@ function setNflSystemFilter(val) {
   nflSystemFilter = val;
   // Picking a system means "show me this system", so widen to every week —
   // otherwise you get one week's slice of it, which is empty whenever that
-  // system didn't fire that week. Clearing the filter restores the default.
-  nflWeekFilter = val === 'all' ? 'latest' : 'all';
+  // system didn't fire that week. Clearing the filter leaves the week alone;
+  // putting it back to "latest" would be moving a control the user didn't touch.
+  if (val !== 'all') nflWeekFilter = 'all';
   render();
 }
 function nflToggleModel() { nflShowModel = !nflShowModel; render(); }
