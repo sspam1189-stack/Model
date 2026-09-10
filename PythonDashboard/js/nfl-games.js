@@ -13,7 +13,12 @@ async function renderNFL() {
       </div>`;
     return;
   }
-  const allRuns = data.runs;
+  // Runs arrive in store order, which sorts on the `date` string. Backfilled
+  // seasons put a week label there ("2025_W9"), so that order runs W1, W10,
+  // W11 … W19, W2, W20 … W9 — and "Latest" for a past season landed on Week 9
+  // instead of the Super Bowl. Season and week are real numbers; use those.
+  const allRuns = [...data.runs].sort((a, b) =>
+    (a.season || 0) - (b.season || 0) || (a.week || 0) - (b.week || 0));
   const runs = filterBySeason(allRuns);
   const nonBurnIn = runs.filter(r => !r.burnIn);
   const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;

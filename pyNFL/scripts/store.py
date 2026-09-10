@@ -58,4 +58,8 @@ def upsert_run(store, run):
         store["runs"] = [r for r in store["runs"] if r.get("weekKey") != week_key]
 
     store["runs"].append(run)
-    store["runs"].sort(key=lambda r: r.get("date", ""))
+    # Season/week, not the date string: the backfill writes a week label there
+    # ("2025_W9"), which sorts lexicographically as W1, W10 ... W19, W2, W20 ...
+    # W9, leaving Week 9 looking like the last week of the season.
+    store["runs"].sort(key=lambda r: (r.get("season") or 0, r.get("week") or 0,
+                                      str(r.get("date") or "")))
