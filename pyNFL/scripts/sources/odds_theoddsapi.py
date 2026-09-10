@@ -68,6 +68,49 @@ def _load_cache(path, max_age_hours=None):
         return None
 
 
+def _api_keys(explicit=None):
+    """Every key we can try, in order.
+
+    ODDS_API_KEY stays a single key so the other sports' modules, which pass it
+    straight into a URL, keep working untouched. The spares live in
+    ODDS_API_KEY_2 / _3 and are only consulted here.
+    """
+    if explicit:
+        return [explicit]
+    keys = []
+    for var in ("ODDS_API_KEY", "ODDS_API_KEY_2", "ODDS_API_KEY_3"):
+        v = (os.environ.get(var) or "").strip()
+        if v and v not in keys:
+            keys.append(v)
+    return keys
+
+
+def _get_rotating(build_url, explicit=None, timeout=30):
+    """GET build_url(key), moving to the next key when one is out of credits.
+
+    A key that has run dry answers 401 OUT_OF_USAGE_CREDITS. That is not a
+    failure of the request, it is a failure of that key, so it should cost the
+    caller nothing but a hop to the spare. Any other non-200 is returned as-is
+    for the caller to raise on — a bad request would fail identically on every
+    key and retrying it three times just wastes time.
+    """
+    keys = _api_keys(explicit)
+    if not keys:
+        raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
+    res = None
+    for i, key in enumerate(keys, 1):
+        res = requests.get(build_url(key), timeout=timeout)
+        if res.status_code == 200:
+            if i > 1:
+                print(f"  [odds] key {i} of {len(keys)} used ({i - 1} exhausted)")
+            return res
+        if res.status_code == 401 and "OUT_OF_USAGE_CREDITS" in (res.text or ""):
+            continue
+        return res
+    print(f"  [odds] all {len(keys)} keys are out of credits")
+    return res
+
+
 def clear_cache():
     """Remove all cached odds files from disk."""
     try:
@@ -188,19 +231,16 @@ def fetch_nfl_odds(api_key=None, season=None, week=None):
             print(f"  [odds] Using today's cached odds for {season} W{week} ({cp.name})")
             return cached
 
-    api_key = api_key or os.environ.get("ODDS_API_KEY")
-    if not api_key:
-        raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
+    def _url(key):
+        return (
+            f"{BASE}/sports/{SPORT_KEY}/odds?"
+            f"apiKey={quote(key)}"
+            f"&regions=us"
+            f"&markets=spreads,totals"
+            f"&oddsFormat=american"
+        )
 
-    url = (
-        f"{BASE}/sports/{SPORT_KEY}/odds?"
-        f"apiKey={quote(api_key)}"
-        f"&regions=us"
-        f"&markets=spreads,totals"
-        f"&oddsFormat=american"
-    )
-
-    res = requests.get(url, timeout=30)
+    res = _get_rotating(_url, api_key)
     if res.status_code != 200:
         txt = res.text
         raise Exception(f"TheOddsAPI failed: {res.status_code} {res.reason} {txt}")
@@ -399,9 +439,7 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
             print(f"  [odds] Using cached historical odds for {season} W{week} ({cp.name})")
             return cached
 
-    api_key = api_key or os.environ.get("ODDS_API_KEY")
-    if not api_key:
-        raise Exception("Missing ODDS_API_KEY env var.")
+
 
     if not season or not week:
         raise Exception("season and week are required for historical odds fetch.")
@@ -612,8 +650,8 @@ def fetch_nfl_player_props(api_key=None, season=None, week=None):
         raise Exception("Missing ODDS_API_KEY env var.")
 
     # Step 1: Get event IDs
-    events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
-    res = requests.get(events_url, timeout=30)
+    res = _get_rotating(
+        lambda k: f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(k)}", api_key)
     if res.status_code != 200:
         raise Exception(f"Events fetch failed: {res.status_code}")
 
@@ -628,16 +666,17 @@ def fetch_nfl_player_props(api_key=None, season=None, week=None):
         home = ev.get("home_team", "")
         away = ev.get("away_team", "")
 
-        url = (
-            f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?"
-            f"apiKey={quote(api_key)}"
-            f"&regions=us"
-            f"&markets={markets_str}"
-            f"&oddsFormat=american"
-        )
+        def _url(k, _eid=event_id):
+            return (
+                f"{BASE}/sports/{SPORT_KEY}/events/{_eid}/odds?"
+                f"apiKey={quote(k)}"
+                f"&regions=us"
+                f"&markets={markets_str}"
+                f"&oddsFormat=american"
+            )
 
         try:
-            r = requests.get(url, timeout=30)
+            r = _get_rotating(_url, api_key)
             if r.status_code != 200:
                 continue
             data = r.json()

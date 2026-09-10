@@ -89,6 +89,10 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          # Spares — odds_theoddsapi rotates to these when a key is out
+          # of credits, so one dry key no longer takes the run down.
+          ODDS_API_KEY_2: ${{ secrets.ODDS_API_KEY_2 }}
+          ODDS_API_KEY_3: ${{ secrets.ODDS_API_KEY_3 }}
         run: python run_weekly.py --stage ${{ inputs.stage || 'all' }}
 
       - name: Upload pyNFL data
@@ -174,6 +178,10 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          # Spares — odds_theoddsapi rotates to these when a key is out
+          # of credits, so one dry key no longer takes the run down.
+          ODDS_API_KEY_2: ${{ secrets.ODDS_API_KEY_2 }}
+          ODDS_API_KEY_3: ${{ secrets.ODDS_API_KEY_3 }}
         run: python run_weekly.py --stage grade
 
       - name: Upload graded data
