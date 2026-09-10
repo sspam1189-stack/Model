@@ -220,8 +220,14 @@ def _systems_only_game(game_data, home_name, away_name, situational):
         fired = _ev(ctx)
     except Exception:
         return None
-    if not fired["total"] and not fired["spread"]:
-        return None          # nothing fires -> nothing to record
+    # Anything that fired gets a record, even when it produced no bet. A
+    # conflict leaves total/spread None exactly like a quiet game does, so
+    # keying off those two threw the stand-downs away: the caller saw None and
+    # wrote status SKIPPED. Four Week 1 conflicts went missing that way. The
+    # record carries situationalPick None and PASS on both markets, so it never
+    # counts toward a system's W-L — it is only there to be seen.
+    if not fired["all"]:
+        return None          # nothing fired at all -> nothing to record
 
     res = {
         "home": home_name, "away": away_name,
@@ -231,6 +237,7 @@ def _systems_only_game(game_data, home_name, away_name, situational):
         "confidenceTier": "low", "pCover": None, "pOU": None,
         "engine": "v2-systems-only",
         "systemsFired": fired["all"], "systemsConflict": fired["conflicts"],
+        "systemsOverruled": fired.get("overruled", []),
         "situationalPick": None, "situationalSpreadPick": None,
     }
     if fired["total"] and isinstance(market_total, (int, float)) and market_total > 0:
@@ -412,6 +419,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     situational_spread_pick = None
     systems_fired = []
     systems_conflict = []
+    systems_overruled = []
     try:
         from situational_systems import evaluate as _sys_eval, build_context as _sys_ctx
         _ctx = _sys_ctx(
@@ -428,6 +436,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         _fired = _sys_eval(_ctx)
         systems_fired = _fired["all"]          # EVERY system that fired, not just the pick
         systems_conflict = _fired["conflicts"]  # markets where systems disagreed -> no bet
+        systems_overruled = _fired.get("overruled", [])  # lost a conflict on precedence
         if _fired["total"] and market_total > 0:
             o_pick, o_conf = _fired["total"]["side"], "pick"
             p_ou = _fired["total"]["prob"]
@@ -489,6 +498,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         "situationalSpreadPick": situational_spread_pick,
         "systemsFired": systems_fired,
         "systemsConflict": systems_conflict,
+        "systemsOverruled": systems_overruled,
         "engine": "v2",
         "_v2RawMargin": round(raw_margin * 100) / 100,
         "_v2RawTotal": round(raw_total * 100) / 100,

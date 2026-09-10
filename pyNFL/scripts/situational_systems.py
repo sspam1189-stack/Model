@@ -94,6 +94,16 @@ SYSTEMS = [
         "market": "total", "side": "UNDER", "prob": 0.529,
         "desc": "week 1 -> UNDER  [failed every-season test: 75/44/75]",
         # raw 64.6% (n=48) but 2024 was only 43.8%
+        #
+        # Outranks the mismatch OVER in week 1. Every week-1 game with a 7+
+        # spread fires both, and all four such games on record went UNDER --
+        # 36 v 38, 34 v 44, 26 v 41, 32 v 42.5, three of them by 10+. Standing
+        # down took 0-0 on games where this side was 4-0 (+4.0u) and the OVER
+        # 0-4. Week 1 scoring is suppressed league-wide, which a lopsided line
+        # does not undo. NOTE n=4 (p=0.06 against a coin): this is a judgement
+        # call on a mechanism, not an established edge. Revisit it if week-1
+        # mismatch unders start losing.
+        "precedence": 1,
         "test": lambda c: (c.get("week") or 0) == 1,
     },
     {
@@ -185,18 +195,38 @@ def evaluate(ctx):
         except (TypeError, ValueError):
             continue
     out = {"total": None, "spread": None, "all": [s["id"] for s in fired],
-           "by_market": {"total": [], "spread": []}, "conflicts": []}
+           "by_market": {"total": [], "spread": []}, "conflicts": [],
+           "overruled": []}
     for market in ("total", "spread"):
         cands = [s for s in fired if s["market"] == market]
         out["by_market"][market] = cands
         if not cands:
             continue
-        if len({s["side"] for s in cands}) > 1:
-            out["conflicts"].append(market)     # disagree -> no pick
-            continue
-        # advisory systems count toward agreement and conflict, but are never
-        # the bet -- see mismatch_10_any_over for why
+        # Advisory systems confirm, but they never bet and never veto. An
+        # advisory can only ever fire ALONE in primetime -- in a day game its
+        # bettable parent fires with it, on the same side -- and primetime is
+        # the one slice mismatch_10_any_over is documented as worthless in
+        # (45.5%, 4-7 standalone). Letting it into the conflict test gave a
+        # system barred from betting the power to kill a real play in exactly
+        # the regime where it has no edge: 2023 wk6 NYG @ BUF, where it vetoed
+        # an snf_under that won by 21.
         bettable = [s for s in cands if not s.get("advisory")]
+        if len({s["side"] for s in bettable}) > 1:
+            # Disagreement stands the market down unless one side outranks the
+            # other on `precedence`. Ties, and any conflict between systems
+            # that both sit at 0, still take neither side.
+            rank = {}
+            for s in bettable:
+                rank[s["side"]] = max(rank.get(s["side"], 0), s.get("precedence", 0))
+            top = max(rank.values())
+            winners = [side for side, p in rank.items() if p == top]
+            if top > 0 and len(winners) == 1:
+                out["overruled"].extend(
+                    s["id"] for s in bettable if s["side"] != winners[0])
+                bettable = [s for s in bettable if s["side"] == winners[0]]
+            else:
+                out["conflicts"].append(market)     # disagree -> no pick
+                continue
         if bettable:
             # Attribute to the NARROWEST system that fired, not the highest
             # probability one. The mismatch family is nested and same-side, so
