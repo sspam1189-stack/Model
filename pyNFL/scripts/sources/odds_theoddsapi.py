@@ -85,6 +85,13 @@ def _api_keys(explicit=None):
     return keys
 
 
+# Keys found dry during THIS process, so a run stops re-probing them on every
+# request. Deliberately not persisted: each key's 500 credits reset on its own
+# monthly cycle, so a key that is dead today may be live next week and every
+# run must get to rediscover that for itself.
+_EXHAUSTED_KEYS = set()
+
+
 def _get_rotating(build_url, explicit=None, timeout=30):
     """GET build_url(key), moving to the next key when one is out of credits.
 
@@ -93,18 +100,27 @@ def _get_rotating(build_url, explicit=None, timeout=30):
     caller nothing but a hop to the spare. Any other non-200 is returned as-is
     for the caller to raise on — a bad request would fail identically on every
     key and retrying it three times just wastes time.
+
+    Dry keys are remembered for the rest of the run. Without that, a props
+    fetch with two spent keys pays two 401s per event — 48 round trips for a
+    16-game slate instead of 16.
     """
     keys = _api_keys(explicit)
     if not keys:
         raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
+    # If everything is known dry, try them all again rather than give up
+    # without a request — one may have rolled over mid-run.
+    ordered = [k for k in keys if k not in _EXHAUSTED_KEYS] or keys
     res = None
-    for i, key in enumerate(keys, 1):
+    for key in ordered:
         res = requests.get(build_url(key), timeout=timeout)
         if res.status_code == 200:
-            if i > 1:
-                print(f"  [odds] key {i} of {len(keys)} used ({i - 1} exhausted)")
             return res
         if res.status_code == 401 and "OUT_OF_USAGE_CREDITS" in (res.text or ""):
+            if key not in _EXHAUSTED_KEYS:
+                _EXHAUSTED_KEYS.add(key)
+                print(f"  [odds] key {keys.index(key) + 1} of {len(keys)} is out "
+                      "of credits — skipping it for the rest of this run")
             continue
         return res
     print(f"  [odds] all {len(keys)} keys are out of credits")
