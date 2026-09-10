@@ -2196,14 +2196,16 @@ function nflSystemSelector() {
 }
 
 // Does the selected system apply to this game's pick on this market?
-// Matches on FIRED, not just on "was the bet" — three of the registered
-// systems are nested inside a higher-probability parent and so never win the
-// pick, but filtering to them should still surface the games they confirm.
-function nflSystemMatches(g, market) {
+// Strict by default: only the system actually credited with the bet, so
+// filtering to one system shows that system's plays and nothing else.
+// `loose` also accepts games where it merely fired — the caller falls back to
+// that for a confirm-only system, which is never credited and would otherwise
+// have nothing to show at all.
+function nflSystemMatches(g, market, loose) {
   if (nflSystemFilter === 'all') return true;
   const id = market === 'total' ? g.situationalPick : g.situationalSpreadPick;
   if (id === nflSystemFilter) return true;
-  if (!id) return false;
+  if (!loose || !id) return false;
   return (g.systemsFired || []).includes(nflSystemFilter);
 }
 
@@ -2230,6 +2232,7 @@ function nflRenderSystemPlays(run) {
   // Group by the system that made the pick, in registry order, so the week
   // reads as "here is what each system is telling me" rather than a flat list
   // you have to scan for the system name.
+  const collect = (loose) => {
   const bySystem = new Map();
   const standDowns = [];
   const push = (id, row) => {
@@ -2238,8 +2241,8 @@ function nflRenderSystemPlays(run) {
   };
   games.forEach(g => {
     const matchup = `${esc(g.away)} @ ${esc(g.home)}`;
-    const showTotal = g.situationalPick && nflSystemMatches(g, 'total');
-    const showSpread = g.situationalSpreadPick && nflSystemMatches(g, 'spread');
+    const showTotal = g.situationalPick && nflSystemMatches(g, 'total', loose);
+    const showSpread = g.situationalSpreadPick && nflSystemMatches(g, 'spread', loose);
     if (!showTotal && !showSpread) {
       // Two systems pointed opposite ways on the same market, so the engine
       // took neither. It still needs a row: dropped silently, the game just
@@ -2286,6 +2289,14 @@ function nflRenderSystemPlays(run) {
       </div>`);
     }
   });
+    return { bySystem, standDowns };
+  };
+  let { bySystem, standDowns } = collect(false);
+  // A confirm-only system is never the credited pick, so a strict pass finds
+  // nothing for it. Only then fall back to the games where it merely fired.
+  if (!bySystem.size && nflSystemFilter !== 'all') {
+    ({ bySystem, standDowns } = collect(true));
+  }
   if (!bySystem.size && !standDowns.length) {
     return `<div class="card card-picks"><div class="card-title">${title}</div>
       <div class="no-picks">No system plays this week.</div></div>`;
@@ -2354,7 +2365,7 @@ function nflRenderSystemRecord(runs) {
   const tu = TW - TL * 1.1, tn = TW + TL;
   return `
     <div class="card card-records">
-      <div class="card-title">System Record ${nflSystemSelector()}</div>
+      <div class="card-title">System Record</div>
       <table class="data">
         <thead><tr><th>System</th><th>W-L</th><th class="center">Win%</th>
           <th class="center">Flat</th><th class="center">Graded</th></tr></thead>

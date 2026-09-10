@@ -81,6 +81,7 @@ async function renderNFL() {
       <button class="view-btn ${viewMode === 'history' ? 'active' : ''}" onclick="setView('history')">History</button>
       ${seasonSelector(allRuns)}
       ${viewMode === 'today' ? nflWeekSelector(runs) : nflHistoryWeekSelector(runs)}
+      ${nflSystemSelector()}
     </div>`;
 
   if (viewMode === 'today' && selectedRun) {
@@ -101,10 +102,10 @@ async function renderNFL() {
     // This tab is a SYSTEM NOTIFIER. The spread/total projection has no
     // measurable edge over the market (see engine_v2 header), so it is
     // reference material only and lives at the bottom behind a toggle.
-    html += '<div class="section-label">System Plays</div>';
-    html += nflRenderSystemPlays(systemsRun);
     html += '<div class="section-label">System Record</div>';
     html += nflRenderSystemRecord(systemStatsRuns);
+    html += '<div class="section-label">System Plays</div>';
+    html += nflRenderSystemPlays(systemsRun);
 
     // ── Reference: the projection, collapsed by default ───────────────
     html += `<div class="section-label" style="cursor:pointer" onclick="nflToggleModel()">
