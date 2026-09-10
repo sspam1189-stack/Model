@@ -2195,12 +2195,13 @@ function nflRenderSystemPlays(run) {
   const games = (run.games || []).filter(g =>
     (g.situationalPick || g.situationalSpreadPick) &&
     g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
-  // Chronological: Thursday night first, Monday night last. Runs from before
-  // kickoff time was persisted have none, so those keep their feed order at
-  // the end rather than jumping the queue.
+  // Chronological: Thursday night first, Monday night last. A game with no
+  // kickoff is one carried forward from before the field existed — in a mixed
+  // week that means it has already been played, so it sorts first. When no game
+  // in the week has one they all tie and the stable sort keeps feed order.
   const kickoff = g => {
     const t = Date.parse(g.commenceTimeIso || '');
-    return Number.isFinite(t) ? t : Infinity;
+    return Number.isFinite(t) ? t : -Infinity;
   };
   games.sort((a, b) => kickoff(a) - kickoff(b));
   const filterLabel = nflSystemFilter === 'all'
