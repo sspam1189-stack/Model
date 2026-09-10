@@ -282,7 +282,10 @@ function aliasInText(text) {
 
 function setSeasonFilter(val) {
   seasonFilter = val;
-  nflWeekFilter = 'latest';
+  // Changing season while a system is selected keeps every week in view —
+  // snapping back to one week is how you end up staring at an empty card for
+  // a system that simply didn't fire that week.
+  nflWeekFilter = (activeTab === 'nfl' && nflSystemFilter !== 'all') ? 'all' : 'latest';
   nflHistoryWeekFilter = 'all';
   historyPage = 0;
   render();
@@ -2173,7 +2176,14 @@ const NFL_SYSTEM_COLORS = {
 };
 const nflSystemColor = (id) => NFL_SYSTEM_COLORS[id] || 'var(--muted)';
 
-function setNflSystemFilter(val) { nflSystemFilter = val; render(); }
+function setNflSystemFilter(val) {
+  nflSystemFilter = val;
+  // Picking a system means "show me this system", so widen to every week —
+  // otherwise you get one week's slice of it, which is empty whenever that
+  // system didn't fire that week. Clearing the filter restores the default.
+  nflWeekFilter = val === 'all' ? 'latest' : 'all';
+  render();
+}
 function nflToggleModel() { nflShowModel = !nflShowModel; render(); }
 
 function nflSystemSelector() {
