@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-11T00:32:38Z",
+  "generated": "2026-09-11T13:07:25Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,21 +84,21 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 530,
+    "wins": 531,
     "losses": 216,
     "voids": 0,
     "skips": 52,
-    "staked": 940.59,
-    "units": 317.88,
+    "staked": 943.49,
+    "units": 318.88,
     "roi": 0.338,
     "byType": {
       "ml": {
-        "wins": 518,
+        "wins": 519,
         "losses": 204,
         "voids": 0,
         "skips": 4,
-        "staked": 916.59,
-        "units": 313.4,
+        "staked": 919.49,
+        "units": 314.4,
         "roi": 0.3419
       },
       "ml_dog": {
@@ -114,28 +114,100 @@
   },
   "today": [
     {
-      "date": "2026-09-10",
-      "commence": "2026-09-10T23:05:00Z",
+      "date": "2026-09-11",
+      "commence": "2026-09-11T22:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Ryan Feltner"
+        "Framber Valdez"
       ],
-      "fadeTeam": "COL",
+      "fadeTeam": "DET",
       "market": "h2h",
-      "selection": "NYY",
+      "selection": "COL",
       "line": null,
-      "odds": -290,
-      "stake": 2.9,
+      "odds": 154,
+      "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "NYY",
+      "home": "DET",
       "away": "COL",
-      "gamePk": 823499,
-      "fadeReason": "away"
+      "gamePk": 824227,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-11T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "LAA",
+      "gamePk": 822684,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-12T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -168,
+      "stake": 1.68,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "SEA",
+      "gamePk": 824954,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-11T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "BAL",
+      "gamePk": 822767,
+      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -19361,6 +19433,30 @@
       "home": "SEA",
       "away": "TEX",
       "gamePk": 823088,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-10",
+      "commence": "2026-09-10T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -290,
+      "stake": 2.9,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "COL",
+      "gamePk": 823499,
       "fadeReason": "away"
     }
   ]

@@ -1,72 +1,174 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-09-10",
-  "generated": "2026-09-11T00:32:39Z",
+  "date": "2026-09-11",
+  "generated": "2026-09-11T13:07:26Z",
   "hands": {
-    "martin perez": "L",
-    "nick martinez": "R",
-    "zack wheeler": "R",
-    "cristian javier": "R",
-    "logan gilbert": "R",
-    "jacob degrom": "R",
-    "max fried": "L",
-    "ryan feltner": "R",
-    "hagen smith": "L",
-    "jared jones": "R"
+    "shota imanaga": "L",
+    "wilber dotel": "R",
+    "framber valdez": "L",
+    "mason adams": "R",
+    "cade cavalli": "R",
+    "yusei kikuchi": "L",
+    "carlos rodon": "L",
+    "nolan mclean": "R",
+    "max scherzer": "R",
+    "chris bassitt": "R",
+    "sonny gray": "R",
+    "seth lugo": "R",
+    "drew rasmussen": "R",
+    "miguel ullola": "R",
+    "ryan gusto": "R",
+    "chris sale": "L",
+    "aaron nola": "R",
+    "dustin may": "R",
+    "andrew abbott": "L",
+    "taj bradley": "R",
+    "parker messick": "L",
+    "matthew liberatore": "L",
+    "anthony kay": "L",
+    "jeffrey springs": "L",
+    "george kirby": "R",
+    "anthony molina": "R",
+    "robbie ray": "L"
   },
   "names": {
-    "martin perez": "Mart\u00edn P\u00e9rez",
-    "nick martinez": "Nick Martinez",
-    "zack wheeler": "Zack Wheeler",
-    "cristian javier": "Cristian Javier",
-    "logan gilbert": "Logan Gilbert",
-    "jacob degrom": "Jacob deGrom",
-    "max fried": "Max Fried",
-    "ryan feltner": "Ryan Feltner",
-    "hagen smith": "Hagen Smith",
-    "jared jones": "Jared Jones"
+    "shota imanaga": "Shota Imanaga",
+    "wilber dotel": "Wilber Dotel",
+    "framber valdez": "Framber Valdez",
+    "mason adams": "Mason Adams",
+    "cade cavalli": "Cade Cavalli",
+    "yusei kikuchi": "Yusei Kikuchi",
+    "carlos rodon": "Carlos Rod\u00f3n",
+    "nolan mclean": "Nolan McLean",
+    "max scherzer": "Max Scherzer",
+    "chris bassitt": "Chris Bassitt",
+    "sonny gray": "Sonny Gray",
+    "seth lugo": "Seth Lugo",
+    "drew rasmussen": "Drew Rasmussen",
+    "miguel ullola": "Miguel Ullola",
+    "ryan gusto": "Ryan Gusto",
+    "chris sale": "Chris Sale",
+    "aaron nola": "Aaron Nola",
+    "dustin may": "Dustin May",
+    "andrew abbott": "Andrew Abbott",
+    "taj bradley": "Taj Bradley",
+    "parker messick": "Parker Messick",
+    "matthew liberatore": "Matthew Liberatore",
+    "anthony kay": "Anthony Kay",
+    "jeffrey springs": "Jeffrey Springs",
+    "george kirby": "George Kirby",
+    "anthony molina": "Anthony Molina",
+    "robbie ray": "Robbie Ray"
   },
   "starters": {
-    "ATL": {
-      "name": "Mart\u00edn P\u00e9rez",
-      "hand": "L"
-    },
-    "TB": {
-      "name": "Nick Martinez",
-      "hand": "R"
-    },
-    "PHI": {
-      "name": "Zack Wheeler",
-      "hand": "R"
-    },
-    "HOU": {
-      "name": "Cristian Javier",
-      "hand": "R"
-    },
-    "SEA": {
-      "name": "Logan Gilbert",
-      "hand": "R"
-    },
-    "TEX": {
-      "name": "Jacob deGrom",
-      "hand": "R"
-    },
-    "NYY": {
-      "name": "Max Fried",
-      "hand": "L"
-    },
-    "COL": {
-      "name": "Ryan Feltner",
-      "hand": "R"
-    },
-    "CWS": {
-      "name": "Hagen Smith",
+    "CHC": {
+      "name": "Shota Imanaga",
       "hand": "L"
     },
     "PIT": {
-      "name": "Jared Jones",
+      "name": "Wilber Dotel",
       "hand": "R"
+    },
+    "DET": {
+      "name": "Framber Valdez",
+      "hand": "L"
+    },
+    "COL": {
+      "name": "Mason Adams",
+      "hand": "R"
+    },
+    "WSH": {
+      "name": "Cade Cavalli",
+      "hand": "R"
+    },
+    "LAA": {
+      "name": "Yusei Kikuchi",
+      "hand": "L"
+    },
+    "NYY": {
+      "name": "Carlos Rod\u00f3n",
+      "hand": "L"
+    },
+    "NYM": {
+      "name": "Nolan McLean",
+      "hand": "R"
+    },
+    "TOR": {
+      "name": "Max Scherzer",
+      "hand": "R"
+    },
+    "BAL": {
+      "name": "Chris Bassitt",
+      "hand": "R"
+    },
+    "BOS": {
+      "name": "Sonny Gray",
+      "hand": "R"
+    },
+    "KC": {
+      "name": "Seth Lugo",
+      "hand": "R"
+    },
+    "TB": {
+      "name": "Drew Rasmussen",
+      "hand": "R"
+    },
+    "HOU": {
+      "name": "Miguel Ullola",
+      "hand": "R"
+    },
+    "MIA": {
+      "name": "Ryan Gusto",
+      "hand": "R"
+    },
+    "ATL": {
+      "name": "Chris Sale",
+      "hand": "L"
+    },
+    "PHI": {
+      "name": "Aaron Nola",
+      "hand": "R"
+    },
+    "MIL": {
+      "name": "Dustin May",
+      "hand": "R"
+    },
+    "CIN": {
+      "name": "Andrew Abbott",
+      "hand": "L"
+    },
+    "MIN": {
+      "name": "Taj Bradley",
+      "hand": "R"
+    },
+    "CLE": {
+      "name": "Parker Messick",
+      "hand": "L"
+    },
+    "STL": {
+      "name": "Matthew Liberatore",
+      "hand": "L"
+    },
+    "CWS": {
+      "name": "Anthony Kay",
+      "hand": "L"
+    },
+    "OAK": {
+      "name": "Jeffrey Springs",
+      "hand": "L"
+    },
+    "SEA": {
+      "name": "George Kirby",
+      "hand": "R"
+    },
+    "SF": {
+      "name": "Anthony Molina",
+      "hand": "R"
+    },
+    "SD": {
+      "name": "Robbie Ray",
+      "hand": "L"
     }
   }
 }

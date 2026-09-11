@@ -1,13 +1,102 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-11T00:37:52Z",
+  "generated": "2026-09-11T13:12:29Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-11T23:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Sonny Gray",
+      "hand": "R",
+      "arm_team": "BOS",
+      "opp_team": "KC",
+      "selection": "BOS",
+      "home": "BOS",
+      "away": "KC",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 7.56,
+      "games": 17,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-11T23:45:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "MIL",
+      "selection": "CIN",
+      "home": "MIL",
+      "away": "CIN",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.22,
+      "games": 23,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-12T00:15:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Matthew Liberatore",
+      "hand": "L",
+      "arm_team": "STL",
+      "opp_team": "CWS",
+      "selection": "CWS",
+      "home": "STL",
+      "away": "CWS",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 3.5,
+      "games": 23,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-11",
+      "commence": "2026-09-12T00:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "arm_team": "CWS",
+      "opp_team": "STL",
+      "selection": "CWS",
+      "home": "STL",
+      "away": "CWS",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.96,
+      "games": 23,
+      "result": "unconfirmed"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
@@ -367,7 +456,7 @@
         "l": 3,
         "u": 4.76
       },
-      "era": 3.04
+      "era": 2.92
     },
     {
       "pitcher": "Chase Burns",
@@ -476,6 +565,24 @@
         "u": 4.5
       },
       "era": 5.31
+    },
+    {
+      "pitcher": "Jared Jones",
+      "hand": "R",
+      "games": 8,
+      "suggest": "take",
+      "suggestUnits": 4.5,
+      "fade": {
+        "w": 2,
+        "l": 6,
+        "u": -5.54
+      },
+      "take": {
+        "w": 6,
+        "l": 2,
+        "u": 4.5
+      },
+      "era": 4.1
     },
     {
       "pitcher": "Brandon Pfaadt",
