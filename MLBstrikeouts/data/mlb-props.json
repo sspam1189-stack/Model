@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-09-10T23:02:03Z",
+  "generated": "2026-09-11T00:31:41Z",
   "totalProjections": 9,
   "totalPicks": 3606,
   "totalWatchlist": 9,
@@ -122455,7 +122455,7 @@
       "proj_raw": 5.056,
       "would_be_pick": "UNDER",
       "date": "2026-09-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-10T21:02:07.720562Z",
       "lineupConfirmed": true
     },
@@ -122486,7 +122486,7 @@
       "proj_raw": 4.048,
       "would_be_pick": "UNDER",
       "date": "2026-09-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-10T21:02:07.720562Z",
       "lineupConfirmed": true
     },
@@ -122517,7 +122517,7 @@
       "proj_raw": 6.837,
       "would_be_pick": "OVER",
       "date": "2026-09-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-10T21:02:07.720562Z",
       "lineupConfirmed": true
     }
@@ -122731,7 +122731,7 @@
       "to_win_1u": 1.25,
       "proj_raw": 4.048,
       "date": "2026-09-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-10T21:02:07.720562Z",
       "lineupConfirmed": true
     },
@@ -122761,7 +122761,7 @@
       "to_win_1u": 1.22,
       "proj_raw": 5.056,
       "date": "2026-09-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-10T21:02:07.720562Z",
       "lineupConfirmed": true
     },
@@ -122791,7 +122791,7 @@
       "to_win_1u": 1.54,
       "proj_raw": 6.837,
       "date": "2026-09-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-10T21:02:07.720562Z",
       "lineupConfirmed": true
     }
@@ -122815,10 +122815,10 @@
     "HOU": "Final",
     "SEA": "Final",
     "TEX": "Final",
-    "NYY": "Warmup",
-    "COL": "Warmup",
-    "CWS": "Pre-Game",
-    "PIT": "Pre-Game"
+    "NYY": "In Progress",
+    "COL": "In Progress",
+    "CWS": "In Progress",
+    "PIT": "In Progress"
   },
   "gameTimesById": {
     "824872": "2026-09-10T16:15:00Z",
@@ -122831,8 +122831,8 @@
     "824872": "Final",
     "823413": "Final",
     "823088": "Final",
-    "823499": "Warmup",
-    "824550": "Pre-Game"
+    "823499": "In Progress",
+    "824550": "In Progress"
   },
   "todayProbables": [
     {
