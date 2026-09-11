@@ -130,12 +130,11 @@ def _load_caches():
                 return json.load(f)
         except Exception:
             return {}
-    # find the season bat_sides file (player_bat_sides_YYYY.json)
-    bs = {}
-    for fn in os.listdir(_CACHE_DIR) if os.path.isdir(_CACHE_DIR) else []:
-        if fn.startswith("player_bat_sides_") and fn.endswith(".json"):
-            bs = _load(fn)
-            break
+    # find the season bat_sides file (player_bat_sides_YYYY.json) via the same
+    # helper _persist_hands writes through, so reader and writer can never pick
+    # different files when more than one season is cached.
+    path = _bat_sides_path()
+    bs = _load(os.path.basename(path)) if path else {}
     bo = _load("batting_orders_2026.json")
     return bs, bo
 
@@ -172,26 +171,160 @@ def _load_today_lineups(date_iso):
 
 
 _LIVE_HAND = {}  # pid(str) -> 'L'/'R'/'S' resolved live for batters missing from bat_sides
+_PRIMED = False   # True once the whole-season prime pass below has run
+
+# fetch_player_bat_sides() caches player_bat_sides_YYYY.json with max_age_hours=
+# None ("never changes mid-season"), which is true of a player's bat side but
+# NOT of the roster: every call-up, trade and debut after that file was first
+# written is missing from it. The season replays in build_hand_tails_roster,
+# hand_tails_watch and run_daily_hand_tails walk ~2400 games and hit
+# opp_lineup_state per side, so those stragglers used to cost one /people round
+# trip PER LINEUP that introduced one (measured 2026-09-11: 209 requests, 66.4s
+# of a 66.8s replay, for 216 ids that all resolved) -- and the answers died with
+# the process, so all three scripts paid it again on every run, six runs a day.
+# _prime_hands resolves every missing id across the cached lineups in one
+# batched pass and writes the results back into the season file, so the second
+# run onward costs nothing.
+_PEOPLE_CHUNK = 250   # ids per /people request (URL length safety)
+
+
+def _bat_sides_path():
+    """Path of the season bat_sides cache _load_caches() reads, or None."""
+    if not os.path.isdir(_CACHE_DIR):
+        return None
+    for fn in sorted(os.listdir(_CACHE_DIR)):
+        if fn.startswith("player_bat_sides_") and fn.endswith(".json"):
+            return os.path.join(_CACHE_DIR, fn)
+    return None
+
+
+def _persist_hands(resolved):
+    """Merge newly resolved {pid: hand} into the season bat_sides cache.
+
+    Best-effort and additive: existing entries are never overwritten, so this
+    cannot corrupt the file fetch_player_bat_sides wrote. Written via a temp
+    file + replace so a crash mid-write leaves the original intact.
+    """
+    if not resolved:
+        return
+    path = _bat_sides_path()
+    if not path:
+        return
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        added = {k: v for k, v in resolved.items() if str(k) not in data}
+        if not added:
+            return
+        data.update(added)
+    except Exception:
+        return
+    # Same write discipline as mlb_stats._save_cache: indent=2 (so the file
+    # stays diffable) and a short retry, because this repo lives under a synced
+    # folder that intermittently locks files mid-sync.
+    import time as _time
+    tmp = path + ".tmp"
+    for attempt in range(5):
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+            os.replace(tmp, path)
+            _load_caches.cache_clear()
+            return
+        except OSError:
+            _time.sleep(0.3 * (attempt + 1))
+    try:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    except OSError:
+        pass
+
+
+def _all_cached_lineup_ids():
+    """Every batter id appearing in any cached lineup: the per-day posted cards
+    (lineups_YYYYMMDD.json) plus the season boxscore batting orders. These are
+    exactly the ids opp_lineup_state can ask about during a season replay."""
+    ids = set()
+    try:
+        for fn in os.listdir(_CACHE_DIR):
+            if not (fn.startswith("lineups_") and fn.endswith(".json")):
+                continue
+            try:
+                with open(os.path.join(_CACHE_DIR, fn), "r", encoding="utf-8") as f:
+                    data = json.load(f) or {}
+            except Exception:
+                continue
+            for v in data.values():
+                lu = v.get("player_ids") if isinstance(v, dict) else v
+                for pid in (lu or []):
+                    ids.add(str(pid))
+    except Exception:
+        pass
+    _, bo = _load_caches()
+    for teams in (bo or {}).values():
+        for lu in (teams or {}).values():
+            for pid in (lu or []):
+                ids.add(str(pid))
+    return ids
+
+
+def _people_lookup(ids):
+    """{pid: 'L'/'R'/'S'} from MLB /people, batched. Silent on failure."""
+    out = {}
+    try:
+        import requests
+    except Exception:
+        return out
+    ids = list(ids)
+    for i in range(0, len(ids), _PEOPLE_CHUNK):
+        chunk = ids[i:i + _PEOPLE_CHUNK]
+        try:
+            r = requests.get(
+                "https://statsapi.mlb.com/api/v1/people?personIds=" + ",".join(chunk),
+                timeout=15)
+            for p in r.json().get("people", []):
+                code = (p.get("batSide") or {}).get("code")
+                if code in ("L", "R", "S"):
+                    out[str(p.get("id"))] = code
+        except Exception:
+            continue
+    return out
+
+
+def _prime_hands():
+    """One-shot: resolve every batter id missing from the bat_sides cache across
+    all cached lineups, in batched /people calls, and persist them. Runs at most
+    once per process, on the first miss."""
+    global _PRIMED
+    if _PRIMED:
+        return
+    _PRIMED = True
+    bs, _ = _load_caches()
+    missing = [i for i in _all_cached_lineup_ids() if i not in bs]
+    if not missing:
+        return
+    resolved = _people_lookup(missing)
+    _LIVE_HAND.update(resolved)
+    _persist_hands(resolved)
 
 
 def _resolve_hands(missing_ids):
-    """Fill _LIVE_HAND for batter ids not in the bat_sides cache via one batched
-    MLB /people call. Best-effort -- covers recent call-ups/trades (e.g. a hitter
-    added after the last cache refresh) so they still count. Failures are silent."""
+    """Fill _LIVE_HAND for batter ids not in the bat_sides cache. The first miss
+    primes the whole season in one batched pass (and persists it); anything the
+    prime could not cover -- an id from a lineup handed in by a caller rather
+    than read off the cache -- still falls back to a direct /people call.
+    Best-effort: covers recent call-ups/trades so they still count."""
     ids = [str(i) for i in dict.fromkeys(missing_ids) if str(i) not in _LIVE_HAND]
     if not ids:
         return
-    try:
-        import requests
-        r = requests.get(
-            "https://statsapi.mlb.com/api/v1/people?personIds=" + ",".join(ids),
-            timeout=15)
-        for p in r.json().get("people", []):
-            code = (p.get("batSide") or {}).get("code")
-            if code in ("L", "R", "S"):
-                _LIVE_HAND[str(p.get("id"))] = code
-    except Exception:
-        pass
+    if not _PRIMED:
+        _prime_hands()
+        ids = [i for i in ids if i not in _LIVE_HAND]
+        if not ids:
+            return
+    resolved = _people_lookup(ids)
+    _LIVE_HAND.update(resolved)
+    _persist_hands(resolved)
 
 
 def opp_lineup_state(opp_team, date_iso):

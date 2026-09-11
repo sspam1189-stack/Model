@@ -338,132 +338,59 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.build_plays_feed
 
-      - name: Upload MLBstrikeouts data
-        uses: actions/upload-artifact@v7
-        with:
-          name: MLBstrikeouts-data
-          path: MLBstrikeouts/data
+      # 2026-09-11: the six upload-artifact steps and the separate
+      # `commit-and-push` job on ubuntu-latest were removed. They shipped
+      # ~220 MB / 21k files (179 MB of it the pitcher cache) to the artifact
+      # service every run so a second machine could download them, copy them
+      # back into a fresh checkout and push -- ~200s of upload plus a ~67s job,
+      # roughly four minutes per run, to move the ~100 files a run actually
+      # changes. This runner already HAS the checkout and the workflow already
+      # grants contents: write, so it commits and pushes directly. Nothing
+      # outside this file consumed those artifacts; the committed data in git
+      # is the durable record.
 
-      - name: Upload shared MLB fade-ML odds cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-mlb-ml-cache
-          path: data/odds_cache/mlb_ml
-
-      - name: Upload shared MLB props cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-mlb-props-cache
-          path: data/props_cache/mlb
-
-      - name: Upload shared MLB pitcher cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-mlb-pitcher-cache
-          path: data/pitcher_cache/mlb
-
-      - name: Upload MLB empirical-std cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-mlb-emp-std-cache
-          path: data/emp_std_cache/mlb
-
-      - name: Upload MLB empirical-std cache (Whiff .1/Cap26)
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-mlb-emp-std-cache-w01c26
-          path: data/emp_std_cache/mlb_w01c26
-
-  commit-and-push:
-    runs-on: ubuntu-latest
-    needs: [mlb-props]
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: MLBstrikeouts-data
-          path: artifacts/MLBstrikeouts
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-mlb-props-cache
-          path: artifacts/mlb-props-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-mlb-pitcher-cache
-          path: artifacts/mlb-pitcher-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-mlb-emp-std-cache
-          path: artifacts/mlb-emp-std-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-mlb-emp-std-cache-w01c26
-          path: artifacts/mlb-emp-std-cache-w01c26
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-mlb-ml-cache
-          path: artifacts/mlb-ml-cache
-
-      - name: Copy artifacts
+      # Publish the dashboard's copies. EXPLICIT WHITELIST -- a new MLB
+      # dashboard JSON must be added here or PythonDashboard silently keeps
+      # serving the previous run's file.
+      - name: Publish dashboard JSONs
         shell: bash
         run: |
-          cp -a artifacts/MLBstrikeouts/. MLBstrikeouts/data/
-          mkdir -p data/props_cache/mlb
-          cp -a artifacts/mlb-props-cache/. data/props_cache/mlb/
-          mkdir -p data/pitcher_cache/mlb
-          cp -a artifacts/mlb-pitcher-cache/. data/pitcher_cache/mlb/
-          mkdir -p data/emp_std_cache/mlb
-          cp -a artifacts/mlb-emp-std-cache/. data/emp_std_cache/mlb/
-          mkdir -p data/emp_std_cache/mlb_w01c26
-          cp -a artifacts/mlb-emp-std-cache-w01c26/. data/emp_std_cache/mlb_w01c26/
-          cp -f artifacts/MLBstrikeouts/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-props_w01c26.json PythonDashboard/data/mlb-props_w01c26.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-fade-ml.json PythonDashboard/data/mlb-fade-ml.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-hand-tails.json PythonDashboard/data/mlb-hand-tails.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-hand-tails-watch.json PythonDashboard/data/mlb-hand-tails-watch.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-all-ml.json PythonDashboard/data/mlb-all-ml.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-fade-watch.json PythonDashboard/data/mlb-fade-watch.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-pitch-hands.json PythonDashboard/data/mlb-pitch-hands.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-fade-vs-team.json PythonDashboard/data/mlb-fade-vs-team.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-fade-vs-team-watch.json PythonDashboard/data/mlb-fade-vs-team-watch.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-team-woba-splits.json PythonDashboard/data/mlb-team-woba-splits.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-slate-scout.json PythonDashboard/data/mlb-slate-scout.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/flag-combo-table.json PythonDashboard/data/flag-combo-table.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/msum-ml-table.json PythonDashboard/data/msum-ml-table.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/rule-status.json PythonDashboard/data/rule-status.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/allml-systems-table.json PythonDashboard/data/allml-systems-table.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/plays-feed.json PythonDashboard/data/plays-feed.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/scout-rules-table.json PythonDashboard/data/scout-rules-table.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/hand-tails-roster.json PythonDashboard/data/hand-tails-roster.json 2>/dev/null || true
-          mkdir -p data/odds_cache/mlb_ml
-          cp -a artifacts/mlb-ml-cache/. data/odds_cache/mlb_ml/ 2>/dev/null || true
+          set -u
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p PythonDashboard/data
+          for f in \
+            mlb-props mlb-props_w01c26 mlb-fade-ml mlb-hand-tails \
+            mlb-hand-tails-watch mlb-all-ml mlb-fade-watch mlb-pitch-hands \
+            mlb-fade-vs-team mlb-fade-vs-team-watch mlb-team-woba-splits \
+            mlb-slate-scout flag-combo-table msum-ml-table rule-status \
+            allml-systems-table plays-feed scout-rules-table \
+            hand-tails-roster ; do
+            cp -f "MLBstrikeouts/data/$f.json" "PythonDashboard/data/$f.json" 2>/dev/null || true
+          done
 
       - name: Commit & push data changes
         shell: bash
         run: |
+          cd "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # The scout ledger is now written by BOTH this run (auto
-          # qualifiers) and by sessions (grades, not_bet marks, notes). A
-          # persistent runner can hold a stale copy, so take main's version
+          # The scout ledger is written by BOTH this run (auto qualifiers) and
+          # by sessions (grades, not_bet marks, notes). Take main's version
           # FIRST and re-run the logger against it -- that keeps session edits
-          # and re-adds today's qualifiers idempotently, instead of the old
-          # blanket revert which would now throw away this run's own rows.
+          # and re-adds today's qualifiers idempotently, instead of a blanket
+          # revert which would throw away this run's own rows.
           git fetch origin main
           git checkout FETCH_HEAD -- MLBstrikeouts/data/scout-card-log.json 2>/dev/null || true
           (cd MLBstrikeouts && python -m scripts.log_daily_qualifiers) || true
           (cd MLBstrikeouts && python -m scripts.grade_scout_ledger) || true
           (cd MLBstrikeouts && python -m scripts.build_plays_feed) || true
           git add -A
-          git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
-          git pull --rebase --autostash origin main
-          git push
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
+          # Retry like the WNBA daily does: this runner races the other daily
+          # pipelines for main, and a lost race used to fail the whole run.
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1
