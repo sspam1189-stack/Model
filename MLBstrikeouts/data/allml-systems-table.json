@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-11T20:01:02Z",
+ "generated": "2026-09-11T21:05:11Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-10"
@@ -979,9 +979,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -122,
+   "price": -124,
    "side": "U",
-   "why": "book laying -122 on the under",
+   "why": "book laying -124 on the under",
    "gamePk": 824227,
    "date": "2026-09-11",
    "commence": "2026-09-11T22:40:00Z",
@@ -1073,15 +1073,33 @@
    "market": "totals",
    "pick": "under",
    "price": 104,
-   "side": "U",
+   "line": 7.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
+   "gamePk": 823736,
+   "date": "2026-09-11",
+   "commence": "2026-09-11T23:45:00Z",
+   "matchup": "CIN @ MIL",
+   "total": 7.5,
    "why": "both starters Andrew Abbott 38%, Dustin May 38% over in last 8",
+   "stale": true,
+   "stale_now": "favourite now -200, total now 8.5 (was 7.5)"
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -124,
+   "side": "U",
+   "why": "book laying -124 on the under",
    "gamePk": 823736,
    "date": "2026-09-11",
    "commence": "2026-09-11T23:45:00Z",
    "matchup": "CIN @ MIL",
    "away": "CIN",
    "home": "MIL",
-   "total": 7.5
+   "total": 8.5
   },
   {
    "rule": "pickem-under",
@@ -1099,7 +1117,7 @@
    "total": 8.5,
    "why": "favorite only -112 at a 8.5 total",
    "stale": true,
-   "stale_now": "favourite now -112, total now 7.5 (was 8.5)"
+   "stale_now": "favourite now -110, total now 7.5 (was 8.5)"
   },
   {
    "rule": "under-juice",
@@ -1117,7 +1135,7 @@
    "total": 8.5,
    "why": "book laying -128 on the under",
    "stale": true,
-   "stale_now": "favourite now -112, total now 7.5 (was 8.5)"
+   "stale_now": "favourite now -110, total now 7.5 (was 8.5)"
   },
   {
    "rule": "away-dog-ml",
@@ -1135,7 +1153,7 @@
    "total": null,
    "why": "away dog at a 9.5 total",
    "stale": true,
-   "stale_now": "favourite now -116, total still 8.5"
+   "stale_now": "favourite now -112, total still 8.5"
   },
   {
    "rule": "division-home-dog",
@@ -1171,6 +1189,21 @@
    "home": "OAK",
    "total": 10.5,
    "conflict_skip": true
+  },
+  {
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": 100,
+   "side": "U",
+   "why": "favorite only -112 at a 8.5 total",
+   "gamePk": 825036,
+   "date": "2026-09-11",
+   "commence": "2026-09-12T01:40:00Z",
+   "matchup": "TEX @ ARI",
+   "away": "TEX",
+   "home": "ARI",
+   "total": 8.5
   },
   {
    "rule": "starter-over-run",
@@ -1222,7 +1255,7 @@
    "total": 9.5,
    "why": "book laying -132 on the under",
    "stale": true,
-   "stale_now": "favourite now -116, total now 8.5 (was 9.5)"
+   "stale_now": "favourite now -112, total now 8.5 (was 9.5)"
   },
   {
    "rule": "division-home-dog",
