@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-12T01:22:14Z",
+  "generated": "2026-09-12T13:05:20Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 26,
-  "qualifiedCount": 26,
+  "qualifiedCount": 25,
   "promotions": [
     {
       "name": "Noah Cameron",
@@ -26,7 +26,14 @@
       "since": "2026-09-04"
     }
   ],
-  "demotions": [],
+  "demotions": [
+    {
+      "name": "Seth Lugo",
+      "hand": "R",
+      "games": 12,
+      "units": 2.0
+    }
+  ],
   "arms": {
     "Andrew Alvarez": {
       "hand": "L",
@@ -82,7 +89,7 @@
       "windows": [
         [
           "2026-09-08",
-          "2026-09-11"
+          "2026-09-12"
         ]
       ]
     },
@@ -131,7 +138,7 @@
       "windows": [
         [
           "2026-09-08",
-          "2026-09-11"
+          "2026-09-12"
         ]
       ]
     },
@@ -251,7 +258,7 @@
       "windows": [
         [
           "2026-08-18",
-          "2026-09-11"
+          "2026-09-12"
         ]
       ]
     },
@@ -273,7 +280,16 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-09-11"
+          "2026-09-12"
+        ]
+      ]
+    },
+    "Matthew Liberatore": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-09-11",
+          "2026-09-12"
         ]
       ]
     },
@@ -308,7 +324,7 @@
         ],
         [
           "2026-09-06",
-          "2026-09-11"
+          "2026-09-12"
         ]
       ]
     },
@@ -445,7 +461,7 @@
       "windows": [
         [
           "2026-08-30",
-          null
+          "2026-09-12"
         ]
       ]
     },
@@ -476,7 +492,7 @@
       "windows": [
         [
           "2026-09-08",
-          "2026-09-11"
+          "2026-09-12"
         ]
       ]
     },

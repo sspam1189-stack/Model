@@ -1,31 +1,58 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-12T01:22:18Z",
+  "generated": "2026-09-12T13:05:24Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-11",
-      "commence": "2026-09-12T01:40:00Z",
+      "date": "2026-09-12",
+      "commence": "2026-09-12T22:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "George Kirby",
-      "arm_team": "SEA",
-      "fadeTeam": "SEA",
-      "selection": "OAK",
-      "home": "OAK",
-      "away": "SEA",
-      "venue": "away",
-      "odds": 140,
-      "suggest": "away",
-      "suggestUnits": 4.3,
-      "games": 12,
+      "pitcher": "Ian Seymour",
+      "arm_team": "TB",
+      "fadeTeam": "TB",
+      "selection": "HOU",
+      "home": "TB",
+      "away": "HOU",
+      "venue": "home",
+      "odds": 122,
+      "suggest": "home",
+      "suggestUnits": 3.6,
+      "games": 8,
       "result": "pending"
     }
   ],
   "candidates": [
+    {
+      "pitcher": "George Kirby",
+      "team": "SEA",
+      "suggest": "away",
+      "suggestUnits": 5.7,
+      "all": {
+        "w": 15,
+        "l": 11,
+        "u": 6.68,
+        "n": 26,
+        "roi": 0.2463
+      },
+      "home": {
+        "w": 6,
+        "l": 7,
+        "u": 0.98,
+        "n": 13,
+        "roi": 0.0753
+      },
+      "away": {
+        "w": 9,
+        "l": 4,
+        "u": 5.7,
+        "n": 13,
+        "roi": 0.4043
+      }
+    },
     {
       "pitcher": "Reid Detmers",
       "team": "LAA",
@@ -105,33 +132,6 @@
         "u": 4.58,
         "n": 4,
         "roi": 0.8164
-      }
-    },
-    {
-      "pitcher": "George Kirby",
-      "team": "SEA",
-      "suggest": "away",
-      "suggestUnits": 4.3,
-      "all": {
-        "w": 14,
-        "l": 11,
-        "u": 5.28,
-        "n": 25,
-        "roi": 0.2021
-      },
-      "home": {
-        "w": 6,
-        "l": 7,
-        "u": 0.98,
-        "n": 13,
-        "roi": 0.0753
-      },
-      "away": {
-        "w": 8,
-        "l": 4,
-        "u": 4.3,
-        "n": 12,
-        "roi": 0.3282
       }
     },
     {
@@ -330,10 +330,10 @@
       "suggestUnits": 3.36,
       "all": {
         "w": 13,
-        "l": 14,
-        "u": 0.56,
-        "n": 27,
-        "roi": 0.0196
+        "l": 15,
+        "u": -0.46,
+        "n": 28,
+        "roi": -0.0156
       },
       "home": {
         "w": 8,
@@ -344,10 +344,10 @@
       },
       "away": {
         "w": 5,
-        "l": 7,
-        "u": -2.8,
-        "n": 12,
-        "roi": -0.2121
+        "l": 8,
+        "u": -3.82,
+        "n": 13,
+        "roi": -0.2686
       }
     },
     {
@@ -735,17 +735,17 @@
       "suggestUnits": 2.68,
       "all": {
         "w": 10,
-        "l": 13,
-        "u": 1.19,
-        "n": 23,
-        "roi": 0.0499
+        "l": 14,
+        "u": 0.19,
+        "n": 24,
+        "roi": 0.0076
       },
       "home": {
         "w": 3,
-        "l": 7,
-        "u": -1.49,
-        "n": 10,
-        "roi": -0.149
+        "l": 8,
+        "u": -2.49,
+        "n": 11,
+        "roi": -0.2264
       },
       "away": {
         "w": 7,
