@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-12T16:03:56Z",
+  "generated": "2026-09-12T18:33:26Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -116,26 +116,27 @@
     {
       "date": "2026-09-12",
       "commence": "2026-09-12T23:10:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Brady Singer"
+        "Brady Singer",
+        "Shane Drohan"
       ],
-      "fadeTeam": "CIN",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "MIL",
+      "selection": null,
       "line": null,
-      "odds": -188,
-      "stake": 1.88,
-      "result": "pending",
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
+      "reason": "mutual_skip",
       "home": "MIL",
       "away": "CIN",
       "gamePk": 823737,
-      "fadeReason": "all"
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-09-12",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-12T16:04:04Z",
+  "generated": "2026-09-12T18:33:35Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -32,28 +32,6 @@
     },
     {
       "date": "2026-09-12",
-      "commence": "2026-09-12T19:07:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Spencer Miles",
-      "hand": "R",
-      "arm_team": "TOR",
-      "opp_team": "BAL",
-      "selection": "BAL",
-      "home": "TOR",
-      "away": "BAL",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "fade",
-      "suggestUnits": 3.12,
-      "games": 3,
-      "result": "unconfirmed"
-    },
-    {
-      "date": "2026-09-12",
       "commence": "2026-09-12T20:05:00Z",
       "betType": "watch_fade",
       "action": "fade",
@@ -67,12 +45,12 @@
       "away": "SD",
       "oppLefty": 6,
       "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 148,
       "suggest": "fade",
       "suggestUnits": 2.52,
       "games": 12,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-12",

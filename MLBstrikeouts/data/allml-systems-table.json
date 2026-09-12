@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-12T16:04:24Z",
+ "generated": "2026-09-12T18:33:55Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-11"
@@ -991,7 +991,7 @@
    "total": 8.5,
    "why": "favorite only -110 at a 8.5 total",
    "stale": true,
-   "stale_now": "favourite now -126, total still 8.5"
+   "stale_now": "favourite now -136, total still 8.5"
   },
   {
    "rule": "division-home-dog",
@@ -1059,6 +1059,25 @@
    "why": "book laying -134 on the under",
    "stale": true,
    "stale_now": "favourite now -176, total now 7.5 (was 8.5)"
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "MIA",
+   "price": 393,
+   "side": null,
+   "why": "MIA ML +144 with U7.5 +102, pays 4.93x",
+   "line": 7.5,
+   "ml_price": 144,
+   "under_price": 102,
+   "payout": 4.929,
+   "gamePk": 823819,
+   "date": "2026-09-12",
+   "commence": "2026-09-12T20:10:00Z",
+   "matchup": "LAD @ MIA",
+   "away": "LAD",
+   "home": "MIA",
+   "total": 7.5
   },
   {
    "rule": "pickem-under",
