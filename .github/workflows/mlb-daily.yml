@@ -48,13 +48,28 @@ jobs:
       - name: Clear bytecode cache
         run: Get-ChildItem -Path MLBstrikeouts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
 
+      # These stat caches are written with "never expire" (_load_cache with no
+      # max_age_hours), so deleting them here IS the TTL -- without this step
+      # the 11:00 run would reuse the 8:00 snapshot all day. Added 2026-04-14
+      # (9ee620209) to stop stale caches crashing the run.
+      #
+      # EXCEPT *_thru_*: those are keyed by date-RANGE END, not by fetch date,
+      # so "season through 2026-05-19" is immutable and cannot go stale --
+      # fetch_pitcher_advanced_stats_through says "historical days never need
+      # to refetch". They landed 2026-05-19 (89d63880e), five weeks after this
+      # step, and silently inherited its pitcher_advanced_* / team_batting_*
+      # globs, so every run deleted ~333 files it had no reason to. Nothing was
+      # ever wrong (the daily run regenerates what it reads, and a refetch is
+      # byte-identical) -- it just cost a manual backfill ~170 needless
+      # date-range refetches. 2026-09-12: excluded, and the 333 restored.
       - name: Clear stale pitcher caches
         run: |
-          $ErrorActionPreference='SilentlyContinue'
-          Remove-Item -Path "data\pitcher_cache\mlb\team_pitching_*.json" -Force 2>&1 | Out-Null
-          Remove-Item -Path "data\pitcher_cache\mlb\team_batting_*.json" -Force 2>&1 | Out-Null
-          Remove-Item -Path "data\pitcher_cache\mlb\pitcher_advanced_*.json" -Force 2>&1 | Out-Null
-          Remove-Item -Path "data\pitcher_cache\mlb\pitcher_sabermetrics_*.json" -Force 2>&1 | Out-Null
+          $ErrorActionPreference = 'SilentlyContinue'
+          Get-ChildItem -Path "data\pitcher_cache\mlb" -Filter "*.json" |
+            Where-Object {
+              $_.Name -match '^(team_pitching|team_batting|pitcher_advanced|pitcher_sabermetrics)_' -and
+              $_.Name -notmatch '_thru_'
+            } | Remove-Item -Force
           exit 0
 
       - name: Install dependencies
