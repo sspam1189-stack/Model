@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-12T18:33:35Z",
+  "generated": "2026-09-12T21:03:03Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T18:20:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "arm_team": "CHC",
-      "opp_team": "PIT",
-      "selection": "PIT",
-      "home": "CHC",
-      "away": "PIT",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 104,
-      "suggest": "fade",
-      "suggestUnits": 2.88,
-      "games": 8,
-      "result": "pending"
-    },
     {
       "date": "2026-09-12",
       "commence": "2026-09-12T20:05:00Z",
@@ -67,12 +45,12 @@
       "away": "CWS",
       "oppLefty": 7,
       "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -108,
       "suggest": "take",
       "suggestUnits": 7.12,
       "games": 10,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -831,24 +809,6 @@
         "u": -3.02
       },
       "era": 6.14
-    },
-    {
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "games": 8,
-      "suggest": "fade",
-      "suggestUnits": 2.88,
-      "fade": {
-        "w": 5,
-        "l": 3,
-        "u": 2.88
-      },
-      "take": {
-        "w": 3,
-        "l": 5,
-        "u": -3.36
-      },
-      "era": 2.83
     },
     {
       "pitcher": "Luis Castillo",

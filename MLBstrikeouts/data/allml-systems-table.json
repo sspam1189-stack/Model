@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-12T18:33:55Z",
+ "generated": "2026-09-12T21:03:24Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-11"
+  "to": "2026-09-12"
  },
- "games": 2212,
+ "games": 2215,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.3,
-  "over": -5.1,
-  "under": -4.4,
+  "over": -5.0,
+  "under": -4.5,
   "parlay": 0.0
  },
  "systems": [
@@ -28,14 +28,14 @@
    "ladder_fails": true,
    "record": {
     "w": 91,
-    "l": 77,
-    "n": 168,
-    "units": 42.12,
-    "roi": 25.1
+    "l": 78,
+    "n": 169,
+    "units": 41.12,
+    "roi": 24.3
    },
    "halves": [
     23.9,
-    26.0
+    24.7
    ],
    "monthly": [
     {
@@ -89,10 +89,10 @@
     {
      "month": "2026-09",
      "w": 4,
-     "l": 1,
-     "n": 5,
-     "units": 3.9,
-     "roi": 78.0
+     "l": 2,
+     "n": 6,
+     "units": 2.9,
+     "roi": 48.3
     }
    ],
    "per_day": 1.0
@@ -169,7 +169,7 @@
      "roi": 63.4
     }
    ],
-   "per_day": 0.32
+   "per_day": 0.31
   },
   {
    "baseline_key": "side",
@@ -399,11 +399,11 @@
      "roi": 38.4
     }
    ],
-   "per_day": 1.51
+   "per_day": 1.5
   },
   {
    "baseline_key": "over",
-   "baseline": -5.1,
+   "baseline": -5.0,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -473,11 +473,11 @@
      "roi": 3.4
     }
    ],
-   "per_day": 1.3
+   "per_day": 1.29
   },
   {
    "baseline_key": "under",
-   "baseline": -4.4,
+   "baseline": -4.5,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.1,
+   "baseline": -5.0,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -629,11 +629,11 @@
      "roi": 11.1
     }
    ],
-   "per_day": 0.8
+   "per_day": 0.79
   },
   {
    "baseline_key": "under",
-   "baseline": -4.4,
+   "baseline": -4.5,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -644,14 +644,14 @@
    "ladder_fails": false,
    "record": {
     "w": 249,
-    "l": 192,
-    "n": 441,
-    "units": 11.76,
-    "roi": 2.7
+    "l": 193,
+    "n": 442,
+    "units": 10.76,
+    "roi": 2.4
    },
    "halves": [
     3.2,
-    2.1
+    1.7
    ],
    "monthly": [
     {
@@ -705,10 +705,10 @@
     {
      "month": "2026-09",
      "w": 15,
-     "l": 21,
-     "n": 36,
-     "units": -8.81,
-     "roi": -24.5
+     "l": 22,
+     "n": 37,
+     "units": -9.81,
+     "roi": -26.5
     }
    ],
    "per_day": 2.62
@@ -785,11 +785,11 @@
      "roi": -42.0
     }
    ],
-   "per_day": 1.15
+   "per_day": 1.14
   },
   {
    "baseline_key": "over",
-   "baseline": -5.1,
+   "baseline": -5.0,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -867,11 +867,11 @@
      "roi": 5.2
     }
    ],
-   "per_day": 1.45
+   "per_day": 1.44
   },
   {
    "baseline_key": "under",
-   "baseline": -4.4,
+   "baseline": -4.5,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -941,40 +941,10 @@
      "roi": 23.2
     }
    ],
-   "per_day": 1.03
+   "per_day": 1.02
   }
  ],
  "today": [
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 823496,
-   "date": "2026-09-12",
-   "commence": "2026-09-12T17:35:00Z",
-   "matchup": "NYM @ NYY",
-   "away": "NYM",
-   "home": "NYY",
-   "total": 8.5
-  },
-  {
-   "rule": "away-dog-ml",
-   "market": "h2h",
-   "pick": "PIT",
-   "price": 104,
-   "side": null,
-   "why": "away dog at a 9.5 total",
-   "gamePk": 824630,
-   "date": "2026-09-12",
-   "commence": "2026-09-12T18:20:00Z",
-   "matchup": "PIT @ CHC",
-   "away": "PIT",
-   "home": "CHC",
-   "total": 9.5
-  },
   {
    "rule": "pickem-under",
    "market": "totals",
@@ -1115,7 +1085,7 @@
    "pick": "under",
    "price": -118,
    "side": "U",
-   "why": "favorite only -112 at a 8.5 total",
+   "why": "favorite only -108 at a 8.5 total",
    "gamePk": 823009,
    "date": "2026-09-12",
    "commence": "2026-09-12T23:15:00Z",

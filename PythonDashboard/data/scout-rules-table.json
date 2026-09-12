@@ -1,15 +1,15 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-12T18:34:05Z",
+ "generated": "2026-09-12T21:03:34Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-11"
+  "to": "2026-09-12"
  },
- "games": 2210,
+ "games": 2213,
  "baselines": {
   "side": -3.3,
-  "under": -4.5
+  "under": -4.6
  },
  "note": "Season history for the scout rules that had no table: Form under, Aligned ML and Mismatch ML. Replayed as-of each game date -- a game's own result is never in the features that select it. CAVEAT: the live rules read published wRC+ cells; this replay uses the wOBA index computed from the batter PA logs, the only version recomputable for a past date. Same construction, same input, not byte-identical -- a faithful replay of the rule, not of the exact cells the tab printed.",
  "rules": [
@@ -20,7 +20,7 @@
    "rule": "m_sum <= -40: both arms outclassed by the bats -> under.",
    "status": "card",
    "baseline_key": "under",
-   "baseline": -4.5,
+   "baseline": -4.6,
    "record": {
     "w": 86,
     "l": 62,
@@ -200,7 +200,7 @@
      "roi": -8.5
     }
    ],
-   "per_day": 0.64
+   "per_day": 0.63
   }
  ]
 }

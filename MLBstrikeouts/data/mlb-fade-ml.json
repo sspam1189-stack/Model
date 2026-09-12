@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-12T18:33:26Z",
+  "generated": "2026-09-12T21:02:55Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 533,
+    "wins": 534,
     "losses": 218,
     "voids": 0,
     "skips": 52,
-    "staked": 948.71,
-    "units": 318.36,
-    "roi": 0.3356,
+    "staked": 949.93,
+    "units": 319.36,
+    "roi": 0.3362,
     "byType": {
       "ml": {
-        "wins": 521,
+        "wins": 522,
         "losses": 206,
         "voids": 0,
         "skips": 4,
-        "staked": 924.71,
-        "units": 313.88,
-        "roi": 0.3394
+        "staked": 925.93,
+        "units": 314.88,
+        "roi": 0.3401
       },
       "ml_dog": {
         "wins": 12,
@@ -113,31 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T23:10:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Brady Singer",
-        "Shane Drohan"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "MIL",
-      "away": "CIN",
-      "gamePk": 823737,
-      "fadeReason": "all/home"
-    },
     {
       "date": "2026-09-12",
       "commence": "2026-09-12T20:05:00Z",
@@ -164,30 +139,6 @@
     },
     {
       "date": "2026-09-12",
-      "commence": "2026-09-12T18:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Paul Skenes"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": -122,
-      "stake": 1.22,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CHC",
-      "away": "PIT",
-      "gamePk": 824630,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-12",
       "commence": "2026-09-12T20:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -209,6 +160,31 @@
       "away": "SD",
       "gamePk": 823170,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T23:10:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer",
+        "Shane Drohan"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "MIL",
+      "away": "CIN",
+      "gamePk": 823737,
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-09-12",
@@ -19579,6 +19555,30 @@
       "away": "SEA",
       "gamePk": 824954,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "PIT",
+      "gamePk": 824630,
+      "fadeReason": "all"
     }
   ]
 }
