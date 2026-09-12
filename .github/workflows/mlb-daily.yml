@@ -349,29 +349,37 @@ jobs:
       # outside this file consumed those artifacts; the committed data in git
       # is the durable record.
 
+      # NOTE: every step in this job MUST use PowerShell (the job default).
+      # "shell: bash" resolves to the system32 bash.EXE -- that is WSL, not Git
+      # Bash -- and this runner's service account is LOCAL SYSTEM, which WSL
+      # refuses outright ("Running WSL as local system is not supported",
+      # WSL_E_LOCAL_SYSTEM_NOT_SUPPORTED). That is the real reason the copy and
+      # push steps used to live on an ubuntu-latest job. Run 34663909552
+      # (2026-09-12) failed exactly this way. The WNBA daily pushes from this
+      # same runner in PowerShell; that is the pattern to copy.
+
       # Publish the dashboard's copies. EXPLICIT WHITELIST -- a new MLB
       # dashboard JSON must be added here or PythonDashboard silently keeps
       # serving the previous run's file.
       - name: Publish dashboard JSONs
-        shell: bash
         run: |
-          set -u
-          cd "$GITHUB_WORKSPACE"
-          mkdir -p PythonDashboard/data
-          for f in \
-            mlb-props mlb-props_w01c26 mlb-fade-ml mlb-hand-tails \
-            mlb-hand-tails-watch mlb-all-ml mlb-fade-watch mlb-pitch-hands \
-            mlb-fade-vs-team mlb-fade-vs-team-watch mlb-team-woba-splits \
-            mlb-slate-scout flag-combo-table msum-ml-table rule-status \
-            allml-systems-table plays-feed scout-rules-table \
-            hand-tails-roster ; do
-            cp -f "MLBstrikeouts/data/$f.json" "PythonDashboard/data/$f.json" 2>/dev/null || true
-          done
+          $ErrorActionPreference = 'SilentlyContinue'
+          New-Item -ItemType Directory -Force PythonDashboard/data | Out-Null
+          $names = @(
+            'mlb-props', 'mlb-props_w01c26', 'mlb-fade-ml', 'mlb-hand-tails',
+            'mlb-hand-tails-watch', 'mlb-all-ml', 'mlb-fade-watch', 'mlb-pitch-hands',
+            'mlb-fade-vs-team', 'mlb-fade-vs-team-watch', 'mlb-team-woba-splits',
+            'mlb-slate-scout', 'flag-combo-table', 'msum-ml-table', 'rule-status',
+            'allml-systems-table', 'plays-feed', 'scout-rules-table',
+            'hand-tails-roster'
+          )
+          foreach ($n in $names) {
+            Copy-Item "MLBstrikeouts/data/$n.json" "PythonDashboard/data/$n.json" -Force
+          }
+          exit 0
 
       - name: Commit & push data changes
-        shell: bash
         run: |
-          cd "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # The scout ledger is written by BOTH this run (auto qualifiers) and
@@ -380,17 +388,24 @@ jobs:
           # and re-adds today's qualifiers idempotently, instead of a blanket
           # revert which would throw away this run's own rows.
           git fetch origin main
-          git checkout FETCH_HEAD -- MLBstrikeouts/data/scout-card-log.json 2>/dev/null || true
-          (cd MLBstrikeouts && python -m scripts.log_daily_qualifiers) || true
-          (cd MLBstrikeouts && python -m scripts.grade_scout_ledger) || true
-          (cd MLBstrikeouts && python -m scripts.build_plays_feed) || true
+          git checkout FETCH_HEAD -- MLBstrikeouts/data/scout-card-log.json
+          Push-Location MLBstrikeouts
+          python -m scripts.log_daily_qualifiers
+          python -m scripts.grade_scout_ledger
+          python -m scripts.build_plays_feed
+          Pop-Location
           git add -A
-          if git diff --cached --quiet; then exit 0; fi
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
           # Retry like the WNBA daily does: this runner races the other daily
-          # pipelines for main, and a lost race used to fail the whole run.
-          for i in 1 2 3 4 5; do
-            git pull --rebase --autostash origin main && git push && exit 0
-            sleep 5
-          done
+          # pipelines for main, and a lost race would otherwise fail the run.
+          $tries = 0
+          while ($tries -lt 5) {
+            git pull --rebase --autostash origin main
+            git push
+            if ($LASTEXITCODE -eq 0) { exit 0 }
+            $tries++
+            Start-Sleep -Seconds 5
+          }
           exit 1
