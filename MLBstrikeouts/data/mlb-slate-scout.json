@@ -34,7 +34,7 @@
         "away": {
           "pitcher": "Wilber Dotel",
           "listed_as": "Wilber Dotel",
-          "resolved": false,
+          "resolved": true,
           "hand": "R",
           "team": "PIT",
           "opponent_offense": "CHC",
@@ -69,7 +69,22 @@
             "season": null,
             "recent": null,
             "hot": null,
-            "recent_all": null,
+            "recent_all": {
+              "g": 5,
+              "ip": 8.3,
+              "ip_per_g": 1.67,
+              "era": 4.32,
+              "whip": 1.44,
+              "k_pct": 25.0,
+              "bb_pct": 11.1,
+              "k_bb_pct": 13.9,
+              "hr9": 0.0,
+              "k": 9,
+              "bb": 4,
+              "hr": 0,
+              "er": 4,
+              "gs": 0
+            },
             "relief": null
           },
           "trend": {},
@@ -2574,31 +2589,111 @@
       "under_ml": -120,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Blake Snell",
+          "listed_as": "Blake Snell",
+          "resolved": true,
+          "hand": "L",
           "team": "LAD",
           "opponent_offense": "MIA",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 87,
+          "opp_wrc_game": 87,
+          "opp_wrc_recent": 90,
+          "opp_wrc_recent_pa": 398,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 89,
+              "pa": 342,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 87,
+              "pa": 261,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 84,
+              "pa": 170,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 39,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -39,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 6,
+              "ip": 32.0,
+              "ip_per_gs": 5.33,
+              "era": 1.97,
+              "whip": 1.09,
+              "k_pct": 32.6,
+              "bb_pct": 10.6,
+              "k_bb_pct": 22.0,
+              "hr9": 0.0,
+              "k": 43,
+              "bb": 14,
+              "hr": 0,
+              "er": 7
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 29.0,
+              "ip_per_gs": 5.8,
+              "era": 0.93,
+              "whip": 0.93,
+              "k_pct": 33.3,
+              "bb_pct": 10.5,
+              "k_bb_pct": 22.8,
+              "hr9": 0.0,
+              "k": 38,
+              "bb": 12,
+              "hr": 0,
+              "er": 3
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 17.0,
+              "ip_per_gs": 5.67,
+              "era": 0.53,
+              "whip": 1.06,
+              "k_pct": 33.3,
+              "bb_pct": 11.6,
+              "k_bb_pct": 21.7,
+              "hr9": 0.0,
+              "k": 23,
+              "bb": 8,
+              "hr": 0,
+              "er": 1
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 29.0,
+              "ip_per_g": 5.8,
+              "era": 0.93,
+              "whip": 0.93,
+              "k_pct": 33.3,
+              "bb_pct": 10.5,
+              "k_bb_pct": 22.8,
+              "hr9": 0.0,
+              "k": 38,
+              "bb": 12,
+              "hr": 0,
+              "er": 3,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": -1.04,
+            "whip": -0.16,
+            "k_pct": 0.7,
+            "bb_pct": -0.1,
+            "ip_per_gs": 0.47,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 89,
@@ -2665,14 +2760,12 @@
               "rank": 15
             }
           },
-          "flags": [
-            "thin-sample"
-          ],
-          "mismatch": null,
+          "flags": [],
+          "mismatch": -50.1,
           "aligned75": [
-            null,
-            null,
-            null,
+            89,
+            87,
+            84,
             null
           ]
         },
@@ -2858,10 +2951,10 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 87,
       "away_offense_game": 104,
-      "game_offense": null,
-      "offense_edge": null,
+      "game_offense": 96,
+      "offense_edge": 17,
       "aligned_ml": null
     },
     {
@@ -4391,8 +4484,8 @@
       "away": "SEA",
       "home": "OAK",
       "commence": "2026-09-12T01:40:00Z",
-      "away_ml": -164,
-      "home_ml": 138,
+      "away_ml": -166,
+      "home_ml": 140,
       "total": 10.5,
       "over_ml": -106,
       "under_ml": -114,
@@ -4771,8 +4864,8 @@
       "away": "TEX",
       "home": "ARI",
       "commence": "2026-09-12T01:40:00Z",
-      "away_ml": -104,
-      "home_ml": -112,
+      "away_ml": -102,
+      "home_ml": -116,
       "total": 8.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -5151,8 +5244,8 @@
       "away": "SD",
       "home": "SF",
       "commence": "2026-09-12T02:15:00Z",
-      "away_ml": -146,
-      "home_ml": 124,
+      "away_ml": -156,
+      "home_ml": 132,
       "total": 7.5,
       "over_ml": -115,
       "under_ml": -105,
@@ -5767,6 +5860,16 @@
       ]
     },
     {
+      "pitcher": "Blake Snell",
+      "hand": "L",
+      "team": "LAD",
+      "opponent_offense": "MIA",
+      "opp_wrc_vs_hand": 87,
+      "opp_wrc_recent": 90,
+      "mismatch": -50.1,
+      "flags": []
+    },
+    {
       "pitcher": "Carlos Rod\u00f3n",
       "hand": "L",
       "team": "NYY",
@@ -5811,7 +5914,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-11T21:05:07Z",
+  "generated": "2026-09-12T01:14:11Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
