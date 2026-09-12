@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-12T21:02:55Z",
+  "generated": "2026-09-12T23:01:58Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 534,
-    "losses": 218,
+    "losses": 219,
     "voids": 0,
     "skips": 52,
-    "staked": 949.93,
-    "units": 319.36,
-    "roi": 0.3362,
+    "staked": 950.93,
+    "units": 318.36,
+    "roi": 0.3348,
     "byType": {
       "ml": {
         "wins": 522,
-        "losses": 206,
+        "losses": 207,
         "voids": 0,
         "skips": 4,
-        "staked": 925.93,
-        "units": 314.88,
-        "roi": 0.3401
+        "staked": 926.93,
+        "units": 313.88,
+        "roi": 0.3386
       },
       "ml_dog": {
         "wins": 12,
@@ -139,30 +139,6 @@
     },
     {
       "date": "2026-09-12",
-      "commence": "2026-09-12T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Michael King"
-      ],
-      "fadeTeam": "SD",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": 148,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SF",
-      "away": "SD",
-      "gamePk": 823170,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-12",
       "commence": "2026-09-12T23:10:00Z",
       "betType": "ml_dog",
       "shadow": false,
@@ -198,7 +174,7 @@
       "market": "h2h",
       "selection": "OAK",
       "line": null,
-      "odds": 150,
+      "odds": 142,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -19579,6 +19555,30 @@
       "away": "PIT",
       "gamePk": 824630,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": 148,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SF",
+      "away": "SD",
+      "gamePk": 823170,
+      "fadeReason": "away"
     }
   ]
 }

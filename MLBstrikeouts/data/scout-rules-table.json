@@ -1,15 +1,15 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-12T21:03:34Z",
+ "generated": "2026-09-12T23:02:40Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-12"
  },
- "games": 2213,
+ "games": 2218,
  "baselines": {
-  "side": -3.3,
-  "under": -4.6
+  "side": -3.4,
+  "under": -4.5
  },
  "note": "Season history for the scout rules that had no table: Form under, Aligned ML and Mismatch ML. Replayed as-of each game date -- a game's own result is never in the features that select it. CAVEAT: the live rules read published wRC+ cells; this replay uses the wOBA index computed from the batter PA logs, the only version recomputable for a past date. Same construction, same input, not byte-identical -- a faithful replay of the rule, not of the exact cells the tab printed.",
  "rules": [
@@ -20,7 +20,7 @@
    "rule": "m_sum <= -40: both arms outclassed by the bats -> under.",
    "status": "card",
    "baseline_key": "under",
-   "baseline": -4.6,
+   "baseline": -4.5,
    "record": {
     "w": 86,
     "l": 62,
@@ -91,7 +91,7 @@
    "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
    "status": "retired",
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "record": {
     "w": 6,
     "l": 7,
@@ -138,7 +138,7 @@
    "rule": "Starter at mismatch <= -45 -> back his team; at >= +55 -> back the opponent.",
    "status": "shadow",
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "record": {
     "w": 65,
     "l": 42,

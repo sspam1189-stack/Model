@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-12T21:03:03Z",
+  "generated": "2026-09-12T23:02:09Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T20:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Michael King",
-      "hand": "R",
-      "arm_team": "SD",
-      "opp_team": "SF",
-      "selection": "SF",
-      "home": "SF",
-      "away": "SD",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": 148,
-      "suggest": "fade",
-      "suggestUnits": 2.52,
-      "games": 12,
-      "result": "pending"
-    },
     {
       "date": "2026-09-12",
       "commence": "2026-09-12T23:15:00Z",
@@ -845,24 +823,6 @@
         "u": -2.94
       },
       "era": 5.1
-    },
-    {
-      "pitcher": "Michael King",
-      "hand": "R",
-      "games": 12,
-      "suggest": "fade",
-      "suggestUnits": 2.52,
-      "fade": {
-        "w": 7,
-        "l": 5,
-        "u": 2.52
-      },
-      "take": {
-        "w": 5,
-        "l": 7,
-        "u": -3.62
-      },
-      "era": 3.0
     }
   ]
 }

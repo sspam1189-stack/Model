@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-12T21:03:02Z",
+  "generated": "2026-09-12T23:02:08Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -136,17 +136,17 @@
   ],
   "summary": {
     "wins": 67,
-    "losses": 32,
-    "units": 30.53,
-    "staked": 125.86,
-    "roi": 0.2426,
+    "losses": 33,
+    "units": 29.45,
+    "staked": 126.94,
+    "roi": 0.232,
     "byAction": {
       "fade": {
         "wins": 67,
-        "losses": 32,
-        "units": 30.53,
-        "staked": 125.86,
-        "roi": 0.2426
+        "losses": 33,
+        "units": 29.45,
+        "staked": 126.94,
+        "roi": 0.232
       },
       "take": {
         "wins": 0,
@@ -166,10 +166,10 @@
       },
       "L": {
         "wins": 30,
-        "losses": 17,
-        "units": 11.12,
-        "staked": 60.41,
-        "roi": 0.1841
+        "losses": 18,
+        "units": 10.04,
+        "staked": 61.49,
+        "roi": 0.1633
       }
     }
   },
@@ -192,30 +192,6 @@
       "lineupConfirmed": true,
       "odds": 112,
       "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T20:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Connor Prielipp",
-      "entry": "Connor Prielipp",
-      "hand": "L",
-      "arm_team": "MIN",
-      "opp_team": "CLE",
-      "selection": "CLE",
-      "home": "MIN",
-      "away": "CLE",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -108,
-      "stake": 1.08,
       "result": "pending",
       "reason": null,
       "profit": 0.0,
@@ -262,8 +238,8 @@
       "oppLefty": 6,
       "oppRighty": 3,
       "lineupConfirmed": true,
-      "odds": -198,
-      "stake": 1.98,
+      "odds": -205,
+      "stake": 2.05,
       "result": "pending",
       "reason": null,
       "profit": 0.0,
@@ -2645,6 +2621,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -2.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T20:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Connor Prielipp",
+      "entry": "Connor Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "CLE",
+      "selection": "CLE",
+      "home": "MIN",
+      "away": "CLE",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.08,
       "book": "fanduel",
       "source": "fanduel_api"
     }
