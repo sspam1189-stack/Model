@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-13T21:01:24Z",
+  "generated": "2026-09-13T23:01:48Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 536,
-    "losses": 220,
+    "losses": 221,
     "voids": 0,
     "skips": 54,
-    "staked": 954.77,
-    "units": 319.56,
-    "roi": 0.3347,
+    "staked": 956.33,
+    "units": 318.0,
+    "roi": 0.3325,
     "byType": {
       "ml": {
         "wins": 524,
-        "losses": 208,
+        "losses": 209,
         "voids": 0,
         "skips": 5,
-        "staked": 930.77,
-        "units": 315.08,
-        "roi": 0.3385
+        "staked": 932.33,
+        "units": 313.52,
+        "roi": 0.3363
       },
       "ml_dog": {
         "wins": 12,
@@ -136,30 +136,6 @@
       "away": "KC",
       "gamePk": 824708,
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T18:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Bubba Chandler"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": -156,
-      "stake": 1.56,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CHC",
-      "away": "PIT",
-      "gamePk": 824628,
-      "fadeReason": "away"
     },
     {
       "date": "2026-09-13",
@@ -19700,6 +19676,30 @@
       "away": "LAD",
       "gamePk": 823815,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bubba Chandler"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "LOSS",
+      "profit": -1.56,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "PIT",
+      "gamePk": 824628,
+      "fadeReason": "away"
     }
   ]
 }

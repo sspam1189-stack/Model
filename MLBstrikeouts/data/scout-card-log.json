@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-13T21:02:08Z",
+  "generated": "2026-09-13T23:02:32Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -46280,15 +46280,18 @@
       "rule": "low-line-over",
       "auto": true,
       "basis": "Low line over: posted total 6.5; lines of 7 and under average 8.66 runs",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.75,
       "line": 6.5,
       "gamePk": 824628,
       "commence": "2026-09-13T18:20:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 6.5,
-      "open_price": -128
+      "open_price": -128,
+      "close_line": 6.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
@@ -46357,13 +46360,16 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "tail at L20 mismatch -47.8 (Cal Quantrill). Shadow revival; expectation +9.4%, not +17.2%.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.1,
       "gamePk": 825033,
       "commence": "2026-09-13T20:10:00Z",
       "shadow": true,
       "open_line": null,
-      "open_price": 120
+      "open_price": 120,
+      "close_price": 110,
+      "price_move": 2.2,
+      "clv": "beat"
     },
     {
       "date": "2026-09-13",
@@ -46594,15 +46600,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -122 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 8.5,
       "gamePk": 825033,
       "commence": "2026-09-13T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -122
+      "open_price": -122,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
