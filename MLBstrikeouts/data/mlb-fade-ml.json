@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-13T00:31:21Z",
+  "generated": "2026-09-13T13:05:07Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,27 +85,27 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 534,
-    "losses": 219,
+    "losses": 220,
     "voids": 0,
-    "skips": 52,
-    "staked": 950.93,
-    "units": 318.36,
-    "roi": 0.3348,
+    "skips": 54,
+    "staked": 951.93,
+    "units": 317.36,
+    "roi": 0.3334,
     "byType": {
       "ml": {
         "wins": 522,
-        "losses": 207,
+        "losses": 208,
         "voids": 0,
-        "skips": 4,
-        "staked": 926.93,
-        "units": 313.88,
-        "roi": 0.3386
+        "skips": 5,
+        "staked": 927.93,
+        "units": 312.88,
+        "roi": 0.3372
       },
       "ml_dog": {
         "wins": 12,
         "losses": 12,
         "voids": 0,
-        "skips": 48,
+        "skips": 49,
         "staked": 24.0,
         "units": 4.48,
         "roi": 0.1867
@@ -114,37 +114,85 @@
   },
   "today": [
     {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T20:05:00Z",
+      "date": "2026-09-13",
+      "commence": "2026-09-13T19:05:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Walbert Ure\u00f1a"
+        "Payton Tolle"
       ],
-      "fadeTeam": "LAA",
+      "fadeTeam": "BOS",
       "market": "h2h",
-      "selection": null,
+      "selection": "KC",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
+      "odds": 154,
+      "stake": 1.0,
+      "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "hand_fade_override",
-      "home": "WSH",
-      "away": "LAA",
-      "gamePk": 822685,
-      "fadeReason": "away"
+      "reason": null,
+      "home": "BOS",
+      "away": "KC",
+      "gamePk": 824708,
+      "fadeReason": "home"
     },
     {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T23:10:00Z",
+      "date": "2026-09-13",
+      "commence": "2026-09-13T16:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gabriel Hughes"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "COL",
+      "gamePk": 824225,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 124,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIA",
+      "away": "LAD",
+      "gamePk": 823815,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T20:05:00Z",
       "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Brady Singer",
-        "Shane Drohan"
+        "Jacob Lopez",
+        "Bryce Miller"
       ],
       "fadeTeam": null,
       "market": "h2h",
@@ -157,34 +205,58 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": "mutual_skip",
-      "home": "MIL",
-      "away": "CIN",
-      "gamePk": 823737,
-      "fadeReason": "all/home"
+      "home": "OAK",
+      "away": "SEA",
+      "gamePk": 824952,
+      "fadeReason": "home/away"
     },
     {
-      "date": "2026-09-12",
-      "commence": "2026-09-13T01:40:00Z",
+      "date": "2026-09-13",
+      "commence": "2026-09-13T18:20:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryan Woo"
+        "Bubba Chandler"
       ],
-      "fadeTeam": "SEA",
+      "fadeTeam": "PIT",
       "market": "h2h",
-      "selection": "OAK",
+      "selection": "CHC",
       "line": null,
-      "odds": 136,
-      "stake": 1.0,
+      "odds": -144,
+      "stake": 1.44,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "OAK",
-      "away": "SEA",
-      "gamePk": 824955,
+      "home": "CHC",
+      "away": "PIT",
+      "gamePk": 824628,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jake Irvin"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "LAA",
+      "gamePk": 822682,
+      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -19578,6 +19650,79 @@
       "home": "SF",
       "away": "SD",
       "gamePk": 823170,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Walbert Ure\u00f1a"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "hand_fade_override",
+      "home": "WSH",
+      "away": "LAA",
+      "gamePk": 822685,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T23:10:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer",
+        "Shane Drohan"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "MIL",
+      "away": "CIN",
+      "gamePk": 823737,
+      "fadeReason": "all/home"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-13T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 136,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "SEA",
+      "gamePk": 824955,
       "fadeReason": "away"
     }
   ]
