@@ -1,35 +1,19 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-13T18:31:48Z",
+  "generated": "2026-09-13T21:01:34Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 9,
+    "w": 10,
     "l": 1,
-    "u": 8.7,
-    "n": 10,
-    "roi": 0.5894
+    "u": 9.82,
+    "n": 11,
+    "roi": 0.6231
   },
-  "today": [
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T18:10:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Joe Ryan",
-      "arm_team": "MIN",
-      "opp": "CLE",
-      "selection": "CLE",
-      "venue": "home",
-      "matchup": "CLE @ MIN",
-      "odds": 112,
-      "eraVsOpp": 8.1,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -108,6 +92,34 @@
           "result": "win"
         }
       ]
+    },
+    {
+      "pitcher": "Joe Ryan",
+      "opp": "CLE",
+      "arm_team": "MIN",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.12,
+        "n": 1,
+        "roi": 1.12
+      },
+      "eraVsOpp": 8.36,
+      "ipVsOpp": 14.0,
+      "erVsOpp": 13,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-09-13",
+          "venue": "home",
+          "matchup": "CLE @ MIN",
+          "selection": "CLE",
+          "opp_ml": 112,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-20"
     },
     {
       "pitcher": "Will Warren",
@@ -438,25 +450,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-05-20"
-    },
-    {
-      "pitcher": "Joe Ryan",
-      "opp": "CLE",
-      "arm_team": "MIN",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 8.1,
-      "ipVsOpp": 10.0,
-      "erVsOpp": 9,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-07-20"
     },
     {
       "pitcher": "Stephen Kolek",

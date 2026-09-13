@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-13T18:31:44Z",
+  "generated": "2026-09-13T21:01:30Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -135,18 +135,18 @@
     }
   ],
   "summary": {
-    "wins": 68,
+    "wins": 69,
     "losses": 35,
-    "units": 28.45,
-    "staked": 130.99,
-    "roi": 0.2172,
+    "units": 29.45,
+    "staked": 132.29,
+    "roi": 0.2226,
     "byAction": {
       "fade": {
-        "wins": 68,
+        "wins": 69,
         "losses": 35,
-        "units": 28.45,
-        "staked": 130.99,
-        "roi": 0.2172
+        "units": 29.45,
+        "staked": 132.29,
+        "roi": 0.2226
       },
       "take": {
         "wins": 0,
@@ -158,11 +158,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 38,
+        "wins": 39,
         "losses": 15,
-        "units": 20.41,
-        "staked": 67.5,
-        "roi": 0.3024
+        "units": 21.41,
+        "staked": 68.8,
+        "roi": 0.3112
       },
       "L": {
         "wins": 30,
@@ -173,32 +173,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T17:35:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Grayson Rodriguez",
-      "entry": "Grayson Rodriguez",
-      "hand": "R",
-      "arm_team": "LAA",
-      "opp_team": "WSH",
-      "selection": "WSH",
-      "home": "WSH",
-      "away": "LAA",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "stake": 1.3,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -2666,6 +2641,30 @@
       "lineupConfirmed": true,
       "odds": -205,
       "stake": 2.05,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T17:35:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Grayson Rodriguez",
+      "entry": "Grayson Rodriguez",
+      "hand": "R",
+      "arm_team": "LAA",
+      "opp_team": "WSH",
+      "selection": "WSH",
+      "home": "WSH",
+      "away": "LAA",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -130,
+      "stake": 1.3,
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
