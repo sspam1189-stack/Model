@@ -1,23 +1,23 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-12T23:02:30Z",
+ "generated": "2026-09-13T00:31:52Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-12"
  },
- "games": 2220,
+ "games": 2221,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
-  "side": -3.3,
-  "over": -5.1,
-  "under": -4.4,
+  "side": -3.4,
+  "over": -5.0,
+  "under": -4.5,
   "parlay": 0.0
  },
  "systems": [
   {
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "key": "away-dog-ml",
    "name": "Away dog ML",
    "market": "h2h",
@@ -99,7 +99,7 @@
   },
   {
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "key": "home-slide-ml",
    "name": "Home slide ML",
    "market": "h2h",
@@ -173,7 +173,7 @@
   },
   {
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "key": "division-home-dog",
    "name": "Division home dog",
    "market": "h2h",
@@ -247,7 +247,7 @@
   },
   {
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "key": "home-dog-getaway",
    "name": "Home dog getaway",
    "market": "h2h",
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.1,
+   "baseline": -5.0,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.4,
+   "baseline": -4.5,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.1,
+   "baseline": -5.0,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.4,
+   "baseline": -4.5,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -644,14 +644,14 @@
    "ladder_fails": false,
    "record": {
     "w": 250,
-    "l": 193,
-    "n": 443,
-    "units": 11.59,
-    "roi": 2.6
+    "l": 194,
+    "n": 444,
+    "units": 10.59,
+    "roi": 2.4
    },
    "halves": [
     3.2,
-    2.0
+    1.6
    ],
    "monthly": [
     {
@@ -705,17 +705,17 @@
     {
      "month": "2026-09",
      "w": 16,
-     "l": 22,
-     "n": 38,
-     "units": -8.98,
-     "roi": -23.6
+     "l": 23,
+     "n": 39,
+     "units": -9.98,
+     "roi": -25.6
     }
    ],
-   "per_day": 2.62
+   "per_day": 2.63
   },
   {
    "baseline_key": "side",
-   "baseline": -3.3,
+   "baseline": -3.4,
    "key": "hot-arm-dog-ml",
    "name": "Hot arm dog ML",
    "market": "h2h",
@@ -789,7 +789,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -5.1,
+   "baseline": -5.0,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -871,7 +871,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -4.4,
+   "baseline": -4.5,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -946,21 +946,6 @@
  ],
  "today": [
   {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 822685,
-   "date": "2026-09-12",
-   "commence": "2026-09-12T20:05:00Z",
-   "matchup": "LAA @ WSH",
-   "away": "LAA",
-   "home": "WSH",
-   "total": 8.5
-  },
-  {
    "rule": "pickem-under",
    "market": "totals",
    "pick": "under",
@@ -1009,9 +994,9 @@
    "rule": "division-home-dog",
    "market": "h2h",
    "pick": "OAK",
-   "price": 142,
+   "price": 136,
    "side": null,
-   "why": "home to a AL West rival at +142",
+   "why": "home to a AL West rival at +136",
    "gamePk": 824955,
    "date": "2026-09-12",
    "commence": "2026-09-13T01:40:00Z",
@@ -1024,13 +1009,13 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "OAK",
-   "price": 340,
+   "price": 351,
    "side": null,
-   "why": "OAK ML +142 with U9.5 -122, pays 4.40x",
+   "why": "OAK ML +136 with U9.5 -110, pays 4.51x",
    "line": 9.5,
-   "ml_price": 142,
-   "under_price": -122,
-   "payout": 4.404,
+   "ml_price": 136,
+   "under_price": -110,
+   "payout": 4.505,
    "gamePk": 824955,
    "date": "2026-09-12",
    "commence": "2026-09-13T01:40:00Z",
@@ -1044,15 +1029,18 @@
    "market": "totals",
    "pick": "under",
    "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
+   "line": 9.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824955,
    "date": "2026-09-12",
    "commence": "2026-09-13T01:40:00Z",
    "matchup": "SEA @ OAK",
-   "away": "SEA",
-   "home": "OAK",
-   "total": 9.5
+   "total": 9.5,
+   "why": "book laying -122 on the under",
+   "stale": true,
+   "stale_now": "favourite now -162, total still 9.5"
   }
  ],
  "today_date": "2026-09-12"

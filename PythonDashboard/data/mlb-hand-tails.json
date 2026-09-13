@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-12T23:02:08Z",
+  "generated": "2026-09-13T00:31:30Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -136,17 +136,17 @@
   ],
   "summary": {
     "wins": 67,
-    "losses": 33,
-    "units": 29.45,
-    "staked": 126.94,
-    "roi": 0.232,
+    "losses": 34,
+    "units": 28.45,
+    "staked": 127.94,
+    "roi": 0.2224,
     "byAction": {
       "fade": {
         "wins": 67,
-        "losses": 33,
-        "units": 29.45,
-        "staked": 126.94,
-        "roi": 0.232
+        "losses": 34,
+        "units": 28.45,
+        "staked": 127.94,
+        "roi": 0.2224
       },
       "take": {
         "wins": 0,
@@ -166,38 +166,14 @@
       },
       "L": {
         "wins": 30,
-        "losses": 18,
-        "units": 10.04,
-        "staked": 61.49,
-        "roi": 0.1633
+        "losses": 19,
+        "units": 9.04,
+        "staked": 62.49,
+        "roi": 0.1447
       }
     }
   },
   "today": [
-    {
-      "date": "2026-09-12",
-      "commence": "2026-09-12T20:05:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Andrew Alvarez",
-      "entry": "Andrew Alvarez",
-      "hand": "L",
-      "arm_team": "WSH",
-      "opp_team": "LAA",
-      "selection": "LAA",
-      "home": "WSH",
-      "away": "LAA",
-      "oppLefty": 1,
-      "oppRighty": 9,
-      "lineupConfirmed": true,
-      "odds": 112,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-12",
       "commence": "2026-09-12T22:10:00Z",
@@ -2621,6 +2597,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -2.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-12",
+      "commence": "2026-09-12T20:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Andrew Alvarez",
+      "entry": "Andrew Alvarez",
+      "hand": "L",
+      "arm_team": "WSH",
+      "opp_team": "LAA",
+      "selection": "LAA",
+      "home": "WSH",
+      "away": "LAA",
+      "oppLefty": 1,
+      "oppRighty": 9,
+      "lineupConfirmed": true,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     },
