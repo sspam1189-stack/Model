@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-13T23:02:27Z",
+ "generated": "2026-09-14T00:31:56Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-13"
  },
- "games": 2237,
+ "games": 2239,
  "baselines": {
   "side": -3.4,
   "under": -4.9
@@ -22,15 +22,15 @@
    "baseline_key": "under",
    "baseline": -4.9,
    "record": {
-    "w": 86,
+    "w": 87,
     "l": 67,
-    "n": 153,
-    "units": 10.29,
-    "roi": 6.7
+    "n": 154,
+    "units": 11.11,
+    "roi": 7.2
    },
    "halves": [
     26.2,
-    -3.9
+    -3.0
    ],
    "monthly": [
     {
@@ -75,14 +75,14 @@
     },
     {
      "month": "2026-09",
-     "w": 2,
+     "w": 3,
      "l": 15,
-     "n": 17,
-     "units": -13.16,
-     "roi": -77.4
+     "n": 18,
+     "units": -12.34,
+     "roi": -68.6
     }
    ],
-   "per_day": 0.9
+   "per_day": 0.91
   },
   {
    "key": "aligned-ml",

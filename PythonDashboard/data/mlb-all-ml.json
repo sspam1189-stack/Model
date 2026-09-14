@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-09-13T23:01:52Z",
+  "generated": "2026-09-14T00:31:21Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -235,14 +235,14 @@
       "total_line": 7.5,
       "over_ml": 100,
       "under_ml": -122,
-      "home_score": 1,
+      "home_score": 4,
       "away_score": 1,
       "home_pitcher": "Payton Tolle",
       "away_pitcher": "Noah Cameron",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-09-13",
@@ -255,14 +255,14 @@
       "total_line": 9.5,
       "over_ml": 108,
       "under_ml": -132,
-      "home_score": 6,
-      "away_score": 6,
+      "home_score": 8,
+      "away_score": 7,
       "home_pitcher": "Jacob Lopez",
       "away_pitcher": "Bryce Miller",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-09-13",
@@ -295,8 +295,8 @@
       "total_line": 7.5,
       "over_ml": 102,
       "under_ml": -124,
-      "home_score": 0,
-      "away_score": 0,
+      "home_score": 2,
+      "away_score": 6,
       "home_pitcher": "Logan Webb",
       "away_pitcher": "Nick Pivetta",
       "home_hand": "R",
@@ -42827,6 +42827,44 @@
       "home_hand": "L",
       "away_hand": "R",
       "home_win": false
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T19:05:00Z",
+      "gamePk": 824708,
+      "home": "BOS",
+      "away": "KC",
+      "home_ml": -184,
+      "away_ml": 154,
+      "total_line": 7.5,
+      "over_ml": 100,
+      "under_ml": -122,
+      "home_score": 4,
+      "away_score": 1,
+      "home_pitcher": "Payton Tolle",
+      "away_pitcher": "Noah Cameron",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T20:05:00Z",
+      "gamePk": 824952,
+      "home": "OAK",
+      "away": "SEA",
+      "home_ml": 116,
+      "away_ml": -136,
+      "total_line": 9.5,
+      "over_ml": 108,
+      "under_ml": -132,
+      "home_score": 8,
+      "away_score": 7,
+      "home_pitcher": "Jacob Lopez",
+      "away_pitcher": "Bryce Miller",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
     },
     {
       "date": "2026-09-13",

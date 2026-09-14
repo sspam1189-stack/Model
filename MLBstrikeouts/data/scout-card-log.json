@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-13T23:02:32Z",
+  "generated": "2026-09-14T00:32:01Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -46016,13 +46016,16 @@
       "rule": "division-home-dog",
       "auto": true,
       "basis": "Division home dog: home to a AL West rival at +116",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.16,
       "gamePk": 824952,
       "commence": "2026-09-13T20:05:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 120
+      "open_price": 120,
+      "close_price": 116,
+      "price_move": 0.8,
+      "clv": "beat"
     },
     {
       "date": "2026-09-13",
@@ -46096,14 +46099,17 @@
       "rule": "form-under",
       "auto": true,
       "basis": "m_sum -108.7 <= -40; both arms outclass the bats. Unflagged.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.82,
       "line": 7.5,
       "flagged_overlap": false,
       "gamePk": 824708,
       "commence": "2026-09-13T19:05:00Z",
       "open_line": 7.5,
-      "open_price": -122
+      "open_price": -122,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
@@ -46186,8 +46192,8 @@
       "rule": "home-dog-under-parlay",
       "auto": true,
       "basis": "Home dog + under: OAK ML +116 with U9.5 -132, pays 3.80x Carded over and under on this game; neither side taken.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 9.5,
       "gamePk": 824952,
       "commence": "2026-09-13T20:05:00Z",
@@ -46200,7 +46206,11 @@
       "open_ml_price": 120,
       "open_under_price": -122,
       "not_bet": true,
-      "conflict_skip": true
+      "conflict_skip": true,
+      "close_line": 9.5,
+      "line_move": 0.0,
+      "clv": "flat",
+      "ml_price_move": 0.8
     },
     {
       "date": "2026-09-13",
@@ -46324,13 +46334,16 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "tail at L20 mismatch -52.6 (Noah Cameron). Shadow revival; expectation +9.4%, not +17.2%.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 824708,
       "commence": "2026-09-13T19:05:00Z",
       "shadow": true,
       "open_line": null,
-      "open_price": 154
+      "open_price": 154,
+      "close_price": 154,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
@@ -46342,13 +46355,16 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "tail at L20 mismatch -56.1 (Payton Tolle). Shadow revival; expectation +9.4%, not +17.2%.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.54,
       "gamePk": 824708,
       "commence": "2026-09-13T19:05:00Z",
       "shadow": true,
       "open_line": null,
-      "open_price": -184
+      "open_price": -184,
+      "close_price": -184,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
@@ -46424,8 +46440,8 @@
       "rule": "starter-over-run",
       "auto": true,
       "basis": "Starter over run: over in Bryce Miller 100% of last 8, total 9.5 Carded over and under on this game; neither side taken.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.08,
       "line": 9.5,
       "gamePk": 824952,
       "commence": "2026-09-13T20:05:00Z",
@@ -46433,7 +46449,10 @@
       "open_line": 9.5,
       "open_price": 100,
       "not_bet": true,
-      "conflict_skip": true
+      "conflict_skip": true,
+      "close_line": 9.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
@@ -46560,15 +46579,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -122 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.82,
       "line": 7.5,
       "gamePk": 824708,
       "commence": "2026-09-13T19:05:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 7.5,
-      "open_price": -122
+      "open_price": -122,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",
@@ -46580,15 +46602,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -132 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 9.5,
       "gamePk": 824952,
       "commence": "2026-09-13T20:05:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 9.5,
-      "open_price": -122
+      "open_price": -122,
+      "close_line": 9.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-13",

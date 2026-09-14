@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-13T23:02:17Z",
+ "generated": "2026-09-14T00:31:46Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-13"
  },
- "games": 2239,
+ "games": 2241,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
@@ -183,15 +183,15 @@
    "status": "card",
    "ladder_fails": true,
    "record": {
-    "w": 50,
+    "w": 51,
     "l": 33,
-    "n": 83,
-    "units": 30.58,
-    "roi": 36.8
+    "n": 84,
+    "units": 31.74,
+    "roi": 37.8
    },
    "halves": [
     29.8,
-    44.0
+    45.8
    ],
    "monthly": [
     {
@@ -236,11 +236,11 @@
     },
     {
      "month": "2026-09",
-     "w": 4,
+     "w": 5,
      "l": 6,
-     "n": 10,
-     "units": -0.78,
-     "roi": -7.8
+     "n": 11,
+     "units": 0.38,
+     "roi": 3.5
     }
    ],
    "per_day": 0.49
@@ -332,14 +332,14 @@
    "ladder_fails": false,
    "record": {
     "w": 87,
-    "l": 170,
-    "n": 257,
-    "units": 116.96,
-    "roi": 45.5
+    "l": 171,
+    "n": 258,
+    "units": 115.96,
+    "roi": 44.9
    },
    "halves": [
     46.9,
-    44.4
+    43.4
    ],
    "monthly": [
     {
@@ -393,13 +393,13 @@
     {
      "month": "2026-09",
      "w": 6,
-     "l": 14,
-     "n": 20,
-     "units": 7.08,
-     "roi": 35.4
+     "l": 15,
+     "n": 21,
+     "units": 6.08,
+     "roi": 29.0
     }
    ],
-   "per_day": 1.51
+   "per_day": 1.52
   },
   {
    "baseline_key": "over",
@@ -413,15 +413,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 127,
+    "w": 128,
     "l": 93,
-    "n": 220,
-    "units": 22.79,
-    "roi": 10.4
+    "n": 221,
+    "units": 23.87,
+    "roi": 10.8
    },
    "halves": [
     11.6,
-    9.6
+    10.4
    ],
    "monthly": [
     {
@@ -466,14 +466,14 @@
     },
     {
      "month": "2026-09",
-     "w": 7,
+     "w": 8,
      "l": 6,
-     "n": 13,
-     "units": 0.35,
-     "roi": 2.7
+     "n": 14,
+     "units": 1.43,
+     "roi": 10.2
     }
    ],
-   "per_day": 1.29
+   "per_day": 1.3
   },
   {
    "baseline_key": "under",
@@ -643,11 +643,11 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 250,
-    "l": 198,
-    "n": 448,
-    "units": 6.59,
-    "roi": 1.5
+    "w": 251,
+    "l": 199,
+    "n": 450,
+    "units": 6.41,
+    "roi": 1.4
    },
    "halves": [
     3.2,
@@ -704,14 +704,14 @@
     },
     {
      "month": "2026-09",
-     "w": 16,
-     "l": 27,
-     "n": 43,
-     "units": -13.98,
-     "roi": -32.5
+     "w": 17,
+     "l": 28,
+     "n": 45,
+     "units": -14.16,
+     "roi": -31.5
     }
    ],
-   "per_day": 2.64
+   "per_day": 2.65
   },
   {
    "baseline_key": "side",
@@ -945,87 +945,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
-   "gamePk": 824708,
-   "date": "2026-09-13",
-   "commence": "2026-09-13T19:05:00Z",
-   "matchup": "KC @ BOS",
-   "away": "KC",
-   "home": "BOS",
-   "total": 7.5
-  },
-  {
-   "rule": "division-home-dog",
-   "market": "h2h",
-   "pick": "OAK",
-   "price": 116,
-   "side": null,
-   "why": "home to a AL West rival at +116",
-   "gamePk": 824952,
-   "date": "2026-09-13",
-   "commence": "2026-09-13T20:05:00Z",
-   "matchup": "SEA @ OAK",
-   "away": "SEA",
-   "home": "OAK",
-   "total": 9.5
-  },
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "OAK",
-   "price": 280,
-   "side": null,
-   "why": "OAK ML +116 with U9.5 -132, pays 3.80x",
-   "line": 9.5,
-   "ml_price": 116,
-   "under_price": -132,
-   "payout": 3.796,
-   "gamePk": 824952,
-   "date": "2026-09-13",
-   "commence": "2026-09-13T20:05:00Z",
-   "matchup": "SEA @ OAK",
-   "away": "SEA",
-   "home": "OAK",
-   "total": 9.5,
-   "conflict_skip": true
-  },
-  {
-   "rule": "starter-over-run",
-   "market": "totals",
-   "pick": "over",
-   "price": 108,
-   "side": "O",
-   "why": "over in Bryce Miller 100% of last 8, total 9.5",
-   "gamePk": 824952,
-   "date": "2026-09-13",
-   "commence": "2026-09-13T20:05:00Z",
-   "matchup": "SEA @ OAK",
-   "away": "SEA",
-   "home": "OAK",
-   "total": 9.5,
-   "conflict_skip": true
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -132,
-   "side": "U",
-   "why": "book laying -132 on the under",
-   "gamePk": 824952,
-   "date": "2026-09-13",
-   "commence": "2026-09-13T20:05:00Z",
-   "matchup": "SEA @ OAK",
-   "away": "SEA",
-   "home": "OAK",
-   "total": 9.5
-  },
   {
    "rule": "division-home-dog",
    "market": "h2h",

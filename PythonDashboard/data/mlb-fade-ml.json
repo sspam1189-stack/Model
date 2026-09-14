@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-13T23:01:48Z",
+  "generated": "2026-09-14T00:31:17Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 536,
-    "losses": 221,
+    "losses": 222,
     "voids": 0,
     "skips": 54,
-    "staked": 956.33,
-    "units": 318.0,
-    "roi": 0.3325,
+    "staked": 957.33,
+    "units": 317.0,
+    "roi": 0.3311,
     "byType": {
       "ml": {
         "wins": 524,
-        "losses": 209,
+        "losses": 210,
         "voids": 0,
         "skips": 5,
-        "staked": 932.33,
-        "units": 313.52,
-        "roi": 0.3363
+        "staked": 933.33,
+        "units": 312.52,
+        "roi": 0.3348
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T19:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Payton Tolle"
-      ],
-      "fadeTeam": "BOS",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": 154,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "KC",
-      "gamePk": 824708,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-09-13",
       "commence": "2026-09-13T20:05:00Z",
@@ -19700,6 +19676,30 @@
       "away": "PIT",
       "gamePk": 824628,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Payton Tolle"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 154,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "KC",
+      "gamePk": 824708,
+      "fadeReason": "home"
     }
   ]
 }

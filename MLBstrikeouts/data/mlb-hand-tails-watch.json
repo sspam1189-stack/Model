@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-13T23:01:57Z",
+  "generated": "2026-09-14T00:31:26Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -92,8 +92,8 @@
       "lineupConfirmed": true,
       "odds": -184,
       "suggest": "fade",
-      "suggestUnits": 6.04,
-      "games": 20,
+      "suggestUnits": 7.04,
+      "games": 21,
       "result": "pending"
     },
     {
@@ -114,8 +114,8 @@
       "lineupConfirmed": true,
       "odds": 116,
       "suggest": "take",
-      "suggestUnits": 7.37,
-      "games": 16,
+      "suggestUnits": 8.53,
+      "games": 17,
       "result": "pending"
     },
     {
@@ -179,6 +179,24 @@
       "era": 3.65
     },
     {
+      "pitcher": "Jacob Lopez",
+      "hand": "L",
+      "games": 17,
+      "suggest": "take",
+      "suggestUnits": 8.53,
+      "fade": {
+        "w": 6,
+        "l": 11,
+        "u": -11.11
+      },
+      "take": {
+        "w": 11,
+        "l": 6,
+        "u": 8.53
+      },
+      "era": 4.66
+    },
+    {
       "pitcher": "Jes\u00fas Luzardo",
       "hand": "L",
       "games": 26,
@@ -215,24 +233,6 @@
       "era": 2.79
     },
     {
-      "pitcher": "Jacob Lopez",
-      "hand": "L",
-      "games": 16,
-      "suggest": "take",
-      "suggestUnits": 7.37,
-      "fade": {
-        "w": 6,
-        "l": 10,
-        "u": -9.75
-      },
-      "take": {
-        "w": 10,
-        "l": 6,
-        "u": 7.37
-      },
-      "era": 4.66
-    },
-    {
       "pitcher": "Logan Henderson",
       "hand": "R",
       "games": 9,
@@ -251,6 +251,24 @@
       "era": 2.34
     },
     {
+      "pitcher": "Noah Cameron",
+      "hand": "L",
+      "games": 21,
+      "suggest": "fade",
+      "suggestUnits": 7.04,
+      "fade": {
+        "w": 14,
+        "l": 7,
+        "u": 7.04
+      },
+      "take": {
+        "w": 7,
+        "l": 14,
+        "u": -8.0
+      },
+      "era": 4.11
+    },
+    {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
       "games": 9,
@@ -267,24 +285,6 @@
         "u": 6.62
       },
       "era": 1.95
-    },
-    {
-      "pitcher": "Noah Cameron",
-      "hand": "L",
-      "games": 20,
-      "suggest": "fade",
-      "suggestUnits": 6.04,
-      "fade": {
-        "w": 13,
-        "l": 7,
-        "u": 6.04
-      },
-      "take": {
-        "w": 7,
-        "l": 13,
-        "u": -7.0
-      },
-      "era": 4.11
     },
     {
       "pitcher": "Kyle Leahy",
