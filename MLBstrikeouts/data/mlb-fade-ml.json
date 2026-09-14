@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-14T00:31:17Z",
+  "generated": "2026-09-14T13:04:11Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -87,7 +87,7 @@
     "wins": 536,
     "losses": 222,
     "voids": 0,
-    "skips": 54,
+    "skips": 55,
     "staked": 957.33,
     "units": 317.0,
     "roi": 0.3311,
@@ -105,7 +105,7 @@
         "wins": 12,
         "losses": 12,
         "voids": 0,
-        "skips": 49,
+        "skips": 50,
         "staked": 24.0,
         "units": 4.48,
         "roi": 0.1867
@@ -114,29 +114,52 @@
   },
   "today": [
     {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T20:05:00Z",
-      "betType": "ml_dog",
+      "date": "2026-09-14",
+      "commence": "2026-09-14T22:40:00Z",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jacob Lopez",
-        "Bryce Miller"
+        "Nick Lodolo"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "CIN",
       "market": "h2h",
-      "selection": null,
+      "selection": "LAD",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
+      "odds": -230,
+      "stake": 2.3,
+      "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "OAK",
-      "away": "SEA",
-      "gamePk": 824952,
-      "fadeReason": "home/away"
+      "reason": null,
+      "home": "CIN",
+      "away": "LAD",
+      "gamePk": 824465,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-14",
+      "commence": "2026-09-14T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -138,
+      "stake": 1.38,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "SF",
+      "gamePk": 823006,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -19700,6 +19723,31 @@
       "away": "KC",
       "gamePk": 824708,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-13",
+      "commence": "2026-09-13T20:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez",
+        "Bryce Miller"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "OAK",
+      "away": "SEA",
+      "gamePk": 824952,
+      "fadeReason": "home/away"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-14T00:31:26Z",
+  "generated": "2026-09-14T13:04:21Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,136 +9,26 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T17:35:00Z",
+      "date": "2026-09-14",
+      "commence": "2026-09-14T23:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Grant Holmes",
+      "pitcher": "Brandon Young",
       "hand": "R",
-      "arm_team": "ATL",
-      "opp_team": "PHI",
-      "selection": "ATL",
-      "home": "ATL",
-      "away": "PHI",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "take",
-      "suggestUnits": 4.74,
-      "games": 14,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T17:37:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Trevor Rogers",
-      "hand": "L",
       "arm_team": "BAL",
-      "opp_team": "TOR",
-      "selection": "TOR",
-      "home": "TOR",
+      "opp_team": "NYM",
+      "selection": "BAL",
+      "home": "NYM",
       "away": "BAL",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -148,
-      "suggest": "fade",
-      "suggestUnits": 2.82,
-      "games": 21,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T18:10:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Joe Ryan",
-      "hand": "R",
-      "arm_team": "MIN",
-      "opp_team": "CLE",
-      "selection": "CLE",
-      "home": "MIN",
-      "away": "CLE",
-      "oppLefty": 8,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": 112,
-      "suggest": "fade",
-      "suggestUnits": 3.2,
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.06,
       "games": 11,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T19:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Noah Cameron",
-      "hand": "L",
-      "arm_team": "KC",
-      "opp_team": "BOS",
-      "selection": "BOS",
-      "home": "BOS",
-      "away": "KC",
-      "oppLefty": 4,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -184,
-      "suggest": "fade",
-      "suggestUnits": 7.04,
-      "games": 21,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T20:05:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Jacob Lopez",
-      "hand": "L",
-      "arm_team": "OAK",
-      "opp_team": "SEA",
-      "selection": "OAK",
-      "home": "OAK",
-      "away": "SEA",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 116,
-      "suggest": "take",
-      "suggestUnits": 8.53,
-      "games": 17,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-13",
-      "commence": "2026-09-13T20:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Eduardo Rodriguez",
-      "hand": "L",
-      "arm_team": "ARI",
-      "opp_team": "TEX",
-      "selection": "ARI",
-      "home": "ARI",
-      "away": "TEX",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "take",
-      "suggestUnits": 16.28,
-      "games": 22,
-      "result": "pending"
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -158,7 +48,7 @@
         "l": 3,
         "u": 16.28
       },
-      "era": 2.55
+      "era": 2.62
     },
     {
       "pitcher": "Foster Griffin",
@@ -194,7 +84,7 @@
         "l": 6,
         "u": 8.53
       },
-      "era": 4.66
+      "era": 4.92
     },
     {
       "pitcher": "Jes\u00fas Luzardo",
@@ -266,7 +156,7 @@
         "l": 14,
         "u": -8.0
       },
-      "era": 4.11
+      "era": 4.01
     },
     {
       "pitcher": "Jacob Misiorowski",
@@ -482,7 +372,7 @@
         "l": 4,
         "u": 4.74
       },
-      "era": 3.57
+      "era": 3.6
     },
     {
       "pitcher": "Chase Burns",
@@ -500,7 +390,7 @@
         "l": 5,
         "u": 4.68
       },
-      "era": 2.73
+      "era": 2.8
     },
     {
       "pitcher": "Walker Buehler",
@@ -806,7 +696,7 @@
         "l": 7,
         "u": -4.4
       },
-      "era": 3.68
+      "era": 3.84
     },
     {
       "pitcher": "Spencer Miles",
@@ -914,7 +804,7 @@
         "l": 12,
         "u": -4.88
       },
-      "era": 4.15
+      "era": 4.22
     },
     {
       "pitcher": "Luis Castillo",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-14T00:31:25Z",
+  "generated": "2026-09-14T13:04:20Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -173,7 +173,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-14",
+      "commence": "2026-09-14T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Nick Lodolo",
+      "entry": "Nick Lodolo",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "LAD",
+      "selection": "LAD",
+      "home": "CIN",
+      "away": "LAD",
+      "oppLefty": 5,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
