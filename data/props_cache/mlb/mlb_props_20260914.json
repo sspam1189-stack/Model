@@ -22,17 +22,6 @@
     "_event_id": "36067434"
   },
   {
-    "player": "Sandy Alcantara 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -166,
-    "under_price": 124,
-    "event_home": "ARI",
-    "event_away": "MIA",
-    "source": "fanduel",
-    "_event_id": "36067435"
-  },
-  {
     "player": "Jonah Tong 14.5",
     "market": "outs",
     "line": 14.5,
@@ -176,28 +165,6 @@
     "_event_id": "36067440"
   },
   {
-    "player": "Reid Detmers 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -132,
-    "under_price": 100,
-    "event_home": "LAA",
-    "event_away": "SEA",
-    "source": "fanduel",
-    "_event_id": "36067441"
-  },
-  {
-    "player": "Kade Anderson 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": 116,
-    "under_price": -158,
-    "event_home": "LAA",
-    "event_away": "SEA",
-    "source": "fanduel",
-    "_event_id": "36067441"
-  },
-  {
     "player": "David Peterson 15.5",
     "market": "outs",
     "line": 15.5,
@@ -272,66 +239,6 @@
     "_event_id": "fd0c792d70a4325cb16c03c7af9a089a"
   },
   {
-    "player": "Jose Soriano",
-    "line": 5.5,
-    "over_price": 107,
-    "under_price": -137,
-    "market": "strikeouts",
-    "event_home": "TOR",
-    "event_away": "DET",
-    "_event_id": "b2124bf9ac2a7c068e866541e3d9bebe"
-  },
-  {
-    "player": "Troy Melton",
-    "line": 3.5,
-    "over_price": -139,
-    "under_price": 109,
-    "market": "strikeouts",
-    "event_home": "TOR",
-    "event_away": "DET",
-    "_event_id": "b2124bf9ac2a7c068e866541e3d9bebe"
-  },
-  {
-    "player": "Jonah Tong",
-    "line": 5.5,
-    "over_price": -137,
-    "under_price": 107,
-    "market": "strikeouts",
-    "event_home": "NYM",
-    "event_away": "BAL",
-    "_event_id": "6f154c72fa0631ec5a970f84c1492463"
-  },
-  {
-    "player": "Brandon Young",
-    "line": 4.5,
-    "over_price": 127,
-    "under_price": -163,
-    "market": "strikeouts",
-    "event_home": "NYM",
-    "event_away": "BAL",
-    "_event_id": "6f154c72fa0631ec5a970f84c1492463"
-  },
-  {
-    "player": "David Peterson",
-    "line": 4.5,
-    "over_price": 112,
-    "under_price": -142,
-    "market": "strikeouts",
-    "event_home": "CHC",
-    "event_away": "ATL",
-    "_event_id": "99d391c2ac7a5942710858c928ac73f8"
-  },
-  {
-    "player": "Reynaldo Lopez",
-    "line": 4.5,
-    "over_price": 117,
-    "under_price": -149,
-    "market": "strikeouts",
-    "event_home": "CHC",
-    "event_away": "ATL",
-    "_event_id": "99d391c2ac7a5942710858c928ac73f8"
-  },
-  {
     "player": "Dean Kremer",
     "line": 4.5,
     "over_price": -135,
@@ -392,43 +299,140 @@
     "_event_id": "20dfbbb1031896904e98bed3182f9fc4"
   },
   {
-    "player": "Reid Detmers",
-    "line": 6.5,
-    "over_price": -112,
-    "under_price": -114,
+    "player": "Jose Soriano",
+    "line": 5.5,
+    "over_price": 109,
+    "under_price": -140,
     "market": "strikeouts",
-    "event_home": "LAA",
-    "event_away": "SEA",
-    "_event_id": "9c0b5b3f819915fa2cd982a14186b77d"
+    "event_home": "TOR",
+    "event_away": "DET",
+    "_event_id": "b2124bf9ac2a7c068e866541e3d9bebe"
   },
   {
-    "player": "Kade Anderson",
-    "line": 5.5,
-    "over_price": -110,
-    "under_price": -116,
+    "player": "Troy Melton",
+    "line": 3.5,
+    "over_price": -140,
+    "under_price": 110,
     "market": "strikeouts",
-    "event_home": "LAA",
-    "event_away": "SEA",
-    "_event_id": "9c0b5b3f819915fa2cd982a14186b77d"
+    "event_home": "TOR",
+    "event_away": "DET",
+    "_event_id": "b2124bf9ac2a7c068e866541e3d9bebe"
+  },
+  {
+    "player": "Jonah Tong",
+    "line": 5.5,
+    "over_price": -138,
+    "under_price": 108,
+    "market": "strikeouts",
+    "event_home": "NYM",
+    "event_away": "BAL",
+    "_event_id": "6f154c72fa0631ec5a970f84c1492463"
+  },
+  {
+    "player": "Brandon Young",
+    "line": 4.5,
+    "over_price": 121,
+    "under_price": -154,
+    "market": "strikeouts",
+    "event_home": "NYM",
+    "event_away": "BAL",
+    "_event_id": "6f154c72fa0631ec5a970f84c1492463"
+  },
+  {
+    "player": "David Peterson",
+    "line": 4.5,
+    "over_price": 112,
+    "under_price": -142,
+    "market": "strikeouts",
+    "event_home": "CHC",
+    "event_away": "ATL",
+    "_event_id": "99d391c2ac7a5942710858c928ac73f8"
+  },
+  {
+    "player": "Reynaldo Lopez",
+    "line": 4.5,
+    "over_price": 117,
+    "under_price": -149,
+    "market": "strikeouts",
+    "event_home": "CHC",
+    "event_away": "ATL",
+    "_event_id": "99d391c2ac7a5942710858c928ac73f8"
+  },
+  {
+    "player": "Sandy Alcantara 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -166,
+    "under_price": 124,
+    "event_home": "ARI",
+    "event_away": "MIA",
+    "source": "fanduel",
+    "_event_id": "36067435"
   },
   {
     "player": "Corbin Burnes",
-    "line": 3.5,
-    "over_price": -164,
-    "under_price": 128,
     "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -162,
+    "under_price": 126,
     "event_home": "ARI",
     "event_away": "MIA",
-    "_event_id": "d468d51c641b469172b3c59500fa2d49"
+    "source": "fanduel",
+    "_event_id": "36067435"
   },
   {
     "player": "Sandy Alcantara",
+    "market": "strikeouts",
     "line": 3.5,
     "over_price": -125,
     "under_price": -102,
-    "market": "strikeouts",
     "event_home": "ARI",
     "event_away": "MIA",
-    "_event_id": "d468d51c641b469172b3c59500fa2d49"
+    "source": "fanduel",
+    "_event_id": "36067435"
+  },
+  {
+    "player": "Reid Detmers",
+    "market": "strikeouts",
+    "line": 6.5,
+    "over_price": -115,
+    "under_price": -111,
+    "event_home": "LAA",
+    "event_away": "SEA",
+    "source": "fanduel",
+    "_event_id": "36067441"
+  },
+  {
+    "player": "Kade Anderson 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": 116,
+    "under_price": -158,
+    "event_home": "LAA",
+    "event_away": "SEA",
+    "source": "fanduel",
+    "_event_id": "36067441"
+  },
+  {
+    "player": "Reid Detmers 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -132,
+    "under_price": 100,
+    "event_home": "LAA",
+    "event_away": "SEA",
+    "source": "fanduel",
+    "_event_id": "36067441"
+  },
+  {
+    "player": "Kade Anderson",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": -120,
+    "under_price": -106,
+    "event_home": "LAA",
+    "event_away": "SEA",
+    "source": "fanduel",
+    "_event_id": "36067441"
   }
 ]
