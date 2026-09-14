@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-14T18:33:23Z",
+ "generated": "2026-09-14T21:04:49Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-13"
@@ -949,7 +949,7 @@
    "rule": "cold-arms-under",
    "market": "totals",
    "pick": "under",
-   "price": -110,
+   "price": -112,
    "side": "U",
    "why": "both starters Tarik Skubal 38%, Nick Lodolo 38% over in last 8",
    "gamePk": 824465,
@@ -994,7 +994,7 @@
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": -110,
+   "price": -108,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 824465,
@@ -1039,7 +1039,7 @@
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": -128,
+   "price": 104,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 823575,
@@ -1048,7 +1048,22 @@
    "matchup": "BAL @ NYM",
    "away": "BAL",
    "home": "NYM",
-   "total": 7.5
+   "total": 8.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -128,
+   "side": "U",
+   "why": "book laying -128 on the under",
+   "gamePk": 823575,
+   "date": "2026-09-14",
+   "commence": "2026-09-14T23:10:00Z",
+   "matchup": "BAL @ NYM",
+   "away": "BAL",
+   "home": "NYM",
+   "total": 8.5
   },
   {
    "rule": "away-dog-ml",
@@ -1081,13 +1096,13 @@
    "total": 8.5,
    "why": "MIN ML +118 with U8.5 -122, pays 3.97x",
    "stale": true,
-   "stale_now": "favourite now -124, total still 8.5"
+   "stale_now": "favourite now -134, total still 8.5"
   },
   {
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": -106,
+   "price": -110,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 824629,
@@ -1102,7 +1117,7 @@
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": 100,
+   "price": -105,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 823656,
@@ -1118,21 +1133,24 @@
    "market": "totals",
    "pick": "under",
    "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 823656,
    "date": "2026-09-14",
    "commence": "2026-09-14T23:40:00Z",
    "matchup": "NYY @ MIN",
-   "away": "NYY",
-   "home": "MIN",
-   "total": 8.5
+   "total": 8.5,
+   "why": "book laying -122 on the under",
+   "stale": true,
+   "stale_now": "favourite now -134, total still 8.5"
   },
   {
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": -124,
+   "price": -120,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 823006,
@@ -1156,13 +1174,13 @@
    "matchup": "SD @ COL",
    "away": "SD",
    "home": "COL",
-   "total": 10.5
+   "total": 11.5
   },
   {
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": -128,
+   "price": 102,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 824308,
@@ -1171,13 +1189,28 @@
    "matchup": "SD @ COL",
    "away": "SD",
    "home": "COL",
-   "total": 10.5
+   "total": 11.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -124,
+   "side": "U",
+   "why": "book laying -124 on the under",
+   "gamePk": 824308,
+   "date": "2026-09-14",
+   "commence": "2026-09-15T00:40:00Z",
+   "matchup": "SD @ COL",
+   "away": "SD",
+   "home": "COL",
+   "total": 11.5
   },
   {
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": -110,
+   "price": -105,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 823981,
