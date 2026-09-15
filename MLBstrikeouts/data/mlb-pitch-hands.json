@@ -1,131 +1,185 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-09-14",
-  "generated": "2026-09-15T00:32:00Z",
+  "date": "2026-09-15",
+  "generated": "2026-09-15T13:05:08Z",
   "hands": {
-    "nick lodolo": "L",
-    "tarik skubal": "L",
-    "gavin williams": "R",
-    "sean newcomb": "L",
-    "jose soriano": "R",
-    "troy melton": "R",
-    "jonah tong": "R",
-    "brandon young": "R",
-    "david peterson": "L",
-    "reynaldo lopez": "R",
-    "dean kremer": "R",
-    "will warren": "R",
-    "quinn mathews": "L",
-    "landen roupp": "R",
-    "tomoyuki sugano": "R",
-    "casey mize": "R",
-    "reid detmers": "L",
-    "kade anderson": "L",
-    "corbin burnes": "R",
-    "sandy alcantara": "R"
+    "rhett lowder": "R",
+    "yoshinobu yamamoto": "R",
+    "griffin jax": "R",
+    "jack perkins": "R",
+    "foster griffin": "L",
+    "davis martin": "R",
+    "lake bachar": "R",
+    "jacob misiorowski": "R",
+    "jackson kent": "L",
+    "cristopher sanchez": "L",
+    "braydon fisher": "R",
+    "drew anderson": "R",
+    "sean manaea": "L",
+    "shane baz": "R",
+    "kevin gausman": "R",
+    "martin perez": "L",
+    "bailey ober": "R",
+    "max fried": "L",
+    "andre pallante": "R",
+    "blade tidwell": "R",
+    "patrick sandoval": "L",
+    "hunter brown": "R",
+    "michael wacha": "R",
+    "kyle freeland": "L",
+    "walker buehler": "R",
+    "ryan johnson": "R",
+    "logan gilbert": "R",
+    "michael soroka": "R",
+    "janson junk": "R"
   },
   "names": {
-    "nick lodolo": "Nick Lodolo",
-    "tarik skubal": "Tarik Skubal",
-    "gavin williams": "Gavin Williams",
-    "sean newcomb": "Sean Newcomb",
-    "jose soriano": "Jos\u00e9 Soriano",
-    "troy melton": "Troy Melton",
-    "jonah tong": "Jonah Tong",
-    "brandon young": "Brandon Young",
-    "david peterson": "David Peterson",
-    "reynaldo lopez": "Reynaldo L\u00f3pez",
-    "dean kremer": "Dean Kremer",
-    "will warren": "Will Warren",
-    "quinn mathews": "Quinn Mathews",
-    "landen roupp": "Landen Roupp",
-    "tomoyuki sugano": "Tomoyuki Sugano",
-    "casey mize": "Casey Mize",
-    "reid detmers": "Reid Detmers",
-    "kade anderson": "Kade Anderson",
-    "corbin burnes": "Corbin Burnes",
-    "sandy alcantara": "Sandy Alcantara"
+    "rhett lowder": "Rhett Lowder",
+    "yoshinobu yamamoto": "Yoshinobu Yamamoto",
+    "griffin jax": "Griffin Jax",
+    "jack perkins": "Jack Perkins",
+    "foster griffin": "Foster Griffin",
+    "davis martin": "Davis Martin",
+    "lake bachar": "Lake Bachar",
+    "jacob misiorowski": "Jacob Misiorowski",
+    "jackson kent": "Jackson Kent",
+    "cristopher sanchez": "Cristopher S\u00e1nchez",
+    "braydon fisher": "Braydon Fisher",
+    "drew anderson": "Drew Anderson",
+    "sean manaea": "Sean Manaea",
+    "shane baz": "Shane Baz",
+    "kevin gausman": "Kevin Gausman",
+    "martin perez": "Mart\u00edn P\u00e9rez",
+    "bailey ober": "Bailey Ober",
+    "max fried": "Max Fried",
+    "andre pallante": "Andre Pallante",
+    "blade tidwell": "Blade Tidwell",
+    "patrick sandoval": "Patrick Sandoval",
+    "hunter brown": "Hunter Brown",
+    "michael wacha": "Michael Wacha",
+    "kyle freeland": "Kyle Freeland",
+    "walker buehler": "Walker Buehler",
+    "ryan johnson": "Ryan Johnson",
+    "logan gilbert": "Logan Gilbert",
+    "michael soroka": "Michael Soroka",
+    "janson junk": "Janson Junk"
   },
   "starters": {
     "CIN": {
-      "name": "Nick Lodolo",
-      "hand": "L"
-    },
-    "LAD": {
-      "name": "Tarik Skubal",
-      "hand": "L"
-    },
-    "CLE": {
-      "name": "Gavin Williams",
+      "name": "Rhett Lowder",
       "hand": "R"
     },
+    "LAD": {
+      "name": "Yoshinobu Yamamoto",
+      "hand": "R"
+    },
+    "TB": {
+      "name": "Griffin Jax",
+      "hand": "R"
+    },
+    "OAK": {
+      "name": "Jack Perkins",
+      "hand": "R"
+    },
+    "CLE": {
+      "name": "Foster Griffin",
+      "hand": "L"
+    },
     "CWS": {
-      "name": "Sean Newcomb",
+      "name": "Davis Martin",
+      "hand": "R"
+    },
+    "PIT": {
+      "name": "Lake Bachar",
+      "hand": "R"
+    },
+    "MIL": {
+      "name": "Jacob Misiorowski",
+      "hand": "R"
+    },
+    "WSH": {
+      "name": "Jackson Kent",
+      "hand": "L"
+    },
+    "PHI": {
+      "name": "Cristopher S\u00e1nchez",
       "hand": "L"
     },
     "TOR": {
-      "name": "Jos\u00e9 Soriano",
+      "name": "Braydon Fisher",
       "hand": "R"
     },
     "DET": {
-      "name": "Troy Melton",
+      "name": "Drew Anderson",
       "hand": "R"
     },
     "NYM": {
-      "name": "Jonah Tong",
-      "hand": "R"
+      "name": "Sean Manaea",
+      "hand": "L"
     },
     "BAL": {
-      "name": "Brandon Young",
+      "name": "Shane Baz",
       "hand": "R"
     },
     "CHC": {
-      "name": "David Peterson",
-      "hand": "L"
-    },
-    "ATL": {
-      "name": "Reynaldo L\u00f3pez",
+      "name": "Kevin Gausman",
       "hand": "R"
     },
+    "ATL": {
+      "name": "Mart\u00edn P\u00e9rez",
+      "hand": "L"
+    },
     "MIN": {
-      "name": "Dean Kremer",
+      "name": "Bailey Ober",
       "hand": "R"
     },
     "NYY": {
-      "name": "Will Warren",
-      "hand": "R"
-    },
-    "STL": {
-      "name": "Quinn Mathews",
+      "name": "Max Fried",
       "hand": "L"
     },
+    "STL": {
+      "name": "Andre Pallante",
+      "hand": "R"
+    },
     "SF": {
-      "name": "Landen Roupp",
+      "name": "Blade Tidwell",
+      "hand": "R"
+    },
+    "BOS": {
+      "name": "Patrick Sandoval",
+      "hand": "L"
+    },
+    "HOU": {
+      "name": "Hunter Brown",
+      "hand": "R"
+    },
+    "KC": {
+      "name": "Michael Wacha",
       "hand": "R"
     },
     "COL": {
-      "name": "Tomoyuki Sugano",
-      "hand": "R"
+      "name": "Kyle Freeland",
+      "hand": "L"
     },
     "SD": {
-      "name": "Casey Mize",
+      "name": "Walker Buehler",
       "hand": "R"
     },
     "LAA": {
-      "name": "Reid Detmers",
-      "hand": "L"
+      "name": "Ryan Johnson",
+      "hand": "R"
     },
     "SEA": {
-      "name": "Kade Anderson",
-      "hand": "L"
+      "name": "Logan Gilbert",
+      "hand": "R"
     },
     "ARI": {
-      "name": "Corbin Burnes",
+      "name": "Michael Soroka",
       "hand": "R"
     },
     "MIA": {
-      "name": "Sandy Alcantara",
+      "name": "Janson Junk",
       "hand": "R"
     }
   }

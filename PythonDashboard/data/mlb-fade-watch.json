@@ -1,27 +1,81 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-15T00:32:09Z",
+  "generated": "2026-09-15T13:05:16Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-14",
-      "commence": "2026-09-15T01:38:00Z",
+      "date": "2026-09-15",
+      "commence": "2026-09-15T23:40:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Reid Detmers",
-      "arm_team": "LAA",
-      "fadeTeam": "LAA",
-      "selection": "SEA",
-      "home": "LAA",
-      "away": "SEA",
+      "pitcher": "Mart\u00edn P\u00e9rez",
+      "arm_team": "ATL",
+      "fadeTeam": "ATL",
+      "selection": "CHC",
+      "home": "CHC",
+      "away": "ATL",
+      "venue": "away",
+      "odds": -136,
+      "suggest": "away",
+      "suggestUnits": 2.92,
+      "games": 11,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T23:40:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Max Fried",
+      "arm_team": "NYY",
+      "fadeTeam": "NYY",
+      "selection": "MIN",
+      "home": "MIN",
+      "away": "NYY",
+      "venue": "away",
+      "odds": 148,
+      "suggest": "away",
+      "suggestUnits": 2.88,
+      "games": 8,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T23:45:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Blade Tidwell",
+      "arm_team": "SF",
+      "fadeTeam": "SF",
+      "selection": "STL",
+      "home": "STL",
+      "away": "SF",
+      "venue": "away",
+      "odds": -164,
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "games": 3,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-16T01:40:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Michael Soroka",
+      "arm_team": "ARI",
+      "fadeTeam": "ARI",
+      "selection": "MIA",
+      "home": "ARI",
+      "away": "MIA",
       "venue": "home",
-      "odds": -110,
+      "odds": 128,
       "suggest": "home",
-      "suggestUnits": 4.9,
-      "games": 15,
+      "suggestUnits": 2.8,
+      "games": 9,
       "result": "pending"
     }
   ],
@@ -51,33 +105,6 @@
         "u": 5.7,
         "n": 13,
         "roi": 0.4043
-      }
-    },
-    {
-      "pitcher": "Reid Detmers",
-      "team": "LAA",
-      "suggest": "home",
-      "suggestUnits": 4.9,
-      "all": {
-        "w": 17,
-        "l": 10,
-        "u": 4.56,
-        "n": 27,
-        "roi": 0.1321
-      },
-      "home": {
-        "w": 10,
-        "l": 5,
-        "u": 4.9,
-        "n": 15,
-        "roi": 0.2903
-      },
-      "away": {
-        "w": 7,
-        "l": 5,
-        "u": -0.34,
-        "n": 12,
-        "roi": -0.0193
       }
     },
     {
@@ -213,6 +240,33 @@
         "u": -0.84,
         "n": 4,
         "roi": -0.1077
+      }
+    },
+    {
+      "pitcher": "Reid Detmers",
+      "team": "LAA",
+      "suggest": "home",
+      "suggestUnits": 3.8,
+      "all": {
+        "w": 17,
+        "l": 11,
+        "u": 3.46,
+        "n": 28,
+        "roi": 0.0971
+      },
+      "home": {
+        "w": 10,
+        "l": 6,
+        "u": 3.8,
+        "n": 16,
+        "roi": 0.2113
+      },
+      "away": {
+        "w": 7,
+        "l": 5,
+        "u": -0.34,
+        "n": 12,
+        "roi": -0.0193
       }
     },
     {
@@ -492,16 +546,16 @@
       "suggestUnits": 3.0,
       "all": {
         "w": 4,
-        "l": 2,
-        "u": 1.88,
-        "n": 6,
-        "roi": 0.2028
+        "l": 3,
+        "u": 0.88,
+        "n": 7,
+        "roi": 0.0857
       },
       "home": {
         "w": 0,
-        "l": 1,
-        "u": -1.12,
-        "n": 1,
+        "l": 2,
+        "u": -2.12,
+        "n": 2,
         "roi": -1.0
       },
       "away": {

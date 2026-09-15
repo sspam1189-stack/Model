@@ -1,13 +1,44 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-15T00:32:12Z",
+  "generated": "2026-09-15T13:05:19Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:40:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Davis Martin",
+      "arm_team": "CWS",
+      "opp": "CLE",
+      "selection": "CLE",
+      "venue": "away",
+      "matchup": "CWS @ CLE",
+      "odds": -134,
+      "eraVsOpp": 6.23,
+      "startsVsOpp": 2,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:45:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Cristopher S\u00e1nchez",
+      "arm_team": "PHI",
+      "opp": "WSH",
+      "selection": "WSH",
+      "venue": "away",
+      "matchup": "PHI @ WSH",
+      "odds": 180,
+      "eraVsOpp": 6.3,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Spencer Arrighetti",

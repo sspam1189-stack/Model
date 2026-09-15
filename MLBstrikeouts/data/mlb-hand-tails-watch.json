@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-15T00:32:08Z",
+  "generated": "2026-09-15T13:05:15Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,26 +9,92 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-14",
-      "commence": "2026-09-14T23:10:00Z",
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Rhett Lowder",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "LAD",
+      "selection": "LAD",
+      "home": "CIN",
+      "away": "LAD",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 4.5,
+      "games": 9,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "NYM",
-      "selection": "BAL",
-      "home": "NYM",
-      "away": "BAL",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 122,
+      "pitcher": "Foster Griffin",
+      "hand": "L",
+      "arm_team": "CLE",
+      "opp_team": "CWS",
+      "selection": "CLE",
+      "home": "CLE",
+      "away": "CWS",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 4.06,
-      "games": 11,
-      "result": "pending"
+      "suggestUnits": 13.8,
+      "games": 23,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "arm_team": "MIL",
+      "opp_team": "PIT",
+      "selection": "MIL",
+      "home": "PIT",
+      "away": "MIL",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.62,
+      "games": 9,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:45:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "WSH",
+      "selection": "PHI",
+      "home": "WSH",
+      "away": "PHI",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 8.28,
+      "games": 28,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -285,6 +351,24 @@
       "era": 2.68
     },
     {
+      "pitcher": "Brandon Young",
+      "hand": "R",
+      "games": 12,
+      "suggest": "take",
+      "suggestUnits": 5.28,
+      "fade": {
+        "w": 4,
+        "l": 8,
+        "u": -6.86
+      },
+      "take": {
+        "w": 8,
+        "l": 4,
+        "u": 5.28
+      },
+      "era": 3.65
+    },
+    {
       "pitcher": "Luinder Avila",
       "hand": "R",
       "games": 6,
@@ -426,7 +510,7 @@
         "l": 5,
         "u": 4.54
       },
-      "era": 3.48
+      "era": 3.56
     },
     {
       "pitcher": "Carlos Rod\u00f3n",
@@ -501,6 +585,24 @@
       "era": 4.1
     },
     {
+      "pitcher": "Will Warren",
+      "hand": "R",
+      "games": 13,
+      "suggest": "take",
+      "suggestUnits": 4.32,
+      "fade": {
+        "w": 4,
+        "l": 9,
+        "u": -5.0
+      },
+      "take": {
+        "w": 9,
+        "l": 4,
+        "u": 4.32
+      },
+      "era": 3.97
+    },
+    {
       "pitcher": "Andrew Abbott",
       "hand": "L",
       "games": 24,
@@ -552,25 +654,7 @@
         "l": 5,
         "u": 4.08
       },
-      "era": 3.78
-    },
-    {
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "games": 11,
-      "suggest": "take",
-      "suggestUnits": 4.06,
-      "fade": {
-        "w": 4,
-        "l": 7,
-        "u": -5.42
-      },
-      "take": {
-        "w": 7,
-        "l": 4,
-        "u": 4.06
-      },
-      "era": 3.71
+      "era": 3.86
     },
     {
       "pitcher": "Yoshinobu Yamamoto",
@@ -642,7 +726,7 @@
         "l": 3,
         "u": -4.06
       },
-      "era": 4.47
+      "era": 5.02
     },
     {
       "pitcher": "Jake Bennett",
@@ -787,6 +871,24 @@
         "u": -3.02
       },
       "era": 6.14
+    },
+    {
+      "pitcher": "Dean Kremer",
+      "hand": "R",
+      "games": 9,
+      "suggest": "fade",
+      "suggestUnits": 2.86,
+      "fade": {
+        "w": 6,
+        "l": 3,
+        "u": 2.86
+      },
+      "take": {
+        "w": 3,
+        "l": 6,
+        "u": -3.34
+      },
+      "era": 5.35
     },
     {
       "pitcher": "Trevor Rogers",
