@@ -28,8 +28,8 @@
       "away_ml": -240,
       "home_ml": 198,
       "total": 8.5,
-      "over_ml": -124,
-      "under_ml": 102,
+      "over_ml": -120,
+      "under_ml": -102,
       "sides": {
         "away": {
           "pitcher": "Yoshinobu Yamamoto",
@@ -812,110 +812,126 @@
       "under_ml": 100,
       "sides": {
         "away": {
-          "pitcher": "Davis Martin",
-          "listed_as": "Davis Martin",
+          "pitcher": "Chris Murphy",
+          "listed_as": "Chris Murphy",
           "resolved": true,
-          "hand": "R",
+          "hand": "L",
           "team": "CWS",
           "opponent_offense": "CLE",
-          "opp_wrc_vs_hand": 107,
-          "opp_wrc_game": 98,
-          "opp_wrc_recent": 97,
-          "opp_wrc_recent_pa": 994,
+          "opp_wrc_vs_hand": 53,
+          "opp_wrc_game": 63,
+          "opp_wrc_recent": 87,
+          "opp_wrc_recent_pa": 444,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 98,
-              "pa": 707,
+              "wrcplus": 67,
+              "pa": 286,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 107,
-              "pa": 434,
+              "wrcplus": 53,
+              "pa": 201,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 104,
-              "pa": 321,
+              "wrcplus": 49,
+              "pa": 165,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 122,
-              "pa": 176,
+              "wrcplus": null,
+              "pa": 64,
               "role": "all"
             }
           },
           "opp_platoon_gap": -54,
           "form": {
             "season": {
-              "gs": 26,
-              "ip": 135.7,
-              "ip_per_gs": 5.22,
-              "era": 4.05,
-              "whip": 1.31,
-              "k_pct": 20.1,
-              "bb_pct": 7.3,
-              "k_bb_pct": 12.8,
-              "hr9": 0.86,
-              "k": 115,
-              "bb": 42,
-              "hr": 13,
-              "er": 61
+              "gs": 2,
+              "ip": 2.0,
+              "ip_per_gs": 1.0,
+              "era": 13.5,
+              "whip": 2.0,
+              "k_pct": 30.0,
+              "bb_pct": 10.0,
+              "k_bb_pct": 20.0,
+              "hr9": 4.5,
+              "k": 3,
+              "bb": 1,
+              "hr": 1,
+              "er": 3
             },
             "recent": {
-              "gs": 5,
-              "ip": 18.7,
-              "ip_per_gs": 3.73,
-              "era": 6.75,
-              "whip": 1.61,
-              "k_pct": 10.7,
-              "bb_pct": 8.3,
-              "k_bb_pct": 2.4,
-              "hr9": 2.89,
-              "k": 9,
-              "bb": 7,
-              "hr": 6,
-              "er": 14
+              "gs": 2,
+              "ip": 2.0,
+              "ip_per_gs": 1.0,
+              "era": 13.5,
+              "whip": 2.0,
+              "k_pct": 30.0,
+              "bb_pct": 10.0,
+              "k_bb_pct": 20.0,
+              "hr9": 4.5,
+              "k": 3,
+              "bb": 1,
+              "hr": 1,
+              "er": 3
             },
             "hot": {
-              "gs": 3,
-              "ip": 12.7,
-              "ip_per_gs": 4.22,
-              "era": 2.84,
-              "whip": 1.18,
-              "k_pct": 13.2,
-              "bb_pct": 7.5,
-              "k_bb_pct": 5.7,
-              "hr9": 2.13,
-              "k": 7,
-              "bb": 4,
-              "hr": 3,
-              "er": 4
+              "gs": 2,
+              "ip": 2.0,
+              "ip_per_gs": 1.0,
+              "era": 13.5,
+              "whip": 2.0,
+              "k_pct": 30.0,
+              "bb_pct": 10.0,
+              "k_bb_pct": 20.0,
+              "hr9": 4.5,
+              "k": 3,
+              "bb": 1,
+              "hr": 1,
+              "er": 3
             },
             "recent_all": {
               "g": 5,
-              "ip": 18.7,
-              "ip_per_g": 3.73,
-              "era": 6.75,
-              "whip": 1.61,
-              "k_pct": 10.7,
-              "bb_pct": 8.3,
-              "k_bb_pct": 2.4,
-              "hr9": 2.89,
-              "k": 9,
-              "bb": 7,
-              "hr": 6,
-              "er": 14,
-              "gs": 5
+              "ip": 5.3,
+              "ip_per_g": 1.07,
+              "era": 1.69,
+              "whip": 0.94,
+              "k_pct": 33.3,
+              "bb_pct": 4.8,
+              "k_bb_pct": 28.6,
+              "hr9": 0.0,
+              "k": 7,
+              "bb": 1,
+              "hr": 0,
+              "er": 1,
+              "gs": 0
             },
-            "relief": null
+            "relief": {
+              "g": 16,
+              "ip": 16.3,
+              "ip_per_g": 1.02,
+              "era": 1.65,
+              "whip": 0.92,
+              "k_pct": 25.8,
+              "bb_pct": 7.6,
+              "k_bb_pct": 18.2,
+              "hr9": 0.0,
+              "k": 17,
+              "bb": 5,
+              "hr": 0,
+              "er": 3,
+              "from": "2026-06-28",
+              "to": "2026-09-13"
+            }
           },
           "trend": {
-            "era": 2.7,
-            "whip": 0.3,
-            "k_pct": -9.4,
-            "bb_pct": 1.0,
-            "ip_per_gs": -1.49,
-            "hr9": 2.03
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
           },
           "pen": {
             "last30": {
@@ -983,13 +999,18 @@
               "rank": 9
             }
           },
-          "flags": [],
-          "mismatch": 41.0,
+          "flags": [
+            "opener",
+            "thin-sample",
+            "layoff-72d",
+            "swingman-16g"
+          ],
+          "mismatch": 19.8,
           "aligned75": [
-            98,
-            107,
-            104,
-            122
+            67,
+            53,
+            49,
+            null
           ]
         },
         "home": {
@@ -1174,10 +1195,10 @@
           ]
         }
       },
-      "home_offense_game": 98,
+      "home_offense_game": 63,
       "away_offense_game": 186,
-      "game_offense": 142,
-      "offense_edge": 88,
+      "game_offense": 124,
+      "offense_edge": 123,
       "aligned_ml": null
     },
     {
@@ -1964,8 +1985,8 @@
       "away": "DET",
       "home": "TOR",
       "commence": "2026-09-15T23:07:00Z",
-      "away_ml": 116,
-      "home_ml": -134,
+      "away_ml": 118,
+      "home_ml": -138,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -2364,11 +2385,11 @@
       "away": "BAL",
       "home": "NYM",
       "commence": "2026-09-15T23:10:00Z",
-      "away_ml": 110,
-      "home_ml": -130,
-      "total": 8.5,
-      "over_ml": 106,
-      "under_ml": -130,
+      "away_ml": 112,
+      "home_ml": -132,
+      "total": 7.5,
+      "over_ml": -128,
+      "under_ml": 104,
       "sides": {
         "away": {
           "pitcher": "Shane Baz",
@@ -3504,8 +3525,8 @@
       "away": "SF",
       "home": "STL",
       "commence": "2026-09-15T23:45:00Z",
-      "away_ml": 138,
-      "home_ml": -164,
+      "away_ml": 136,
+      "home_ml": -162,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -3884,11 +3905,11 @@
       "away": "BOS",
       "home": "TEX",
       "commence": "2026-09-16T00:05:00Z",
-      "away_ml": -112,
-      "home_ml": -104,
-      "total": 8.5,
-      "over_ml": 104,
-      "under_ml": -128,
+      "away_ml": 114,
+      "home_ml": -134,
+      "total": 7.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Patrick Sandoval",
@@ -4072,31 +4093,111 @@
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Jacob deGrom",
+          "listed_as": "Jacob deGrom",
+          "resolved": true,
+          "hand": "R",
           "team": "TEX",
           "opponent_offense": "BOS",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 94,
+          "opp_wrc_game": 94,
+          "opp_wrc_recent": 120,
+          "opp_wrc_recent_pa": 1187,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 108,
+              "pa": 774,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 94,
+              "pa": 492,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 107,
+              "pa": 387,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 116,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -37,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 28,
+              "ip": 149.3,
+              "ip_per_gs": 5.33,
+              "era": 3.8,
+              "whip": 1.08,
+              "k_pct": 30.9,
+              "bb_pct": 6.3,
+              "k_bb_pct": 24.6,
+              "hr9": 1.15,
+              "k": 186,
+              "bb": 38,
+              "hr": 19,
+              "er": 63
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 28.7,
+              "ip_per_gs": 5.73,
+              "era": 3.14,
+              "whip": 0.7,
+              "k_pct": 37.9,
+              "bb_pct": 6.8,
+              "k_bb_pct": 31.1,
+              "hr9": 0.63,
+              "k": 39,
+              "bb": 7,
+              "hr": 2,
+              "er": 10
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 19.0,
+              "ip_per_gs": 6.33,
+              "era": 0.95,
+              "whip": 0.37,
+              "k_pct": 44.3,
+              "bb_pct": 1.6,
+              "k_bb_pct": 42.6,
+              "hr9": 0.95,
+              "k": 27,
+              "bb": 1,
+              "hr": 2,
+              "er": 2
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 28.7,
+              "ip_per_g": 5.73,
+              "era": 3.14,
+              "whip": 0.7,
+              "k_pct": 37.9,
+              "bb_pct": 6.8,
+              "k_bb_pct": 31.1,
+              "hr9": 0.63,
+              "k": 39,
+              "bb": 7,
+              "hr": 2,
+              "er": 10,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": -0.66,
+            "whip": -0.38,
+            "k_pct": 7.0,
+            "bb_pct": 0.5,
+            "ip_per_gs": 0.4,
+            "hr9": -0.52
+          },
           "pen": {
             "last30": {
               "g": 88,
@@ -4163,22 +4264,20 @@
               "rank": 24
             }
           },
-          "flags": [
-            "thin-sample"
-          ],
-          "mismatch": null,
+          "flags": [],
+          "mismatch": -35.4,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            108,
+            94,
+            107,
+            94
           ]
         }
       },
       "home_offense_game": 121,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 94,
+      "game_offense": 108,
+      "offense_edge": -27,
       "aligned_ml": null
     },
     {
@@ -5809,16 +5908,6 @@
       "flags": []
     },
     {
-      "pitcher": "Davis Martin",
-      "hand": "R",
-      "team": "CWS",
-      "opponent_offense": "CLE",
-      "opp_wrc_vs_hand": 107,
-      "opp_wrc_recent": 97,
-      "mismatch": 41.0,
-      "flags": []
-    },
-    {
       "pitcher": "Sean Manaea",
       "hand": "L",
       "team": "NYM",
@@ -5882,6 +5971,21 @@
       "flags": [
         "opener",
         "swingman-2g"
+      ]
+    },
+    {
+      "pitcher": "Chris Murphy",
+      "hand": "L",
+      "team": "CWS",
+      "opponent_offense": "CLE",
+      "opp_wrc_vs_hand": 53,
+      "opp_wrc_recent": 87,
+      "mismatch": 19.8,
+      "flags": [
+        "opener",
+        "thin-sample",
+        "layoff-72d",
+        "swingman-16g"
       ]
     },
     {
@@ -6043,6 +6147,16 @@
       "flags": []
     },
     {
+      "pitcher": "Jacob deGrom",
+      "hand": "R",
+      "team": "TEX",
+      "opponent_offense": "BOS",
+      "opp_wrc_vs_hand": 94,
+      "opp_wrc_recent": 120,
+      "mismatch": -35.4,
+      "flags": []
+    },
+    {
       "pitcher": "Michael Wacha",
       "hand": "R",
       "team": "KC",
@@ -6063,7 +6177,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-15T16:04:19Z",
+  "generated": "2026-09-15T18:34:05Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

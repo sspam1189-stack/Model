@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-15T16:04:41Z",
+ "generated": "2026-09-15T18:34:27Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -193,7 +193,7 @@
    "date": "2026-09-15",
    "play": "TEX ML (mismatch +57.4)",
    "market": "h2h",
-   "price": -104,
+   "price": -134,
    "rule": "mismatch-ml",
    "result": "pending",
    "profit": 0.0,
@@ -322,7 +322,7 @@
    "date": "2026-09-15",
    "play": "BAL ML (dog, m_sum +61.8)",
    "market": "h2h",
-   "price": 110,
+   "price": 112,
    "rule": "better-arm-ml",
    "result": "pending",
    "profit": 0.0,
@@ -433,7 +433,7 @@
   },
   {
    "date": "2026-09-15",
-   "play": "CWS ML (dog, m_sum +112.0)",
+   "play": "CWS ML (dog, m_sum +90.8)",
    "market": "h2h",
    "price": 122,
    "rule": "better-arm-ml",
@@ -442,7 +442,7 @@
    "game": "CWS @ CLE",
    "gamePk": 824384,
    "commence": "2026-09-15T22:40:00Z",
-   "basis": "Better arm Davis Martin (+41.0) vs +71.0, m_sum +112.0.",
+   "basis": "Better arm Chris Murphy (+19.8) vs +71.0, m_sum +90.8.",
    "open_price": 114,
    "name": "Better arm ML",
    "group": "scout",
@@ -484,6 +484,26 @@
    "combo": "swingman+opener",
    "open_line": 7.5,
    "open_price": -108,
+   "name": "Flag Plays",
+   "group": "scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-15",
+   "play": "CWS/CLE U8.5",
+   "market": "totals",
+   "line": 8.5,
+   "price": 100,
+   "rule": "flag-plays",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "CWS @ CLE",
+   "gamePk": 824384,
+   "commence": "2026-09-15T22:40:00Z",
+   "basis": "Verdict under for swingman+layoff+opener. Chris Murphy swingman-16g, layoff-72d, opener.",
+   "combo": "swingman+layoff+opener",
+   "open_line": 8.5,
+   "open_price": 100,
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -45711,16 +45731,16 @@
    "w": 1296,
    "l": 1162,
    "push": 28,
-   "n": 2516,
-   "pending": 30,
+   "n": 2517,
+   "pending": 31,
    "units": 251.8
   },
   "card": {
    "w": 634,
    "l": 581,
    "push": 6,
-   "n": 1233,
-   "pending": 12,
+   "n": 1234,
+   "pending": 13,
    "units": 251.8
   },
   "by_rule": {
@@ -45784,8 +45804,8 @@
     "w": 27,
     "l": 28,
     "push": 0,
-    "n": 59,
-    "pending": 4,
+    "n": 60,
+    "pending": 5,
     "units": -0.32
    },
    "form-under": {

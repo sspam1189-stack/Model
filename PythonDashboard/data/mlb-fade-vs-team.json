@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-15T16:04:11Z",
+  "generated": "2026-09-15T18:33:57Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 11,
     "roi": 0.6231
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-15",
+      "commence": "2026-09-15T22:40:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Chris Murphy",
+      "arm_team": "CWS",
+      "opp": "CLE",
+      "selection": "CLE",
+      "venue": "away",
+      "matchup": "CWS @ CLE",
+      "odds": -144,
+      "eraVsOpp": 13.5,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
