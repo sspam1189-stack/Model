@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-15T21:05:42Z",
+ "generated": "2026-09-15T23:02:36Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-14"
@@ -997,9 +997,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -128,
+   "price": -120,
    "side": "U",
-   "why": "book laying -128 on the under",
+   "why": "book laying -120 on the under",
    "gamePk": 822762,
    "date": "2026-09-15",
    "commence": "2026-09-15T23:07:00Z",
@@ -1094,7 +1094,7 @@
    "total": 8.5,
    "why": "favorite only -112 at a 8.5 total",
    "stale": true,
-   "stale_now": "favourite now -136, total now 7.5 (was 8.5)"
+   "stale_now": "favourite now -142, total now 7.5 (was 8.5)"
   },
   {
    "rule": "under-juice",
@@ -1112,7 +1112,7 @@
    "total": 8.5,
    "why": "book laying -128 on the under",
    "stale": true,
-   "stale_now": "favourite now -136, total now 7.5 (was 8.5)"
+   "stale_now": "favourite now -142, total now 7.5 (was 8.5)"
   },
   {
    "rule": "cold-arms-under",
@@ -1151,9 +1151,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -124,
+   "price": -132,
    "side": "U",
-   "why": "book laying -124 on the under",
+   "why": "book laying -132 on the under",
    "gamePk": 824307,
    "date": "2026-09-15",
    "commence": "2026-09-16T00:40:00Z",
@@ -1166,9 +1166,9 @@
    "rule": "division-home-dog",
    "market": "h2h",
    "pick": "LAA",
-   "price": 142,
+   "price": 146,
    "side": null,
-   "why": "home to a AL West rival at +142",
+   "why": "home to a AL West rival at +146",
    "gamePk": 823980,
    "date": "2026-09-15",
    "commence": "2026-09-16T01:38:00Z",
@@ -1181,13 +1181,13 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "LAA",
-   "price": 331,
+   "price": 338,
    "side": null,
-   "why": "LAA ML +142 with U8.5 -128, pays 4.31x",
+   "why": "LAA ML +146 with U8.5 -128, pays 4.38x",
    "line": 8.5,
-   "ml_price": 142,
+   "ml_price": 146,
    "under_price": -128,
-   "payout": 4.311,
+   "payout": 4.382,
    "gamePk": 823980,
    "date": "2026-09-15",
    "commence": "2026-09-16T01:38:00Z",
