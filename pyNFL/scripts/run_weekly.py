@@ -24,7 +24,7 @@ import os
 import re
 import sys
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # ---------------------------------------------------------------------------
 # Path setup — ensure we can import from pyNFL/scripts/ and core/
@@ -774,8 +774,63 @@ def report_key_balances():
         print(f"  WARNING: key balance check failed: {e}")
 
 
+# Where the key-exhaustion alert remembers itself. Under pyNFL/data/ because
+# the workflow commits that directory -- a CI runner is wiped between runs, so
+# anywhere else the "have I already said this" answer is always no.
+KEY_ALERT_STATE = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "data", "odds_key_alert.json"))
+
+# Re-send this often while the keys stay dry. Silence forever risks the
+# problem being forgotten; every run is what made it noise.
+KEY_ALERT_REPEAT_DAYS = 7
+
+
+def _load_key_alert():
+    try:
+        with open(KEY_ALERT_STATE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _save_key_alert(blob):
+    try:
+        os.makedirs(os.path.dirname(KEY_ALERT_STATE), exist_ok=True)
+        with open(KEY_ALERT_STATE, "w", encoding="utf-8") as f:
+            json.dump(blob, f, indent=2)
+    except Exception as e:
+        print(f"  WARNING: could not write {KEY_ALERT_STATE}: {e}")
+
+
+def should_send_key_alert(state, now, repeat_days=KEY_ALERT_REPEAT_DAYS):
+    """True when a dry-key alert is worth sending now.
+
+    Send on the transition into dry, then at most once every repeat_days
+    while it stays dry. Anything else is the same sentence again.
+    """
+    last = (state or {}).get("lastAlertIso")
+    if not last:
+        return True
+    try:
+        prev = datetime.fromisoformat(str(last))
+    except ValueError:
+        return True
+    if prev.tzinfo is None:
+        prev = prev.replace(tzinfo=timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    return (now - prev).total_seconds() >= repeat_days * 86400
+
+
 def alert_if_keys_exhausted(season, week):
-    """Email once when every Odds API key has run dry.
+    """Email when every Odds API key has run dry -- once, then weekly.
+
+    It used to say "email once" and then email on EVERY run. The keys went dry
+    on 2026-09-03 and the pipeline fired 16 more times before anyone counted,
+    each one sending the same message. That is how a useful alert becomes a
+    filter rule, which defeats the exact purpose it was built for: catching
+    silent key death. It now alerts on the way into dry, repeats weekly while
+    it stays dry, and re-arms the moment a key comes back.
 
     Silent credit exhaustion is what cost the 2026 season its first week: the
     key died on 09-03, every scheduled run stayed green, and nothing projected
@@ -786,7 +841,19 @@ def alert_if_keys_exhausted(season, week):
     """
     try:
         from sources.odds_theoddsapi import all_keys_exhausted, _api_keys
+        state = _load_key_alert()
         if not all_keys_exhausted():
+            # RE-ARM. A recovered key must be able to alert again when it next
+            # dies, or this only ever works for the first outage of all time.
+            if state.get("lastAlertIso"):
+                _save_key_alert({})
+                print("  [odds] keys have credits again — alert re-armed")
+            return
+        now = datetime.now(timezone.utc)
+        if not should_send_key_alert(state, now):
+            last = state.get("lastAlertIso", "?")
+            print(f"  [odds] all keys dry — already alerted {last}, "
+                  f"next reminder in at most {KEY_ALERT_REPEAT_DAYS}d")
             return
         n = len(_api_keys())
         from core.email_report import send_email
@@ -812,6 +879,8 @@ def alert_if_keys_exhausted(season, week):
                 "  gh secret set ODDS_API_KEY\n"
             ),
         )
+        _save_key_alert({"lastAlertIso": now.isoformat(timespec="seconds"),
+                         "season": season, "week": week})
         print("  [odds] all keys dry — alert emailed")
     except Exception as e:
         print(f"  WARNING: key-exhaustion alert failed: {e}")
