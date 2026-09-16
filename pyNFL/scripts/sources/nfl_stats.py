@@ -30,6 +30,24 @@ _SUCCESS_THRESHOLDS = {1: 0.50, 2: 0.70, 3: 1.00, 4: 1.00}
 
 # Minimum plays for a stat to be considered reliable
 _MIN_PLAYS_TEAM = 50
+
+# Minimum SCRIMMAGE PLAYS PER GAME PLAYED before a team is admitted at all.
+#
+# This used to be the flat _MIN_PLAYS_TEAM = 50, and that is wrong in the
+# opening weeks. After one week a normal team has run 46-86 scrimmage plays
+# -- in 2026 Week 1 the spread was DEN 46, SEA 47, TEN 49, CLE 49, MIA 50,
+# median 60, NO 86. Those bottom four were not thin samples, they were teams
+# that played a low-possession game, and dropping them did far more than skip
+# their stats: with no team_stats entry nothing downstream could resolve them,
+# so the Week 2 board showed "PHI @ NE" for PHI @ TEN, "LA @ TB" for CLE @ TB,
+# and left two more games with unabbreviated names.
+#
+# A per-game rate asks the question the gate was always meant to ask -- did
+# this team play enough football to measure -- instead of punishing teams for
+# the season being young. A real degenerate sample (a suspended game, a
+# mid-game feed cut) still falls under it.
+_MIN_PLAYS_PER_GAME = 20
+
 _MIN_DROPBACKS_PLAYER = 10
 _MIN_SNAPS_PLAYER = 20
 
@@ -210,6 +228,7 @@ def compute_team_stats(pbp_df, decay=0.85):
             games_by_team[team] = team_games
 
     stats = {}
+    _dropped = []
     for team in sorted(teams):
         if not team or (isinstance(team, float) and math.isnan(team)):
             continue
@@ -227,7 +246,13 @@ def compute_team_stats(pbp_df, decay=0.85):
         gp = games_by_team.get(team, 0)
         total_off_plays = len(off_all)
 
-        if total_off_plays < _MIN_PLAYS_TEAM:
+        # Scaled to games played, not absolute -- see _MIN_PLAYS_PER_GAME.
+        floor = _MIN_PLAYS_PER_GAME * max(gp, 1)
+        if total_off_plays < floor:
+            # SAY SO. Dropping a team silently is what let four of them
+            # vanish for a week and surface as mislabelled games rather than
+            # as missing stats.
+            _dropped.append((team, total_off_plays, gp, floor))
             continue
 
         # Offensive pass rate (decay-weighted share of plays that are passes)
@@ -394,6 +419,12 @@ def compute_team_stats(pbp_df, decay=0.85):
             "GP": gp,
         }
 
+    if _dropped:
+        detail = ", ".join(f"{t} ({n} plays in {g} game(s), needs {f})"
+                           for t, n, g, f in _dropped)
+        print(f"  [nfl_stats] WARNING: dropped {len(_dropped)} team(s) for too "
+              f"few scrimmage plays -- they will be missing everywhere "
+              f"downstream, including game labels: {detail}")
     print(f"  [nfl_stats] Computed team stats for {len(stats)} teams (decay={decay})")
     return stats
 
