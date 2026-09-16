@@ -297,6 +297,56 @@ def grade_week_in_store(store, week, season):
     return graded_games
 
 
+# Per-game marker: this game has been folded into the tuned weights.
+# The Kalman filter solved the same problem with core/kalman_state.py's
+# processedGames map; this is the self-tune equivalent, kept on the game so
+# it persists with the store and survives a re-run of any stage.
+SELF_TUNE_STAMP = "_selfTuned"
+
+# Games graded before the stamp existed. Their evidence is already in the
+# weights -- many times over, which is the bug -- so they must NOT be folded
+# in again when this first ships, or the first run would re-absorb whole
+# seasons at once.
+SELF_TUNE_LEGACY = "pre-2026-09-16"
+
+
+def select_untuned_games(completed):
+    """The graded games not yet folded into the tuned weights.
+
+    The grade stage runs on every scheduled pipeline run, and
+    grade_week_in_store returns the whole completed set even when it graded
+    nothing new. Passing all of it to tune_weights re-applied the same
+    evidence daily, which walks the weights monotonically rather than
+    converging: on 2026 Week 1's sixteen games, ten re-reads moved hfa from
+    2.754 to 2.605 and more than doubled wRushDef.
+    """
+    return [g for g in completed if not g.get(SELF_TUNE_STAMP)]
+
+
+def mark_tuned(games, tag):
+    """Stamp games as folded in. Call only AFTER tune_weights succeeds, so a
+    failed tune is retried on the next run rather than silently skipped."""
+    for g in games:
+        g[SELF_TUNE_STAMP] = tag
+
+
+def backfill_self_tune_stamps(store):
+    """One-time migration: treat everything already graded as already tuned.
+
+    Returns the number of games stamped. Idempotent -- once stamped, later
+    calls find nothing.
+    """
+    n = 0
+    for r in store.get("runs", []):
+        for g in r.get("games", []):
+            if g.get(SELF_TUNE_STAMP):
+                continue
+            if isinstance(g.get("homeScore"), (int, float)):
+                g[SELF_TUNE_STAMP] = SELF_TUNE_LEGACY
+                n += 1
+    return n
+
+
 def _norm_team(name):
     """Normalize a team name for fuzzy matching."""
     s = str(name or "").lower().strip()
@@ -600,6 +650,15 @@ def stage_grade(season, week, store):
     """
     print(f"\n== GRADE — {season} Week {week} ==\n")
 
+    # One-time migration, inert after the first run. Everything already
+    # graded is already in the weights -- repeatedly, which is the bug
+    # select_untuned_games describes -- so it must be stamped rather than
+    # folded in again the moment per-game stamping starts.
+    migrated = backfill_self_tune_stamps(store)
+    if migrated:
+        print(f"  [self_tune] Marked {migrated} previously graded game(s) as "
+              f"already folded into the weights (one-time migration)")
+
     prev_week = week - 1
     if prev_week < 1:
         print("  No previous week to grade (Week 1)")
@@ -650,14 +709,23 @@ def stage_grade(season, week, store):
     base_w = {**base_w}
     base_w_var = {**base_w_var}
 
-    if completed:
+    # ONE FOLD PER GAME. `completed` is every graded game of the week, handed
+    # back on every run -- including the early-exit path where nothing new was
+    # graded -- so tuning on it directly re-applied the same evidence daily.
+    fresh = select_untuned_games(completed)
+    if fresh:
         try:
-            tuned = tune_weights(base_w, base_w_var, completed)
+            tuned = tune_weights(base_w, base_w_var, fresh)
             store["weights"] = tuned["W"]
             store["weightsVar"] = tuned["W_var"]
-            print(f"  Weights tuned on {len(completed)} games")
+            # Stamped only on success: a raised tune is retried next run.
+            mark_tuned(fresh, f"{season}_W{prev_week}")
+            print(f"  Weights tuned on {len(fresh)} new game(s)")
         except Exception as e:
             print(f"  WARNING: Self-tune failed: {e}")
+    elif completed:
+        print(f"  Weights unchanged -- all {len(completed)} game(s) already "
+              f"folded in")
 
     # 4. Save Kalman state
     print(f"[grade 4/4] Saving Kalman state...")
