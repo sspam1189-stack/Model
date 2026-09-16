@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-16T19:05:56Z",
+ "generated": "2026-09-16T20:01:07Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-15"
+  "to": "2026-09-16"
  },
- "games": 2267,
+ "games": 2268,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
-  "over": -4.4,
+  "over": -4.3,
   "under": -5.1,
   "parlay": 0.0
  },
@@ -95,7 +95,7 @@
      "roi": 22.2
     }
    ],
-   "per_day": 1.0
+   "per_day": 0.99
   },
   {
    "baseline_key": "side",
@@ -399,11 +399,11 @@
      "roi": 31.0
     }
    ],
-   "per_day": 1.52
+   "per_day": 1.51
   },
   {
    "baseline_key": "over",
-   "baseline": -4.4,
+   "baseline": -4.3,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -547,11 +547,11 @@
      "roi": -42.0
     }
    ],
-   "per_day": 0.3
+   "per_day": 0.29
   },
   {
    "baseline_key": "over",
-   "baseline": -4.4,
+   "baseline": -4.3,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.4,
+   "baseline": -4.3,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -711,7 +711,7 @@
      "roi": 19.3
     }
    ],
-   "per_day": 1.48
+   "per_day": 1.47
   },
   {
    "baseline_key": "under",
@@ -726,14 +726,14 @@
    "ladder_fails": false,
    "record": {
     "w": 253,
-    "l": 204,
-    "n": 457,
-    "units": 2.96,
-    "roi": 0.6
+    "l": 205,
+    "n": 458,
+    "units": 1.96,
+    "roi": 0.4
    },
    "halves": [
     3.7,
-    -2.2
+    -2.6
    ],
    "monthly": [
     {
@@ -787,13 +787,13 @@
     {
      "month": "2026-09",
      "w": 19,
-     "l": 33,
-     "n": 52,
-     "units": -17.61,
-     "roi": -33.9
+     "l": 34,
+     "n": 53,
+     "units": -18.61,
+     "roi": -35.1
     }
    ],
-   "per_day": 2.66
+   "per_day": 2.65
   },
   {
    "baseline_key": "side",
@@ -867,7 +867,7 @@
      "roi": -42.1
     }
    ],
-   "per_day": 1.15
+   "per_day": 1.14
   },
   {
    "baseline_key": "under",
@@ -941,25 +941,10 @@
      "roi": 15.3
     }
    ],
-   "per_day": 1.02
+   "per_day": 1.01
   }
  ],
  "today": [
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -138,
-   "side": "U",
-   "why": "book laying -138 on the under",
-   "gamePk": 824382,
-   "date": "2026-09-16",
-   "commence": "2026-09-16T17:10:00Z",
-   "matchup": "CWS @ CLE",
-   "away": "CWS",
-   "home": "CLE",
-   "total": 7.5
-  },
   {
    "rule": "under-juice",
    "market": "totals",

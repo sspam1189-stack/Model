@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-16T19:05:37Z",
+  "generated": "2026-09-16T20:00:48Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-16T17:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "arm_team": "CWS",
-      "opp_team": "CLE",
-      "selection": "CWS",
-      "home": "CLE",
-      "away": "CWS",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 136,
-      "suggest": "take",
-      "suggestUnits": 4.9,
-      "games": 24,
-      "result": "pending"
-    },
     {
       "date": "2026-09-16",
       "commence": "2026-09-16T17:40:00Z",
@@ -109,14 +87,14 @@
       "selection": "MIL",
       "home": "PIT",
       "away": "MIL",
-      "oppLefty": 6,
+      "oppLefty": 7,
       "oppRighty": 5,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -126,
       "suggest": "take",
       "suggestUnits": 7.22,
       "games": 9,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-16",
@@ -465,24 +443,6 @@
         "u": 4.9
       },
       "era": 3.63
-    },
-    {
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "games": 24,
-      "suggest": "take",
-      "suggestUnits": 4.9,
-      "fade": {
-        "w": 10,
-        "l": 14,
-        "u": -7.42
-      },
-      "take": {
-        "w": 14,
-        "l": 10,
-        "u": 4.9
-      },
-      "era": 4.57
     },
     {
       "pitcher": "Nick Martinez",
