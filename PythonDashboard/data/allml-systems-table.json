@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-16T19:01:57Z",
+ "generated": "2026-09-16T19:05:56Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-15"
@@ -1023,6 +1023,21 @@
    "away": "NYY",
    "home": "MIN",
    "total": 7.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 822763,
+   "date": "2026-09-16",
+   "commence": "2026-09-16T19:07:00Z",
+   "matchup": "DET @ TOR",
+   "away": "DET",
+   "home": "TOR",
+   "total": 8.5
   },
   {
    "rule": "cold-arms-under",

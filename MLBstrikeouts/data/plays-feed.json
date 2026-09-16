@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-16T19:02:01Z",
+ "generated": "2026-09-16T19:06:12Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -126,7 +126,7 @@
    "game": "ATL @ CHC",
    "gamePk": 824626,
    "commence": "2026-09-16T23:40:00Z",
-   "basis": "tail at L20 mismatch -63.9 (Shota Imanaga). Shadow revival; expectation +9.4%, not +17.2%.",
+   "basis": "tail at L20 mismatch -63.9 (Shota Imanaga). Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
    "open_price": -142,
    "name": "Mismatch ML",
    "group": "scout",
@@ -170,6 +170,25 @@
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
+  },
+  {
+   "date": "2026-09-16",
+   "play": "DET/TOR U8.5",
+   "market": "totals",
+   "line": 8.5,
+   "price": -122,
+   "rule": "under-juice",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "DET @ TOR",
+   "gamePk": 822763,
+   "commence": "2026-09-16T19:07:00Z",
+   "basis": "Under juice: book laying -122 on the under",
+   "open_line": 8.5,
+   "open_price": -122,
+   "name": "Under juice",
+   "group": "non-scout",
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-16",
@@ -46118,8 +46137,8 @@
    "w": 1311,
    "l": 1178,
    "push": 28,
-   "n": 2533,
-   "pending": 16,
+   "n": 2534,
+   "pending": 17,
    "units": 258.06
   },
   "card": {
@@ -46287,8 +46306,8 @@
     "w": 263,
     "l": 224,
     "push": 1,
-    "n": 491,
-    "pending": 3,
+    "n": 492,
+    "pending": 4,
     "units": 0
    }
   }
