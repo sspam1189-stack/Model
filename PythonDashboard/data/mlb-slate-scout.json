@@ -1927,8 +1927,8 @@
       "away": "OAK",
       "home": "TB",
       "commence": "2026-09-16T22:40:00Z",
-      "away_ml": 146,
-      "home_ml": -174,
+      "away_ml": 154,
+      "home_ml": -184,
       "total": 7.5,
       "over_ml": -132,
       "under_ml": 108,
@@ -2710,8 +2710,8 @@
       "away_ml": -196,
       "home_ml": 164,
       "total": 8.5,
-      "over_ml": -128,
-      "under_ml": 104,
+      "over_ml": -140,
+      "under_ml": 114,
       "sides": {
         "away": {
           "pitcher": "Zack Wheeler",
@@ -3025,11 +3025,11 @@
       "away": "BAL",
       "home": "NYM",
       "commence": "2026-09-16T23:10:00Z",
-      "away_ml": 110,
-      "home_ml": -130,
+      "away_ml": 102,
+      "home_ml": -120,
       "total": 8.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "over_ml": -130,
+      "under_ml": 106,
       "sides": {
         "away": {
           "pitcher": "Chris Bassitt",
@@ -3213,9 +3213,9 @@
           ]
         },
         "home": {
-          "pitcher": "Robert Stock",
-          "listed_as": "Robert Stock",
-          "resolved": true,
+          "pitcher": "Xzavion Curry",
+          "listed_as": "Xzavion Curry",
+          "resolved": false,
           "hand": "R",
           "team": "NYM",
           "opponent_offense": "BAL",
@@ -3247,93 +3247,13 @@
           },
           "opp_platoon_gap": 42,
           "form": {
-            "season": {
-              "gs": 7,
-              "ip": 30.0,
-              "ip_per_gs": 4.29,
-              "era": 6.0,
-              "whip": 1.73,
-              "k_pct": 20.0,
-              "bb_pct": 10.3,
-              "k_bb_pct": 9.7,
-              "hr9": 0.6,
-              "k": 29,
-              "bb": 15,
-              "hr": 2,
-              "er": 20
-            },
-            "recent": {
-              "gs": 5,
-              "ip": 22.0,
-              "ip_per_gs": 4.4,
-              "era": 4.5,
-              "whip": 1.59,
-              "k_pct": 20.2,
-              "bb_pct": 9.6,
-              "k_bb_pct": 10.6,
-              "hr9": 0.41,
-              "k": 21,
-              "bb": 10,
-              "hr": 1,
-              "er": 11
-            },
-            "hot": {
-              "gs": 3,
-              "ip": 13.3,
-              "ip_per_gs": 4.44,
-              "era": 6.75,
-              "whip": 1.8,
-              "k_pct": 15.6,
-              "bb_pct": 6.2,
-              "k_bb_pct": 9.4,
-              "hr9": 0.67,
-              "k": 10,
-              "bb": 4,
-              "hr": 1,
-              "er": 10
-            },
-            "recent_all": {
-              "g": 5,
-              "ip": 18.0,
-              "ip_per_g": 3.6,
-              "era": 5.5,
-              "whip": 1.67,
-              "k_pct": 18.8,
-              "bb_pct": 8.2,
-              "k_bb_pct": 10.6,
-              "hr9": 0.5,
-              "k": 16,
-              "bb": 7,
-              "hr": 1,
-              "er": 11,
-              "gs": 4
-            },
-            "relief": {
-              "g": 1,
-              "ip": 0.3,
-              "ip_per_g": 0.33,
-              "era": 0.0,
-              "whip": 3.0,
-              "k_pct": 0.0,
-              "bb_pct": 0.0,
-              "k_bb_pct": 0.0,
-              "hr9": 0.0,
-              "k": 0,
-              "bb": 0,
-              "hr": 0,
-              "er": 0,
-              "from": "2026-09-04",
-              "to": "2026-09-04"
-            }
+            "season": null,
+            "recent": null,
+            "hot": null,
+            "recent_all": null,
+            "relief": null
           },
-          "trend": {
-            "era": -1.5,
-            "whip": -0.14,
-            "k_pct": 0.2,
-            "bb_pct": -0.7,
-            "ip_per_gs": 0.11,
-            "hr9": -0.19
-          },
+          "trend": {},
           "pen": {
             "last30": {
               "g": 90,
@@ -3400,8 +3320,10 @@
               "rank": 27
             }
           },
-          "flags": [],
-          "mismatch": -32.9,
+          "flags": [
+            "thin-sample"
+          ],
+          "mismatch": null,
           "aligned75": [
             77,
             61,
@@ -3416,7 +3338,7 @@
       "offense_edge": -56,
       "aligned_ml": {
         "pick": "NYM",
-        "ml": -130,
+        "ml": -120,
         "away_offense": [
           77,
           61,
@@ -3440,8 +3362,8 @@
       "away_ml": 132,
       "home_ml": -156,
       "total": 7.5,
-      "over_ml": -112,
-      "under_ml": -108,
+      "over_ml": -108,
+      "under_ml": -112,
       "sides": {
         "away": {
           "pitcher": "JR Ritchie",
@@ -4217,8 +4139,8 @@
       "away": "KC",
       "home": "HOU",
       "commence": "2026-09-17T00:10:00Z",
-      "away_ml": 134,
-      "home_ml": -158,
+      "away_ml": 136,
+      "home_ml": -162,
       "total": 8.5,
       "over_ml": -124,
       "under_ml": 102,
@@ -6019,16 +5941,6 @@
       "flags": []
     },
     {
-      "pitcher": "Robert Stock",
-      "hand": "R",
-      "team": "NYM",
-      "opponent_offense": "BAL",
-      "opp_wrc_vs_hand": 61,
-      "opp_wrc_recent": 85,
-      "mismatch": -32.9,
-      "flags": []
-    },
-    {
       "pitcher": "Logan Henderson",
       "hand": "R",
       "team": "MIL",
@@ -6059,7 +5971,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-16T16:03:22Z",
+  "generated": "2026-09-16T18:32:29Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

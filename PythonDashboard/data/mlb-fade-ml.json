@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-16T16:03:09Z",
+  "generated": "2026-09-16T18:32:16Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -115,6 +115,30 @@
   "today": [
     {
       "date": "2026-09-16",
+      "commence": "2026-09-16T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "DET",
+      "gamePk": 822763,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-16",
       "commence": "2026-09-17T00:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -125,7 +149,7 @@
       "market": "h2h",
       "selection": "KC",
       "line": null,
-      "odds": 134,
+      "odds": 136,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -183,30 +207,6 @@
       "home": "PIT",
       "away": "MIL",
       "gamePk": 823332,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-16T19:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": 112,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "DET",
-      "gamePk": 822763,
       "fadeReason": "home"
     }
   ],
