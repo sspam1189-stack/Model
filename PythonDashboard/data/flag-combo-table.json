@@ -1,13 +1,13 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-16T20:01:01Z",
+ "generated": "2026-09-16T21:03:18Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-16"
  },
  "games": {
-  "gradeable": 2210,
+  "gradeable": 2211,
   "flagged": 570,
   "pushes_dropped": 56
  },
@@ -60,16 +60,16 @@
  "baselines": {
   "under": {
    "w": 1101,
-   "l": 1109,
-   "n": 2210,
-   "units": -114.49,
+   "l": 1110,
+   "n": 2211,
+   "units": -115.49,
    "roi": -5.2
   },
   "over": {
-   "w": 1109,
+   "w": 1110,
    "l": 1101,
-   "n": 2210,
-   "units": -93.87,
+   "n": 2211,
+   "units": -92.81,
    "roi": -4.2
   }
  },

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-16T20:42:27Z",
+ "generated": "2026-09-16T21:03:39Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -153,7 +153,7 @@
    "date": "2026-09-16",
    "play": "MIL ML (aligned)",
    "market": "h2h",
-   "price": -126,
+   "price": -130,
    "rule": "aligned-ml",
    "result": "pending",
    "profit": 0.0,
@@ -337,14 +337,17 @@
    "line": 8.5,
    "price": -130,
    "rule": "under-juice",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "SF @ STL",
    "gamePk": 823004,
    "commence": "2026-09-16T17:15:00Z",
    "basis": "Under juice: book laying -130 on the under",
    "open_line": 8.5,
+   "close_line": 8.5,
+   "line_move": 0.0,
    "open_price": -130,
+   "clv": "flat",
    "name": "Under juice",
    "group": "non-scout",
    "kind": "not_bet"
@@ -46172,10 +46175,10 @@
  "summary": {
   "all": {
    "w": 1310,
-   "l": 1179,
+   "l": 1180,
    "push": 28,
    "n": 2536,
-   "pending": 19,
+   "pending": 18,
    "units": 257.38
   },
   "card": {
@@ -46349,10 +46352,10 @@
    },
    "under-juice": {
     "w": 263,
-    "l": 225,
+    "l": 226,
     "push": 1,
     "n": 492,
-    "pending": 3,
+    "pending": 2,
     "units": 0
    }
   }
