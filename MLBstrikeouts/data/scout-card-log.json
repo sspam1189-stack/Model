@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-16T19:06:11Z",
+  "generated": "2026-09-16T19:16:38Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -47930,6 +47930,24 @@
       "close_line": 11.5,
       "line_move": 0.0,
       "clv": "flat"
+    },
+    {
+      "date": "2026-09-16",
+      "play": "NYM ML (aligned)",
+      "market": "h2h",
+      "game": "BAL @ NYM",
+      "price": -118,
+      "stake": 1.0,
+      "rule": "aligned-ml",
+      "auto": true,
+      "basis": "away [77, 61, 69, 79] vs home [124, 132, 152, 152] @75pa.",
+      "result": "pending",
+      "profit": 0.0,
+      "gamePk": 823576,
+      "commence": "2026-09-16T23:10:00Z",
+      "shadow": true,
+      "open_line": null,
+      "open_price": -118
     },
     {
       "date": "2026-09-16",

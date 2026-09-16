@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-16T19:06:06Z",
+ "generated": "2026-09-16T19:16:46Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-15"
@@ -19,7 +19,7 @@
    "name": "Form under",
    "market": "totals",
    "rule": "m_sum <= -40: both arms outclassed by the bats -> under.",
-   "status": "retired",
+   "status": "shadow",
    "baseline_key": "under",
    "baseline": -5.1,
    "record": {
@@ -90,7 +90,7 @@
    "name": "Aligned ML",
    "market": "h2h",
    "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
-   "status": "retired",
+   "status": "shadow",
    "baseline_key": "side",
    "baseline": -3.4,
    "record": {

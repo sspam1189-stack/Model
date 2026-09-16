@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-16T19:06:06Z",
+ "generated": "2026-09-16T19:16:38Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -11,9 +11,9 @@
    "group": "scout"
   },
   "form-under": {
-   "status": "retired",
+   "status": "shadow",
    "name": "Form under",
-   "why": "RETIRED 2026-09-16 (user). m_sum <= -40 -> under. Carded 2026-09-01 on 84-52 +17.2% (n=136, perm p=0.005), which the full-season replay reproduces EXACTLY as its record through 8/31 -- the case was real, not a construction artifact. Then September: 3-17 -71.7% on the replay, 10-27 -18.05u live, and its edge over a blind under on the same dates ran +38 (May), +46 (Jun), +16 (Jul), -5.5 (Aug), -47.0 (Sep), landing at -3.8% across the last 100 plays. Taking the OVER on the same trigger was considered and REJECTED (user, 2026-09-16): the over side of those 156 games is 69-87 -15.1%, negative in five of six months, and its one good month is September, which was a league-wide over month -- blind over +12.5% vs blind under -21.2% over all 199 September games at 9.51 mean runs, the season high. The trigger stopped paying; the other side of it was never the answer. Settled rows stay in the ledger.",
+   "why": "SHADOW 2026-09-16 (user), same day it came off the card and by the same reasoning as aligned-ml: keep it logging, carry no units, and let its own rows answer whether September was a break or a blip. m_sum <= -40 -> under. Carded 2026-09-01 on 84-52 +17.2% (n=136, perm p=0.005), which the full-season replay reproduces EXACTLY as its record through 8/31 -- the case was real, not a construction artifact. Then September: 3-17 -71.7% on the replay, 10-27 -18.05u live, and its edge over a blind under on the same dates ran +38 (May), +46 (Jun), +16 (Jul), -5.5 (Aug), -47.0 (Sep), landing at -3.8% across the last 100 plays. Taking the OVER on the same trigger was considered and REJECTED (user, 2026-09-16): the over side of those 156 games is 69-87 -15.1%, negative in five of six months, and its one good month is September, which was a league-wide over month -- blind over +12.5% vs blind under -21.2% over all 199 September games at 9.51 mean runs, the season high. The trigger stopped paying; the other side of it was never the answer. Settled rows stay in the ledger.",
    "group": "scout"
   },
   "better-arm-ml": {
@@ -23,9 +23,9 @@
    "group": "scout"
   },
   "aligned-ml": {
-   "status": "retired",
+   "status": "shadow",
    "name": "Aligned ML",
-   "why": "RETIRED 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the 75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case, on a ladder measured inert for runs. The full-season replay published the next day (scout-rules-table.json) put it at 6-7 -12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% blind baseline -- the opposite of the 3-1 that justified carding it. Settled rows stay in the ledger; it logs nothing further.",
+   "why": "SHADOW 2026-09-16 (user), up from retired: a retired rule writes no rows, so the doubt about it can never resolve, and shadow costs nothing to carry. Retired 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the 75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case, on a ladder measured inert for runs. The full-season replay published the next day (scout-rules-table.json) put it at 6-7 -12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% blind baseline -- the opposite of the 3-1 that justified carding it. Settled rows stay in the ledger; it logs nothing further.",
    "group": "scout"
   },
   "mismatch-ml": {

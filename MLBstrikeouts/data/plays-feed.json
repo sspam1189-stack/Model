@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-16T19:06:12Z",
+ "generated": "2026-09-16T19:16:46Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -131,6 +131,23 @@
    "name": "Mismatch ML",
    "group": "scout",
    "kind": "card"
+  },
+  {
+   "date": "2026-09-16",
+   "play": "NYM ML (aligned)",
+   "market": "h2h",
+   "price": -118,
+   "rule": "aligned-ml",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "BAL @ NYM",
+   "gamePk": 823576,
+   "commence": "2026-09-16T23:10:00Z",
+   "basis": "away [77, 61, 69, 79] vs home [124, 132, 152, 152] @75pa.",
+   "open_price": -118,
+   "name": "Aligned ML",
+   "group": "scout",
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-16",
@@ -46137,8 +46154,8 @@
    "w": 1311,
    "l": 1178,
    "push": 28,
-   "n": 2534,
-   "pending": 17,
+   "n": 2535,
+   "pending": 18,
    "units": 258.06
   },
   "card": {
@@ -46150,6 +46167,14 @@
    "units": 258.06
   },
   "by_rule": {
+   "aligned-ml": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "n": 1,
+    "pending": 1,
+    "units": 0
+   },
    "away-dog-ml": {
     "w": 92,
     "l": 81,
