@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-16T13:05:50Z",
+ "generated": "2026-09-16T13:35:51Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-15"
@@ -945,6 +945,21 @@
   }
  ],
  "today": [
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -132,
+   "side": "U",
+   "why": "book laying -132 on the under",
+   "gamePk": 824382,
+   "date": "2026-09-16",
+   "commence": "2026-09-16T17:10:00Z",
+   "matchup": "CWS @ CLE",
+   "away": "CWS",
+   "home": "CLE",
+   "total": 7.5
+  },
   {
    "rule": "under-juice",
    "market": "totals",
