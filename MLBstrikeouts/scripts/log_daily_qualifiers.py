@@ -415,6 +415,18 @@ def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
                           f"{'Also flagged' if flagged else 'Unflagged'}."),
             })
 
+        # BOTH STARTERS CAN POINT AT THE SAME SIDE, and that is one bet, not
+        # two. Tailing a dominant arm backs his team; fading the opposing arm
+        # backs the same team. On 2026-09-16 ATL @ CHC did both -- tail
+        # Imanaga (-62.9) and fade Ritchie (+56.3) -- and the ledger, which is
+        # idempotent per (date, rule, game, side), kept one row whose `play`
+        # and `basis` were rewritten by whichever qualifier came last on every
+        # re-price. The stored reason flip-flopped run to run.
+        #
+        # So the signals are collected per side first and emitted once. The
+        # row keeps BOTH reasons; a card row whose stated reason changes
+        # between runs is not a record of why the bet was made.
+        signals = {}
         for key, s in zip(("away", "home"), sides):
             m = s.get("mismatch")
             if m is None:
@@ -427,16 +439,26 @@ def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
                 act = "fade"
             else:
                 continue
+            signals.setdefault(pick, []).append((act, m, s.get("pitcher")))
+
+        for pick, sigs in signals.items():
             price = g.get("home_ml") if pick == g.get("home") else g.get("away_ml")
             if price is None:
                 continue
+            # Deterministic: the widest mismatch names the play, so the text
+            # is the same whatever order the sides were walked in. `act` only
+            # breaks an exact tie.
+            sigs.sort(key=lambda t: (-abs(t[1]), t[0]))
+            lead_m = sigs[0][1]
+            why = " + ".join(f"{a} {m:+.1f} ({p})" for a, m, p in sigs)
+            both = " Both starters point the same way." if len(sigs) > 1 else ""
             out.append({
                 "rule": "mismatch-ml",
                 "gamePk": gid, "commence": g.get("commence"),
                 "matchup": g["matchup"], "key": pick,
-                "play": f"{pick} ML (mismatch {m:+.1f})",
+                "play": f"{pick} ML (mismatch {lead_m:+.1f})",
                 "market": "h2h", "price": int(price),
-                "basis": (f"{act} at L20 mismatch {m:+.1f} ({s.get('pitcher')}). "
+                "basis": (f"{why} at L20.{both} "
                           f"Carded 2026-09-16 off a 40-play shadow period "
                           f"(25-15, +9.5%); expectation is that, not the "
                           f"+17.2% season figure."),

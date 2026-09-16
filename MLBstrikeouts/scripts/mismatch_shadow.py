@@ -131,6 +131,13 @@ def backfill(log=False):
     out = []
     for r in rows:
         g = r["game"]
+        # ONE ROW PER SIDE (2026-09-16). Both starters can point at the same
+        # team -- tail the dominant arm, fade the opposing one -- and emitting
+        # per side staked a single bet twice. It happened once: 2026-07-19
+        # WSH @ OAK wrote WSH -146 at both -59.9 and +68.9, two WIN rows worth
+        # +0.68u each for one play. Same defect as the daily logger's and the
+        # season replay's; all three fixed together.
+        picks = {}
         for side in ("away", "home"):
             m = r["sides"][side]["m"]
             if m is None:
@@ -141,9 +148,15 @@ def backfill(log=False):
                 pick = g["home"] if side == "away" else g["away"]
             else:
                 continue
+            picks.setdefault(pick, []).append(m)
+        for pick, ms in picks.items():
             ml = g["home_ml"] if pick == g["home"] else g["away_ml"]
             if not ml:
                 continue
+            # Widest mismatch names the play, matching the logger and replay.
+            ms.sort(key=lambda x: -abs(x))
+            m = ms[0]
+            why = " + ".join(f"{'tail' if x < 0 else 'fade'} {x:+.1f}" for x in ms)
             won = ((g["home_score"] > g["away_score"]) if pick == g["home"]
                    else (g["away_score"] > g["home_score"]))
             out.append({
@@ -151,8 +164,7 @@ def backfill(log=False):
                 "play": f"{pick} ML (mismatch {m:+.1f})",
                 "market": "h2h", "game": f"{g['away']} @ {g['home']}",
                 "price": int(ml), "stake": 1.0, "rule": RULE,
-                "basis": f"Backfilled {'tail' if m < 0 else 'fade'} at L20 "
-                         f"mismatch {m:+.1f}. Not wagered.",
+                "basis": f"Backfilled {why} at L20. Not wagered.",
                 "result": "WIN" if won else "LOSS",
                 "profit": round(LEDGER.profit_for(int(ml), 1.0,
                                                   "WIN" if won else "LOSS"), 2),

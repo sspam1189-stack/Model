@@ -129,6 +129,11 @@ def replay():
                     "p": _profit(g["under_ml"], won),
                     "pick": f"U{g['total_line']:g}", "price": g["under_ml"]})
 
+        # ONE ROW PER SIDE. Both starters can point at the same team --
+        # tail the dominant arm, fade the opposing one -- and appending twice
+        # counted a single bet as two plays and two units. Same defect as the
+        # daily logger's; fixed together 2026-09-16.
+        picks = {}
         for side in ("away", "home"):
             m = ms[side]
             if m is None:
@@ -139,6 +144,10 @@ def replay():
                 pick = g["home"] if side == "away" else g["away"]
             else:
                 continue
+            # Widest mismatch represents the play, matching the logger.
+            if pick not in picks or abs(m) > abs(picks[pick]):
+                picks[pick] = m
+        for pick, m in picks.items():
             ml = g["home_ml"] if pick == g["home"] else g["away_ml"]
             won = home_won == (pick == g["home"])
             rows["mismatch-ml"].append({"date": d, "won": won,
