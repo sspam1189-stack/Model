@@ -70927,13 +70927,13 @@
       "dateDisplay": "2026 Week 2",
       "burnIn": true,
       "weightsUsed": {
-        "wPassOff": 6.984,
-        "wRushOff": 4.568,
-        "wPassDef": 2.97,
-        "wRushDef": 0.049,
-        "wPace": 0.354,
-        "wRZ": 0.04,
-        "hfa": 2.776,
+        "wPassOff": 5.344,
+        "wRushOff": 2.38,
+        "wPassDef": 2.53,
+        "wRushDef": 0.298,
+        "wPace": 0.267,
+        "wRZ": 0.503,
+        "hfa": 2.724,
         "wCPOE": 0.8,
         "wPressure": -0.5,
         "wSuccessRate": 1.5,
@@ -70943,15 +70943,15 @@
         "wRushMatchup": 0.5,
         "wPaceXEPA": 0.3,
         "wThirdDown": 1.0,
-        "constant": -1.33,
+        "constant": 0.036,
         "sprHigh": 3.0,
         "ouHigh": 4.0,
         "sprEliteBump": 2.0,
         "ouEliteBump": 2.0,
-        "probHigh": 0.57,
+        "probHigh": 0.58,
         "probOUHigh": 0.64,
-        "probElite": 0.63,
-        "probOUElite": 0.64,
+        "probElite": 0.64,
+        "probOUElite": 0.68,
         "coefficients": [
           2.633003606612212,
           5.364444716579579,
@@ -71417,14 +71417,14 @@
           "home": "HOU",
           "away": "CIN",
           "line": -2.5,
-          "total": 46.5,
+          "total": 45.5,
           "hS": 23.8,
           "aS": 23.1,
           "pT": 46.9,
           "projSpread": -0.7,
           "margin": -1.8,
           "sDiff": 1.8,
-          "tDiff": 0.4,
+          "tDiff": 1.4,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -71432,12 +71432,12 @@
           "confidenceTier": "low",
           "pHomeCover": 0.53,
           "pAwayCover": 0.47,
-          "pOver": 0.512,
-          "pUnder": 0.488,
+          "pOver": 0.517,
+          "pUnder": 0.483,
           "pCover": null,
           "pOU": null,
           "pHomeCoverRaw": 0.452,
-          "pOverRaw": 0.51,
+          "pOverRaw": 0.535,
           "probCalibrated": true,
           "marginVar": 168.9,
           "marginStd": 13.0,
@@ -72142,7 +72142,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    154-111-3  (58.1%)  +31.9u",
-      "ranAt": "09/16/2026, 01:48:09 PM"
+      "ranAt": "09/16/2026, 02:59:21 PM"
     }
   ],
   "meta": {
@@ -73802,7 +73802,7 @@
         "away": "Cincinnati Bengals",
         "home": "Houston Texans",
         "line": -2.5,
-        "total": 46.5,
+        "total": 45.5,
         "commenceTimeIso": "2026-09-20T17:01:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "HOU",
@@ -74367,15 +74367,15 @@
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Flowers (hamstring) wasn't seen during the media-access portion of Wednesday's practice, Jeff Zrebiec of The Athletic reports.",
+          "description": "Coach Jesse Minter said Wednesday that Flowers (hamstring) still is considered day-to-day, Jamison Hensley of ESPN.com reports.",
           "tier": "high"
         },
         {
           "player": "Ja'Kobi Lane",
           "playerId": "",
-          "status": "doubtful",
+          "status": "out",
           "position": "WR",
-          "description": "Lane (wrist) is expected to undergo surgery in the coming days, potentially as soon as Wednesday, Matt Zenitz of CBS Sports reports.",
+          "description": "Coach Jesse Minter said Lane underwent wrist surgery Wednesday, and the Ravens placed the rookie wide receiver on injured reserve, Brian Wacker of The Baltimore Sun reports.",
           "tier": "high"
         },
         {
@@ -74421,14 +74421,6 @@
       ],
       "Buffalo Bills": [
         {
-          "player": "Terrel Bernard",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Bernard (calf) was a limited participant in Tuesday's practice.",
-          "tier": "medium"
-        },
-        {
           "player": "T.J. Sanders",
           "playerId": "",
           "status": "questionable",
@@ -74467,8 +74459,16 @@
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Coker (ankle) is suited up but working with trainers on a side field at Wednesday's practice, Mike Kaye of ESPN.com reports.",
+          "description": "Coker (ankle) was limited in Wednesday's practice, Steve Reed of the Associated Press reports.",
           "tier": "high"
+        },
+        {
+          "player": "Bobby Brown III",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
         },
         {
           "player": "Patrick Jones II",
@@ -74514,6 +74514,14 @@
         }
       ],
       "Cincinnati Bengals": [
+        {
+          "player": "Joe Burrow",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "Burrow is dealing with back tightness but says he will play Sunday against the Texans, Kelsey Conway of The Cincinnati Enquirer reports.",
+          "tier": "elite"
+        },
         {
           "player": "Shemar Stewart",
           "playerId": "",
@@ -74667,6 +74675,22 @@
       ],
       "Detroit Lions": [
         {
+          "player": "Christian Mahogany",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "out",
+          "tier": "low"
+        },
+        {
+          "player": "Blake Miller",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "out",
+          "tier": "medium"
+        },
+        {
           "player": "D.J. Reed",
           "playerId": "",
           "status": "questionable",
@@ -74675,36 +74699,12 @@
           "tier": "high"
         },
         {
-          "player": "Christian Mahogany",
-          "playerId": "",
-          "status": "questionable",
-          "position": "G",
-          "description": "Mahogany (knee) underwent imaging, which came back negative, following Sunday's 31-30 overtime win over the Saints, Nolan Bianchi of The Detroit News reports.",
-          "tier": "low"
-        },
-        {
           "player": "Isiah Pacheco",
           "playerId": "",
           "status": "out",
           "position": "RB",
           "description": "Pacheco (back) underwent surgery Monday and is expected to be out for a significant amount of time, Nolan Bianchi of The Detroit News reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Blake Miller",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Juice Scruggs",
-          "playerId": "",
-          "status": "questionable",
-          "position": "G",
-          "description": "questionable",
-          "tier": "low"
         }
       ],
       "Green Bay Packers": [
@@ -74853,20 +74853,20 @@
       ],
       "Kansas City Chiefs": [
         {
+          "player": "Cooper McDonald",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "ir",
+          "tier": "medium"
+        },
+        {
           "player": "Mansoor Delane",
           "playerId": "",
           "status": "questionable",
           "position": "CB",
           "description": "Delane (shoulder) should only miss minimal time as he recovers from the injury he suffered in Monday's 31-10 win over the Broncos, Ian Rapoport of NFL Network reported Tuesday.",
           "tier": "high"
-        },
-        {
-          "player": "Cooper McDonald",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "McDonald (knee) has been ruled out for the remainder of Monday night's game against the Broncos.",
-          "tier": "medium"
         },
         {
           "player": "Omarr Norman-Lott",
@@ -74905,6 +74905,14 @@
       ],
       "Los Angeles Chargers": [
         {
+          "player": "Ladd McConkey",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "McConkey (ribs) won't practice Wednesday, Alex Insdorf of BoltBeat.com reports.",
+          "tier": "high"
+        },
+        {
           "player": "KeAndre Lambert-Smith",
           "playerId": "",
           "status": "out",
@@ -74934,14 +74942,6 @@
           "status": "questionable",
           "position": "WR",
           "description": "Davis (undisclosed) is day-to-day with an injury he suffered during Sunday's 26-14 loss to the Cardinals.",
-          "tier": "high"
-        },
-        {
-          "player": "Ladd McConkey",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Chargers head coach Jim Harbaugh labeled McConkey (rib) as day-to-day Monday, Adam Schefter of ESPN reports. Harbaugh added that the Chargers will see how McConkey progresses throughout the week before determining his availability for Sunday's game agains the Raiders.",
           "tier": "high"
         }
       ],
@@ -75015,20 +75015,20 @@
       ],
       "Minnesota Vikings": [
         {
-          "player": "Jordan Mason",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Vikings head coach Kevin O'Connell said Monday that Mason is being further evaluated after experiencing thumb soreness coming out of Sunday's 39-22 win over the Packers, Alec Lewis of The Athletic reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Kyler Murray",
           "playerId": "",
           "status": "questionable",
           "position": "QB",
-          "description": "Vikings head coach Kevin O'Connell said Monday that Murray is in concussion protocol and will be evaluated day by day leading up Sunday's road game in Chicago, Alec Lewis of The Athletic reports.",
+          "description": "Coach Kevin O'Connell said Murray (concussion) will be limited at Wednesday's practice, Dane Mizutani of the St. Paul Pioneer Press reports.",
           "tier": "elite"
+        },
+        {
+          "player": "Jordan Mason",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "ir",
+          "tier": "medium"
         },
         {
           "player": "Ben Yurosek",
@@ -75261,23 +75261,31 @@
       ],
       "San Francisco 49ers": [
         {
+          "player": "De'Zhaun Stribling",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "out",
+          "tier": "high"
+        },
+        {
           "player": "Jake Tonges",
           "playerId": "",
           "status": "out",
           "position": "TE",
-          "description": "ir",
+          "description": "Tonges (knee) was placed on injured reserve Wednesday.",
           "tier": "medium"
-        },
-        {
-          "player": "De'Zhaun Stribling",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "WR",
-          "description": "The 49ers are expected to place Stribling (ankle) on injured reserve, Adam Schefter of ESPN.com reports.",
-          "tier": "high"
         }
       ],
       "Seattle Seahawks": [
+        {
+          "player": "Sam Darnold",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Coach Mike Macdonald said Darnold (glute) won't play in Sunday's game at Arizona, Curtis Crabtree of Fox 13 Seattle reports.",
+          "tier": "elite"
+        },
         {
           "player": "Ty Okada",
           "playerId": "",
@@ -75301,14 +75309,6 @@
           "position": "WR",
           "description": "questionable",
           "tier": "high"
-        },
-        {
-          "player": "Sam Darnold",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "QB",
-          "description": "Darnold (glute) is \"looking at about a four-week return to play\" but could return \"a little bit sooner than that,\" Mike Garafolo of NFL Network reports.",
-          "tier": "elite"
         }
       ],
       "Tampa Bay Buccaneers": [
