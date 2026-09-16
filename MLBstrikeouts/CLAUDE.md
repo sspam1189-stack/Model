@@ -86,7 +86,7 @@ When building a daily card from this repo's outputs, the tiers are:
      qualifying and keeps writing a no-stake row, so it goes on producing
      evidence while costing nothing -- which a retired one cannot do.
 
-   - **Form under — RETIRED 2026-09-16 (user).**
+   - **Form under — SHADOW 2026-09-16 (user).** Off the card the same day, then moved to shadow rather than retired by the same reasoning as Aligned ML: keep it logging, carry no units, let its own rows say whether September was a break or a blip.
      `m_sum <= -40` (both starters' mismatch scores summed: both arms
      outclass the bats they face) -> bet the UNDER. Carded 2026-09-01 on
      **84-52 +17.2% ROI, n=136, perm p=0.005**, all bands positive, both
@@ -206,7 +206,7 @@ When building a daily card from this repo's outputs, the tiers are:
    the +17.2% season figure. **That revival happened 2026-09-01** — this is
    the one rule on the board that is doing the process in the right order.
 
-5. **Aligned ML — RETIRED 2026-09-02 (user).** One offense hot-aligned
+5. **Aligned ML — SHADOW 2026-09-16 (user), retired 2026-09-02.** Moved off retired because a retired rule writes no rows, so the doubt about it can never resolve; shadow costs nothing to carry and settles it either way. One offense hot-aligned
    across all four windows (>= 110) while the other is cold-aligned (<= 90),
    at its own 75-PA floor (`ALIGNED_ML_MIN_PA`) -> back the hot side's team.
 

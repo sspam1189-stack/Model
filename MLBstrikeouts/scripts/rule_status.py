@@ -41,8 +41,11 @@ RULES = {
         "(p=0.030), seven combos to the under and swingman+stale-window to the "
         "over. Carded 2026-09-01."),
     "form-under": (
-        "retired", "Form under",
-        "RETIRED 2026-09-16 (user). m_sum <= -40 -> under. Carded 2026-09-01 "
+        "shadow", "Form under",
+        "SHADOW 2026-09-16 (user), same day it came off the card and by the "
+        "same reasoning as aligned-ml: keep it logging, carry no units, and "
+        "let its own rows answer whether September was a break or a blip. "
+        "m_sum <= -40 -> under. Carded 2026-09-01 "
         "on 84-52 +17.2% (n=136, perm p=0.005), which the full-season replay "
         "reproduces EXACTLY as its record through 8/31 -- the case was real, "
         "not a construction artifact. Then September: 3-17 -71.7% on the "
@@ -62,8 +65,11 @@ RULES = {
         "+26.0% (n=34); backing the favorite in the same games is -1.9% and "
         "the rule is flat outside the pool. Carded 2026-09-01."),
     "aligned-ml": (
-        "retired", "Aligned ML",
-        "RETIRED 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the "
+        "shadow", "Aligned ML",
+        "SHADOW 2026-09-16 (user), up from retired: a retired rule writes no "
+        "rows, so the doubt about it can never resolve, and shadow costs "
+        "nothing to carry. Retired 2026-09-02 (user). Hot-aligned offense vs "
+        "cold-aligned at the "
         "75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no "
         "statistical case, on a ladder measured inert for runs. The full-season "
         "replay published the next day (scout-rules-table.json) put it at 6-7 "

@@ -322,7 +322,8 @@ async function renderMLBSlateScout() {
         side: 'U',
         rule: 'Form under',
         why: 'm_sum ' + msum.toFixed(1)
-          + (FORM_UNDER_OFF ? ' · retired 2026-09-16, not bet' : '')
+          + (FORM_UNDER_OFF ? ' · retired, not bet'
+             : FORM_UNDER_LIVE ? '' : ' · off the card 2026-09-16, tracked not bet')
           + (defSides.length ? ' · also flagged' : ' · unflagged') });
     }
     // The over sides exist only so the panel answers the question; neither is
