@@ -11,10 +11,10 @@ qualifiers and a skipped Monday look identical in a hand-kept ledger.
 So the daily run logs them now. Every rule, card and shadow:
 
     Flag Plays      per-combo verdicts from flag-combo-table.json
-    Form under      m_sum <= -40 -> under
+    Form under      m_sum <= -40 -> under   (RETIRED 2026-09-16)
     Better arm ML   m_sum >= +40, plus money only  (msum-ml-table.json)
     Aligned ML      hot-vs-cold ladder at the 75-PA floor
-    Mismatch ML     tail m <= -45 / fade m >= +55   (shadow)
+    Mismatch ML     tail m <= -45 / fade m >= +55   (carded 2026-09-16)
 
 and, from 2026-09-01, the eight NON-SCOUT systems (scripts/allml_systems.py),
 which read mlb-all-ml.json alone and none of the mismatch model:
@@ -303,6 +303,22 @@ def drop_conflicting_totals(entries, date, now=None):
     return changed
 
 
+def _started(entry, now):
+    """True when the game this row describes has already begun.
+
+    Distinct from _locked, which also covers graded rows and is about not
+    REWRITING a bet. This is about not OPENING one.
+    """
+    when = entry.get("commence")
+    if not when:
+        return True                 # unknown first pitch: assume underway
+    try:
+        t = datetime.datetime.fromisoformat(str(when).replace("Z", "+00:00"))
+    except ValueError:
+        return True
+    return t <= now
+
+
 def _locked(entry, now):
     """True once a row may no longer be re-priced.
 
@@ -379,6 +395,12 @@ def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
                     })
 
         # --- Form under / Mismatch ML (both off the mismatch score) ------
+        # form-under is RETIRED as of 2026-09-16 (user), so the status gate
+        # below drops these before they are written. The qualifier is left
+        # standing rather than deleted: it still measures, which is what the
+        # dry run and the season table read. Taking the OVER on this same
+        # trigger was considered and rejected the same day -- see
+        # scripts/rule_status.py for the numbers.
         if msum is not None and msum <= FORM_UNDER_AT and total is not None \
                 and u_ml is not None:
             out.append({
@@ -415,7 +437,9 @@ def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
                 "play": f"{pick} ML (mismatch {m:+.1f})",
                 "market": "h2h", "price": int(price),
                 "basis": (f"{act} at L20 mismatch {m:+.1f} ({s.get('pitcher')}). "
-                          f"Shadow revival; expectation +9.4%, not +17.2%."),
+                          f"Carded 2026-09-16 off a 40-play shadow period "
+                          f"(25-15, +9.5%); expectation is that, not the "
+                          f"+17.2% season figure."),
             })
 
         # --- Better arm ML ----------------------------------------------
@@ -542,6 +566,7 @@ def main():
 
     added = []
     moved = []
+    skipped_started = []
     for q in qs:
         rule = q["rule"]
         status = STATUS.get(rule, "shadow")
@@ -599,6 +624,19 @@ def main():
             prior.update(changed)
             moved.append((prior, changed))
             continue
+        # NEVER OPEN A POSITION ON A GAME ALREADY UNDERWAY (2026-09-16).
+        # Re-pricing has locked at first pitch since the start, but the
+        # new-row path had no clock check at all, because every rule on the
+        # card had already fired by the morning run. Found while trying a
+        # mid-slate side change on form under: the new rule qualified on
+        # NYY/MIN and the logger offered to open O7.5 on a game an hour and a
+        # half old. That change was backed out, this was not -- any rule
+        # carded or revived mid-slate hits the same hole. A rule that changes
+        # mid-slate picks the day up from the next game, not from the ones
+        # already in progress.
+        if _started(entry, now):
+            skipped_started.append(entry)
+            continue
         # OPENING QUOTE, stamped once and never re-priced (2026-09-03). The
         # row tracks the market until first pitch and then locks, so the
         # locked line/price IS the close -- but the first quote was being
@@ -636,6 +674,9 @@ def main():
     for e in added:
         tag = "SHADOW" if e.get("shadow") else "CARD  "
         print(f"  {tag} {e['rule']:14} {e['play'][:46]:46} {e['price']:>5}")
+    for e in skipped_started:
+        print(f"  SKIP-LIVE {e['rule']:14} {e['play'][:40]:40} "
+              f"first pitch already passed, not opened")
 
     if args.dry_run or not (added or moved or dropped):
         if args.dry_run:

@@ -289,15 +289,23 @@ SYSTEMS = {
     "low-line-over": (
         "Low line over", "totals",
         "Posted total of 7 or lower: over.",
-        "72-52 +8.9% (n=124, p=0.033) against a -6.1% blind-over baseline, "
-        "halves +9.9/+7.4, all thirds positive. Lines of 7 came back with a "
-        "mean actual total of 8.66, which is a real mechanism: the book posts "
-        "7 rarely and grudgingly, and when it does the number is too low.\n\n"
-        "        LADDER FAILS, which is why it is shadow and not card. The "
-        "edge is a cliff, not a slope: 6.5 +2.8% (29), 7.0 +11.4% (91), then "
-        "7.5 -8.2% over 464 games. Step one half-run up and it is negative on "
-        "a sample four times the size. 91 of the 124 plays sit in the single "
-        "7.0 bucket, so this is that bucket, not a low-total trend."),
+        "CARDED 2026-09-16 (user), off shadow since 2026-09-02. 80-56 "
+        "+10.0% (n=136) against a -6.1% blind-over baseline, halves "
+        "+7.5/+12.6, every month positive but May (-2%) and June (-0%). It "
+        "improved through the shadow period rather than reverting -- it was "
+        "72-52 +8.9% when shadowed. Lines of 7 came back with a mean actual "
+        "total of 8.66, which is a real mechanism: the book posts 7 rarely "
+        "and grudgingly, and when it does the number is too low.\n\n"
+        "        LADDER STILL FAILS AT 7.5, and that was the case against "
+        "carding it: the edge is a cliff, not a slope -- 7.5 is -7.1% over "
+        "521 games, so one half-run up it is negative on a sample four times "
+        "the size, and this is the 7-and-under bucket rather than a low-total "
+        "trend. What changed is the part of the ladder the rule actually "
+        "BETS. At shadowing, 6.5 was +2.8% (29) and carried by 7.0 alone; it "
+        "is now 6.5 +16.1% (35) and 7.0 +8.4% (97) -- both live buckets "
+        "positive, which is not what a 7.0 artifact looks like. The cliff "
+        "objection is not withdrawn; it is simply no longer a reason the "
+        "rule cannot be bet where it fires."),
     "under-juice": (
         "Under juice", "totals",
         "Under priced -120 or shorter: under.",
@@ -312,9 +320,12 @@ SYSTEMS = {
     "monday-over": (
         "Monday over", "totals",
         "Any game on a Monday: over.",
-        "129-104 +5.1% (n=233, perm p=0.031) against a -6.1% blind-over "
-        "baseline -- 11.2 points -- with both walk-forward halves positive "
-        "(+4.2/+5.9).\n\n"
+        "CARDED 2026-09-16 (user), off shadow since 2026-09-02. 142-112 "
+        "+6.3% (n=254, perm p=0.031 at shadowing) against a -6.1% blind-over "
+        "baseline, with both walk-forward halves positive (+0.5/+12.0). It "
+        "was 129-104 +5.1% when shadowed, so it too improved rather than "
+        "reverted -- but note the halves are now lopsided: nearly the whole "
+        "edge is in the second one.\n\n"
         "        The mechanism is the schedule, not the weekday. Monday is "
         "the league's travel day: 10.8 games a Monday against ~14.5 every "
         "other day, so Mondays are disproportionately series openers played "
@@ -323,13 +334,16 @@ SYSTEMS = {
         "the whole cell (125-99 +6.0%, halves +6.6/+5.4); the 9 day Mondays "
         "are noise and are left in rather than cut, because slicing to the "
         "subset that measures best is how a fitted boundary gets made.\n\n"
-        "        SHADOW, not card. The middle third is negative "
-        "(+0.9/-2.5/+17.4), two of six months are double-digit negative "
-        "(Mar -36, Jun -11), it is an isolated calendar cell with no "
-        "neighbouring day to support it -- Sunday over -4.2%, Tuesday over "
-        "-3.2% -- and it came out of a sweep of 14 cells (7 days x 2 sides), "
-        "where one at p=0.03 is what chance produces. p=0.031 is screening, "
-        "not proof; the live record settles it."),
+        "        THE CASE AGAINST IT STILL STANDS AND WAS NOT ANSWERED. "
+        "Two of seven months remain double-digit negative (Mar -36 n=15, "
+        "Jun -11 n=49), it is an isolated calendar cell with no neighbouring "
+        "day to support it -- Sunday over -4.2%, Tuesday over -3.2% -- and "
+        "it came out of a sweep of 14 cells (7 days x 2 sides), where one at "
+        "p=0.03 is what chance produces. Nothing in the shadow period spoke "
+        "to any of that; the record got better, which is not the same as the "
+        "objection getting weaker. This is the thinnest case of the nine "
+        "carded systems, carded on the user call rather than on the evidence "
+        "clearing a bar. Watch the live record."),
     "hot-arm-dog-ml": (
         "Hot arm dog ML", "h2h",
         "Plus-money side whose starter's team is +40% ROI or better over his "
@@ -395,9 +409,10 @@ PLAIN = {
         "agrees with it, which is why a 41-game cell is on the board at all.",
     "low-line-over":
         "Takes the over on any total of 7 or lower. Books post a 7 rarely, "
-        "and when they do those games came back averaging 8.66 runs. Shadow "
-        "because the edge is a cliff rather than a slope: 7.5 loses over 464 "
-        "games, so this is the 7-and-under bucket, not a low-total trend.",
+        "and when they do those games came back averaging 8.66 runs. Carded "
+        "2026-09-16 off shadow: both buckets it bets are positive (6.5 +16.1%, 7.0 +8.4%). The edge is still a cliff rather than a slope -- 7.5 "
+        "loses over 521 games -- so this is the 7-and-under bucket, not a "
+        "low-total trend.",
     "under-juice":
         "Takes the under whenever the book is laying -120 or shorter on it. "
         "The heavier the juice the better it does, which is the whole case. "
@@ -410,7 +425,10 @@ PLAIN = {
         "rest of the week -- so Mondays skew to series openers played by "
         "clubs that just flew in. Shadow because it is an isolated calendar "
         "cell: neither Sunday nor Tuesday shows anything, and one day of "
-        "seven landing at p=0.03 is what a sweep produces.",
+        "seven landing at p=0.03 is what a sweep produces. Carded anyway "
+        "2026-09-16 (user) after the shadow period took it to +6.3% over "
+        "254 plays; the calendar-cell objection was never answered, so this "
+        "is the thinnest case on the card.",
     "hot-arm-dog-ml":
         "Backs a plus-money side whose starter's team has returned +40% or "
         "better over his last eight starts. Shadow because at 91-90 the win "
@@ -420,7 +438,9 @@ PLAIN = {
 
 CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
               "home-dog-getaway", "home-dog-under-parlay",
-              "starter-over-run", "cold-arms-under")
+              "starter-over-run", "cold-arms-under",
+              # CARDED 2026-09-16 (user), off shadow since 2026-09-02.
+              "low-line-over", "monday-over")
 
 # SHADOW (user, 2026-09-02). Carded 2026-09-01, pulled the same day before
 # any of them settled a play, and kept out of SYSTEMS entirely so they logged
@@ -429,13 +449,18 @@ CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
 # now -- they qualify, they are logged, they carry no units -- and the full
 # case for and against each one lives in its SYSTEMS entry above.
 #
-#   low-line-over   total <= 7 -> over. Ladder fails: the 7.0 bucket carries
-#                   it and 7.5 loses over 464 games.
 #   under-juice     under priced <= -120 -> under. Monotone and the largest
 #                   sample here, but the thinnest edge per play and close to
 #                   just following the book.
 #   hot-arm-dog-ml  plus-money side, starter's team +40% over 8 starts. 91-90
 #                   is a coin flip; the return is entirely the dog prices.
+#
+# low-line-over AND monday-over CAME OFF SHADOW 2026-09-16 (user) -- see
+# CARD_ORDER. Both kept improving through the shadow period rather than
+# reverting, and low-line-over's stated objection got weaker: the two buckets
+# it actually bets are now BOTH positive (6.5 +16.1% n=35, 7.0 +8.4% n=97).
+# The objections that stand are recorded in their SYSTEMS entries; neither was
+# withdrawn, the user carded them anyway.
 #
 # pickem-under joined them 2026-09-03 (user), and it is the only one demoted
 # from a healthy record rather than a doubtful one: 99-70 +11.3% (n=169) at
@@ -451,8 +476,7 @@ CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
 # The one measured mark against it is the conflict split: +13.9% unopposed
 # (n=125) against +3.7% when another carded rule takes the other side
 # (n=44), and 31 of its season rows are now conflict-passed.
-SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml",
-                "monday-over", "pickem-under")
+SHADOW_ORDER = ("under-juice", "hot-arm-dog-ml", "pickem-under")
 
 # A status change announced today that takes effect on a later SLATE. The
 # logger asks this before writing a row, so a demotion never restates bets

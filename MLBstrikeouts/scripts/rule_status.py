@@ -41,9 +41,21 @@ RULES = {
         "(p=0.030), seven combos to the under and swingman+stale-window to the "
         "over. Carded 2026-09-01."),
     "form-under": (
-        "card", "Form under",
-        "m_sum <= -40 -> under. 84-52 +17.2% (n=136, perm p=0.005), all bands "
-        "positive, both walk-forward halves positive. Carded 2026-09-01."),
+        "retired", "Form under",
+        "RETIRED 2026-09-16 (user). m_sum <= -40 -> under. Carded 2026-09-01 "
+        "on 84-52 +17.2% (n=136, perm p=0.005), which the full-season replay "
+        "reproduces EXACTLY as its record through 8/31 -- the case was real, "
+        "not a construction artifact. Then September: 3-17 -71.7% on the "
+        "replay, 10-27 -18.05u live, and its edge over a blind under on the "
+        "same dates ran +38 (May), +46 (Jun), +16 (Jul), -5.5 (Aug), -47.0 "
+        "(Sep), landing at -3.8% across the last 100 plays. Taking the OVER "
+        "on the same trigger was considered and REJECTED (user, 2026-09-16): "
+        "the over side of those 156 games is 69-87 -15.1%, negative in five "
+        "of six months, and its one good month is September, which was a "
+        "league-wide over month -- blind over +12.5% vs blind under -21.2% "
+        "over all 199 September games at 9.51 mean runs, the season high. "
+        "The trigger stopped paying; the other side of it was never the "
+        "answer. Settled rows stay in the ledger."),
     "better-arm-ml": (
         "card", "Better arm ML",
         "m_sum >= +40, back the lower-mismatch side, plus money only. 19-15 "
@@ -59,10 +71,19 @@ RULES = {
         "blind baseline -- the opposite of the 3-1 that justified carding it. "
         "Settled rows stay in the ledger; it logs nothing further."),
     "mismatch-ml": (
-        "shadow", "Mismatch ML",
+        "card", "Mismatch ML",
         "tail m <= -45 / fade m >= +55. Carded 8/29 without a shadow period "
         "and pulled 8/30 at 1-3; revived 2026-09-01 as shadow for the 15-20 "
-        "tracked plays the gate asks for, at August's +9.4% expectation."),
+        "tracked plays the gate asks for, at August's +9.4% expectation. "
+        "CARDED 2026-09-16 (user): the shadow period ran 40 plays, double "
+        "what the gate asked, at 25-15 +3.79u +9.5% -- August's expectation "
+        "hit almost exactly -- and the second half (15-5 +30.3%) carried the "
+        "first (10-10 -11.3%). Shadow rows stay shadow; the card record "
+        "starts here. NOTE the shadow split is lopsided: the tail half "
+        "(m <= -45) is 19-8 +22.6% and the fade half (m >= +55) is 6-7 "
+        "-17.8%, and plus-money sides are 5-9 -25.3% against +28.2% for "
+        "minus-money. n is small either way -- this is a flag to watch, not "
+        "a narrowing anyone has earned."),
     "better-arm-ml-fav": (
         "shadow", "Better arm ML (favorite half)",
         "Out of scope since the dogs-only narrowing; measured, never bet."),

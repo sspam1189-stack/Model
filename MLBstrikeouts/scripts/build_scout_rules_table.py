@@ -12,7 +12,7 @@ tab showed them, so a rule could drift for weeks without anyone noticing.
 This replays all three as-of each game date and publishes the same shape the
 other tables use, rebuilt by every daily run.
 
-  Form under   m_sum <= -40 -> under
+  Form under   m_sum <= -40 -> under   (RETIRED 2026-09-16)
   Aligned ML   one offense hot-aligned (all four windows >= 110) against one
                cold-aligned (all <= 90) at the 75-PA floor -> back the hot
                side's team
@@ -175,15 +175,24 @@ def summarize(rs):
 
 
 def baselines(games):
-    side, under = [], []
+    # Both total sides. Blind under and blind over are NOT mirror images --
+    # each pays its own vig -- and the over number is the control that
+    # settled the 2026-09-16 question of whether to flip form under to the
+    # over: September looked like a flip signal only because September was a
+    # league-wide over month. Keep publishing both.
+    side, under, over = [], [], []
     for g in games:
         hw = g["home_score"] > g["away_score"]
         side += [_profit(g["home_ml"], hw), _profit(g["away_ml"], not hw)]
         tot = g["away_score"] + g["home_score"]
-        if tot != g["total_line"] and g.get("under_ml"):
+        if tot == g["total_line"]:
+            continue
+        if g.get("under_ml"):
             under.append(_profit(g["under_ml"], tot < g["total_line"]))
+        if g.get("over_ml"):
+            over.append(_profit(g["over_ml"], tot > g["total_line"]))
     pct = lambda v: round(sum(v) / len(v) * 100, 1) if v else None
-    return {"side": pct(side), "under": pct(under)}
+    return {"side": pct(side), "under": pct(under), "over": pct(over)}
 
 
 def main():

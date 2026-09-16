@@ -172,13 +172,15 @@ async function renderMLBSlateScout() {
     return t > 0 ? `rgba(248,81,73,${0.25 + 0.55 * t})`
                  : `rgba(63,185,80,${0.25 + 0.55 * -t})`;
   };
-  // Carded 8/29 without a shadow period, pulled 8/30 at 1-3, REVIVED AS
-  // SHADOW 2026-09-01 -- tracked by scripts/mismatch_shadow.py --log, never
-  // bet. MM_LIVE=false keeps the Play
-  // column rendering as watch-only labels instead of bets; flip it back only
-  // after the rule shadow-trades 15-20 plays (MLBstrikeouts/CLAUDE.md).
-  const MM_LIVE = false;   // still not a card play
-  const MM_SHADOW = true;  // revived as SHADOW 2026-09-01 (user)
+  // Carded 8/29 without a shadow period, pulled 8/30 at 1-3, revived as
+  // SHADOW 2026-09-01, and CARDED AGAIN 2026-09-16 (user) once the shadow
+  // period had run 40 tracked plays -- double the 15-20 the gate asked for
+  // -- at 25-15 +3.79u +9.5%, August's expectation almost exactly. The Play
+  // column renders real bets again. Status itself lives in
+  // MLBstrikeouts/scripts/rule_status.py; these two constants only choose
+  // how this tab labels the column, and must be kept in step with it.
+  const MM_LIVE = true;     // card play again 2026-09-16 (user)
+  const MM_SHADOW = false;  // shadow period closed 2026-09-16
 
   // Mismatch ML rule (carded 2026-08-29, retired 2026-08-30). Thresholds are
   // calibrated to the
@@ -233,14 +235,19 @@ async function renderMLBSlateScout() {
     .map((d) => (flags || []).filter((f) => f.startsWith(d)))
     .flat().join(', ');
   const FORM_UNDER_AT = -40;
-  // CARDED 2026-09-01 (user). form-under: m_sum <= -40 -> under, 84-52 +17.2%
-  // full-season as-of, perm p=0.005, coherent bands, both walk-forward halves
-  // positive -- the strongest number in the repo's scout work. aligned-ML:
+  // RETIRED 2026-09-16 (user). form-under (m_sum <= -40 -> under) was
+  // carded 2026-09-01 on 84-52 +17.2% -- the strongest scout number in the
+  // repo -- then went 3-17 in September and 10-27 live, with its edge over a
+  // blind under down to -3.8% across the last 100 plays. Taking the OVER on
+  // the same trigger was considered and rejected the same day: that side is
+  // 69-87 -15.1% on the season and its one good month was a league-wide over
+  // month. See MLBstrikeouts/scripts/rule_status.py. aligned-ML:
   // carded on the user's call at n=4 lifetime, on a ladder the backtest
   // measured inert for runs (cold offenses 4.54 r/g, hot 4.52); it has no
   // statistical case, only a structural one.
   // Fallbacks only -- rule-status.json wins when it loads.
-  const FORM_UNDER_LIVE = isCard('form-under', true);
+  const FORM_UNDER_LIVE = isCard('form-under', false);
+  const FORM_UNDER_OFF = isRetired('form-under');
   const ALIGNED_ML_LIVE = isCard('aligned-ml', false);
   const ALIGNED_ML_OFF = isRetired('aligned-ml');
   const ctTime = (iso) => {
@@ -310,16 +317,21 @@ async function renderMLBSlateScout() {
       }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {
-      underPlays.push({ s, kind: FORM_UNDER_LIVE ? 'card' : 'shadow', side: 'U',
+      underPlays.push({ s,
+        kind: FORM_UNDER_OFF ? 'dead' : (FORM_UNDER_LIVE ? 'card' : 'shadow'),
+        side: 'U',
         rule: 'Form under',
         why: 'm_sum ' + msum.toFixed(1)
+          + (FORM_UNDER_OFF ? ' · retired 2026-09-16, not bet' : '')
           + (defSides.length ? ' · also flagged' : ' · unflagged') });
     }
     // The over sides exist only so the panel answers the question; neither is
     // bet. Flags have no over rule at all (a data defect backtests as an
     // under edge, not an over). Form over (m_sum >= +40) was backtested and
     // MEASURED NEGATIVE: -0.6% at +40, -8.5% at +60, vs blind-over -6.4% --
-    // the market overprices hot bats. Shown dimmed as no-plays.
+    // the market overprices hot bats. The OTHER over -- m_sum <= -40, form
+    // under's own trigger taken the other way -- was tried and rejected
+    // 2026-09-16 at 69-87 -15.1%. Shown dimmed as no-plays.
     if (msum != null && msum >= -FORM_UNDER_AT) {
       underPlays.push({ s, kind: 'dead', side: 'O', rule: 'Form over',
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
@@ -956,10 +968,10 @@ async function renderMLBSlateScout() {
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
     + '<th title="mismatch-ML: tail at m<=-45, fade at m>=+55 (L20 window). '
-    + 'Carded 8/29, pulled 8/30 at 1-3, revived as SHADOW 9/1 -- tracked, '
-    + 'never bet, until 15-20 plays at August\'s +9.4% expectation.">Play '
+    + 'Carded 8/29, pulled 8/30 at 1-3, revived as SHADOW 9/1, and carded '
+    + 'again 9/16 after 40 shadow plays went 25-15 +9.5%.">Play '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:10px">'
-    + '(mismatch-ML · ' + (MM_SHADOW ? 'shadow' : 'retired') + ')</span></th>'
+    + '(mismatch-ML · ' + (MM_LIVE ? 'card' : MM_SHADOW ? 'shadow' : 'retired') + ')</span></th>'
     + '<th>Flags</th></tr></thead><tbody>';
   for (const r of (data.ranked_mismatch || [])) {
     rhtml += '<tr style="border-top:1px solid #161b22">'

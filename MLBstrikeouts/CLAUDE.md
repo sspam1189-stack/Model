@@ -86,16 +86,39 @@ When building a daily card from this repo's outputs, the tiers are:
      qualifying and keeps writing a no-stake row, so it goes on producing
      evidence while costing nothing -- which a retired one cannot do.
 
-   - **Form under — CARDED 2026-09-01 (user).** `m_sum <= -40` (both
-     starters' mismatch scores summed: both arms outclass the bats they
-     face) -> bet the UNDER. **84-52 +17.2% ROI, n=136, perm p=0.005**, all
-     bands positive (-40/-60/-80), both walk-forward halves positive
-     (+27.5%/+8.9%). Statistically the strongest scout result in this repo.
-     Live record before carding: 0-1 (SEA/BOS 8/31, a 17-run game).
-     Caveat: 45% of its qualifiers in the flag era were games the flag rule
-     already cards, and the unflagged slice was 8-8 -- the ledger carries
-     `flagged_overlap` on every entry so the incremental half can be judged
-     separately.
+   - **Form under — RETIRED 2026-09-16 (user).**
+     `m_sum <= -40` (both starters' mismatch scores summed: both arms
+     outclass the bats they face) -> bet the UNDER. Carded 2026-09-01 on
+     **84-52 +17.2% ROI, n=136, perm p=0.005**, all bands positive, both
+     walk-forward halves positive — the strongest scout result in this repo,
+     and the full-season replay reproduces that number EXACTLY as its record
+     through 8/31, so the case was real, not a construction artifact. Then
+     September: **3-17, -71.7%** on the replay, **10-27, -18.05u** live. Its
+     edge over a blind under on the same dates went +38 (May), +46 (Jun),
+     +16 (Jul), **-5.5 (Aug), -47.0 (Sep)**, and **-3.8% across the last 100
+     plays**. Settled rows stay in the ledger. The old caveat still applies
+     to that record: 45% of its qualifiers in the flag era were games the
+     flag rule already cards, and the unflagged slice was 8-8; the ledger
+     carries `flagged_overlap` on every entry.
+
+   - **Taking the OVER on form under's trigger was considered and
+     REJECTED (user, 2026-09-16).** It is the obvious move when a rule
+     inverts, and it is wrong here. Replayed on the same 156 games at real
+     over prices the over side is **69-87, -15.1%**, negative in five of six
+     months (Apr -5.1, May -50.2, Jun -54.4, Jul -34.9, Aug -4.7). Its one
+     good month is September (+66.9%) — and September 2026 was a
+     league-wide over month: a blind over on all 199 September games
+     returned **+12.5%** against **-21.2%** for a blind under, at **9.51
+     mean runs**, the season high against a 8.61-9.35 range everywhere else.
+     Against that baseline the flip's edge is +50.9% in September but only
+     **+4.5% across the last 100 plays**. Flipping would have bought one
+     month of scoring environment at the top. The trigger stopped paying;
+     the other side of it was never the answer.
+
+     The general lesson, since this will come up again: when a rule dies,
+     check the blind baseline for its own side over the same dates before
+     reading the inversion as signal. `build_scout_rules_table.baselines()`
+     publishes blind under AND blind over for exactly this.
 
    - **Bullpen L7 is the strongest descriptive field but is NOT yet
      bettable**: it separates runs cleanly (hot pens allow 3.39, leaking
@@ -131,16 +154,25 @@ When building a daily card from this repo's outputs, the tiers are:
    so the rule can be WIDENED rather than scrapped if the dog cut is the
    overfit part.
 
-4. **Mismatch ML — REVIVED AS SHADOW 2026-09-01 (user).** Carded 8/29
-   without a shadow period, pulled 8/30 at 1-3, and now doing the shadow
-   period the gate asked for in the first place: `scripts/mismatch_shadow.py
-   --log` writes `shadow-mismatch-ml` entries that are tracked and never bet,
-   15-20 plays at August's **+9.4%** expectation, not the +17.2% season
-   figure. It reads off the live scout payload's
+4. **Mismatch ML — CARDED 2026-09-16 (user).** Carded 8/29 without a shadow
+   period, pulled 8/30 at 1-3, revived as shadow 2026-09-01, and carded again
+   on 9/16 once the shadow period had done its job. It ran **40 tracked
+   plays** — double the 15-20 the gate asked for — at **25-15, +3.79u,
+   +9.5% ROI**, which is August's +9.4% expectation almost exactly rather
+   than the flattering +17.2% season figure, and the second half (15-5,
+   +30.3%) carried the first (10-10, -11.3%). Shadow rows stay shadow; the
+   card record starts 9/16. It reads off the live scout payload's
    L20 mismatch, one play per qualifying SIDE --
 
    - `m <= -45` the arm outclasses the offense -> **TAIL him**, back his team
    - `m >= +55` the offense outclasses the arm -> **FADE him**, back the opponent
+
+   **Watch the shadow split before sizing up.** Within those 40 plays the
+   tail half (`m <= -45`) went 19-8 **+22.6%** and the fade half
+   (`m >= +55`) went 6-7 **-17.8%**; plus-money sides went 5-9 **-25.3%**
+   against +28.2% for minus-money. n is small on every one of those cells,
+   so this is a flag to watch as the card record fills, not a narrowing
+   anyone has earned yet.
 
    Logged by `scripts/mismatch_shadow.py --log`. Full season 66-33 (+17.2%),
    positive in all five months, and it clears a permutation test -- 1,000
@@ -224,6 +256,30 @@ When building a daily card from this repo's outputs, the tiers are:
    plays a day for the least edge per play, and close to just following the
    book. All three keep their numbers in `allml_systems.RETIRED` so they are not
    rediscovered later and mistaken for something new.
+
+   **Low line over and Monday over came off shadow 2026-09-16 (user)** and are
+   carded, taking the systems card to nine. Both kept improving through the
+   shadow period rather than reverting -- Low line over 72-52 +8.9% -> 80-56
+   **+10.0%** (halves +7.5/+12.6), Monday over 129-104 +5.1% -> 142-112
+   **+6.3%**. Only one of the two objections actually weakened, and the
+   distinction matters:
+
+   - Low line over's did. The complaint was that the 7.0 bucket carried it
+     alone (6.5 was +2.8% on 29 games). It is now 6.5 **+16.1%** (n=35) and
+     7.0 **+8.4%** (n=97) -- both buckets it bets are positive, which is not
+     the shape a 7.0 artifact makes. The cliff at 7.5 (-7.1% over 521) is
+     still there and is still the reason the rule stops at 7.
+   - Monday over's did not. It is still an isolated calendar cell out of a
+     14-cell sweep, Sunday and Tuesday still show nothing, and March (-36%,
+     n=15) and June (-11%, n=49) are still double-digit negative. The record
+     got better; the objection was never answered. Its halves are also now
+     lopsided (+0.5/+12.0) -- nearly all of it is the second half. This is
+     the thinnest case on the systems card, carded on the user's call rather
+     than on evidence clearing a bar.
+
+   Shadow rows already in the ledger stay shadow for both; the card record
+   starts 2026-09-16. That leaves **Under juice**, **Hot arm dog ML** and
+   **Pickem under** on shadow.
 
    **How they were found bears on how much to trust them.** The scan tested
    every single and pairwise cell across ~30 derived features, roughly 4,000
