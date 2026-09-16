@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-16T00:31:41Z",
+  "generated": "2026-09-16T13:05:26Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,56 +9,100 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-15",
-      "commence": "2026-09-15T22:40:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Rhett Lowder",
-      "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "LAD",
-      "selection": "LAD",
-      "home": "CIN",
-      "away": "LAD",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -240,
-      "suggest": "fade",
-      "suggestUnits": 4.5,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-15",
-      "commence": "2026-09-15T22:40:00Z",
+      "date": "2026-09-16",
+      "commence": "2026-09-16T17:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Foster Griffin",
+      "pitcher": "Anthony Kay",
       "hand": "L",
-      "arm_team": "CLE",
-      "opp_team": "CWS",
-      "selection": "CLE",
+      "arm_team": "CWS",
+      "opp_team": "CLE",
+      "selection": "CWS",
       "home": "CLE",
       "away": "CWS",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -152,
+      "oppLefty": 6,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 13.8,
-      "games": 23,
-      "result": "pending"
+      "suggestUnits": 4.9,
+      "games": 24,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-15",
-      "commence": "2026-09-15T22:40:00Z",
+      "date": "2026-09-16",
+      "commence": "2026-09-16T17:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Jacob Misiorowski",
+      "pitcher": "Carlos Rod\u00f3n",
+      "hand": "L",
+      "arm_team": "NYY",
+      "opp_team": "MIN",
+      "selection": "NYY",
+      "home": "MIN",
+      "away": "NYY",
+      "oppLefty": 5,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.52,
+      "games": 13,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-16T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "LAD",
+      "selection": "CIN",
+      "home": "CIN",
+      "away": "LAD",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.22,
+      "games": 24,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-16T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jared Jones",
+      "hand": "R",
+      "arm_team": "PIT",
+      "opp_team": "MIL",
+      "selection": "PIT",
+      "home": "PIT",
+      "away": "MIL",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.5,
+      "games": 8,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-16T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Logan Henderson",
       "hand": "R",
       "arm_team": "MIL",
       "opp_team": "PIT",
@@ -67,56 +111,34 @@
       "away": "MIL",
       "oppLefty": 6,
       "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -215,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 6.62,
+      "suggestUnits": 7.22,
       "games": 9,
-      "result": "pending"
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-15",
-      "commence": "2026-09-15T22:45:00Z",
+      "date": "2026-09-16",
+      "commence": "2026-09-17T00:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Cristopher S\u00e1nchez",
+      "pitcher": "Robbie Ray",
       "hand": "L",
-      "arm_team": "PHI",
-      "opp_team": "WSH",
-      "selection": "PHI",
-      "home": "WSH",
-      "away": "PHI",
-      "oppLefty": 2,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -250,
-      "suggest": "take",
-      "suggestUnits": 8.28,
-      "games": 28,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-15",
-      "commence": "2026-09-16T00:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Walker Buehler",
-      "hand": "R",
       "arm_team": "SD",
       "opp_team": "COL",
       "selection": "SD",
       "home": "COL",
       "away": "SD",
-      "oppLefty": 8,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -196,
+      "oppLefty": 4,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 4.56,
-      "games": 8,
-      "result": "pending"
+      "suggestUnits": 5.72,
+      "games": 23,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -141,20 +163,20 @@
     {
       "pitcher": "Foster Griffin",
       "hand": "L",
-      "games": 23,
+      "games": 24,
       "suggest": "take",
-      "suggestUnits": 13.8,
+      "suggestUnits": 14.8,
       "fade": {
         "w": 5,
-        "l": 18,
-        "u": -16.36
+        "l": 19,
+        "u": -17.36
       },
       "take": {
-        "w": 18,
+        "w": 19,
         "l": 5,
-        "u": 13.8
+        "u": 14.8
       },
-      "era": 3.65
+      "era": 3.67
     },
     {
       "pitcher": "Jacob Lopez",
@@ -193,22 +215,22 @@
       "era": 2.87
     },
     {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 28,
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "games": 10,
       "suggest": "take",
-      "suggestUnits": 8.28,
+      "suggestUnits": 7.62,
       "fade": {
-        "w": 8,
-        "l": 20,
-        "u": -9.88
+        "w": 1,
+        "l": 9,
+        "u": -8.02
       },
       "take": {
-        "w": 20,
-        "l": 8,
-        "u": 8.28
+        "w": 9,
+        "l": 1,
+        "u": 7.62
       },
-      "era": 2.79
+      "era": 1.89
     },
     {
       "pitcher": "Logan Henderson",
@@ -247,24 +269,6 @@
       "era": 4.01
     },
     {
-      "pitcher": "Jacob Misiorowski",
-      "hand": "R",
-      "games": 9,
-      "suggest": "take",
-      "suggestUnits": 6.62,
-      "fade": {
-        "w": 1,
-        "l": 8,
-        "u": -7.02
-      },
-      "take": {
-        "w": 8,
-        "l": 1,
-        "u": 6.62
-      },
-      "era": 1.95
-    },
-    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 11,
@@ -301,6 +305,24 @@
       "era": 4.0
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 29,
+      "suggest": "take",
+      "suggestUnits": 5.78,
+      "fade": {
+        "w": 9,
+        "l": 20,
+        "u": -7.83
+      },
+      "take": {
+        "w": 20,
+        "l": 9,
+        "u": 5.78
+      },
+      "era": 2.93
+    },
+    {
       "pitcher": "Robbie Ray",
       "hand": "L",
       "games": 23,
@@ -335,6 +357,24 @@
         "u": 5.56
       },
       "era": 2.76
+    },
+    {
+      "pitcher": "Rhett Lowder",
+      "hand": "R",
+      "games": 10,
+      "suggest": "fade",
+      "suggestUnits": 5.5,
+      "fade": {
+        "w": 8,
+        "l": 2,
+        "u": 5.5
+      },
+      "take": {
+        "w": 2,
+        "l": 8,
+        "u": -6.04
+      },
+      "era": 6.06
     },
     {
       "pitcher": "Cody Bradford",
@@ -499,24 +539,6 @@
       "era": 2.8
     },
     {
-      "pitcher": "Walker Buehler",
-      "hand": "R",
-      "games": 8,
-      "suggest": "take",
-      "suggestUnits": 4.56,
-      "fade": {
-        "w": 2,
-        "l": 6,
-        "u": -5.96
-      },
-      "take": {
-        "w": 6,
-        "l": 2,
-        "u": 4.56
-      },
-      "era": 4.61
-    },
-    {
       "pitcher": "Jos\u00e9 Soriano",
       "hand": "R",
       "games": 13,
@@ -551,24 +573,6 @@
         "u": 4.52
       },
       "era": 2.94
-    },
-    {
-      "pitcher": "Rhett Lowder",
-      "hand": "R",
-      "games": 9,
-      "suggest": "fade",
-      "suggestUnits": 4.5,
-      "fade": {
-        "w": 7,
-        "l": 2,
-        "u": 4.5
-      },
-      "take": {
-        "w": 2,
-        "l": 7,
-        "u": -5.04
-      },
-      "era": 6.09
     },
     {
       "pitcher": "Spencer Strider",
@@ -694,7 +698,7 @@
         "l": 0,
         "u": 4.0
       },
-      "era": 2.62
+      "era": 2.51
     },
     {
       "pitcher": "Zac Gallen",
@@ -730,7 +734,7 @@
         "l": 5,
         "u": -3.78
       },
-      "era": 6.59
+      "era": 6.4
     },
     {
       "pitcher": "Reynaldo L\u00f3pez",

@@ -1,35 +1,19 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-16T00:31:44Z",
+  "generated": "2026-09-16T13:05:29Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 10,
+    "w": 11,
     "l": 1,
-    "u": 9.82,
-    "n": 11,
-    "roi": 0.6231
+    "u": 10.82,
+    "n": 12,
+    "roi": 0.6262
   },
-  "today": [
-    {
-      "date": "2026-09-15",
-      "commence": "2026-09-15T22:40:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Chris Murphy",
-      "arm_team": "CWS",
-      "opp": "CLE",
-      "selection": "CLE",
-      "venue": "away",
-      "matchup": "CWS @ CLE",
-      "odds": -152,
-      "eraVsOpp": 13.5,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -219,6 +203,34 @@
         }
       ],
       "qualifiedOn": "2026-05-27"
+    },
+    {
+      "pitcher": "Chris Murphy",
+      "opp": "CLE",
+      "arm_team": "CWS",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.6579
+      },
+      "eraVsOpp": 20.25,
+      "ipVsOpp": 2.7,
+      "erVsOpp": 6,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-09-15",
+          "venue": "away",
+          "matchup": "CWS @ CLE",
+          "selection": "CLE",
+          "opp_ml": -152,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-05"
     },
     {
       "pitcher": "Tatsuya Imai",
@@ -694,25 +706,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-06-27"
-    },
-    {
-      "pitcher": "Chris Murphy",
-      "opp": "CLE",
-      "arm_team": "CWS",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 13.5,
-      "ipVsOpp": 2.0,
-      "erVsOpp": 3,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-07-05"
     },
     {
       "pitcher": "Seth Lugo",

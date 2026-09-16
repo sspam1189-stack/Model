@@ -1,29 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-16T00:31:45Z",
+  "generated": "2026-09-16T13:05:30Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-15",
-      "commence": "2026-09-15T22:45:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Cristopher S\u00e1nchez",
-      "arm_team": "PHI",
-      "opp": "WSH",
-      "selection": "WSH",
-      "venue": "away",
-      "matchup": "PHI @ WSH",
-      "odds": 205,
-      "eraVsOpp": 6.3,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Spencer Arrighetti",
@@ -378,6 +362,22 @@
       }
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "opp": "WSH",
+      "arm_team": "PHI",
+      "eraVsOpp": 6.61,
+      "ipVsOpp": 16.3,
+      "erVsOpp": 12,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 1,
+        "l": 2,
+        "u": 0.05,
+        "n": 3,
+        "roi": 0.0167
+      }
+    },
+    {
       "pitcher": "Bailey Ober",
       "opp": "BOS",
       "arm_team": "MIN",
@@ -539,19 +539,19 @@
       }
     },
     {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "opp": "WSH",
-      "arm_team": "PHI",
+      "pitcher": "Andre Pallante",
+      "opp": "SF",
+      "arm_team": "STL",
       "eraVsOpp": 6.3,
       "ipVsOpp": 10.0,
       "erVsOpp": 7,
       "startsVsOpp": 2,
       "fadeRecord": {
-        "w": 0,
-        "l": 2,
-        "u": -2.0,
+        "w": 2,
+        "l": 0,
+        "u": 2.46,
         "n": 2,
-        "roi": -1.0
+        "roi": 1.23
       }
     },
     {
