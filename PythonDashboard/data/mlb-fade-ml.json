@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-16T21:02:53Z",
+  "generated": "2026-09-16T23:02:06Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 539,
-    "losses": 223,
+    "losses": 224,
     "voids": 0,
     "skips": 56,
-    "staked": 964.56,
-    "units": 318.68,
-    "roi": 0.3304,
+    "staked": 965.56,
+    "units": 317.68,
+    "roi": 0.329,
     "byType": {
       "ml": {
         "wins": 527,
-        "losses": 211,
+        "losses": 212,
         "voids": 0,
         "skips": 5,
-        "staked": 940.56,
-        "units": 314.2,
-        "roi": 0.3341
+        "staked": 941.56,
+        "units": 313.2,
+        "roi": 0.3326
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-16T19:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": 112,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "DET",
-      "gamePk": 822763,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-09-16",
       "commence": "2026-09-17T00:10:00Z",
@@ -163,30 +139,6 @@
     },
     {
       "date": "2026-09-16",
-      "commence": "2026-09-17T01:38:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Yusei Kikuchi"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -142,
-      "stake": 1.42,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAA",
-      "away": "SEA",
-      "gamePk": 823979,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-16",
       "commence": "2026-09-16T22:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -208,6 +160,30 @@
       "away": "MIL",
       "gamePk": 823332,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-17T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "SEA",
+      "gamePk": 823979,
+      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -19917,6 +19893,30 @@
       "away": "KC",
       "gamePk": 824143,
       "fadeReason": "all/away"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-16T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "DET",
+      "gamePk": 822763,
+      "fadeReason": "home"
     }
   ]
 }
