@@ -59,14 +59,50 @@ def _load_cache(path, max_age_hours=None):
         return None
 
 
-def _all_games_final(scores):
-    """Return True if every game in the scores list has a final status."""
-    if not scores:
-        return False
-    return all(
-        g.get("awayScore") is not None and g.get("homeScore") is not None
-        for g in scores
-    )
+def _expected_games(scoreboard_json):
+    """How many games the week HAS, played or not.
+
+    The denominator for "is this week complete". extract_all_games keeps
+    scheduled and in-progress games, and applies the same away/home
+    requirement extract_final_scores does, so the two are comparable.
+    """
+    return len(extract_all_games(scoreboard_json))
+
+
+def _cache_payload(scores, expected):
+    """What goes on disk: the finals, plus how many games the week had.
+
+    The count is the whole point. Without it a cache of six finals cannot be
+    told apart from a six-game week.
+    """
+    return {"scores": scores, "finals": len(scores), "expected": expected}
+
+
+def _unpack_cache(cached):
+    """(scores, week_is_complete) from either cache shape.
+
+    THIS IS THE FIX (2026-09-16). The old test asked whether every entry in
+    the cached list had scores -- but that list came from
+    extract_final_scores, which drops non-final games, so it was asking "do
+    the final games have scores" and could only ever answer yes. Any cache
+    written mid-slate was therefore sealed as permanent, and the six games
+    that happened to be over became the whole week forever. Compare the
+    finals against the number of games the week actually had instead.
+
+    A bare list is the pre-2026-09-16 format. 66 of those are committed for
+    2023-25, all of them finished weeks, so they stay permanent rather than
+    being refetched -- there is nothing left to learn about a season that
+    ended. Only the new format can be judged incomplete.
+    """
+    if isinstance(cached, dict):
+        scores = cached.get("scores") or []
+        expected = cached.get("expected")
+        if not scores or not isinstance(expected, int) or expected <= 0:
+            return scores, False
+        return scores, len(scores) >= expected
+    if isinstance(cached, list):
+        return cached, bool(cached)
+    return [], False
 
 
 def clear_cache():
@@ -170,8 +206,13 @@ def fetch_week_scores(week, season=None, season_type=2):
     Convenience: fetch scoreboard for a specific week and return final scores.
 
     Uses a disk cache:
-      - If all games are final the cache never expires (scores won't change).
-      - Otherwise cached for up to 2 hours (games still in progress).
+      - Once the week is complete -- finals == the number of games the week
+        has -- the cache never expires, because scores won't change.
+      - Otherwise cached for up to 2 hours (games still to play).
+
+    The completeness test compares against the week's game count, NOT against
+    the cached list's own contents; see _unpack_cache for why that
+    distinction is the whole bug.
 
     Args:
         week: NFL week number
@@ -182,25 +223,31 @@ def fetch_week_scores(week, season=None, season_type=2):
         List of final score dicts from extract_final_scores.
     """
     # --- try cache ---
-    if season and week:
-        cp = _cache_path(season, week, season_type)
+    cp = _cache_path(season, week, season_type) if (season and week) else None
+    if cp:
         cached = _load_cache(cp, max_age_hours=None)  # optimistic: try permanent first
         if cached is not None:
-            if _all_games_final(cached):
+            scores, complete = _unpack_cache(cached)
+            if complete:
                 print(f"  [scores] Using cached final scores for {season} W{week} st={season_type} ({cp.name})")
-                return cached
-            # Cache exists but not all games final -- honour 2-hour window
-            cached_fresh = _load_cache(cp, max_age_hours=2)
-            if cached_fresh is not None:
+                return scores
+            # Week is not over. Honour the 2-hour window, then go back out.
+            fresh = _load_cache(cp, max_age_hours=2)
+            if fresh is not None:
+                scores, _ = _unpack_cache(fresh)
                 print(f"  [scores] Using cached (partial) scores for {season} W{week} st={season_type} ({cp.name})")
-                return cached_fresh
+                return scores
 
     sb = fetch_nfl_scoreboard(week=week, season=season, season_type=season_type)
     scores = extract_final_scores(sb)
+    expected = _expected_games(sb)
 
     # --- save to cache ---
-    if season and week and scores:
-        _save_cache(scores, _cache_path(season, week, season_type))
+    if cp and scores:
+        _save_cache(_cache_payload(scores, expected), cp)
+        if expected and len(scores) < expected:
+            print(f"  [scores] {season} W{week}: {len(scores)} of {expected} final "
+                  f"-- cached for 2h only, week is not over")
 
     return scores
 
