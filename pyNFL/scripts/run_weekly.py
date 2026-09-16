@@ -252,6 +252,7 @@ def grade_week_in_store(store, week, season):
 
     graded_count = 0
     graded_games = []
+    unmatched = []
 
     for g in run.get("games", []):
         if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
@@ -267,6 +268,11 @@ def grade_week_in_store(store, week, season):
                 f = x
                 break
         if not f:
+            # SAY SO. This was silent for two days in 2026 Week 1: ESPN had
+            # all sixteen finals, the name join dropped ten of them, and the
+            # tab just showed PENDING with nothing in the log to explain it.
+            # An unmatched game is a broken join, not a game still in play.
+            unmatched.append(f"{g.get('away')} @ {g.get('home')}")
             continue
 
         g["awayScore"] = f["awayScore"]
@@ -278,6 +284,11 @@ def grade_week_in_store(store, week, season):
             g["oResult"] = grade_total_pick(g)
         graded_count += 1
         graded_games.append(g)
+
+    if unmatched:
+        print(f"  [grade] WARNING: {len(unmatched)} game(s) in {run_key} had no "
+              f"match among {len(finals)} finals fetched -- NOT a pending game, "
+              f"a failed join: {', '.join(unmatched)}")
 
     if graded_count > 0:
         save_store(store)
@@ -294,17 +305,56 @@ def _norm_team(name):
     return s
 
 
+def _canon_team(name):
+    """Canonical franchise name for a full name OR an abbreviation, else None.
+
+    defaults.NFL_TEAMS already carries every alias the rest of the pipeline
+    uses -- abbreviations included, and it distinguishes LA (Rams) from LAC
+    (Chargers). This is just the lookup.
+    """
+    s = str(name or "").strip()
+    if not s:
+        return None
+    aliases = defaults.ENGINE_CONFIG.get("TEAM_NAME_ALIASES", {})
+    return aliases.get(s.lower()) or aliases.get(_norm_team(s))
+
+
 def _match_team(a, b):
+    """Do two team labels refer to the same franchise?
+
+    The run store holds ABBREVIATIONS ("SF", "KC") and ESPN returns display
+    names ("San Francisco 49ers"), so this has to bridge the two. It used to
+    do that by substring, which is only ever right by accident: it joined
+    "NE"/"new england" and "SEA"/"seattle" because the abbreviation happens to
+    start the city, and missed every multi-word city -- SF, TB, GB, KC, LV,
+    NO, NYJ, NYG, JAX, LAC. In 2026 Week 1 exactly the six games whose BOTH
+    abbreviations were accidental substrings got graded and the other ten sat
+    PENDING with ESPN reporting all sixteen finals.
+
+    It was also unsound in the other direction. "LA" matched neither Los
+    Angeles club but DID match Philadelphia and Atlanta, because "la" sits
+    inside "phi-la-delphia" and "at-la-nta" -- so a Rams pick could have been
+    settled off the wrong game rather than merely skipped.
+
+    Resolve through the alias table first and compare franchise identity.
+    Substring is kept only for the case where NEITHER side is recognisable,
+    where it is a last resort rather than the primary mechanism.
+    """
     if not a or not b:
         return False
+    ca, cb = _canon_team(a), _canon_team(b)
+    if ca and cb:
+        return ca == cb
     if a == b:
         return True
     na, nb = _norm_team(a), _norm_team(b)
     if na == nb:
         return True
-    if na in nb or nb in na:
-        return True
-    return False
+    if ca or cb:
+        # One side resolved and the other did not: they are not the same
+        # franchise, and substring here is exactly the LA/Atlanta trap.
+        return False
+    return na in nb or nb in na
 
 
 # ---------------------------------------------------------------------------

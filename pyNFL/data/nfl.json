@@ -68862,7 +68862,12 @@
             -0.048240000000000303,
             -0.05519999999999997
           ],
-          "commenceTimeIso": "2026-09-11T00:35:00.000Z"
+          "commenceTimeIso": "2026-09-11T00:35:00.000Z",
+          "awayScore": 27.0,
+          "homeScore": 7.0,
+          "sResult": "LOSS",
+          "oResult": "WIN",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "PIT",
@@ -69275,7 +69280,12 @@
             -0.017339999999999887,
             0.10930000000000001
           ],
-          "commenceTimeIso": "2026-09-13T17:01:00.000Z"
+          "commenceTimeIso": "2026-09-13T17:01:00.000Z",
+          "awayScore": 27.0,
+          "homeScore": 33.0,
+          "sResult": "LOSS",
+          "oResult": "LOSS",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "JAX",
@@ -69357,7 +69367,12 @@
             -0.39101999999999965,
             0.09599999999999997
           ],
-          "commenceTimeIso": "2026-09-13T17:01:00.000Z"
+          "commenceTimeIso": "2026-09-13T17:01:00.000Z",
+          "awayScore": 10.0,
+          "homeScore": 34.0,
+          "sResult": "WIN",
+          "oResult": "LOSS",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "DET",
@@ -69436,7 +69451,11 @@
             -0.23079999999999917,
             0.08640000000000003
           ],
-          "commenceTimeIso": "2026-09-13T17:01:00.000Z"
+          "commenceTimeIso": "2026-09-13T17:01:00.000Z",
+          "awayScore": 30.0,
+          "homeScore": 31.0,
+          "oResult": "LOSS",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "TEN",
@@ -69515,7 +69534,12 @@
             2.5616249999999985,
             -0.0696
           ],
-          "commenceTimeIso": "2026-09-13T17:01:00.000Z"
+          "commenceTimeIso": "2026-09-13T17:01:00.000Z",
+          "awayScore": 23.0,
+          "homeScore": 10.0,
+          "sResult": "LOSS",
+          "oResult": "WIN",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "LAC",
@@ -69597,7 +69621,11 @@
             -0.125575,
             -0.12249999999999994
           ],
-          "commenceTimeIso": "2026-09-13T20:26:00.000Z"
+          "commenceTimeIso": "2026-09-13T20:26:00.000Z",
+          "awayScore": 26.0,
+          "homeScore": 14.0,
+          "oResult": "WIN",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "MIN",
@@ -69676,7 +69704,11 @@
             1.9875900000000006,
             -0.12130000000000002
           ],
-          "commenceTimeIso": "2026-09-13T20:25:00.000Z"
+          "commenceTimeIso": "2026-09-13T20:25:00.000Z",
+          "awayScore": 22.0,
+          "homeScore": 39.0,
+          "oResult": "LOSS",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "LV",
@@ -69755,7 +69787,11 @@
             5.457560000000001,
             -0.0821
           ],
-          "commenceTimeIso": "2026-09-13T20:26:00.000Z"
+          "commenceTimeIso": "2026-09-13T20:26:00.000Z",
+          "awayScore": 13.0,
+          "homeScore": 27.0,
+          "oResult": "WIN",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "PHI",
@@ -69918,7 +69954,12 @@
             -0.32424000000000075,
             -0.03460000000000002
           ],
-          "commenceTimeIso": "2026-09-14T00:20:00.000Z"
+          "commenceTimeIso": "2026-09-14T00:20:00.000Z",
+          "awayScore": 20.0,
+          "homeScore": 28.0,
+          "sResult": "WIN",
+          "oResult": "LOSS",
+          "_kalmanDate": "2026_W1"
         },
         {
           "home": "KC",
@@ -69997,7 +70038,11 @@
             0.039269999999999805,
             -0.10339999999999999
           ],
-          "commenceTimeIso": "2026-09-15T00:15:00.000Z"
+          "commenceTimeIso": "2026-09-15T00:15:00.000Z",
+          "awayScore": 10.0,
+          "homeScore": 31.0,
+          "oResult": "WIN",
+          "_kalmanDate": "2026_W1"
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   158-142-6  (52.7%)  +1.8u\n  TOTAL:    154-111-3  (58.1%)  +31.9u",
@@ -71234,13 +71279,13 @@
     "created": null
   },
   "weights": {
-    "wPassOff": 6.984,
-    "wRushOff": 4.568,
-    "wPassDef": 2.97,
-    "wRushDef": 0.049,
-    "wPace": 0.354,
-    "wRZ": 0.04,
-    "hfa": 2.776,
+    "wPassOff": 7.002,
+    "wRushOff": 4.516,
+    "wPassDef": 2.937,
+    "wRushDef": 0.085,
+    "wPace": 0.236,
+    "wRZ": 0,
+    "hfa": 2.761,
     "wCPOE": 0.8,
     "wPressure": -0.5,
     "wSuccessRate": 1.5,
@@ -71250,7 +71295,7 @@
     "wRushMatchup": 0.5,
     "wPaceXEPA": 0.3,
     "wThirdDown": 1.0,
-    "constant": -1.33,
+    "constant": -1.324,
     "sprHigh": 3.0,
     "ouHigh": 4.0,
     "sprEliteBump": 2.0,
@@ -71261,12 +71306,12 @@
     "probOUElite": 0.64
   },
   "weightsVar": {
-    "wPassOff": 0.218,
-    "wRushOff": 0.4086,
-    "wPassDef": 0.2146,
-    "wRushDef": 0.4759,
+    "wPassOff": 0.2177,
+    "wRushOff": 0.4083,
+    "wPassDef": 0.2143,
+    "wRushDef": 0.4756,
     "wPace": 0.05,
-    "wRZ": 1.234,
+    "wRZ": 1.2331,
     "hfa": 0.3,
     "wCPOE": 5.0,
     "wPressure": 5.0,
