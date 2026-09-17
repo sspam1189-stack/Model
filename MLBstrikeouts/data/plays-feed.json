@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-17T21:01:23Z",
+ "generated": "2026-09-17T23:01:28Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -9,14 +9,14 @@
    "play": "MIN/LAA U7.5",
    "market": "totals",
    "line": 7.5,
-   "price": -114,
+   "price": -128,
    "rule": "form-under",
    "result": "pending",
    "profit": 0.0,
    "game": "MIN @ LAA",
    "gamePk": 823978,
    "commence": "2026-09-18T01:38:00Z",
-   "basis": "m_sum -42.2 <= -40; both arms outclass the bats. Unflagged.",
+   "basis": "m_sum -44.2 <= -40; both arms outclass the bats. Unflagged.",
    "open_line": 7.5,
    "open_price": -114,
    "name": "Form under",
@@ -39,6 +39,25 @@
    "name": "Mismatch ML",
    "group": "scout",
    "kind": "card"
+  },
+  {
+   "date": "2026-09-17",
+   "play": "MIN/LAA U7.5",
+   "market": "totals",
+   "line": 7.5,
+   "price": -128,
+   "rule": "under-juice",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "MIN @ LAA",
+   "gamePk": 823978,
+   "commence": "2026-09-18T01:38:00Z",
+   "basis": "Under juice: book laying -128 on the under",
+   "open_line": 7.5,
+   "open_price": -128,
+   "name": "Under juice",
+   "group": "non-scout",
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-17",
@@ -146,7 +165,7 @@
    "game": "PHI @ NYM",
    "gamePk": 823573,
    "commence": "2026-09-17T23:15:00Z",
-   "basis": "away [79, 62, 65, 80] vs home [124, 139, 148, 111] @75pa.",
+   "basis": "away [78, 62, 64, 79] vs home [124, 139, 148, 110] @75pa.",
    "open_price": -134,
    "name": "Aligned ML",
    "group": "scout",
@@ -194,13 +213,16 @@
    "market": "h2h",
    "price": 160,
    "rule": "home-dog-getaway",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "SD @ COL",
    "gamePk": 824305,
    "commence": "2026-09-17T19:10:00Z",
    "basis": "Home dog getaway: SD played a night game yesterday, day game today, home dog at +160",
    "open_price": 160,
+   "close_price": 160,
+   "price_move": 0.0,
+   "clv": "flat",
    "name": "Home dog getaway",
    "group": "non-scout",
    "kind": "card"
@@ -46639,19 +46661,19 @@
  "summary": {
   "all": {
    "w": 1321,
-   "l": 1197,
+   "l": 1198,
    "push": 28,
-   "n": 2557,
+   "n": 2558,
    "pending": 11,
-   "units": 250.56
+   "units": 249.56
   },
   "card": {
    "w": 648,
-   "l": 600,
+   "l": 601,
    "push": 6,
    "n": 1260,
-   "pending": 6,
-   "units": 250.56
+   "pending": 5,
+   "units": 249.56
   },
   "by_rule": {
    "aligned-ml": {
@@ -46736,11 +46758,11 @@
    },
    "home-dog-getaway": {
     "w": 50,
-    "l": 42,
+    "l": 43,
     "push": 0,
     "n": 93,
-    "pending": 1,
-    "units": 18.56
+    "pending": 0,
+    "units": 17.56
    },
    "home-dog-under-parlay": {
     "w": 90,
@@ -46818,8 +46840,8 @@
     "w": 265,
     "l": 227,
     "push": 1,
-    "n": 494,
-    "pending": 1,
+    "n": 495,
+    "pending": 2,
     "units": 0
    }
   }

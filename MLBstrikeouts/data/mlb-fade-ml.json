@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-17T21:00:58Z",
+  "generated": "2026-09-17T23:01:03Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 543,
-    "losses": 224,
+    "losses": 225,
     "voids": 0,
     "skips": 56,
-    "staked": 970.88,
-    "units": 322.04,
-    "roi": 0.3317,
+    "staked": 971.88,
+    "units": 321.04,
+    "roi": 0.3303,
     "byType": {
       "ml": {
         "wins": 531,
-        "losses": 212,
+        "losses": 213,
         "voids": 0,
         "skips": 5,
-        "staked": 946.88,
-        "units": 317.56,
-        "roi": 0.3354
+        "staked": 947.88,
+        "units": 316.56,
+        "roi": 0.334
       },
       "ml_dog": {
         "wins": 12,
@@ -136,30 +136,6 @@
       "away": "DET",
       "gamePk": 824548,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-17",
-      "commence": "2026-09-17T19:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Michael King"
-      ],
-      "fadeTeam": "SD",
-      "market": "h2h",
-      "selection": "COL",
-      "line": null,
-      "odds": 160,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "COL",
-      "away": "SD",
-      "gamePk": 824305,
-      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -19989,6 +19965,30 @@
       "away": "LAD",
       "gamePk": 824464,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-17",
+      "commence": "2026-09-17T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 160,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "COL",
+      "away": "SD",
+      "gamePk": 824305,
+      "fadeReason": "away"
     }
   ]
 }
