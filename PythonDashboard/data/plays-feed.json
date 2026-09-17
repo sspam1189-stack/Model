@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-17T20:08:37Z",
+ "generated": "2026-09-17T20:11:31Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -16,7 +16,7 @@
    "game": "MIN @ LAA",
    "gamePk": 823978,
    "commence": "2026-09-18T01:38:00Z",
-   "basis": "m_sum -43.2 <= -40; both arms outclass the bats. Unflagged.",
+   "basis": "m_sum -42.2 <= -40; both arms outclass the bats. Unflagged.",
    "open_line": 7.5,
    "open_price": -114,
    "name": "Form under",
@@ -146,7 +146,7 @@
    "game": "PHI @ NYM",
    "gamePk": 823573,
    "commence": "2026-09-17T23:15:00Z",
-   "basis": "away [79, 62, 64, 80] vs home [124, 139, 148, 110] @75pa.",
+   "basis": "away [79, 62, 65, 80] vs home [124, 139, 148, 111] @75pa.",
    "open_price": -134,
    "name": "Aligned ML",
    "group": "scout",

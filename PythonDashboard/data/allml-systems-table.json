@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-17T19:53:10Z",
+ "generated": "2026-09-17T20:11:23Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-17"
  },
- "games": 2284,
+ "games": 2285,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
-  "over": -4.3,
+  "over": -4.2,
   "under": -5.2,
   "parlay": 0.0
  },
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.3,
+   "baseline": -4.2,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.3,
+   "baseline": -4.2,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.3,
+   "baseline": -4.2,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
