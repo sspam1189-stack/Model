@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-17T13:05:11Z",
+ "generated": "2026-09-17T14:37:06Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-16"
  },
- "games": 2271,
+ "games": 2282,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
@@ -34,8 +34,8 @@
     "roi": 23.4
    },
    "halves": [
-    24.4,
-    22.5
+    28.5,
+    18.8
    ],
    "monthly": [
     {
@@ -184,14 +184,14 @@
    "ladder_fails": true,
    "record": {
     "w": 52,
-    "l": 34,
-    "n": 86,
-    "units": 32.2,
-    "roi": 37.4
+    "l": 36,
+    "n": 88,
+    "units": 30.2,
+    "roi": 34.3
    },
    "halves": [
     29.8,
-    44.7
+    38.4
    ],
    "monthly": [
     {
@@ -237,13 +237,13 @@
     {
      "month": "2026-09",
      "w": 6,
-     "l": 7,
-     "n": 13,
-     "units": 0.84,
-     "roi": 6.5
+     "l": 9,
+     "n": 15,
+     "units": -1.16,
+     "roi": -7.7
     }
    ],
-   "per_day": 0.5
+   "per_day": 0.51
   },
   {
    "baseline_key": "side",
@@ -332,14 +332,14 @@
    "ladder_fails": false,
    "record": {
     "w": 88,
-    "l": 174,
-    "n": 262,
-    "units": 116.31,
-    "roi": 44.4
+    "l": 176,
+    "n": 264,
+    "units": 114.31,
+    "roi": 43.3
    },
    "halves": [
     51.5,
-    38.7
+    36.9
    ],
    "monthly": [
     {
@@ -393,13 +393,13 @@
     {
      "month": "2026-09",
      "w": 7,
-     "l": 18,
-     "n": 25,
-     "units": 6.43,
-     "roi": 25.7
+     "l": 20,
+     "n": 27,
+     "units": 4.43,
+     "roi": 16.4
     }
    ],
-   "per_day": 1.51
+   "per_day": 1.53
   },
   {
    "baseline_key": "over",
@@ -488,14 +488,14 @@
    "ladder_fails": false,
    "record": {
     "w": 30,
-    "l": 21,
-    "n": 51,
-    "units": 5.44,
-    "roi": 10.7
+    "l": 22,
+    "n": 52,
+    "units": 4.44,
+    "roi": 8.5
    },
    "halves": [
     13.6,
-    8.3
+    4.6
    ],
    "monthly": [
     {
@@ -541,13 +541,13 @@
     {
      "month": "2026-09",
      "w": 3,
-     "l": 7,
-     "n": 10,
-     "units": -4.2,
-     "roi": -42.0
+     "l": 8,
+     "n": 11,
+     "units": -5.2,
+     "roi": -47.3
     }
    ],
-   "per_day": 0.29
+   "per_day": 0.3
   },
   {
    "baseline_key": "over",
@@ -725,15 +725,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 254,
+    "w": 255,
     "l": 206,
-    "n": 460,
-    "units": 1.78,
-    "roi": 0.4
+    "n": 461,
+    "units": 2.53,
+    "roi": 0.5
    },
    "halves": [
-    3.7,
-    -2.7
+    4.4,
+    -3.1
    ],
    "monthly": [
     {
@@ -786,11 +786,11 @@
     },
     {
      "month": "2026-09",
-     "w": 20,
+     "w": 21,
      "l": 35,
-     "n": 55,
-     "units": -18.79,
-     "roi": -34.2
+     "n": 56,
+     "units": -18.05,
+     "roi": -32.2
     }
    ],
    "per_day": 2.66
@@ -814,8 +814,8 @@
     "roi": 8.8
    },
    "halves": [
-    13.0,
-    6.2
+    16.3,
+    3.7
    ],
    "monthly": [
     {
@@ -946,121 +946,148 @@
  ],
  "today": [
   {
-   "rule": "cold-arms-under",
-   "market": "totals",
-   "pick": "under",
-   "price": -118,
-   "side": "U",
-   "why": "both starters Logan Henderson 38%, Jared Jones 12% over in last 8",
-   "gamePk": 823332,
-   "date": "2026-09-16",
-   "commence": "2026-09-16T22:40:00Z",
+   "rule": "division-home-dog",
+   "market": "h2h",
+   "pick": "PIT",
+   "price": 120,
+   "side": null,
+   "why": "home to a NL Central rival at +120",
+   "gamePk": 823334,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T16:35:00Z",
    "matchup": "MIL @ PIT",
    "away": "MIL",
    "home": "PIT",
-   "total": 7.5
+   "total": 8.5
   },
   {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -134,
-   "side": "U",
-   "why": "book laying -134 on the under",
-   "gamePk": 823576,
-   "date": "2026-09-16",
-   "commence": "2026-09-16T23:10:00Z",
-   "matchup": "BAL @ NYM",
-   "away": "BAL",
-   "home": "NYM",
+   "rule": "home-dog-getaway",
+   "market": "h2h",
+   "pick": "PIT",
+   "price": 120,
+   "side": null,
+   "why": "MIL played a night game yesterday, day game today, home dog at +120",
+   "gamePk": 823334,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T16:35:00Z",
+   "matchup": "MIL @ PIT",
+   "away": "MIL",
+   "home": "PIT",
+   "total": 8.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "PIT",
+   "price": 340,
+   "side": null,
+   "why": "PIT ML +120 with U8.5 +100, pays 4.40x",
+   "line": 8.5,
+   "ml_price": 120,
+   "under_price": 100,
+   "payout": 4.4,
+   "gamePk": 823334,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T16:35:00Z",
+   "matchup": "MIL @ PIT",
+   "away": "MIL",
+   "home": "PIT",
+   "total": 8.5
+  },
+  {
+   "rule": "home-dog-getaway",
+   "market": "h2h",
+   "pick": "CIN",
+   "price": 140,
+   "side": null,
+   "why": "LAD played a night game yesterday, day game today, home dog at +140",
+   "gamePk": 824464,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T16:40:00Z",
+   "matchup": "LAD @ CIN",
+   "away": "LAD",
+   "home": "CIN",
    "total": 9.5
   },
   {
-   "rule": "division-home-dog",
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "CIN",
+   "price": 362,
+   "side": null,
+   "why": "CIN ML +140 with U9.5 -108, pays 4.62x",
+   "line": 9.5,
+   "ml_price": 140,
+   "under_price": -108,
+   "payout": 4.622,
+   "gamePk": 824464,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T16:40:00Z",
+   "matchup": "LAD @ CIN",
+   "away": "LAD",
+   "home": "CIN",
+   "total": 9.5
+  },
+  {
+   "rule": "home-dog-getaway",
    "market": "h2h",
    "pick": "COL",
-   "price": 140,
+   "price": 160,
    "side": null,
-   "why": "home to a NL West rival at +140",
-   "gamePk": 824306,
-   "date": "2026-09-16",
-   "commence": "2026-09-17T00:40:00Z",
+   "why": "SD played a night game yesterday, day game today, home dog at +160",
+   "gamePk": 824305,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T19:10:00Z",
    "matchup": "SD @ COL",
    "away": "SD",
    "home": "COL",
    "total": 10.5
   },
   {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "COL",
-   "price": 404,
+   "rule": "home-slide-ml",
+   "market": "h2h",
+   "pick": "NYM",
+   "price": -134,
    "side": null,
-   "why": "COL ML +140 with U10.5 +110, pays 5.04x",
-   "line": 10.5,
-   "ml_price": 140,
-   "under_price": 110,
-   "payout": 5.04,
-   "gamePk": 824306,
-   "date": "2026-09-16",
-   "commence": "2026-09-17T00:40:00Z",
-   "matchup": "SD @ COL",
-   "away": "SD",
-   "home": "COL",
-   "total": 10.5
+   "why": "home on L4, new opponent (last faced BAL)",
+   "gamePk": 823573,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T23:15:00Z",
+   "matchup": "PHI @ NYM",
+   "away": "PHI",
+   "home": "NYM",
+   "total": 8.5
   },
   {
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -134,
-   "line": 11.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 824306,
-   "date": "2026-09-16",
-   "commence": "2026-09-17T00:40:00Z",
-   "matchup": "SD @ COL",
-   "total": 11.5,
-   "why": "book laying -134 on the under",
-   "stale": true,
-   "stale_now": "favourite now -166, total now 10.5 (was 11.5)"
+   "price": -124,
+   "side": "U",
+   "why": "book laying -124 on the under",
+   "gamePk": 823573,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T23:15:00Z",
+   "matchup": "PHI @ NYM",
+   "away": "PHI",
+   "home": "NYM",
+   "total": 8.5
   },
   {
-   "rule": "division-home-dog",
-   "market": "h2h",
-   "pick": "LAA",
-   "price": 116,
-   "side": null,
-   "why": "home to a AL West rival at +116",
-   "gamePk": 823979,
-   "date": "2026-09-16",
-   "commence": "2026-09-17T01:38:00Z",
-   "matchup": "SEA @ LAA",
-   "away": "SEA",
-   "home": "LAA",
-   "total": 7.5
-  },
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "LAA",
-   "price": 322,
-   "side": null,
-   "why": "LAA ML +116 with U7.5 -105, pays 4.22x",
-   "line": 7.5,
-   "ml_price": 116,
-   "under_price": -105,
-   "payout": 4.217,
-   "gamePk": 823979,
-   "date": "2026-09-16",
-   "commence": "2026-09-17T01:38:00Z",
-   "matchup": "SEA @ LAA",
-   "away": "SEA",
-   "home": "LAA",
-   "total": 7.5
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -115,
+   "side": "U",
+   "why": "favorite only -112 at a 8.5 total",
+   "gamePk": 824548,
+   "date": "2026-09-17",
+   "commence": "2026-09-17T23:40:00Z",
+   "matchup": "DET @ CWS",
+   "away": "DET",
+   "home": "CWS",
+   "total": 8.5
   }
  ],
- "today_date": "2026-09-16"
+ "today_date": "2026-09-17"
 }

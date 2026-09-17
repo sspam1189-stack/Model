@@ -1,102 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-17T13:04:49Z",
+  "generated": "2026-09-17T14:36:54Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-16T22:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "LAD",
-      "selection": "CIN",
-      "home": "CIN",
-      "away": "LAD",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 180,
-      "suggest": "take",
-      "suggestUnits": 4.22,
-      "games": 24,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-16T22:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Logan Henderson",
-      "hand": "R",
-      "arm_team": "MIL",
-      "opp_team": "PIT",
-      "selection": "MIL",
-      "home": "PIT",
-      "away": "MIL",
-      "oppLefty": 7,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "take",
-      "suggestUnits": 7.22,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-17T00:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Jake Bennett",
-      "hand": "L",
-      "arm_team": "BOS",
-      "opp_team": "TEX",
-      "selection": "TEX",
-      "home": "TEX",
-      "away": "BOS",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -108,
-      "suggest": "fade",
-      "suggestUnits": 3.28,
-      "games": 15,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-17T00:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "arm_team": "SD",
-      "opp_team": "COL",
-      "selection": "SD",
-      "home": "COL",
-      "away": "SD",
-      "oppLefty": 4,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -166,
-      "suggest": "take",
-      "suggestUnits": 5.72,
-      "games": 23,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
@@ -171,6 +82,24 @@
       "era": 2.87
     },
     {
+      "pitcher": "Logan Henderson",
+      "hand": "R",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 8.22,
+      "fade": {
+        "w": 1,
+        "l": 9,
+        "u": -8.64
+      },
+      "take": {
+        "w": 9,
+        "l": 1,
+        "u": 8.22
+      },
+      "era": 2.51
+    },
+    {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
       "games": 10,
@@ -187,24 +116,6 @@
         "u": 7.62
       },
       "era": 1.89
-    },
-    {
-      "pitcher": "Logan Henderson",
-      "hand": "R",
-      "games": 9,
-      "suggest": "take",
-      "suggestUnits": 7.22,
-      "fade": {
-        "w": 1,
-        "l": 8,
-        "u": -7.64
-      },
-      "take": {
-        "w": 8,
-        "l": 1,
-        "u": 7.22
-      },
-      "era": 2.51
     },
     {
       "pitcher": "Noah Cameron",
@@ -225,6 +136,24 @@
       "era": 4.01
     },
     {
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "games": 24,
+      "suggest": "take",
+      "suggestUnits": 6.72,
+      "fade": {
+        "w": 9,
+        "l": 15,
+        "u": -8.78
+      },
+      "take": {
+        "w": 15,
+        "l": 9,
+        "u": 6.72
+      },
+      "era": 3.75
+    },
+    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 11,
@@ -241,6 +170,24 @@
         "u": 6.04
       },
       "era": 3.33
+    },
+    {
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "games": 25,
+      "suggest": "take",
+      "suggestUnits": 6.02,
+      "fade": {
+        "w": 11,
+        "l": 14,
+        "u": -8.49
+      },
+      "take": {
+        "w": 14,
+        "l": 11,
+        "u": 6.02
+      },
+      "era": 4.7
     },
     {
       "pitcher": "Joey Cantillo",
@@ -277,24 +224,6 @@
         "u": 5.78
       },
       "era": 2.93
-    },
-    {
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "games": 23,
-      "suggest": "take",
-      "suggestUnits": 5.72,
-      "fade": {
-        "w": 9,
-        "l": 14,
-        "u": -7.78
-      },
-      "take": {
-        "w": 14,
-        "l": 9,
-        "u": 5.72
-      },
-      "era": 3.75
     },
     {
       "pitcher": "Sonny Gray",
@@ -549,22 +478,22 @@
       "era": 3.97
     },
     {
-      "pitcher": "Andrew Abbott",
+      "pitcher": "Jake Bennett",
       "hand": "L",
-      "games": 24,
-      "suggest": "take",
-      "suggestUnits": 4.22,
+      "games": 16,
+      "suggest": "fade",
+      "suggestUnits": 4.28,
       "fade": {
-        "w": 11,
-        "l": 13,
-        "u": -6.34
+        "w": 9,
+        "l": 7,
+        "u": 4.28
       },
       "take": {
-        "w": 13,
-        "l": 11,
-        "u": 4.22
+        "w": 7,
+        "l": 9,
+        "u": -6.15
       },
-      "era": 4.7
+      "era": 3.78
     },
     {
       "pitcher": "Brandon Pfaadt",
@@ -673,24 +602,6 @@
         "u": -4.06
       },
       "era": 5.02
-    },
-    {
-      "pitcher": "Jake Bennett",
-      "hand": "L",
-      "games": 15,
-      "suggest": "fade",
-      "suggestUnits": 3.28,
-      "fade": {
-        "w": 8,
-        "l": 7,
-        "u": 3.28
-      },
-      "take": {
-        "w": 7,
-        "l": 8,
-        "u": -5.07
-      },
-      "era": 3.78
     },
     {
       "pitcher": "Trey Gibson",

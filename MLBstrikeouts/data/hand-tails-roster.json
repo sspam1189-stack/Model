@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-17T13:04:46Z",
+  "generated": "2026-09-17T14:36:52Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,8 +9,15 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 26,
-  "qualifiedCount": 25,
+  "qualifiedCount": 26,
   "promotions": [
+    {
+      "name": "Jake Bennett",
+      "hand": "L",
+      "games": 16,
+      "units": 4.28,
+      "since": "2026-09-16"
+    },
     {
       "name": "Noah Cameron",
       "hand": "L",
@@ -215,6 +222,10 @@
         [
           "2026-08-23",
           "2026-09-03"
+        ],
+        [
+          "2026-09-16",
+          null
         ]
       ]
     },
