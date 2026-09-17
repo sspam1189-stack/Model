@@ -1,13 +1,29 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-17T00:31:05Z",
+  "generated": "2026-09-17T13:04:53Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-16T23:40:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "JR Ritchie",
+      "arm_team": "ATL",
+      "opp": "CHC",
+      "selection": "CHC",
+      "venue": "away",
+      "matchup": "ATL @ CHC",
+      "odds": -162,
+      "eraVsOpp": 7.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Spencer Arrighetti",
@@ -295,6 +311,22 @@
         "u": -0.48,
         "n": 2,
         "roi": -0.1765
+      }
+    },
+    {
+      "pitcher": "JR Ritchie",
+      "opp": "CHC",
+      "arm_team": "ATL",
+      "eraVsOpp": 7.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 0,
+        "l": 1,
+        "u": -1.36,
+        "n": 1,
+        "roi": -1.0
       }
     },
     {

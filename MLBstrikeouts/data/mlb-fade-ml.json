@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-17T00:30:57Z",
+  "generated": "2026-09-17T13:04:20Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 539,
+    "wins": 542,
     "losses": 224,
     "voids": 0,
     "skips": 56,
-    "staked": 965.56,
-    "units": 317.68,
-    "roi": 0.329,
+    "staked": 969.22,
+    "units": 321.04,
+    "roi": 0.3312,
     "byType": {
       "ml": {
-        "wins": 527,
+        "wins": 530,
         "losses": 212,
         "voids": 0,
         "skips": 5,
-        "staked": 941.56,
-        "units": 313.2,
-        "roi": 0.3326
+        "staked": 945.22,
+        "units": 316.56,
+        "roi": 0.3349
       },
       "ml_dog": {
         "wins": 12,
@@ -114,76 +114,76 @@
   },
   "today": [
     {
-      "date": "2026-09-16",
-      "commence": "2026-09-17T00:10:00Z",
+      "date": "2026-09-17",
+      "commence": "2026-09-17T16:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Cristian Javier"
+        "Brady Singer"
       ],
-      "fadeTeam": "HOU",
+      "fadeTeam": "CIN",
       "market": "h2h",
-      "selection": "KC",
+      "selection": "LAD",
       "line": null,
-      "odds": 136,
+      "odds": -172,
+      "stake": 1.72,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "LAD",
+      "gamePk": 824464,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-17",
+      "commence": "2026-09-17T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CWS",
+      "away": "DET",
+      "gamePk": 824548,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-17",
+      "commence": "2026-09-17T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 138,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "HOU",
-      "away": "KC",
-      "gamePk": 824140,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-16T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -130,
-      "stake": 1.3,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PIT",
-      "away": "MIL",
-      "gamePk": 823332,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-16",
-      "commence": "2026-09-17T01:38:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Yusei Kikuchi"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAA",
-      "away": "SEA",
-      "gamePk": 823979,
-      "fadeReason": "all"
+      "home": "COL",
+      "away": "SD",
+      "gamePk": 824305,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -19917,6 +19917,78 @@
       "away": "DET",
       "gamePk": 822763,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-16T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "MIL",
+      "gamePk": 823332,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-17T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Cristian Javier"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 136,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.36,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "KC",
+      "gamePk": 824140,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-16",
+      "commence": "2026-09-17T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "SEA",
+      "gamePk": 823979,
+      "fadeReason": "all"
     }
   ]
 }
