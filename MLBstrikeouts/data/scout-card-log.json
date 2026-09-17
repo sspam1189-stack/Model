@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-17T19:53:26Z",
+  "generated": "2026-09-17T20:05:56Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -48488,6 +48488,44 @@
       "commence": "2026-09-18T00:05:00Z",
       "open_line": 7.5,
       "open_price": -104
+    },
+    {
+      "date": "2026-09-17",
+      "play": "BOS/TEX O7.5",
+      "market": "totals",
+      "game": "BOS @ TEX",
+      "price": -122,
+      "stake": 1.0,
+      "rule": "form-flip-over",
+      "auto": true,
+      "basis": "m_sum -106.7 <= -40; both arms outclass the bats -- taking the OVER instead (user, 2026-09-17). Also flagged.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5,
+      "flagged_overlap": true,
+      "gamePk": 822845,
+      "commence": "2026-09-18T00:05:00Z",
+      "open_line": 7.5,
+      "open_price": -122
+    },
+    {
+      "date": "2026-09-17",
+      "play": "MIN/LAA O7.5",
+      "market": "totals",
+      "game": "MIN @ LAA",
+      "price": -106,
+      "stake": 1.0,
+      "rule": "form-flip-over",
+      "auto": true,
+      "basis": "m_sum -43.2 <= -40; both arms outclass the bats -- taking the OVER instead (user, 2026-09-17). Unflagged.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5,
+      "flagged_overlap": false,
+      "gamePk": 823978,
+      "commence": "2026-09-18T01:38:00Z",
+      "open_line": 7.5,
+      "open_price": -106
     },
     {
       "date": "2026-09-17",

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-17T19:53:21Z",
+ "generated": "2026-09-17T20:06:03Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-17"
@@ -81,6 +81,77 @@
      "n": 21,
      "units": -15.34,
      "roi": -73.1
+    }
+   ],
+   "per_day": 0.9
+  },
+  {
+   "key": "form-flip-over",
+   "name": "Form flip (over)",
+   "market": "totals",
+   "rule": "m_sum <= -40: the same trigger, opposite side -> OVER. Carded 2026-09-17 (user).",
+   "status": "card",
+   "baseline_key": "over",
+   "baseline": -4.2,
+   "record": {
+    "w": 70,
+    "l": 87,
+    "n": 157,
+    "units": -22.56,
+    "roi": -14.4
+   },
+   "halves": [
+    -35.4,
+    -2.7
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 10,
+     "l": 10,
+     "n": 20,
+     "units": -1.02,
+     "roi": -5.1
+    },
+    {
+     "month": "2026-05",
+     "w": 7,
+     "l": 20,
+     "n": 27,
+     "units": -13.57,
+     "roi": -50.2
+    },
+    {
+     "month": "2026-06",
+     "w": 4,
+     "l": 13,
+     "n": 17,
+     "units": -9.24,
+     "roi": -54.4
+    },
+    {
+     "month": "2026-07",
+     "w": 11,
+     "l": 21,
+     "n": 32,
+     "units": -11.17,
+     "roi": -34.9
+    },
+    {
+     "month": "2026-08",
+     "w": 20,
+     "l": 20,
+     "n": 40,
+     "units": -1.89,
+     "roi": -4.7
+    },
+    {
+     "month": "2026-09",
+     "w": 18,
+     "l": 3,
+     "n": 21,
+     "units": 14.34,
+     "roi": 68.3
     }
    ],
    "per_day": 0.9

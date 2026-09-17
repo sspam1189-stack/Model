@@ -1,9 +1,28 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-17T19:53:26Z",
+ "generated": "2026-09-17T20:06:03Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
+  {
+   "date": "2026-09-17",
+   "play": "MIN/LAA O7.5",
+   "market": "totals",
+   "line": 7.5,
+   "price": -106,
+   "rule": "form-flip-over",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "MIN @ LAA",
+   "gamePk": 823978,
+   "commence": "2026-09-18T01:38:00Z",
+   "basis": "m_sum -43.2 <= -40; both arms outclass the bats -- taking the OVER instead (user, 2026-09-17). Unflagged.",
+   "open_line": 7.5,
+   "open_price": -106,
+   "name": "Form flip (over)",
+   "group": "scout",
+   "kind": "card"
+  },
   {
    "date": "2026-09-17",
    "play": "MIN/LAA U7.5",
@@ -57,6 +76,25 @@
    "open_line": 7.5,
    "open_price": -104,
    "name": "Flag Plays",
+   "group": "scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-17",
+   "play": "BOS/TEX O7.5",
+   "market": "totals",
+   "line": 7.5,
+   "price": -122,
+   "rule": "form-flip-over",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "BOS @ TEX",
+   "gamePk": 822845,
+   "commence": "2026-09-18T00:05:00Z",
+   "basis": "m_sum -106.7 <= -40; both arms outclass the bats -- taking the OVER instead (user, 2026-09-17). Also flagged.",
+   "open_line": 7.5,
+   "open_price": -122,
+   "name": "Form flip (over)",
    "group": "scout",
    "kind": "card"
   },
@@ -46641,16 +46679,16 @@
    "w": 1321,
    "l": 1197,
    "push": 28,
-   "n": 2557,
-   "pending": 11,
+   "n": 2559,
+   "pending": 13,
    "units": 250.56
   },
   "card": {
    "w": 648,
    "l": 600,
    "push": 6,
-   "n": 1260,
-   "pending": 6,
+   "n": 1262,
+   "pending": 8,
    "units": 250.56
   },
   "by_rule": {
@@ -46725,6 +46763,14 @@
     "n": 65,
     "pending": 2,
     "units": -2.33
+   },
+   "form-flip-over": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "n": 2,
+    "pending": 2,
+    "units": 0
    },
    "form-under": {
     "w": 10,
