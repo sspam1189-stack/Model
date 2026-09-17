@@ -1,7 +1,7 @@
 {
   "date": "2026-09-17",
   "games": 9,
-  "wrc_through": "2026-09-16",
+  "wrc_through": "2026-09-17",
   "wrc_role": "all",
   "wrc_primary_window": "last20",
   "wrc_secondary_window": "deadline",
@@ -38,33 +38,33 @@
           "hand": "L",
           "team": "MIL",
           "opponent_offense": "PIT",
-          "opp_wrc_vs_hand": 117,
-          "opp_wrc_game": 92,
-          "opp_wrc_recent": 91,
-          "opp_wrc_recent_pa": 551,
+          "opp_wrc_vs_hand": 130,
+          "opp_wrc_game": 105,
+          "opp_wrc_recent": 96,
+          "opp_wrc_recent_pa": 574,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 91,
-              "pa": 343,
+              "wrcplus": 99,
+              "pa": 362,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 117,
-              "pa": 228,
+              "wrcplus": 130,
+              "pa": 227,
               "role": "all"
             },
             "last15": {
-              "wrcplus": null,
-              "pa": 148,
+              "wrcplus": 133,
+              "pa": 167,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 87,
+              "pa": 100,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 25,
+          "opp_platoon_gap": 38,
           "form": {
             "season": {
               "gs": 23,
@@ -220,12 +220,12 @@
             }
           },
           "flags": [],
-          "mismatch": 60.3,
+          "mismatch": 73.3,
           "aligned75": [
-            91,
-            117,
-            120,
-            116
+            99,
+            130,
+            133,
+            142
           ]
         },
         "home": {
@@ -235,33 +235,33 @@
           "hand": "R",
           "team": "PIT",
           "opponent_offense": "MIL",
-          "opp_wrc_vs_hand": 132,
-          "opp_wrc_game": 127,
+          "opp_wrc_vs_hand": 130,
+          "opp_wrc_game": 125,
           "opp_wrc_recent": 118,
-          "opp_wrc_recent_pa": 1046,
+          "opp_wrc_recent_pa": 1079,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 140,
-              "pa": 678,
+              "wrcplus": 133,
+              "pa": 666,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 132,
-              "pa": 468,
+              "wrcplus": 130,
+              "pa": 496,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 133,
-              "pa": 361,
+              "wrcplus": 127,
+              "pa": 379,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 146,
-              "pa": 161,
+              "wrcplus": 138,
+              "pa": 194,
               "role": "all"
             }
           },
-          "opp_platoon_gap": -15,
+          "opp_platoon_gap": -21,
           "form": {
             "season": {
               "gs": 1,
@@ -420,19 +420,19 @@
             "opener",
             "thin-sample"
           ],
-          "mismatch": 110.8,
+          "mismatch": 108.8,
           "aligned75": [
-            140,
-            132,
             133,
-            146
+            130,
+            127,
+            138
           ]
         }
       },
-      "home_offense_game": 92,
-      "away_offense_game": 127,
-      "game_offense": 110,
-      "offense_edge": 35,
+      "home_offense_game": 105,
+      "away_offense_game": 125,
+      "game_offense": 115,
+      "offense_edge": 20,
       "aligned_ml": null
     },
     {
@@ -453,33 +453,33 @@
           "hand": "L",
           "team": "LAD",
           "opponent_offense": "CIN",
-          "opp_wrc_vs_hand": 116,
-          "opp_wrc_game": 112,
-          "opp_wrc_recent": 95,
-          "opp_wrc_recent_pa": 467,
+          "opp_wrc_vs_hand": 107,
+          "opp_wrc_game": 99,
+          "opp_wrc_recent": 91,
+          "opp_wrc_recent_pa": 476,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 107,
-              "pa": 392,
+              "wrcplus": 102,
+              "pa": 401,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 116,
-              "pa": 300,
+              "wrcplus": 107,
+              "pa": 285,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 117,
-              "pa": 224,
+              "wrcplus": 112,
+              "pa": 225,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 110,
+              "pa": 119,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 34,
+          "opp_platoon_gap": 32,
           "form": {
             "season": {
               "gs": 21,
@@ -637,12 +637,12 @@
           "flags": [
             "swingman-2g"
           ],
-          "mismatch": 52.1,
+          "mismatch": 43.1,
           "aligned75": [
+            102,
             107,
-            116,
-            117,
-            91
+            112,
+            73
           ]
         },
         "home": {
@@ -652,33 +652,33 @@
           "hand": "R",
           "team": "CIN",
           "opponent_offense": "LAD",
-          "opp_wrc_vs_hand": 107,
-          "opp_wrc_game": 107,
-          "opp_wrc_recent": 93,
-          "opp_wrc_recent_pa": 974,
+          "opp_wrc_vs_hand": 113,
+          "opp_wrc_game": 117,
+          "opp_wrc_recent": 96,
+          "opp_wrc_recent_pa": 1012,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 101,
-              "pa": 672,
+              "wrcplus": 104,
+              "pa": 674,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 107,
-              "pa": 440,
+              "wrcplus": 113,
+              "pa": 446,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 112,
-              "pa": 331,
+              "wrcplus": 118,
+              "pa": 335,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 105,
-              "pa": 161,
+              "wrcplus": 115,
+              "pa": 199,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 6,
+          "opp_platoon_gap": -1,
           "form": {
             "season": {
               "gs": 29,
@@ -818,19 +818,19 @@
             }
           },
           "flags": [],
-          "mismatch": 55.1,
+          "mismatch": 61.1,
           "aligned75": [
-            101,
-            107,
-            112,
-            105
+            104,
+            113,
+            118,
+            115
           ]
         }
       },
-      "home_offense_game": 112,
-      "away_offense_game": 107,
-      "game_offense": 110,
-      "offense_edge": -5,
+      "home_offense_game": 99,
+      "away_offense_game": 117,
+      "game_offense": 108,
+      "offense_edge": 18,
       "aligned_ml": null
     },
     {
@@ -851,33 +851,33 @@
           "hand": "L",
           "team": "OAK",
           "opponent_offense": "TB",
-          "opp_wrc_vs_hand": 93,
-          "opp_wrc_game": 120,
+          "opp_wrc_vs_hand": 90,
+          "opp_wrc_game": 118,
           "opp_wrc_recent": 92,
           "opp_wrc_recent_pa": 422,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 89,
-              "pa": 315,
+              "wrcplus": 90,
+              "pa": 314,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 93,
-              "pa": 233,
+              "wrcplus": 90,
+              "pa": 229,
               "role": "all"
             },
             "last15": {
               "wrcplus": null,
-              "pa": 149,
+              "pa": 142,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 61,
+              "pa": 35,
               "role": "all"
             }
           },
-          "opp_platoon_gap": -21,
+          "opp_platoon_gap": -22,
           "form": {
             "season": {
               "gs": 27,
@@ -1017,11 +1017,11 @@
             }
           },
           "flags": [],
-          "mismatch": 8.5,
+          "mismatch": 5.5,
           "aligned75": [
-            89,
-            93,
-            80,
+            90,
+            90,
+            83,
             null
           ]
         },
@@ -1033,32 +1033,32 @@
           "team": "TB",
           "opponent_offense": "OAK",
           "opp_wrc_vs_hand": 97,
-          "opp_wrc_game": 99,
+          "opp_wrc_game": 100,
           "opp_wrc_recent": 101,
           "opp_wrc_recent_pa": 1074,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 101,
-              "pa": 797,
+              "wrcplus": 102,
+              "pa": 776,
               "role": "all"
             },
             "last20": {
               "wrcplus": 97,
-              "pa": 532,
+              "pa": 492,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 95,
-              "pa": 378,
+              "wrcplus": 93,
+              "pa": 372,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 93,
+              "wrcplus": 90,
               "pa": 165,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 28,
+          "opp_platoon_gap": 27,
           "form": {
             "season": {
               "gs": 28,
@@ -1200,17 +1200,17 @@
           "flags": [],
           "mismatch": -20.1,
           "aligned75": [
-            101,
+            102,
             97,
-            95,
-            93
+            93,
+            90
           ]
         }
       },
-      "home_offense_game": 120,
-      "away_offense_game": 99,
-      "game_offense": 110,
-      "offense_edge": -21,
+      "home_offense_game": 118,
+      "away_offense_game": 100,
+      "game_offense": 109,
+      "offense_edge": -18,
       "aligned_ml": null
     },
     {
@@ -1231,29 +1231,29 @@
           "hand": "R",
           "team": "SD",
           "opponent_offense": "COL",
-          "opp_wrc_vs_hand": 90,
-          "opp_wrc_game": 102,
+          "opp_wrc_vs_hand": 87,
+          "opp_wrc_game": 100,
           "opp_wrc_recent": 100,
           "opp_wrc_recent_pa": 955,
           "opp_wrc_windows": {
             "last30": {
               "wrcplus": 92,
-              "pa": 605,
+              "pa": 597,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 90,
-              "pa": 393,
+              "wrcplus": 87,
+              "pa": 362,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 91,
-              "pa": 291,
+              "wrcplus": 89,
+              "pa": 279,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 149,
+              "pa": 131,
               "role": "all"
             }
           },
@@ -1397,12 +1397,12 @@
             }
           },
           "flags": [],
-          "mismatch": -29.4,
+          "mismatch": -32.4,
           "aligned75": [
             92,
-            90,
-            91,
-            86
+            87,
+            89,
+            85
           ]
         },
         "home": {
@@ -1413,32 +1413,32 @@
           "team": "COL",
           "opponent_offense": "SD",
           "opp_wrc_vs_hand": 105,
-          "opp_wrc_game": 110,
+          "opp_wrc_game": 111,
           "opp_wrc_recent": 107,
           "opp_wrc_recent_pa": 1038,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 104,
-              "pa": 683,
+              "wrcplus": 102,
+              "pa": 669,
               "role": "all"
             },
             "last20": {
               "wrcplus": 105,
-              "pa": 467,
+              "pa": 461,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 116,
-              "pa": 333,
+              "wrcplus": 121,
+              "pa": 321,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 129,
+              "wrcplus": 125,
               "pa": 185,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 13,
+          "opp_platoon_gap": 28,
           "form": {
             "season": {
               "gs": 10,
@@ -1580,17 +1580,17 @@
           "flags": [],
           "mismatch": 17.6,
           "aligned75": [
-            104,
+            102,
             105,
-            116,
-            129
+            121,
+            125
           ]
         }
       },
-      "home_offense_game": 102,
-      "away_offense_game": 110,
+      "home_offense_game": 100,
+      "away_offense_game": 111,
       "game_offense": 106,
-      "offense_edge": 8,
+      "offense_edge": 11,
       "aligned_ml": null
     },
     {
@@ -1611,33 +1611,33 @@
           "hand": "R",
           "team": "KC",
           "opponent_offense": "HOU",
-          "opp_wrc_vs_hand": 80,
-          "opp_wrc_game": 82,
+          "opp_wrc_vs_hand": 85,
+          "opp_wrc_game": 86,
           "opp_wrc_recent": 82,
           "opp_wrc_recent_pa": 1063,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 81,
-              "pa": 724,
+              "wrcplus": 84,
+              "pa": 691,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 80,
-              "pa": 456,
+              "wrcplus": 85,
+              "pa": 424,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 93,
-              "pa": 334,
+              "wrcplus": 95,
+              "pa": 309,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 79,
-              "pa": 158,
+              "wrcplus": null,
+              "pa": 127,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 15,
+          "opp_platoon_gap": 7,
           "form": {
             "season": {
               "gs": 30,
@@ -1777,40 +1777,120 @@
             }
           },
           "flags": [],
-          "mismatch": 9.8,
+          "mismatch": 14.8,
           "aligned75": [
-            81,
-            80,
-            93,
-            79
+            84,
+            85,
+            95,
+            83
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Miguel Ullola",
+          "listed_as": "Miguel Ullola",
+          "resolved": true,
+          "hand": "R",
           "team": "HOU",
           "opponent_offense": "KC",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 102,
+          "opp_wrc_game": 104,
+          "opp_wrc_recent": 106,
+          "opp_wrc_recent_pa": 964,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 116,
+              "pa": 660,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 102,
+              "pa": 408,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 99,
+              "pa": 315,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 100,
+              "role": "all"
+            }
           },
-          "opp_platoon_gap": -38,
+          "opp_platoon_gap": -34,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 1,
+              "ip": 1.0,
+              "ip_per_gs": 1.0,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 0.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 0,
+              "bb": 0,
+              "hr": 0,
+              "er": 0
+            },
+            "recent": {
+              "gs": 1,
+              "ip": 1.0,
+              "ip_per_gs": 1.0,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 0.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 0,
+              "bb": 0,
+              "hr": 0,
+              "er": 0
+            },
+            "hot": {
+              "gs": 1,
+              "ip": 1.0,
+              "ip_per_gs": 1.0,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 0.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 0,
+              "bb": 0,
+              "hr": 0,
+              "er": 0
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 6.0,
+              "ip_per_g": 1.2,
+              "era": 4.5,
+              "whip": 0.67,
+              "k_pct": 27.3,
+              "bb_pct": 4.5,
+              "k_bb_pct": 22.7,
+              "hr9": 3.0,
+              "k": 6,
+              "bb": 1,
+              "hr": 2,
+              "er": 3,
+              "gs": 1
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 91,
@@ -1878,21 +1958,22 @@
             }
           },
           "flags": [
+            "opener",
             "thin-sample"
           ],
-          "mismatch": null,
+          "mismatch": -15.2,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            116,
+            102,
+            99,
+            69
           ]
         }
       },
-      "home_offense_game": 82,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "home_offense_game": 86,
+      "away_offense_game": 104,
+      "game_offense": 95,
+      "offense_edge": 18,
       "aligned_ml": null
     },
     {
@@ -1900,11 +1981,11 @@
       "away": "PHI",
       "home": "NYM",
       "commence": "2026-09-17T23:15:00Z",
-      "away_ml": 114,
-      "home_ml": -134,
+      "away_ml": 112,
+      "home_ml": -132,
       "total": 8.5,
-      "over_ml": 102,
-      "under_ml": -124,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Aaron Nola",
@@ -1913,33 +1994,33 @@
           "hand": "R",
           "team": "PHI",
           "opponent_offense": "NYM",
-          "opp_wrc_vs_hand": 132,
-          "opp_wrc_game": 120,
+          "opp_wrc_vs_hand": 139,
+          "opp_wrc_game": 127,
           "opp_wrc_recent": 127,
           "opp_wrc_recent_pa": 1021,
           "opp_wrc_windows": {
             "last30": {
               "wrcplus": 124,
-              "pa": 692,
+              "pa": 686,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 132,
-              "pa": 509,
+              "wrcplus": 139,
+              "pa": 480,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 154,
-              "pa": 383,
+              "wrcplus": 148,
+              "pa": 352,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 113,
+              "wrcplus": 110,
               "pa": 166,
               "role": "all"
             }
           },
-          "opp_platoon_gap": -81,
+          "opp_platoon_gap": -87,
           "form": {
             "season": {
               "gs": 30,
@@ -2079,12 +2160,12 @@
             }
           },
           "flags": [],
-          "mismatch": 13.4,
+          "mismatch": 20.4,
           "aligned75": [
             124,
-            132,
-            154,
-            113
+            139,
+            148,
+            110
           ]
         },
         "home": {
@@ -2095,32 +2176,32 @@
           "team": "NYM",
           "opponent_offense": "PHI",
           "opp_wrc_vs_hand": 62,
-          "opp_wrc_game": 71,
+          "opp_wrc_game": 69,
           "opp_wrc_recent": 96,
           "opp_wrc_recent_pa": 1049,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 81,
-              "pa": 606,
+              "wrcplus": 79,
+              "pa": 575,
               "role": "all"
             },
             "last20": {
               "wrcplus": 62,
-              "pa": 374,
+              "pa": 363,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 56,
-              "pa": 271,
+              "wrcplus": 64,
+              "pa": 244,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 111,
+              "pa": 88,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 54,
+          "opp_platoon_gap": 50,
           "form": {
             "season": {
               "gs": 29,
@@ -2262,31 +2343,31 @@
           "flags": [],
           "mismatch": -44.5,
           "aligned75": [
-            81,
+            79,
             62,
-            56,
-            62
+            64,
+            80
           ]
         }
       },
-      "home_offense_game": 120,
-      "away_offense_game": 71,
-      "game_offense": 96,
-      "offense_edge": -49,
+      "home_offense_game": 127,
+      "away_offense_game": 69,
+      "game_offense": 98,
+      "offense_edge": -58,
       "aligned_ml": {
         "pick": "NYM",
-        "ml": -134,
+        "ml": -132,
         "away_offense": [
-          81,
+          79,
           62,
-          56,
-          62
+          64,
+          80
         ],
         "home_offense": [
           124,
-          132,
-          154,
-          113
+          139,
+          148,
+          110
         ],
         "min_pa": 75
       }
@@ -2309,33 +2390,33 @@
           "hand": "L",
           "team": "DET",
           "opponent_offense": "CWS",
-          "opp_wrc_vs_hand": 115,
-          "opp_wrc_game": 128,
+          "opp_wrc_vs_hand": 118,
+          "opp_wrc_game": 129,
           "opp_wrc_recent": 133,
           "opp_wrc_recent_pa": 487,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 132,
-              "pa": 263,
+              "wrcplus": 133,
+              "pa": 260,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 115,
-              "pa": 175,
+              "wrcplus": 118,
+              "pa": 163,
               "role": "all"
             },
             "last15": {
               "wrcplus": null,
-              "pa": 148,
+              "pa": 145,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 107,
+              "pa": 103,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 41,
+          "opp_platoon_gap": 49,
           "form": {
             "season": {
               "gs": 29,
@@ -2475,12 +2556,12 @@
             }
           },
           "flags": [],
-          "mismatch": 16.5,
+          "mismatch": 19.5,
           "aligned75": [
-            132,
-            115,
-            124,
-            159
+            133,
+            118,
+            130,
+            161
           ]
         },
         "home": {
@@ -2491,32 +2572,32 @@
           "team": "CWS",
           "opponent_offense": "DET",
           "opp_wrc_vs_hand": 94,
-          "opp_wrc_game": 98,
+          "opp_wrc_game": 99,
           "opp_wrc_recent": 94,
           "opp_wrc_recent_pa": 1062,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 80,
-              "pa": 680,
+              "wrcplus": 82,
+              "pa": 652,
               "role": "all"
             },
             "last20": {
               "wrcplus": 94,
-              "pa": 481,
+              "pa": 474,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 110,
-              "pa": 384,
+              "wrcplus": 107,
+              "pa": 346,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 134,
+              "wrcplus": 130,
               "pa": 207,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 3,
+          "opp_platoon_gap": 13,
           "form": {
             "season": {
               "gs": 14,
@@ -2678,16 +2759,16 @@
           ],
           "mismatch": -18.0,
           "aligned75": [
-            80,
+            82,
             94,
-            110,
-            134
+            107,
+            130
           ]
         }
       },
-      "home_offense_game": 128,
-      "away_offense_game": 98,
-      "game_offense": 113,
+      "home_offense_game": 129,
+      "away_offense_game": 99,
+      "game_offense": 114,
       "offense_edge": -30,
       "aligned_ml": null
     },
@@ -2696,11 +2777,11 @@
       "away": "BOS",
       "home": "TEX",
       "commence": "2026-09-18T00:05:00Z",
-      "away_ml": -130,
-      "home_ml": 110,
+      "away_ml": -124,
+      "home_ml": 106,
       "total": 7.5,
-      "over_ml": -118,
-      "under_ml": -104,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Sonny Gray",
@@ -2709,33 +2790,33 @@
           "hand": "R",
           "team": "BOS",
           "opponent_offense": "TEX",
-          "opp_wrc_vs_hand": 75,
-          "opp_wrc_game": 89,
+          "opp_wrc_vs_hand": 82,
+          "opp_wrc_game": 102,
           "opp_wrc_recent": 75,
           "opp_wrc_recent_pa": 886,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 82,
-              "pa": 582,
+              "wrcplus": 83,
+              "pa": 567,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 75,
-              "pa": 398,
+              "wrcplus": 82,
+              "pa": 376,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 82,
-              "pa": 286,
+              "wrcplus": 81,
+              "pa": 279,
               "role": "all"
             },
             "last7": {
               "wrcplus": null,
-              "pa": 134,
+              "pa": 102,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 67,
+          "opp_platoon_gap": 63,
           "form": {
             "season": {
               "gs": 27,
@@ -2875,12 +2956,12 @@
             }
           },
           "flags": [],
-          "mismatch": -41.3,
+          "mismatch": -34.3,
           "aligned75": [
+            83,
             82,
-            75,
-            82,
-            67
+            81,
+            71
           ]
         },
         "home": {
@@ -2890,8 +2971,8 @@
           "hand": "L",
           "team": "TEX",
           "opponent_offense": "BOS",
-          "opp_wrc_vs_hand": 60,
-          "opp_wrc_game": 57,
+          "opp_wrc_vs_hand": 57,
+          "opp_wrc_game": 56,
           "opp_wrc_recent": 77,
           "opp_wrc_recent_pa": 333,
           "opp_wrc_windows": {
@@ -2901,13 +2982,13 @@
               "role": "all"
             },
             "last20": {
-              "wrcplus": 60,
-              "pa": 170,
+              "wrcplus": 57,
+              "pa": 166,
               "role": "all"
             },
             "last15": {
               "wrcplus": null,
-              "pa": 124,
+              "pa": 122,
               "role": "all"
             },
             "last7": {
@@ -2916,7 +2997,7 @@
               "role": "all"
             }
           },
-          "opp_platoon_gap": -32,
+          "opp_platoon_gap": -38,
           "form": {
             "season": {
               "gs": 4,
@@ -3078,19 +3159,19 @@
             "stale-window-64d",
             "swingman-44g"
           ],
-          "mismatch": -69.4,
+          "mismatch": -72.4,
           "aligned75": [
             82,
-            60,
-            47,
+            57,
+            45,
             null
           ]
         }
       },
-      "home_offense_game": 89,
-      "away_offense_game": 57,
-      "game_offense": 73,
-      "offense_edge": -32,
+      "home_offense_game": 102,
+      "away_offense_game": 56,
+      "game_offense": 79,
+      "offense_edge": -46,
       "aligned_ml": null
     },
     {
@@ -3098,8 +3179,8 @@
       "away": "MIN",
       "home": "LAA",
       "commence": "2026-09-18T01:38:00Z",
-      "away_ml": -112,
-      "home_ml": -104,
+      "away_ml": -108,
+      "home_ml": -108,
       "total": 7.5,
       "over_ml": -106,
       "under_ml": -114,
@@ -3111,33 +3192,33 @@
           "hand": "R",
           "team": "MIN",
           "opponent_offense": "LAA",
-          "opp_wrc_vs_hand": 73,
-          "opp_wrc_game": 79,
-          "opp_wrc_recent": 80,
+          "opp_wrc_vs_hand": 77,
+          "opp_wrc_game": 83,
+          "opp_wrc_recent": 79,
           "opp_wrc_recent_pa": 962,
           "opp_wrc_windows": {
             "last30": {
               "wrcplus": 79,
-              "pa": 662,
+              "pa": 630,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 73,
-              "pa": 480,
+              "wrcplus": 77,
+              "pa": 449,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 64,
-              "pa": 326,
+              "wrcplus": 71,
+              "pa": 292,
               "role": "all"
             },
             "last7": {
-              "wrcplus": 81,
+              "wrcplus": 78,
               "pa": 153,
               "role": "all"
             }
           },
-          "opp_platoon_gap": 26,
+          "opp_platoon_gap": 22,
           "form": {
             "season": {
               "gs": 29,
@@ -3277,12 +3358,12 @@
             }
           },
           "flags": [],
-          "mismatch": -46.3,
+          "mismatch": -42.3,
           "aligned75": [
             79,
-            73,
-            64,
-            81
+            77,
+            71,
+            78
           ]
         },
         "home": {
@@ -3292,24 +3373,24 @@
           "hand": "R",
           "team": "LAA",
           "opponent_offense": "MIN",
-          "opp_wrc_vs_hand": 110,
-          "opp_wrc_game": 101,
+          "opp_wrc_vs_hand": 106,
+          "opp_wrc_game": 94,
           "opp_wrc_recent": 101,
           "opp_wrc_recent_pa": 954,
           "opp_wrc_windows": {
             "last30": {
-              "wrcplus": 108,
-              "pa": 646,
+              "wrcplus": 107,
+              "pa": 616,
               "role": "all"
             },
             "last20": {
-              "wrcplus": 110,
-              "pa": 451,
+              "wrcplus": 106,
+              "pa": 423,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 82,
-              "pa": 294,
+              "wrcplus": 88,
+              "pa": 250,
               "role": "all"
             },
             "last7": {
@@ -3318,7 +3399,7 @@
               "role": "all"
             }
           },
-          "opp_platoon_gap": -57,
+          "opp_platoon_gap": -56,
           "form": {
             "season": {
               "gs": 25,
@@ -3458,19 +3539,19 @@
             }
           },
           "flags": [],
-          "mismatch": 3.1,
+          "mismatch": -0.9,
           "aligned75": [
-            108,
-            110,
-            82,
-            79
+            107,
+            106,
+            88,
+            76
           ]
         }
       },
-      "home_offense_game": 79,
-      "away_offense_game": 101,
-      "game_offense": 90,
-      "offense_edge": 22,
+      "home_offense_game": 83,
+      "away_offense_game": 94,
+      "game_offense": 88,
+      "offense_edge": 11,
       "aligned_ml": null
     }
   ],
@@ -3480,9 +3561,9 @@
       "hand": "R",
       "team": "PIT",
       "opponent_offense": "MIL",
-      "opp_wrc_vs_hand": 132,
+      "opp_wrc_vs_hand": 130,
       "opp_wrc_recent": 118,
-      "mismatch": 110.8,
+      "mismatch": 108.8,
       "flags": [
         "opener",
         "thin-sample"
@@ -3493,9 +3574,9 @@
       "hand": "L",
       "team": "MIL",
       "opponent_offense": "PIT",
-      "opp_wrc_vs_hand": 117,
-      "opp_wrc_recent": 91,
-      "mismatch": 60.3,
+      "opp_wrc_vs_hand": 130,
+      "opp_wrc_recent": 96,
+      "mismatch": 73.3,
       "flags": []
     },
     {
@@ -3503,9 +3584,9 @@
       "hand": "R",
       "team": "CIN",
       "opponent_offense": "LAD",
-      "opp_wrc_vs_hand": 107,
-      "opp_wrc_recent": 93,
-      "mismatch": 55.1,
+      "opp_wrc_vs_hand": 113,
+      "opp_wrc_recent": 96,
+      "mismatch": 61.1,
       "flags": []
     },
     {
@@ -3513,12 +3594,32 @@
       "hand": "L",
       "team": "LAD",
       "opponent_offense": "CIN",
-      "opp_wrc_vs_hand": 116,
-      "opp_wrc_recent": 95,
-      "mismatch": 52.1,
+      "opp_wrc_vs_hand": 107,
+      "opp_wrc_recent": 91,
+      "mismatch": 43.1,
       "flags": [
         "swingman-2g"
       ]
+    },
+    {
+      "pitcher": "Aaron Nola",
+      "hand": "R",
+      "team": "PHI",
+      "opponent_offense": "NYM",
+      "opp_wrc_vs_hand": 139,
+      "opp_wrc_recent": 127,
+      "mismatch": 20.4,
+      "flags": []
+    },
+    {
+      "pitcher": "Framber Valdez",
+      "hand": "L",
+      "team": "DET",
+      "opponent_offense": "CWS",
+      "opp_wrc_vs_hand": 118,
+      "opp_wrc_recent": 133,
+      "mismatch": 19.5,
+      "flags": []
     },
     {
       "pitcher": "Tanner Gordon",
@@ -3531,33 +3632,13 @@
       "flags": []
     },
     {
-      "pitcher": "Framber Valdez",
-      "hand": "L",
-      "team": "DET",
-      "opponent_offense": "CWS",
-      "opp_wrc_vs_hand": 115,
-      "opp_wrc_recent": 133,
-      "mismatch": 16.5,
-      "flags": []
-    },
-    {
-      "pitcher": "Aaron Nola",
-      "hand": "R",
-      "team": "PHI",
-      "opponent_offense": "NYM",
-      "opp_wrc_vs_hand": 132,
-      "opp_wrc_recent": 127,
-      "mismatch": 13.4,
-      "flags": []
-    },
-    {
       "pitcher": "Seth Lugo",
       "hand": "R",
       "team": "KC",
       "opponent_offense": "HOU",
-      "opp_wrc_vs_hand": 80,
+      "opp_wrc_vs_hand": 85,
       "opp_wrc_recent": 82,
-      "mismatch": 9.8,
+      "mismatch": 14.8,
       "flags": []
     },
     {
@@ -3565,9 +3646,9 @@
       "hand": "L",
       "team": "OAK",
       "opponent_offense": "TB",
-      "opp_wrc_vs_hand": 93,
+      "opp_wrc_vs_hand": 90,
       "opp_wrc_recent": 92,
-      "mismatch": 8.5,
+      "mismatch": 5.5,
       "flags": []
     },
     {
@@ -3575,10 +3656,23 @@
       "hand": "R",
       "team": "LAA",
       "opponent_offense": "MIN",
-      "opp_wrc_vs_hand": 110,
+      "opp_wrc_vs_hand": 106,
       "opp_wrc_recent": 101,
-      "mismatch": 3.1,
+      "mismatch": -0.9,
       "flags": []
+    },
+    {
+      "pitcher": "Miguel Ullola",
+      "hand": "R",
+      "team": "HOU",
+      "opponent_offense": "KC",
+      "opp_wrc_vs_hand": 102,
+      "opp_wrc_recent": 106,
+      "mismatch": -15.2,
+      "flags": [
+        "opener",
+        "thin-sample"
+      ]
     },
     {
       "pitcher": "Erick Fedde",
@@ -3609,9 +3703,9 @@
       "hand": "R",
       "team": "SD",
       "opponent_offense": "COL",
-      "opp_wrc_vs_hand": 90,
+      "opp_wrc_vs_hand": 87,
       "opp_wrc_recent": 100,
-      "mismatch": -29.4,
+      "mismatch": -32.4,
       "flags": []
     },
     {
@@ -3619,9 +3713,19 @@
       "hand": "R",
       "team": "BOS",
       "opponent_offense": "TEX",
-      "opp_wrc_vs_hand": 75,
+      "opp_wrc_vs_hand": 82,
       "opp_wrc_recent": 75,
-      "mismatch": -41.3,
+      "mismatch": -34.3,
+      "flags": []
+    },
+    {
+      "pitcher": "Taj Bradley",
+      "hand": "R",
+      "team": "MIN",
+      "opponent_offense": "LAA",
+      "opp_wrc_vs_hand": 77,
+      "opp_wrc_recent": 79,
+      "mismatch": -42.3,
       "flags": []
     },
     {
@@ -3635,23 +3739,13 @@
       "flags": []
     },
     {
-      "pitcher": "Taj Bradley",
-      "hand": "R",
-      "team": "MIN",
-      "opponent_offense": "LAA",
-      "opp_wrc_vs_hand": 73,
-      "opp_wrc_recent": 80,
-      "mismatch": -46.3,
-      "flags": []
-    },
-    {
       "pitcher": "Tyler Alexander",
       "hand": "L",
       "team": "TEX",
       "opponent_offense": "BOS",
-      "opp_wrc_vs_hand": 60,
+      "opp_wrc_vs_hand": 57,
       "opp_wrc_recent": 77,
-      "mismatch": -69.4,
+      "mismatch": -72.4,
       "flags": [
         "opener",
         "thin-sample",
@@ -3661,7 +3755,7 @@
       ]
     }
   ],
-  "generated": "2026-09-17T14:37:02Z",
+  "generated": "2026-09-17T19:53:03Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

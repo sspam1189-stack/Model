@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-17T14:36:54Z",
+  "generated": "2026-09-17T19:52:49Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -142,18 +142,18 @@
     }
   ],
   "summary": {
-    "wins": 71,
+    "wins": 72,
     "losses": 37,
-    "units": 28.39,
-    "staked": 139.8,
-    "roi": 0.2031,
+    "units": 29.39,
+    "staked": 141.46,
+    "roi": 0.2078,
     "byAction": {
       "fade": {
-        "wins": 71,
+        "wins": 72,
         "losses": 37,
-        "units": 28.39,
-        "staked": 139.8,
-        "roi": 0.2031
+        "units": 29.39,
+        "staked": 141.46,
+        "roi": 0.2078
       },
       "take": {
         "wins": 0,
@@ -165,11 +165,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 40,
+        "wins": 41,
         "losses": 17,
-        "units": 19.35,
-        "staked": 74.16,
-        "roi": 0.2609
+        "units": 20.35,
+        "staked": 75.82,
+        "roi": 0.2684
       },
       "L": {
         "wins": 31,
@@ -181,30 +181,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-17",
-      "commence": "2026-09-17T16:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Brady Singer",
-      "entry": "Brady Singer",
-      "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "LAD",
-      "selection": "LAD",
-      "home": "CIN",
-      "away": "LAD",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -166,
-      "stake": 1.66,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-17",
       "commence": "2026-09-17T23:40:00Z",
@@ -219,11 +195,11 @@
       "home": "CWS",
       "away": "DET",
       "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -2820,6 +2796,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.74,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-17",
+      "commence": "2026-09-17T16:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Brady Singer",
+      "entry": "Brady Singer",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "LAD",
+      "selection": "LAD",
+      "home": "CIN",
+      "away": "LAD",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -166,
+      "stake": 1.66,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

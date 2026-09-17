@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-17T14:36:48Z",
+  "generated": "2026-09-17T19:52:41Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 542,
+    "wins": 543,
     "losses": 224,
     "voids": 0,
     "skips": 56,
-    "staked": 969.22,
-    "units": 321.04,
-    "roi": 0.3312,
+    "staked": 970.88,
+    "units": 322.04,
+    "roi": 0.3317,
     "byType": {
       "ml": {
-        "wins": 530,
+        "wins": 531,
         "losses": 212,
         "voids": 0,
         "skips": 5,
-        "staked": 945.22,
-        "units": 316.56,
-        "roi": 0.3349
+        "staked": 946.88,
+        "units": 317.56,
+        "roi": 0.3354
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-17",
-      "commence": "2026-09-17T16:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Brady Singer"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "LAD",
-      "line": null,
-      "odds": -166,
-      "stake": 1.66,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CIN",
-      "away": "LAD",
-      "gamePk": 824464,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-09-17",
       "commence": "2026-09-17T23:40:00Z",
@@ -19988,6 +19964,30 @@
       "home": "LAA",
       "away": "SEA",
       "gamePk": 823979,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-17",
+      "commence": "2026-09-17T16:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -166,
+      "stake": 1.66,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "LAD",
+      "gamePk": 824464,
       "fadeReason": "all"
     }
   ]
