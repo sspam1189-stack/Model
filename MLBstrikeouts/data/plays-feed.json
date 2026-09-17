@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-16T23:02:53Z",
+ "generated": "2026-09-17T00:31:22Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -59,17 +59,17 @@
   },
   {
    "date": "2026-09-16",
-   "play": "COL ML +140 + U11 (4.505x)",
+   "play": "COL ML +140 + U10.5 (5.04x)",
    "market": "parlay",
-   "line": 11,
-   "price": 351,
+   "line": 10.5,
+   "price": 404,
    "rule": "home-dog-under-parlay",
    "result": "pending",
    "profit": 0.0,
    "game": "SD @ COL",
    "gamePk": 824306,
    "commence": "2026-09-17T00:40:00Z",
-   "basis": "Home dog + under: COL ML +140 with U11 -114, pays 4.51x",
+   "basis": "Home dog + under: COL ML +140 with U10.5 +110, pays 5.04x",
    "open_line": 11.5,
    "open_price": 327,
    "name": "Home dog + under",
