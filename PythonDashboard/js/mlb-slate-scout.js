@@ -248,10 +248,6 @@ async function renderMLBSlateScout() {
   // Fallbacks only -- rule-status.json wins when it loads.
   const FORM_UNDER_LIVE = isCard('form-under', false);
   const FORM_UNDER_OFF = isRetired('form-under');
-  // The flip carded 2026-09-17 (user). Season evidence is against it --
-  // 70-87 -14.4%, negative in five of six months, its one good month a
-  // league-wide over month. See MLBstrikeouts/scripts/rule_status.py.
-  const FORM_FLIP_LIVE = isCard('form-flip-over', true);
   const ALIGNED_ML_LIVE = isCard('aligned-ml', false);
   const ALIGNED_ML_OFF = isRetired('aligned-ml');
   const ctTime = (iso) => {
@@ -320,11 +316,6 @@ async function renderMLBSlateScout() {
           why: why + ' · this configuration measured flat or negative, not bet' });
       }
     }
-    // ONE TRIGGER, BOTH SIDES (user, 2026-09-17). m_sum <= -40 renders twice:
-    // the original under, still tracked but off the card, and the OVER, which
-    // is now the bet. Status for each comes from rule-status.json, so flipping
-    // either tier is a one-line edit in scripts/rule_status.py and this
-    // follows on the next run.
     if (msum != null && msum <= FORM_UNDER_AT) {
       underPlays.push({ s,
         kind: FORM_UNDER_OFF ? 'dead' : (FORM_UNDER_LIVE ? 'card' : 'shadow'),
@@ -333,12 +324,6 @@ async function renderMLBSlateScout() {
         why: 'm_sum ' + msum.toFixed(1)
           + (FORM_UNDER_OFF ? ' · retired, not bet'
              : FORM_UNDER_LIVE ? '' : ' · off the card, tracked not bet')
-          + (defSides.length ? ' · also flagged' : ' · unflagged') });
-      underPlays.push({ s,
-        kind: FORM_FLIP_LIVE ? 'card' : 'shadow',
-        side: 'O',
-        rule: 'Form flip (over)',
-        why: 'm_sum ' + msum.toFixed(1) + ' · same trigger, over side'
           + (defSides.length ? ' · also flagged' : ' · unflagged') });
     }
     // The over sides exist only so the panel answers the question; neither is

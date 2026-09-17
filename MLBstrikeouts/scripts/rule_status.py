@@ -76,26 +76,6 @@ RULES = {
         "-12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% "
         "blind baseline -- the opposite of the 3-1 that justified carding it. "
         "Settled rows stay in the ledger; it logs nothing further."),
-    "form-flip-over": (
-        "card", "Form flip (over)",
-        "m_sum <= -40 -> OVER. Form under's own trigger, opposite side. "
-        "CARDED 2026-09-17 on the user's call, asked for twice. form-under "
-        "stays on shadow beside it, so the same trigger is tracked both ways "
-        "and the live records settle which side is right.\n\n"
-        "THE SEASON EVIDENCE IS AGAINST THIS AND IS NOT WITHDRAWN. Replayed "
-        "on the same 156 games at real over prices the over side is 69-87 "
-        "-15.1%, negative in five of six months (Apr -5.1, May -50.2, Jun "
-        "-54.4, Jul -34.9, Aug -4.7). Its one good month is September "
-        "(+66.9%) -- and September 2026 was a league-wide over month: a blind "
-        "over on all 199 September games returned +12.5% against -21.2% for a "
-        "blind under, at 9.51 mean runs, the season high against a 8.61-9.35 "
-        "range every other month. Against that baseline the flip's edge is "
-        "+50.9% in September but only +4.5% across the last 100 plays.\n\n"
-        "So this is a bet that September's run environment holds. If it was "
-        "environment rather than signal, it loses as soon as scoring "
-        "normalises, and five negative months say it will. Read its own live "
-        "record from 2026-09-17, not the backtest -- the backtest is of a bet "
-        "nobody placed."),
     "mismatch-ml": (
         "card", "Mismatch ML",
         "tail m <= -45 / fade m >= +55. Carded 8/29 without a shadow period "

@@ -12,8 +12,7 @@ tab showed them, so a rule could drift for weeks without anyone noticing.
 This replays all three as-of each game date and publishes the same shape the
 other tables use, rebuilt by every daily run.
 
-  Form under      m_sum <= -40 -> under  (shadow)
-  Form flip over  m_sum <= -40 -> OVER   (carded 2026-09-17)
+  Form under   m_sum <= -40 -> under   (RETIRED 2026-09-17)
   Aligned ML   one offense hot-aligned (all four windows >= 110) against one
                cold-aligned (all <= 90) at the 75-PA floor -> back the hot
                side's team
@@ -62,9 +61,6 @@ ALIGNED_HOT, ALIGNED_COLD = 110.0, 90.0
 RULES = {
     "form-under": ("Form under", "totals",
                    "m_sum <= -40: both arms outclassed by the bats -> under."),
-    "form-flip-over": ("Form flip (over)", "totals",
-                       "m_sum <= -40: the same trigger, opposite side -> "
-                       "OVER. Carded 2026-09-17 (user)."),
     "aligned-ml": ("Aligned ML", "h2h",
                    "One offense hot-aligned across all four windows (>= 110) "
                    "against one cold-aligned (<= 90) at the 75-PA floor -> "
@@ -73,7 +69,7 @@ RULES = {
                     "Starter at mismatch <= -45 -> back his team; at >= +55 "
                     "-> back the opponent."),
 }
-ORDER = ("form-under", "form-flip-over", "aligned-ml", "mismatch-ml")
+ORDER = ("form-under", "aligned-ml", "mismatch-ml")
 
 
 def _profit(ml, won):
@@ -126,21 +122,12 @@ def replay():
 
         if ms["away"] is not None and ms["home"] is not None:
             msum = ms["away"] + ms["home"]
-            if msum <= FORM_UNDER_AT and total != g["total_line"]:
-                if g.get("under_ml"):
-                    won = total < g["total_line"]
-                    rows["form-under"].append({
-                        "date": d, "won": won,
-                        "p": _profit(g["under_ml"], won),
-                        "pick": f"U{g['total_line']:g}", "price": g["under_ml"]})
-                # The flip, priced off over_ml so it carries the over's own
-                # vig rather than a negated under number.
-                if g.get("over_ml"):
-                    won = total > g["total_line"]
-                    rows["form-flip-over"].append({
-                        "date": d, "won": won,
-                        "p": _profit(g["over_ml"], won),
-                        "pick": f"O{g['total_line']:g}", "price": g["over_ml"]})
+            if msum <= FORM_UNDER_AT and g.get("under_ml") and total != g["total_line"]:
+                won = total < g["total_line"]
+                rows["form-under"].append({
+                    "date": d, "won": won,
+                    "p": _profit(g["under_ml"], won),
+                    "pick": f"U{g['total_line']:g}", "price": g["under_ml"]})
 
         # ONE ROW PER SIDE. Both starters can point at the same team --
         # tail the dominant arm, fade the opposing one -- and appending twice
@@ -235,14 +222,8 @@ def main():
         out_rules.append({
             "key": key, "name": name, "market": market, "rule": rule,
             "status": RULE_STATUS.get(key, "shadow"),
-            # A rule is read against the baseline for the SIDE it bets:
-            # blind under and blind over are not mirrors, each pays its own
-            # vig, and in 2026 they came out -5.2% and -4.3%.
-            "baseline_key": ("side" if market == "h2h"
-                             else "over" if key == "form-flip-over" else "under"),
-            "baseline": (base["side"] if market == "h2h"
-                         else base["over"] if key == "form-flip-over"
-                         else base["under"]),
+            "baseline_key": "side" if market == "h2h" else "under",
+            "baseline": base["side"] if market == "h2h" else base["under"],
             "record": summarize(rs),
             "halves": [summarize(a)["roi"], summarize(b)["roi"]],
             "monthly": [{"month": m, **summarize(v)} for m, v in sorted(by.items())],

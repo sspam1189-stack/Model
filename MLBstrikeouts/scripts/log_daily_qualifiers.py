@@ -11,8 +11,7 @@ qualifiers and a skipped Monday look identical in a hand-kept ledger.
 So the daily run logs them now. Every rule, card and shadow:
 
     Flag Plays      per-combo verdicts from flag-combo-table.json
-    Form under      m_sum <= -40 -> under   (SHADOW)
-    Form flip over  m_sum <= -40 -> OVER    (carded 2026-09-17)
+    Form under      m_sum <= -40 -> under   (RETIRED 2026-09-17)
     Better arm ML   m_sum >= +40, plus money only  (msum-ml-table.json)
     Aligned ML      hot-vs-cold ladder at the 75-PA floor
     Mismatch ML     tail m <= -45 / fade m >= +55   (carded 2026-09-16)
@@ -395,17 +394,18 @@ def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
                         "basis": f"Verdict {side} for {combo}. {who}.",
                     })
 
-        # --- Form under / Form flip over / Mismatch ML ------------------
-        # ONE TRIGGER, BOTH SIDES, DIFFERENT TIERS (user, 2026-09-17).
-        # m_sum <= -40 now emits two rows: the original under on SHADOW, so it
-        # keeps measuring without staking, and the OVER on CARD, which is the
-        # bet. Each is priced off its own side of the book, so neither is a
-        # negated copy of the other and both carry their real vig.
+        # --- Form under / Mismatch ML (both off the mismatch score) ------
+        # form-under is RETIRED as of 2026-09-17 (user), so the status gate
+        # below drops these before they are written. The qualifier is left
+        # standing rather than deleted: it still measures, which is what the
+        # dry run and the season table read.
         #
-        # drop_conflicting_totals only fires when BOTH sides are carded, so a
-        # shadow under beside a carded over is not a conflict and neither is
-        # dropped. If form-under is ever carded again, that guard will start
-        # killing both -- which is correct, and the reason to check it here.
+        # Taking the OVER on this same trigger was carded on 09-17 and
+        # reverted the same day. It is not a discovery waiting to be made:
+        # the over side of these games is 70-87 -14.4% and negative in five of
+        # six months, and its one good month is September, which was a
+        # league-wide over month (blind over +12.4% vs blind under -21.0% over
+        # 216 games, 9.45 mean runs, the season high). See rule_status.py.
         if msum is not None and msum <= FORM_UNDER_AT and total is not None \
                 and u_ml is not None:
             out.append({
@@ -417,21 +417,6 @@ def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
                 "flagged_overlap": bool(flagged),
                 "basis": (f"m_sum {msum:+.1f} <= {FORM_UNDER_AT:+.0f}; both arms "
                           f"outclass the bats. "
-                          f"{'Also flagged' if flagged else 'Unflagged'}."),
-            })
-
-        if msum is not None and msum <= FORM_UNDER_AT and total is not None \
-                and o_ml is not None:
-            out.append({
-                "rule": "form-flip-over",
-                "gamePk": gid, "commence": g.get("commence"),
-                "matchup": g["matchup"], "key": f"{total}",
-                "play": f"{_short(g['matchup'])} O{_num(total)}",
-                "market": "totals", "line": total, "price": int(o_ml),
-                "flagged_overlap": bool(flagged),
-                "basis": (f"m_sum {msum:+.1f} <= {FORM_UNDER_AT:+.0f}; both arms "
-                          f"outclass the bats -- taking the OVER instead "
-                          f"(user, 2026-09-17). "
                           f"{'Also flagged' if flagged else 'Unflagged'}."),
             })
 
