@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-18T00:31:14Z",
+ "generated": "2026-09-18T13:05:38Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-17"
  },
  "games": {
-  "gradeable": 2228,
-  "flagged": 575,
+  "gradeable": 2233,
+  "flagged": 578,
   "pushes_dropped": 56
  },
  "card_requires": "swingman",
@@ -54,23 +54,23 @@
   "layoff": "2026-09-02",
   "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-17",
+ "verdicts_as_of": "2026-09-18",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1108,
-   "l": 1120,
-   "n": 2228,
-   "units": -118.73,
-   "roi": -5.3
+   "w": 1112,
+   "l": 1121,
+   "n": 2233,
+   "units": -116.0,
+   "roi": -5.2
   },
   "over": {
-   "w": 1120,
-   "l": 1108,
-   "n": 2228,
-   "units": -91.43,
-   "roi": -4.1
+   "w": 1121,
+   "l": 1112,
+   "n": 2233,
+   "units": -94.39,
+   "roi": -4.2
   }
  },
  "combos": [
@@ -137,18 +137,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 12,
+    "w": 13,
     "l": 4,
-    "n": 16,
-    "units": 6.6,
-    "roi": 41.3
+    "n": 17,
+    "units": 7.57,
+    "roi": 44.5
    },
    "over": {
     "w": 4,
-    "l": 12,
-    "n": 16,
-    "units": -8.32,
-    "roi": -52.0
+    "l": 13,
+    "n": 17,
+    "units": -9.32,
+    "roi": -54.8
    }
   },
   {
@@ -163,18 +163,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 11,
+    "w": 12,
     "l": 4,
-    "n": 15,
-    "units": 5.92,
-    "roi": 39.5
+    "n": 16,
+    "units": 6.81,
+    "roi": 42.6
    },
    "over": {
     "w": 4,
-    "l": 11,
-    "n": 15,
-    "units": -7.58,
-    "roi": -50.5
+    "l": 12,
+    "n": 16,
+    "units": -8.58,
+    "roi": -53.6
    }
   },
   {
@@ -388,18 +388,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 25,
+    "w": 26,
     "l": 25,
-    "n": 50,
-    "units": -2.61,
-    "roi": -5.2
+    "n": 51,
+    "units": -1.57,
+    "roi": -3.1
    },
    "over": {
     "w": 25,
-    "l": 25,
-    "n": 50,
-    "units": -2.12,
-    "roi": -4.2
+    "l": 26,
+    "n": 51,
+    "units": -3.12,
+    "roi": -6.1
    }
   },
   {
@@ -456,69 +456,69 @@
   {
    "flag": "layoff",
    "under": {
-    "w": 127,
+    "w": 129,
     "l": 109,
-    "n": 236,
-    "units": 6.74,
-    "roi": 2.9
+    "n": 238,
+    "units": 8.59,
+    "roi": 3.6
    },
    "over": {
     "w": 109,
-    "l": 127,
-    "n": 236,
-    "units": -28.4,
-    "roi": -12.0
+    "l": 129,
+    "n": 238,
+    "units": -30.4,
+    "roi": -12.8
    }
   },
   {
    "flag": "stale-window",
    "under": {
-    "w": 115,
+    "w": 117,
     "l": 108,
-    "n": 223,
-    "units": -3.42,
-    "roi": -1.5
+    "n": 225,
+    "units": -1.56,
+    "roi": -0.7
    },
    "over": {
     "w": 108,
-    "l": 115,
-    "n": 223,
-    "units": -16.24,
-    "roi": -7.3
+    "l": 117,
+    "n": 225,
+    "units": -18.24,
+    "roi": -8.1
    }
   },
   {
    "flag": "opener",
    "under": {
-    "w": 111,
+    "w": 113,
     "l": 85,
-    "n": 196,
-    "units": 15.96,
-    "roi": 8.1
+    "n": 198,
+    "units": 17.96,
+    "roi": 9.1
    },
    "over": {
     "w": 85,
-    "l": 111,
-    "n": 196,
-    "units": -33.6,
-    "roi": -17.1
+    "l": 113,
+    "n": 198,
+    "units": -35.6,
+    "roi": -18.0
    }
   },
   {
    "flag": "swingman",
    "under": {
-    "w": 182,
+    "w": 184,
     "l": 141,
-    "n": 323,
-    "units": 24.17,
-    "roi": 7.5
+    "n": 325,
+    "units": 26.03,
+    "roi": 8.0
    },
    "over": {
     "w": 141,
-    "l": 182,
-    "n": 323,
-    "units": -53.27,
-    "roi": -16.5
+    "l": 184,
+    "n": 325,
+    "units": -55.27,
+    "roi": -17.0
    }
   }
  ]
