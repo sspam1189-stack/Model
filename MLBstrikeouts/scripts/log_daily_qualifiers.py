@@ -285,8 +285,17 @@ def drop_conflicting_totals(entries, date, now=None):
             # already counted it, so its partner is still passed.
             if _locked(e, now):
                 continue
-            if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
-                continue                       # already handled, nothing to do
+            # Already skipped: restore the note if anything stripped it, but
+            # do NOT report it again. This used to be
+            # `if conflict_skip and NOTE in basis: continue`, which made the
+            # report depend on the note SURVIVING -- and a re-price rewrites
+            # basis from the engine, so a flagged row fell through, re-added
+            # the note and re-announced itself on every run of the day. The
+            # data never showed it because the guard runs after the re-price
+            # in the same pass and repaired the note before the ledger was
+            # written; the cost was the noise and a needless write each run.
+            # conflict_skip is the durable flag, so key off that.
+            already = bool(e.get("conflict_skip"))
             # not_bet, not PUSH (user, 2026-09-02, after seeing what PUSH did
             # to the record). A push says the number landed and there was no
             # result; these games had results, and they were 21-30. Booking
@@ -301,7 +310,8 @@ def drop_conflicting_totals(entries, date, now=None):
             e["conflict_skip"] = True
             if NOTE not in (e.get("basis") or ""):
                 e["basis"] = (e.get("basis", "") + " " + NOTE).strip()
-            changed.append(e)
+            if not already:
+                changed.append(e)
     return changed
 
 
