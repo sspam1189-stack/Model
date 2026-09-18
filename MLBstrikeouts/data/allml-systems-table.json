@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-18T21:04:42Z",
+ "generated": "2026-09-18T23:01:50Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-17"
@@ -1047,19 +1047,34 @@
    "total": 8.5,
    "why": "favorite only -112 at a 8.5 total",
    "stale": true,
-   "stale_now": "favourite now -120, total still 8.5"
+   "stale_now": "favourite now -124, total still 8.5"
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 824547,
+   "date": "2026-09-18",
+   "commence": "2026-09-18T23:40:00Z",
+   "matchup": "DET @ CWS",
+   "away": "DET",
+   "home": "CWS",
+   "total": 8.5
   },
   {
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "TEX",
-   "price": 322,
+   "price": 316,
    "side": null,
-   "why": "TEX ML +116 with U7.5 -105, pays 4.22x",
+   "why": "TEX ML +116 with U7.5 -108, pays 4.16x",
    "line": 7.5,
    "ml_price": 116,
-   "under_price": -105,
-   "payout": 4.217,
+   "under_price": -108,
+   "payout": 4.16,
    "gamePk": 822847,
    "date": "2026-09-18",
    "commence": "2026-09-19T00:05:00Z",

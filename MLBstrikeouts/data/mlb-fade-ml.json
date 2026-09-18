@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-18T21:04:24Z",
+  "generated": "2026-09-18T23:01:33Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -164,6 +164,30 @@
     },
     {
       "date": "2026-09-18",
+      "commence": "2026-09-18T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 160,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "KC",
+      "gamePk": 823331,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-18",
       "commence": "2026-09-19T01:38:00Z",
       "betType": "ml_dog",
       "shadow": false,
@@ -210,30 +234,6 @@
       "away": "MIA",
       "gamePk": 823252,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-18",
-      "commence": "2026-09-18T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Paul Skenes"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": 160,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PIT",
-      "away": "KC",
-      "gamePk": 823331,
-      "fadeReason": "all"
     }
   ],
   "bets": [
