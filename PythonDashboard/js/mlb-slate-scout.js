@@ -946,15 +946,30 @@ async function renderMLBSlateScout() {
 
   // Returns the carded play for a row, or null. `team` is the starter's own
   // team, `faces` the offense he is up against -- a FADE backs the latter.
-  function mismatchPlay(m, team, faces) {
+  //
+  // THE VERB AND THE TEAM HAVE DIFFERENT SUBJECTS, which is why this used to
+  // render "FADE CLE ML" and get read as "fade Cleveland, back Oakland". The
+  // verb is what you do to THIS ROW'S PITCHER; the team is what you BET. On a
+  // TAIL they coincide -- tail the arm, back his team -- so "TAIL TEX ML"
+  // reads fine. On a FADE they are opposite sides: fade Barnett (OAK) and the
+  // bet is CLE. The cell never said whose arm was being faded, so the only
+  // thing it named was the team, and the verb attached itself to that.
+  //
+  // So the pitcher is named and the bet is separated by an arrow:
+  //   TAIL Espino -> CLE ML      FADE Barnett -> CLE ML
+  // Both of those read correctly on their own, which the old label did not.
+  function mismatchPlay(m, team, faces, pitcher) {
     if (m == null) return null;
+    // Surname alone: the column beside this one already has the full name,
+    // and the cell has to stay one line.
+    const who = String(pitcher || '').trim().split(/\s+/).pop() || '';
     const dim = { bg: 'rgba(139,148,158,.14)', fg: DIM };
     if (m <= MM_TAIL) return MM_LIVE
-      ? { act: 'TAIL', pick: team, bg: 'rgba(63,185,80,.18)', fg: '#3fb950' }
-      : { act: 'tail', pick: team, ...dim };
+      ? { act: 'TAIL', who, pick: team, bg: 'rgba(63,185,80,.18)', fg: '#3fb950' }
+      : { act: 'tail', who, pick: team, ...dim };
     if (m >= MM_FADE) return MM_LIVE
-      ? { act: 'FADE', pick: faces, bg: 'rgba(248,81,73,.18)', fg: '#f85149' }
-      : { act: 'fade', pick: faces, ...dim };
+      ? { act: 'FADE', who, pick: faces, bg: 'rgba(248,81,73,.18)', fg: '#f85149' }
+      : { act: 'fade', who, pick: faces, ...dim };
     return null;
   }
 
@@ -985,11 +1000,12 @@ async function renderMLBSlateScout() {
       + '<td><span style="padding:1px 6px;border-radius:3px;background:' + wrcColor(r.opp_wrc_vs_hand)
       + '">' + (r.opp_wrc_vs_hand == null ? '—' : r.opp_wrc_vs_hand) + '</span></td>'
       + '<td>' + (function () {
-          const p = mismatchPlay(r.mismatch, r.team, r.opponent_offense);
+          const p = mismatchPlay(r.mismatch, r.team, r.opponent_offense, r.pitcher);
           if (!p) return '<span style="color:' + DIM + '">—</span>';
           return '<span style="display:inline-block;padding:1px 6px;border-radius:3px;'
             + 'font-weight:600;white-space:nowrap;background:' + p.bg + ';color:' + p.fg
-            + '">' + p.act + ' ' + esc(p.pick) + ' ML</span>';
+            + '">' + p.act + (p.who ? ' ' + esc(p.who) : '')
+            + ' <span style="opacity:.75">→</span> ' + esc(p.pick) + ' ML</span>';
         })() + '</td>'
       + '<td>' + (r.flags || []).map(flagChip).join('') + '</td>'
       + '</tr>';
