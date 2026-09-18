@@ -207,6 +207,8 @@ def total_side(entry):
 
 
 NOTE = "Carded over and under on this game; neither side taken."
+SIDE_NOTE = ("Mismatch ML carded both teams in this game; neither side "
+             "taken.")
 
 
 def drop_conflicting_totals(entries, date, now=None):
@@ -300,6 +302,85 @@ def drop_conflicting_totals(entries, date, now=None):
             if NOTE not in (e.get("basis") or ""):
                 e["basis"] = (e.get("basis", "") + " " + NOTE).strip()
             changed.append(e)
+    return changed
+
+
+def drop_conflicting_sides(entries, date, now=None):
+    """When mismatch ML cards BOTH teams in one game, drop BOTH.
+
+    The rule fires per starter. Tailing a dominant arm backs his team and
+    fading a bad one backs the opponent, so two starters can point at
+    opposite teams in the same game -- four of the seven cases so far were
+    tail-vs-tail. When that happens the model is saying "back Washington"
+    and "back St. Louis" about one game, which is not two opportunities. It
+    is the inputs cancelling, and a signal pointing both ways carries no
+    information about the winner.
+
+    WHY BOTH, RATHER THAN PICKING ONE. Betting both is arithmetic: the two
+    positions cancel and you are left paying the vig. Twice in seven it was
+    worse than that -- 2026-06-04 BOS -116 / BAL -102 and 2026-09-18
+    WSH -104 / STL -112 had both sides at minus money, so no winning branch
+    existed before first pitch. Across six settled games betting both
+    returned -0.81u, -0.135u a game.
+
+    Every tiebreak was measured on those six games and none survives the
+    sample: take the wider |mismatch| 2-4 -2.74u, take the narrower 4-2
+    +1.93u, take the longer price 3-3 +0.18u, take the home side 4-2
+    +1.21u. Wider and narrower disagree by two games, and "wider" is mostly
+    "take the chalk" -- it was minus money in five of the six. The full
+    sample says home picks are the rule's stronger half (+10.9% against
+    +7.0%, n=153), but at p=0.25 that is not a tiebreak, it is a lean, and
+    importing it to resolve a contradiction inside a different signal is not
+    something six games can justify.
+
+    Unopposed plays are +10.2% against the rule's +8.9% all-in, so the
+    conflicts are the only cell dragging it down. Frequency is 7 of 150
+    games, about 4.7%, so this costs almost no volume.
+
+    MISMATCH ML ONLY, and deliberately. This is a rule disagreeing with
+    ITSELF, which is what was measured. drop_conflicting_totals learned the
+    same lesson from the other direction: cross-family disagreement is a
+    different event and was never measured, so it is not in scope here
+    either. Two rules landing on opposite teams stays untouched.
+
+    Mechanics follow drop_conflicting_totals exactly -- not_bet plus
+    conflict_skip, so the rows keep their real result and their place in the
+    rule's W-L and carry no units; _locked rows are left alone because a bet
+    already made stands; and locked rows still COUNT for detection, since a
+    settled play is proof the conflict was real.
+
+    Returns the rows it changed.
+    """
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    by_game = collections.defaultdict(list)
+    for e in entries:
+        if e.get("date") != date or e.get("shadow"):
+            continue
+        if e.get("rule") != "mismatch-ml" or e.get("market") != "h2h":
+            continue
+        by_game[e.get("gamePk") or e.get("game")].append(e)
+
+    changed = []
+    for rows in by_game.values():
+        sides = {(e.get("play") or "").split(" ML")[0].strip() for e in rows
+                 if not e.get("not_bet") or e.get("conflict_skip")}
+        if len(sides) < 2:
+            continue
+        for e in rows:
+            if _locked(e, now):
+                continue
+            # Already skipped: restore the note if a re-price stripped it, but
+            # do NOT report it again. conflict_skip is the durable flag and
+            # basis is rewritten from the engine on every re-price, so keying
+            # the report off the note would announce the same skip six times
+            # a day for the life of the row.
+            already = bool(e.get("conflict_skip"))
+            e["not_bet"] = True
+            e["conflict_skip"] = True
+            if SIDE_NOTE not in (e.get("basis") or ""):
+                e["basis"] = (e.get("basis", "") + " " + SIDE_NOTE).strip()
+            if not already:
+                changed.append(e)
     return changed
 
 
@@ -642,7 +723,14 @@ def main():
             # changes after the game it describes has started. Everything the
             # ledger owns rather than the market (result, profit, stake,
             # hand edits) is left alone.
-            if _locked(prior, now):
+            # A CONFLICT-SKIPPED ROW NO LONGER TRACKS THE MARKET. No money
+            # is on it, so there is no better number to be had -- and the
+            # guards append their reason to `basis`, which a re-price rewrites
+            # from the engine. Without this the row churns forever: re-price
+            # strips the note, the guard re-adds it, and the next run sees a
+            # difference again and reports "2 repriced" for the life of the
+            # row.
+            if _locked(prior, now) or prior.get("conflict_skip"):
                 continue
             changed = {k: v for k, v in entry.items()
                        if k in PRICE_FIELDS and prior.get(k) != v}
@@ -687,6 +775,13 @@ def main():
     for e in dropped:
         print(f"  SKIP-TOTAL {e['rule']:14} {e['play'][:40]:40} "
               f"carded over and under on this game")
+
+    # Same idea one market over: mismatch ML carding both teams in a game.
+    side_dropped = drop_conflicting_sides(blob["entries"] + added, date, now)
+    for e in side_dropped:
+        print(f"  SKIP-SIDE  {e['rule']:14} {e['play'][:40]:40} "
+              f"carded both teams in this game")
+    dropped = dropped + side_dropped
 
     for e, changed in moved:
         bits = ", ".join(f"{k} {v}" for k, v in sorted(changed.items()))

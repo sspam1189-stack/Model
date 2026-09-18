@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-18T13:05:59Z",
+  "generated": "2026-09-18T15:03:33Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -49041,13 +49041,15 @@
       "stake": 1.0,
       "rule": "mismatch-ml",
       "auto": true,
-      "basis": "tail -51.3 (Cade Cavalli) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
+      "basis": "tail -51.3 (Cade Cavalli) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure. Mismatch ML carded both teams in this game; neither side taken.",
       "result": "pending",
       "profit": 0.0,
       "gamePk": 823005,
       "commence": "2026-09-19T00:15:00Z",
       "open_line": null,
-      "open_price": -104
+      "open_price": -104,
+      "not_bet": true,
+      "conflict_skip": true
     },
     {
       "date": "2026-09-18",
@@ -49058,13 +49060,15 @@
       "stake": 1.0,
       "rule": "mismatch-ml",
       "auto": true,
-      "basis": "tail -50.0 (Kyle Leahy) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
+      "basis": "tail -50.0 (Kyle Leahy) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure. Mismatch ML carded both teams in this game; neither side taken.",
       "result": "pending",
       "profit": 0.0,
       "gamePk": 823005,
       "commence": "2026-09-19T00:15:00Z",
       "open_line": null,
-      "open_price": -112
+      "open_price": -112,
+      "not_bet": true,
+      "conflict_skip": true
     },
     {
       "date": "2026-09-18",

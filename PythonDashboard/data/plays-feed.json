@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-18T13:05:59Z",
+ "generated": "2026-09-18T15:03:47Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -92,11 +92,12 @@
    "game": "WSH @ STL",
    "gamePk": 823005,
    "commence": "2026-09-19T00:15:00Z",
-   "basis": "tail -51.3 (Cade Cavalli) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
+   "basis": "tail -51.3 (Cade Cavalli) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure. Mismatch ML carded both teams in this game; neither side taken.",
    "open_price": -104,
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "card"
+   "kind": "not_bet",
+   "conflict_skip": true
   },
   {
    "date": "2026-09-18",
@@ -109,11 +110,12 @@
    "game": "WSH @ STL",
    "gamePk": 823005,
    "commence": "2026-09-19T00:15:00Z",
-   "basis": "tail -50.0 (Kyle Leahy) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
+   "basis": "tail -50.0 (Kyle Leahy) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure. Mismatch ML carded both teams in this game; neither side taken.",
    "open_price": -112,
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "card"
+   "kind": "not_bet",
+   "conflict_skip": true
   },
   {
    "date": "2026-09-18",
@@ -47000,8 +47002,8 @@
    "w": 650,
    "l": 604,
    "push": 6,
-   "n": 1267,
-   "pending": 7,
+   "n": 1265,
+   "pending": 5,
    "units": 248.41
   },
   "by_rule": {
