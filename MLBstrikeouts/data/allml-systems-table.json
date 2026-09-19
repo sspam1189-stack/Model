@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-19T18:35:30Z",
+ "generated": "2026-09-19T21:04:46Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-18"
+  "to": "2026-09-19"
  },
- "games": 2306,
+ "games": 2307,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
@@ -317,7 +317,7 @@
      "roi": 29.5
     }
    ],
-   "per_day": 0.53
+   "per_day": 0.52
   },
   {
    "baseline_key": "parlay",
@@ -399,7 +399,7 @@
      "roi": -1.8
     }
    ],
-   "per_day": 1.54
+   "per_day": 1.53
   },
   {
    "baseline_key": "over",
@@ -629,7 +629,7 @@
      "roi": 21.7
     }
    ],
-   "per_day": 0.78
+   "per_day": 0.77
   },
   {
    "baseline_key": "over",
@@ -711,7 +711,7 @@
      "roi": 19.3
     }
    ],
-   "per_day": 1.45
+   "per_day": 1.44
   },
   {
    "baseline_key": "under",
@@ -793,7 +793,7 @@
      "roi": -28.4
     }
    ],
-   "per_day": 2.67
+   "per_day": 2.66
   },
   {
    "baseline_key": "side",
@@ -867,7 +867,7 @@
      "roi": -32.1
     }
    ],
-   "per_day": 1.13
+   "per_day": 1.12
   },
   {
    "baseline_key": "under",
@@ -941,7 +941,7 @@
      "roi": 23.5
     }
    ],
-   "per_day": 1.01
+   "per_day": 1.0
   }
  ],
  "today": [
@@ -949,9 +949,9 @@
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "OAK",
-   "price": 154,
+   "price": 150,
    "side": null,
-   "why": "Jacob Lopez \u2014 team +57% over his last 8 starts, priced +154",
+   "why": "Jacob Lopez \u2014 team +57% over his last 8 starts, priced +150",
    "gamePk": 824380,
    "date": "2026-09-19",
    "commence": "2026-09-19T22:10:00Z",
@@ -964,9 +964,9 @@
    "rule": "division-home-dog",
    "market": "h2h",
    "pick": "CIN",
-   "price": 120,
+   "price": 124,
    "side": null,
-   "why": "home to a NL Central rival at +120",
+   "why": "home to a NL Central rival at +124",
    "gamePk": 824461,
    "date": "2026-09-19",
    "commence": "2026-09-19T22:40:00Z",
@@ -979,13 +979,13 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "CIN",
-   "price": 292,
+   "price": 299,
    "side": null,
-   "why": "CIN ML +120 with U9.5 -128, pays 3.92x",
+   "why": "CIN ML +124 with U9.5 -128, pays 3.99x",
    "line": 9.5,
-   "ml_price": 120,
+   "ml_price": 124,
    "under_price": -128,
-   "payout": 3.919,
+   "payout": 3.99,
    "gamePk": 824461,
    "date": "2026-09-19",
    "commence": "2026-09-19T22:40:00Z",
@@ -1030,9 +1030,9 @@
    "rule": "pickem-under",
    "market": "totals",
    "pick": "under",
-   "price": -102,
+   "price": -106,
    "side": "U",
-   "why": "favorite only -110 at a 8.5 total",
+   "why": "favorite only -108 at a 8.5 total",
    "gamePk": 823003,
    "date": "2026-09-19",
    "commence": "2026-09-19T23:15:00Z",
@@ -1131,9 +1131,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -120,
+   "price": -122,
    "side": "U",
-   "why": "book laying -120 on the under",
+   "why": "book laying -122 on the under",
    "gamePk": 823899,
    "date": "2026-09-19",
    "commence": "2026-09-20T01:10:00Z",
