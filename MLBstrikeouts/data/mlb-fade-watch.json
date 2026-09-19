@@ -1,67 +1,94 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-19T00:31:24Z",
+  "generated": "2026-09-19T13:05:16Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-18",
-      "commence": "2026-09-18T22:40:00Z",
+      "date": "2026-09-19",
+      "commence": "2026-09-19T18:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Clay Holmes",
-      "arm_team": "CHC",
-      "fadeTeam": "CHC",
-      "selection": "CIN",
-      "home": "CIN",
-      "away": "CHC",
-      "venue": "away",
-      "odds": 118,
-      "suggest": "away",
-      "suggestUnits": 4.64,
-      "games": 6,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-18",
-      "commence": "2026-09-18T23:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Ian Seymour",
-      "arm_team": "TB",
-      "fadeTeam": "TB",
-      "selection": "BOS",
-      "home": "TB",
-      "away": "BOS",
+      "pitcher": "Sean Burke",
+      "arm_team": "CWS",
+      "fadeTeam": "CWS",
+      "selection": "DET",
+      "home": "CWS",
+      "away": "DET",
       "venue": "home",
-      "odds": 112,
+      "odds": 118,
       "suggest": "home",
-      "suggestUnits": 2.6,
-      "games": 9,
+      "suggestUnits": 3.52,
+      "games": 15,
       "result": "pending"
     },
     {
-      "date": "2026-09-18",
-      "commence": "2026-09-18T23:15:00Z",
+      "date": "2026-09-19",
+      "commence": "2026-09-19T23:15:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Tim Mayza",
-      "arm_team": "PHI",
-      "fadeTeam": "PHI",
-      "selection": "NYM",
-      "home": "NYM",
-      "away": "PHI",
+      "pitcher": "Andrew Alvarez",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "STL",
+      "home": "STL",
+      "away": "WSH",
       "venue": "away",
-      "odds": -124,
+      "odds": -130,
       "suggest": "away",
-      "suggestUnits": 3.0,
-      "games": 3,
+      "suggestUnits": 3.74,
+      "games": 8,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-19",
+      "commence": "2026-09-20T01:38:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Reid Detmers",
+      "arm_team": "LAA",
+      "fadeTeam": "LAA",
+      "selection": "MIN",
+      "home": "LAA",
+      "away": "MIN",
+      "venue": "home",
+      "odds": -108,
+      "suggest": "home",
+      "suggestUnits": 3.8,
+      "games": 16,
       "result": "pending"
     }
   ],
   "candidates": [
+    {
+      "pitcher": "Clay Holmes",
+      "team": "CHC",
+      "suggest": "away",
+      "suggestUnits": 5.82,
+      "all": {
+        "w": 9,
+        "l": 6,
+        "u": 4.26,
+        "n": 15,
+        "roi": 0.2579
+      },
+      "home": {
+        "w": 3,
+        "l": 5,
+        "u": -1.56,
+        "n": 8,
+        "roi": -0.1831
+      },
+      "away": {
+        "w": 6,
+        "l": 1,
+        "u": 5.82,
+        "n": 7,
+        "roi": 0.7275
+      }
+    },
     {
       "pitcher": "Tanner Gordon",
       "team": "COL",
@@ -117,33 +144,6 @@
       }
     },
     {
-      "pitcher": "Clay Holmes",
-      "team": "CHC",
-      "suggest": "away",
-      "suggestUnits": 4.64,
-      "all": {
-        "w": 8,
-        "l": 6,
-        "u": 3.08,
-        "n": 14,
-        "roi": 0.1985
-      },
-      "home": {
-        "w": 3,
-        "l": 5,
-        "u": -1.56,
-        "n": 8,
-        "roi": -0.1831
-      },
-      "away": {
-        "w": 5,
-        "l": 1,
-        "u": 4.64,
-        "n": 6,
-        "roi": 0.6629
-      }
-    },
-    {
       "pitcher": "Cody Bradford",
       "team": "TEX",
       "suggest": "away",
@@ -195,6 +195,33 @@
         "u": -1.64,
         "n": 7,
         "roi": -0.1962
+      }
+    },
+    {
+      "pitcher": "Tim Mayza",
+      "team": "PHI",
+      "suggest": "away",
+      "suggestUnits": 4.0,
+      "all": {
+        "w": 5,
+        "l": 1,
+        "u": 4.0,
+        "n": 6,
+        "roi": 0.542
+      },
+      "home": {
+        "w": 1,
+        "l": 1,
+        "u": 0.0,
+        "n": 2,
+        "roi": 0.0
+      },
+      "away": {
+        "w": 4,
+        "l": 0,
+        "u": 4.0,
+        "n": 4,
+        "roi": 0.7812
       }
     },
     {
@@ -330,6 +357,33 @@
         "u": 3.74,
         "n": 8,
         "roi": 0.3278
+      }
+    },
+    {
+      "pitcher": "Ian Seymour",
+      "team": "TB",
+      "suggest": "home",
+      "suggestUnits": 3.72,
+      "all": {
+        "w": 8,
+        "l": 7,
+        "u": 2.66,
+        "n": 15,
+        "roi": 0.1736
+      },
+      "home": {
+        "w": 6,
+        "l": 4,
+        "u": 3.72,
+        "n": 10,
+        "roi": 0.3661
+      },
+      "away": {
+        "w": 2,
+        "l": 3,
+        "u": -1.06,
+        "n": 5,
+        "roi": -0.2054
       }
     },
     {
@@ -495,6 +549,33 @@
       }
     },
     {
+      "pitcher": "Randy Dobnak",
+      "team": "KC",
+      "suggest": "away",
+      "suggestUnits": 3.02,
+      "all": {
+        "w": 7,
+        "l": 5,
+        "u": 0.32,
+        "n": 12,
+        "roi": 0.0172
+      },
+      "home": {
+        "w": 2,
+        "l": 4,
+        "u": -2.7,
+        "n": 6,
+        "roi": -0.3719
+      },
+      "away": {
+        "w": 5,
+        "l": 1,
+        "u": 3.02,
+        "n": 6,
+        "roi": 0.2673
+      }
+    },
+    {
       "pitcher": "Tobias Myers",
       "team": "NYM",
       "suggest": "away",
@@ -549,30 +630,30 @@
       }
     },
     {
-      "pitcher": "Tim Mayza",
-      "team": "PHI",
+      "pitcher": "Mason Barnett",
+      "team": "OAK",
       "suggest": "away",
       "suggestUnits": 3.0,
       "all": {
-        "w": 4,
-        "l": 1,
-        "u": 3.0,
+        "w": 5,
+        "l": 0,
+        "u": 5.0,
         "n": 5,
-        "roi": 0.4886
+        "roi": 0.5274
       },
       "home": {
-        "w": 1,
-        "l": 1,
-        "u": 0.0,
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
         "n": 2,
-        "roi": 0.0
+        "roi": 0.5405
       },
       "away": {
         "w": 3,
         "l": 0,
         "u": 3.0,
         "n": 3,
-        "roi": 0.7732
+        "roi": 0.519
       }
     },
     {
@@ -708,33 +789,6 @@
         "u": 2.68,
         "n": 13,
         "roi": 0.1934
-      }
-    },
-    {
-      "pitcher": "Ian Seymour",
-      "team": "TB",
-      "suggest": "home",
-      "suggestUnits": 2.6,
-      "all": {
-        "w": 7,
-        "l": 7,
-        "u": 1.54,
-        "n": 14,
-        "roi": 0.1075
-      },
-      "home": {
-        "w": 5,
-        "l": 4,
-        "u": 2.6,
-        "n": 9,
-        "roi": 0.2838
-      },
-      "away": {
-        "w": 2,
-        "l": 3,
-        "u": -1.06,
-        "n": 5,
-        "roi": -0.2054
       }
     }
   ]

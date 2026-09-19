@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-19T00:31:27Z",
+  "generated": "2026-09-19T13:05:19Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -683,6 +683,22 @@
       }
     },
     {
+      "pitcher": "Dylan Cease",
+      "opp": "TEX",
+      "arm_team": "TOR",
+      "eraVsOpp": 6.14,
+      "ipVsOpp": 7.3,
+      "erVsOpp": 5,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 2,
+        "l": 0,
+        "u": 2.8,
+        "n": 2,
+        "roi": 1.4
+      }
+    },
+    {
       "pitcher": "Justin Wrobleski",
       "opp": "CHC",
       "arm_team": "LAD",
@@ -760,6 +776,22 @@
         "u": 3.32,
         "n": 3,
         "roi": 0.8737
+      }
+    },
+    {
+      "pitcher": "Ian Seymour",
+      "opp": "BOS",
+      "arm_team": "TB",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 12.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 2,
+        "l": 1,
+        "u": 0.96,
+        "n": 3,
+        "roi": 0.2945
       }
     },
     {

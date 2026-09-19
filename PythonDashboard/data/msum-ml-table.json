@@ -1,10 +1,10 @@
 {
  "sport": "MLB",
  "type": "msum-ml-table",
- "generated": "2026-09-19T00:31:43Z",
+ "generated": "2026-09-19T13:05:38Z",
  "span": {
   "from": "2026-04-12",
-  "to": "2026-09-17"
+  "to": "2026-09-18"
  },
  "threshold": 40.0,
  "status": "card",
@@ -28,32 +28,32 @@
    "roi": 19.6
   },
   "favorite": {
-   "w": 70,
+   "w": 71,
    "l": 48,
-   "n": 118,
-   "units": 0.9,
-   "roi": 0.8
+   "n": 119,
+   "units": 1.59,
+   "roi": 1.3
   },
   "pool_all": {
-   "w": 92,
+   "w": 93,
    "l": 67,
-   "n": 159,
-   "units": 8.92,
-   "roi": 5.6
+   "n": 160,
+   "units": 9.61,
+   "roi": 6.0
   },
   "control_back_favorite": {
-   "w": 90,
+   "w": 91,
    "l": 69,
-   "n": 159,
-   "units": -5.77,
-   "roi": -3.6
+   "n": 160,
+   "units": -5.08,
+   "roi": -3.2
   },
   "outside_pool": {
-   "w": 777,
-   "l": 631,
-   "n": 1408,
-   "units": 5.55,
-   "roi": 0.4
+   "w": 782,
+   "l": 637,
+   "n": 1419,
+   "units": 2.88,
+   "roi": 0.2
   }
  },
  "monthly": [

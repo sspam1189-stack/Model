@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-19T00:31:54Z",
+ "generated": "2026-09-19T13:05:49Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-17"
+  "to": "2026-09-18"
  },
- "games": 2289,
+ "games": 2304,
  "baselines": {
   "side": -3.4,
-  "under": -5.2,
-  "over": -4.2
+  "under": -5.4,
+  "over": -4.0
  },
  "note": "Season history for the scout rules that had no table: Form under, Aligned ML and Mismatch ML. Replayed as-of each game date -- a game's own result is never in the features that select it. CAVEAT: the live rules read published wRC+ cells; this replay uses the wOBA index computed from the batter PA logs, the only version recomputable for a past date. Same construction, same input, not byte-identical -- a faithful replay of the rule, not of the exact cells the tab printed.",
  "rules": [
@@ -21,17 +21,17 @@
    "rule": "m_sum <= -40: both arms outclassed by the bats -> under.",
    "status": "shadow",
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.4,
    "record": {
     "w": 88,
-    "l": 70,
-    "n": 158,
-    "units": 9.07,
-    "roi": 5.7
+    "l": 71,
+    "n": 159,
+    "units": 8.07,
+    "roi": 5.1
    },
    "halves": [
     24.9,
-    -4.8
+    -5.7
    ],
    "monthly": [
     {
@@ -77,10 +77,10 @@
     {
      "month": "2026-09",
      "w": 4,
-     "l": 18,
-     "n": 22,
-     "units": -14.38,
-     "roi": -65.4
+     "l": 19,
+     "n": 23,
+     "units": -15.38,
+     "roi": -66.9
     }
    ],
    "per_day": 0.91
@@ -149,15 +149,15 @@
    "baseline_key": "side",
    "baseline": -3.4,
    "record": {
-    "w": 67,
+    "w": 69,
     "l": 43,
-    "n": 110,
-    "units": 7.45,
-    "roi": 6.8
+    "n": 112,
+    "units": 8.78,
+    "roi": 7.8
    },
    "halves": [
     14.3,
-    1.0
+    3.0
    ],
    "monthly": [
     {
@@ -202,14 +202,14 @@
     },
     {
      "month": "2026-09",
-     "w": 4,
+     "w": 6,
      "l": 3,
-     "n": 7,
-     "units": 0.9,
-     "roi": 12.9
+     "n": 9,
+     "units": 2.23,
+     "roi": 24.8
     }
    ],
-   "per_day": 0.63
+   "per_day": 0.64
   }
  ]
 }
