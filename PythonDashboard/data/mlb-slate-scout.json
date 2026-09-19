@@ -421,11 +421,11 @@
       "away": "MIL",
       "home": "BAL",
       "commence": "2026-09-19T20:05:00Z",
-      "away_ml": -112,
-      "home_ml": -104,
+      "away_ml": -108,
+      "home_ml": -108,
       "total": 7.5,
-      "over_ml": -118,
-      "under_ml": -104,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Robert Gasser",
@@ -817,38 +817,134 @@
       "away": "BOS",
       "home": "TB",
       "commence": "2026-09-19T20:10:00Z",
-      "away_ml": 126,
-      "home_ml": -148,
+      "away_ml": 122,
+      "home_ml": -144,
       "total": 7.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": -104,
+      "under_ml": -118,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Brayan Bello",
+          "listed_as": "Brayan Bello",
+          "resolved": true,
+          "hand": "R",
           "team": "BOS",
           "opponent_offense": "TB",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 100,
+          "opp_wrc_game": 89,
+          "opp_wrc_recent": 112,
+          "opp_wrc_recent_pa": 1148,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 93,
+              "pa": 650,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 100,
+              "pa": 415,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 121,
+              "pa": 300,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 139,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 0,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 9,
+              "ip": 40.7,
+              "ip_per_gs": 4.52,
+              "era": 9.07,
+              "whip": 2.09,
+              "k_pct": 14.0,
+              "bb_pct": 11.1,
+              "k_bb_pct": 2.9,
+              "hr9": 2.21,
+              "k": 29,
+              "bb": 23,
+              "hr": 10,
+              "er": 41
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 22.0,
+              "ip_per_gs": 4.4,
+              "era": 11.05,
+              "whip": 2.23,
+              "k_pct": 13.9,
+              "bb_pct": 9.6,
+              "k_bb_pct": 4.3,
+              "hr9": 2.86,
+              "k": 16,
+              "bb": 11,
+              "hr": 7,
+              "er": 27
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 15.0,
+              "ip_per_gs": 5.0,
+              "era": 9.0,
+              "whip": 1.8,
+              "k_pct": 16.2,
+              "bb_pct": 10.8,
+              "k_bb_pct": 5.4,
+              "hr9": 1.2,
+              "k": 12,
+              "bb": 8,
+              "hr": 2,
+              "er": 15
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 16.0,
+              "ip_per_g": 3.2,
+              "era": 5.06,
+              "whip": 1.56,
+              "k_pct": 16.2,
+              "bb_pct": 9.5,
+              "k_bb_pct": 6.8,
+              "hr9": 0.0,
+              "k": 12,
+              "bb": 7,
+              "hr": 0,
+              "er": 9,
+              "gs": 1
+            },
+            "relief": {
+              "g": 15,
+              "ip": 63.7,
+              "ip_per_g": 4.24,
+              "era": 1.98,
+              "whip": 1.01,
+              "k_pct": 19.8,
+              "bb_pct": 4.8,
+              "k_bb_pct": 15.1,
+              "hr9": 0.14,
+              "k": 50,
+              "bb": 12,
+              "hr": 1,
+              "er": 14,
+              "from": "2026-05-05",
+              "to": "2026-09-15"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 1.98,
+            "whip": 0.14,
+            "k_pct": -0.1,
+            "bb_pct": -1.5,
+            "ip_per_gs": -0.12,
+            "hr9": 0.65
+          },
           "pen": {
             "last30": {
               "g": 79,
@@ -916,14 +1012,15 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "stale-window-136d",
+            "swingman-15g"
           ],
-          "mismatch": null,
+          "mismatch": 66.1,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            93,
+            100,
+            121,
+            96
           ]
         },
         "home": {
@@ -1108,10 +1205,10 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 89,
       "away_offense_game": 92,
-      "game_offense": null,
-      "offense_edge": null,
+      "game_offense": 90,
+      "offense_edge": 3,
       "aligned_ml": null
     },
     {
@@ -1122,8 +1219,8 @@
       "away_ml": 102,
       "home_ml": -120,
       "total": 7.5,
-      "over_ml": -128,
-      "under_ml": 104,
+      "over_ml": -124,
+      "under_ml": 102,
       "sides": {
         "away": {
           "pitcher": "Andrew Painter",
@@ -1499,8 +1596,8 @@
       "away": "OAK",
       "home": "CLE",
       "commence": "2026-09-19T22:10:00Z",
-      "away_ml": 150,
-      "home_ml": -178,
+      "away_ml": 154,
+      "home_ml": -184,
       "total": 7.5,
       "over_ml": -118,
       "under_ml": -104,
@@ -1879,8 +1976,8 @@
       "away": "CHC",
       "home": "CIN",
       "commence": "2026-09-19T22:40:00Z",
-      "away_ml": -138,
-      "home_ml": 118,
+      "away_ml": -142,
+      "home_ml": 120,
       "total": 9.5,
       "over_ml": 104,
       "under_ml": -128,
@@ -2259,8 +2356,8 @@
       "away": "KC",
       "home": "PIT",
       "commence": "2026-09-19T22:40:00Z",
-      "away_ml": -104,
-      "home_ml": -112,
+      "away_ml": -102,
+      "home_ml": -116,
       "total": 7.5,
       "over_ml": -128,
       "under_ml": 104,
@@ -2639,11 +2736,11 @@
       "away": "TOR",
       "home": "TEX",
       "commence": "2026-09-19T23:05:00Z",
-      "away_ml": -112,
-      "home_ml": -104,
+      "away_ml": -102,
+      "home_ml": -116,
       "total": 7.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "over_ml": -118,
+      "under_ml": -104,
       "sides": {
         "away": {
           "pitcher": "Jos\u00e9 Soriano",
@@ -3399,8 +3496,8 @@
       "away": "WSH",
       "home": "STL",
       "commence": "2026-09-19T23:15:00Z",
-      "away_ml": -104,
-      "home_ml": -112,
+      "away_ml": -106,
+      "home_ml": -110,
       "total": 8.5,
       "over_ml": -120,
       "under_ml": -102,
@@ -4161,8 +4258,8 @@
       "away": "NYY",
       "home": "ARI",
       "commence": "2026-09-20T00:10:00Z",
-      "away_ml": -162,
-      "home_ml": 136,
+      "away_ml": -164,
+      "home_ml": 138,
       "total": 7.5,
       "over_ml": 102,
       "under_ml": -124,
@@ -4921,38 +5018,134 @@
       "away": "SF",
       "home": "LAD",
       "commence": "2026-09-20T01:10:00Z",
-      "away_ml": 320,
-      "home_ml": -405,
+      "away_ml": 330,
+      "home_ml": -420,
       "total": 7.5,
-      "over_ml": -106,
-      "under_ml": -114,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Yunior Marte",
+          "listed_as": "Yunior Marte",
+          "resolved": true,
+          "hand": "R",
           "team": "SF",
           "opponent_offense": "LAD",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 115,
+          "opp_wrc_game": 129,
+          "opp_wrc_recent": 95,
+          "opp_wrc_recent_pa": 1021,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 105,
+              "pa": 665,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 115,
+              "pa": 433,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 117,
+              "pa": 328,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 116,
+              "pa": 178,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 16,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 1,
+              "ip": 4.7,
+              "ip_per_gs": 4.67,
+              "era": 1.93,
+              "whip": 1.07,
+              "k_pct": 16.7,
+              "bb_pct": 11.1,
+              "k_bb_pct": 5.6,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 2,
+              "hr": 0,
+              "er": 1
+            },
+            "recent": {
+              "gs": 1,
+              "ip": 4.7,
+              "ip_per_gs": 4.67,
+              "era": 1.93,
+              "whip": 1.07,
+              "k_pct": 16.7,
+              "bb_pct": 11.1,
+              "k_bb_pct": 5.6,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 2,
+              "hr": 0,
+              "er": 1
+            },
+            "hot": {
+              "gs": 1,
+              "ip": 4.7,
+              "ip_per_gs": 4.67,
+              "era": 1.93,
+              "whip": 1.07,
+              "k_pct": 16.7,
+              "bb_pct": 11.1,
+              "k_bb_pct": 5.6,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 2,
+              "hr": 0,
+              "er": 1
+            },
+            "recent_all": {
+              "g": 4,
+              "ip": 15.0,
+              "ip_per_g": 3.75,
+              "era": 4.8,
+              "whip": 1.33,
+              "k_pct": 15.4,
+              "bb_pct": 10.8,
+              "k_bb_pct": 4.6,
+              "hr9": 1.2,
+              "k": 10,
+              "bb": 7,
+              "hr": 2,
+              "er": 8,
+              "gs": 1
+            },
+            "relief": {
+              "g": 2,
+              "ip": 10.0,
+              "ip_per_g": 5.0,
+              "era": 2.7,
+              "whip": 1.1,
+              "k_pct": 14.6,
+              "bb_pct": 9.8,
+              "k_bb_pct": 4.9,
+              "hr9": 1.8,
+              "k": 6,
+              "bb": 4,
+              "hr": 2,
+              "er": 3,
+              "from": "2026-09-04",
+              "to": "2026-09-11"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 96,
@@ -5020,14 +5213,16 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "thin-sample",
+            "layoff-21d",
+            "swingman-2g"
           ],
-          "mismatch": null,
+          "mismatch": 6.6,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            105,
+            115,
+            117,
+            116
           ]
         },
         "home": {
@@ -5212,10 +5407,10 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 129,
       "away_offense_game": 110,
-      "game_offense": null,
-      "offense_edge": null,
+      "game_offense": 120,
+      "offense_edge": -19,
       "aligned_ml": null
     },
     {
@@ -5223,11 +5418,11 @@
       "away": "MIN",
       "home": "LAA",
       "commence": "2026-09-20T01:38:00Z",
-      "away_ml": -108,
-      "home_ml": -108,
+      "away_ml": -104,
+      "home_ml": -112,
       "total": 7.5,
-      "over_ml": 104,
-      "under_ml": -128,
+      "over_ml": 100,
+      "under_ml": -122,
       "sides": {
         "away": {
           "pitcher": "Joe Ryan",
@@ -5603,6 +5798,19 @@
   ],
   "ranked_mismatch": [
     {
+      "pitcher": "Brayan Bello",
+      "hand": "R",
+      "team": "BOS",
+      "opponent_offense": "TB",
+      "opp_wrc_vs_hand": 100,
+      "opp_wrc_recent": 112,
+      "mismatch": 66.1,
+      "flags": [
+        "stale-window-136d",
+        "swingman-15g"
+      ]
+    },
+    {
       "pitcher": "Eury P\u00e9rez",
       "hand": "R",
       "team": "MIA",
@@ -5704,6 +5912,20 @@
       "mismatch": 8.0,
       "flags": [
         "stale-window-55d"
+      ]
+    },
+    {
+      "pitcher": "Yunior Marte",
+      "hand": "R",
+      "team": "SF",
+      "opponent_offense": "LAD",
+      "opp_wrc_vs_hand": 115,
+      "opp_wrc_recent": 95,
+      "mismatch": 6.6,
+      "flags": [
+        "thin-sample",
+        "layoff-21d",
+        "swingman-2g"
       ]
     },
     {
@@ -5887,7 +6109,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-19T16:04:07Z",
+  "generated": "2026-09-19T18:35:23Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
