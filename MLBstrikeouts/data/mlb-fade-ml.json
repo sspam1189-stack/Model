@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-19T21:04:17Z",
+  "generated": "2026-09-19T23:01:55Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 545,
+    "wins": 547,
     "losses": 227,
     "voids": 0,
     "skips": 58,
-    "staked": 977.07,
-    "units": 321.02,
-    "roi": 0.3286,
+    "staked": 979.59,
+    "units": 323.02,
+    "roi": 0.3298,
     "byType": {
       "ml": {
-        "wins": 533,
+        "wins": 535,
         "losses": 215,
         "voids": 0,
         "skips": 5,
-        "staked": 953.07,
-        "units": 316.54,
-        "roi": 0.3321
+        "staked": 955.59,
+        "units": 318.54,
+        "roi": 0.3333
       },
       "ml_dog": {
         "wins": 12,
@@ -113,54 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-19",
-      "commence": "2026-09-19T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Trevor Rogers"
-      ],
-      "fadeTeam": "BAL",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -108,
-      "stake": 1.08,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BAL",
-      "away": "MIL",
-      "gamePk": 824788,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-19",
-      "commence": "2026-09-19T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Brayan Bello"
-      ],
-      "fadeTeam": "BOS",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -144,
-      "stake": 1.44,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TB",
-      "away": "BOS",
-      "gamePk": 822921,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-09-19",
       "commence": "2026-09-19T22:40:00Z",
@@ -20231,6 +20183,54 @@
       "away": "MIA",
       "gamePk": 823252,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-19",
+      "commence": "2026-09-19T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor Rogers"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "MIL",
+      "gamePk": 824788,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-19",
+      "commence": "2026-09-19T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TB",
+      "away": "BOS",
+      "gamePk": 822921,
+      "fadeReason": "all"
     }
   ]
 }

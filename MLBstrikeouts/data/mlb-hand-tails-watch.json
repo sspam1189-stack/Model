@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-19T21:04:26Z",
+  "generated": "2026-09-19T23:02:05Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,30 @@
       "lineupConfirmed": true,
       "odds": -108,
       "suggest": "fade",
-      "suggestUnits": 2.82,
-      "games": 21,
+      "suggestUnits": 3.82,
+      "games": 22,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-19",
+      "commence": "2026-09-19T20:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Freddy Peralta",
+      "hand": "R",
+      "arm_team": "TB",
+      "opp_team": "BOS",
+      "selection": "TB",
+      "home": "TB",
+      "away": "BOS",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -144,
+      "suggest": "take",
+      "suggestUnits": 4.22,
+      "games": 15,
       "result": "pending"
     },
     {
@@ -48,8 +70,8 @@
       "lineupConfirmed": true,
       "odds": -144,
       "suggest": "fade",
-      "suggestUnits": 3.0,
-      "games": 3,
+      "suggestUnits": 4.0,
+      "games": 4,
       "result": "pending"
     },
     {
@@ -95,28 +117,6 @@
       "suggestUnits": 7.04,
       "games": 21,
       "result": "pending"
-    },
-    {
-      "date": "2026-09-19",
-      "commence": "2026-09-20T00:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Brandon Pfaadt",
-      "hand": "R",
-      "arm_team": "ARI",
-      "opp_team": "NYY",
-      "selection": "ARI",
-      "home": "ARI",
-      "away": "NYY",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "take",
-      "suggestUnits": 4.2,
-      "games": 6,
-      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -625,6 +625,24 @@
       "era": 3.78
     },
     {
+      "pitcher": "Freddy Peralta",
+      "hand": "R",
+      "games": 15,
+      "suggest": "take",
+      "suggestUnits": 4.22,
+      "fade": {
+        "w": 5,
+        "l": 10,
+        "u": -5.44
+      },
+      "take": {
+        "w": 10,
+        "l": 5,
+        "u": 4.22
+      },
+      "era": 4.67
+    },
+    {
       "pitcher": "Brandon Pfaadt",
       "hand": "R",
       "games": 6,
@@ -661,6 +679,24 @@
       "era": 3.86
     },
     {
+      "pitcher": "Brayan Bello",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 4.0,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 4.0
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.16
+      },
+      "era": 9.07
+    },
+    {
       "pitcher": "Yoshinobu Yamamoto",
       "hand": "R",
       "games": 4,
@@ -677,6 +713,24 @@
         "u": 4.0
       },
       "era": 2.51
+    },
+    {
+      "pitcher": "Trevor Rogers",
+      "hand": "L",
+      "games": 22,
+      "suggest": "fade",
+      "suggestUnits": 3.82,
+      "fade": {
+        "w": 13,
+        "l": 9,
+        "u": 3.82
+      },
+      "take": {
+        "w": 9,
+        "l": 13,
+        "u": -5.96
+      },
+      "era": 4.22
     },
     {
       "pitcher": "Zac Gallen",
@@ -823,24 +877,6 @@
       "era": 5.32
     },
     {
-      "pitcher": "Brayan Bello",
-      "hand": "R",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.16
-      },
-      "era": 9.07
-    },
-    {
       "pitcher": "Simeon Woods Richardson",
       "hand": "R",
       "games": 3,
@@ -929,24 +965,6 @@
         "u": -3.34
       },
       "era": 5.35
-    },
-    {
-      "pitcher": "Trevor Rogers",
-      "hand": "L",
-      "games": 21,
-      "suggest": "fade",
-      "suggestUnits": 2.82,
-      "fade": {
-        "w": 12,
-        "l": 9,
-        "u": 2.82
-      },
-      "take": {
-        "w": 9,
-        "l": 12,
-        "u": -4.88
-      },
-      "era": 4.22
     },
     {
       "pitcher": "Luis Castillo",

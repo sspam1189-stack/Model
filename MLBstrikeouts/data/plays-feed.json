@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-19T21:05:02Z",
+ "generated": "2026-09-19T23:02:44Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -16,7 +16,7 @@
    "game": "MIN @ LAA",
    "gamePk": 823976,
    "commence": "2026-09-20T01:38:00Z",
-   "basis": "m_sum -77.1 <= -40; both arms outclass the bats. Also flagged.",
+   "basis": "m_sum -76.1 <= -40; both arms outclass the bats. Also flagged.",
    "open_line": 7.5,
    "open_price": -130,
    "name": "Form under",
@@ -25,7 +25,7 @@
   },
   {
    "date": "2026-09-19",
-   "play": "LAA ML (mismatch -84.1)",
+   "play": "LAA ML (mismatch -83.1)",
    "market": "h2h",
    "price": -112,
    "rule": "mismatch-ml",
@@ -34,7 +34,7 @@
    "game": "MIN @ LAA",
    "gamePk": 823976,
    "commence": "2026-09-20T01:38:00Z",
-   "basis": "tail -84.1 (Reid Detmers) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
+   "basis": "tail -83.1 (Reid Detmers) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
    "open_price": -108,
    "name": "Mismatch ML",
    "group": "scout",
@@ -146,7 +146,7 @@
    "game": "NYY @ ARI",
    "gamePk": 825029,
    "commence": "2026-09-20T00:10:00Z",
-   "basis": "m_sum -52.9 <= -40; both arms outclass the bats. Unflagged.",
+   "basis": "m_sum -50.9 <= -40; both arms outclass the bats. Unflagged.",
    "open_line": 7.5,
    "open_price": -128,
    "name": "Form under",
@@ -193,7 +193,7 @@
   },
   {
    "date": "2026-09-19",
-   "play": "NYY ML (mismatch -49.6)",
+   "play": "NYY ML (mismatch -48.6)",
    "market": "h2h",
    "price": -164,
    "rule": "mismatch-ml",
@@ -202,7 +202,7 @@
    "game": "NYY @ ARI",
    "gamePk": 825029,
    "commence": "2026-09-20T00:10:00Z",
-   "basis": "tail -49.6 (Cam Schlittler) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
+   "basis": "tail -48.6 (Cam Schlittler) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
    "open_price": -138,
    "name": "Mismatch ML",
    "group": "scout",
@@ -251,7 +251,7 @@
    "play": "WSH/STL U8.5",
    "market": "totals",
    "line": 8.5,
-   "price": -106,
+   "price": -102,
    "rule": "pickem-under",
    "result": "pending",
    "profit": 0.0,
@@ -365,15 +365,18 @@
    "line": 7.5,
    "price": -104,
    "rule": "flag-plays",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "BOS @ TB",
    "gamePk": 822921,
    "commence": "2026-09-19T20:10:00Z",
    "basis": "Verdict over for swingman+stale-window. Brayan Bello swingman-15g, stale-window-136d.",
    "combo": "swingman+stale-window",
    "open_line": 7.5,
+   "close_line": 7.5,
+   "line_move": 0.0,
    "open_price": -104,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "not_bet"
@@ -384,13 +387,16 @@
    "market": "h2h",
    "price": -144,
    "rule": "mismatch-ml",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "WIN",
+   "profit": 0.69,
    "game": "BOS @ TB",
    "gamePk": 822921,
    "commence": "2026-09-19T20:10:00Z",
    "basis": "fade +66.1 (Brayan Bello) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
    "open_price": -144,
+   "close_price": -144,
+   "price_move": 0.0,
+   "clv": "flat",
    "name": "Mismatch ML",
    "group": "scout",
    "kind": "card"
@@ -47581,20 +47587,20 @@
  ],
  "summary": {
   "all": {
-   "w": 1335,
-   "l": 1218,
+   "w": 1336,
+   "l": 1219,
    "push": 28,
    "n": 2602,
-   "pending": 21,
-   "units": 244.76
+   "pending": 19,
+   "units": 245.45
   },
   "card": {
-   "w": 653,
+   "w": 654,
    "l": 610,
    "push": 6,
    "n": 1277,
-   "pending": 8,
-   "units": 244.76
+   "pending": 7,
+   "units": 245.45
   },
   "by_rule": {
    "aligned-ml": {
@@ -47663,10 +47669,10 @@
    },
    "flag-plays": {
     "w": 33,
-    "l": 35,
+    "l": 36,
     "push": 0,
     "n": 70,
-    "pending": 2,
+    "pending": 1,
     "units": -0.73
    },
    "form-under": {
@@ -47718,12 +47724,12 @@
     "units": 0
    },
    "mismatch-ml": {
-    "w": 97,
+    "w": 98,
     "l": 61,
     "push": 0,
     "n": 162,
-    "pending": 4,
-    "units": 10.57
+    "pending": 3,
+    "units": 11.26
    },
    "monday-over": {
     "w": 142,

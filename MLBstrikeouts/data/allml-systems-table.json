@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-19T21:04:46Z",
+ "generated": "2026-09-19T23:02:28Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-19"
  },
- "games": 2307,
+ "games": 2309,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
-  "over": -4.1,
-  "under": -5.3,
+  "over": -4.2,
+  "under": -5.2,
   "parlay": 0.0
  },
  "systems": [
@@ -34,8 +34,8 @@
     "roi": 23.4
    },
    "halves": [
-    28.5,
-    18.8
+    30.4,
+    16.6
    ],
    "monthly": [
     {
@@ -338,8 +338,8 @@
     "roi": 40.6
    },
    "halves": [
-    51.5,
-    32.4
+    52.4,
+    31.4
    ],
    "monthly": [
     {
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.3,
+   "baseline": -5.2,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -568,8 +568,8 @@
     "roi": 10.0
    },
    "halves": [
-    10.4,
-    9.6
+    9.0,
+    11.6
    ],
    "monthly": [
     {
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -715,7 +715,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.3,
+   "baseline": -5.2,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -732,8 +732,8 @@
     "roi": 0.6
    },
    "halves": [
-    4.4,
-    -2.9
+    3.7,
+    -2.4
    ],
    "monthly": [
     {
@@ -814,8 +814,8 @@
     "roi": 8.8
    },
    "halves": [
-    16.3,
-    3.7
+    15.6,
+    3.9
    ],
    "monthly": [
     {
@@ -871,7 +871,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.3,
+   "baseline": -5.2,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -888,8 +888,8 @@
     "roi": 12.1
    },
    "halves": [
-    11.2,
-    12.6
+    12.5,
+    11.8
    ],
    "monthly": [
     {
@@ -1030,7 +1030,7 @@
    "rule": "pickem-under",
    "market": "totals",
    "pick": "under",
-   "price": -106,
+   "price": -102,
    "side": "U",
    "why": "favorite only -108 at a 8.5 total",
    "gamePk": 823003,
