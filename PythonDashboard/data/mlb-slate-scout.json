@@ -3140,11 +3140,11 @@
       "away": "TOR",
       "home": "TEX",
       "commence": "2026-09-20T18:35:00Z",
-      "away_ml": 142,
-      "home_ml": -168,
+      "away_ml": 140,
+      "home_ml": -166,
       "total": 7.5,
-      "over_ml": 104,
-      "under_ml": -128,
+      "over_ml": 106,
+      "under_ml": -130,
       "sides": {
         "away": {
           "pitcher": "Spencer Miles",
@@ -4300,8 +4300,8 @@
       "away": "SF",
       "home": "LAD",
       "commence": "2026-09-20T20:10:00Z",
-      "away_ml": 215,
-      "home_ml": -260,
+      "away_ml": 220,
+      "home_ml": -270,
       "total": 8.5,
       "over_ml": -106,
       "under_ml": -114,
@@ -4508,31 +4508,127 @@
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Jack Dreyer",
+          "listed_as": "Jack Dreyer",
+          "resolved": true,
+          "hand": "L",
           "team": "LAD",
           "opponent_offense": "SF",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 105,
+          "opp_wrc_game": 115,
+          "opp_wrc_recent": 79,
+          "opp_wrc_recent_pa": 589,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 101,
+              "pa": 378,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 105,
+              "pa": 232,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 105,
+              "pa": 206,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 114,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -2,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 1,
+              "ip": 1.0,
+              "ip_per_gs": 1.0,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 100.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 100.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 0,
+              "hr": 0,
+              "er": 0
+            },
+            "recent": {
+              "gs": 1,
+              "ip": 1.0,
+              "ip_per_gs": 1.0,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 100.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 100.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 0,
+              "hr": 0,
+              "er": 0
+            },
+            "hot": {
+              "gs": 1,
+              "ip": 1.0,
+              "ip_per_gs": 1.0,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 100.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 100.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 0,
+              "hr": 0,
+              "er": 0
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 5.0,
+              "ip_per_g": 1.0,
+              "era": 5.4,
+              "whip": 1.6,
+              "k_pct": 8.7,
+              "bb_pct": 8.7,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 2,
+              "bb": 2,
+              "hr": 0,
+              "er": 3,
+              "gs": 0
+            },
+            "relief": {
+              "g": 29,
+              "ip": 25.0,
+              "ip_per_g": 0.86,
+              "era": 2.88,
+              "whip": 1.24,
+              "k_pct": 26.7,
+              "bb_pct": 12.4,
+              "k_bb_pct": 14.3,
+              "hr9": 0.36,
+              "k": 28,
+              "bb": 13,
+              "hr": 1,
+              "er": 8,
+              "from": "2026-07-05",
+              "to": "2026-09-16"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 94,
@@ -4600,21 +4696,24 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "opener",
+            "thin-sample",
+            "layoff-81d",
+            "swingman-29g"
           ],
-          "mismatch": null,
+          "mismatch": -132.2,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            101,
+            105,
+            105,
+            86
           ]
         }
       },
       "home_offense_game": 116,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 115,
+      "game_offense": 116,
+      "offense_edge": -1,
       "aligned_ml": null
     },
     {
@@ -6103,9 +6202,24 @@
       "flags": [
         "thin-sample"
       ]
+    },
+    {
+      "pitcher": "Jack Dreyer",
+      "hand": "L",
+      "team": "LAD",
+      "opponent_offense": "SF",
+      "opp_wrc_vs_hand": 105,
+      "opp_wrc_recent": 79,
+      "mismatch": -132.2,
+      "flags": [
+        "opener",
+        "thin-sample",
+        "layoff-81d",
+        "swingman-29g"
+      ]
     }
   ],
-  "generated": "2026-09-20T16:04:38Z",
+  "generated": "2026-09-20T18:32:33Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

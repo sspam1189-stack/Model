@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-20T16:04:16Z",
+  "generated": "2026-09-20T18:32:11Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -163,30 +163,6 @@
     },
     {
       "date": "2026-09-20",
-      "commence": "2026-09-20T20:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dean Kremer"
-      ],
-      "fadeTeam": "MIN",
-      "market": "h2h",
-      "selection": "LAA",
-      "line": null,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAA",
-      "away": "MIN",
-      "gamePk": 823975,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-20",
       "commence": "2026-09-20T17:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -208,6 +184,30 @@
       "away": "OAK",
       "gamePk": 824381,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-20",
+      "commence": "2026-09-20T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dean Kremer"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "hand_fade_override",
+      "home": "LAA",
+      "away": "MIN",
+      "gamePk": 823975,
+      "fadeReason": "away"
     }
   ],
   "bets": [

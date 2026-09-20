@@ -1,15 +1,5 @@
 [
   {
-    "player": "Jacob Misiorowski",
-    "market": "strikeouts",
-    "line": 8.5,
-    "over_price": 109,
-    "under_price": -139,
-    "event_home": "BAL",
-    "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Gavin Williams",
     "market": "strikeouts",
     "line": 8.5,
@@ -27,16 +17,6 @@
     "under_price": -155,
     "event_home": "HOU",
     "event_away": "ATL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Dean Kremer",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": -115,
-    "under_price": -111,
-    "event_home": "LAA",
-    "event_away": "MIN",
     "source": "rotowire:draftkings"
   },
   {
@@ -100,46 +80,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Kade Anderson",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -106,
-    "under_price": -120,
-    "event_home": "COL",
-    "event_away": "SEA",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Walker Buehler",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 109,
-    "under_price": -139,
-    "event_home": "SD",
-    "event_away": "MIA",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Corbin Burnes",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -118,
-    "under_price": -108,
-    "event_home": "ARI",
-    "event_away": "NYY",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Ryan Johnson",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 100,
-    "under_price": -128,
-    "event_home": "LAA",
-    "event_away": "MIN",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Jack Perkins",
     "market": "strikeouts",
     "line": 3.5,
@@ -177,36 +117,6 @@
     "under_price": 102,
     "event_home": "PIT",
     "event_away": "KC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Will Warren",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -103,
-    "under_price": -124,
-    "event_home": "ARI",
-    "event_away": "NYY",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Brandon Young",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 101,
-    "under_price": -129,
-    "event_home": "BAL",
-    "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Sandy Alcantara",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -127,
-    "under_price": -101,
-    "event_home": "SD",
-    "event_away": "MIA",
     "source": "rotowire:draftkings"
   },
   {
@@ -250,11 +160,101 @@
     "source": "rotowire:draftkings"
   },
   {
+    "player": "Jacob Misiorowski",
+    "market": "strikeouts",
+    "line": 8.5,
+    "over_price": 106,
+    "under_price": -135,
+    "event_home": "BAL",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Dean Kremer",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": -106,
+    "under_price": -118,
+    "event_home": "LAA",
+    "event_away": "MIN",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Kade Anderson",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 103,
+    "under_price": -131,
+    "event_home": "COL",
+    "event_away": "SEA",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Walker Buehler",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -103,
+    "under_price": -123,
+    "event_home": "SD",
+    "event_away": "MIA",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Corbin Burnes",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -127,
+    "under_price": 100,
+    "event_home": "ARI",
+    "event_away": "NYY",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Ryan Johnson",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 103,
+    "under_price": -128,
+    "event_home": "LAA",
+    "event_away": "MIN",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Will Warren",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -103,
+    "under_price": -124,
+    "event_home": "ARI",
+    "event_away": "NYY",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Brandon Young",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 101,
+    "under_price": -129,
+    "event_home": "BAL",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Sandy Alcantara",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -134,
+    "under_price": 105,
+    "event_home": "SD",
+    "event_away": "MIA",
+    "source": "rotowire:draftkings"
+  },
+  {
     "player": "Tomoyuki Sugano",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -101,
-    "under_price": -123,
+    "over_price": 104,
+    "under_price": -133,
     "event_home": "COL",
     "event_away": "SEA",
     "source": "rotowire:draftkings"
@@ -263,8 +263,8 @@
     "player": "Matt Wilkinson",
     "market": "strikeouts",
     "line": 2.5,
-    "over_price": 109,
-    "under_price": -139,
+    "over_price": 113,
+    "under_price": -144,
     "event_home": "LAD",
     "event_away": "SF",
     "source": "rotowire:draftkings"
