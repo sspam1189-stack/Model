@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-20T18:32:55Z",
+  "generated": "2026-09-20T21:02:09Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -49875,14 +49875,17 @@
       "rule": "cold-arms-under",
       "auto": true,
       "basis": "Cold arms under: both starters Mart\u00edn P\u00e9rez 25%, Hunter Brown 25% over in last 8",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.1,
       "line": 7.5,
       "gamePk": 824139,
       "commence": "2026-09-20T18:10:00Z",
       "non_scout": true,
       "open_line": 7.5,
-      "open_price": 110
+      "open_price": 110,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -49913,13 +49916,16 @@
       "rule": "division-home-dog",
       "auto": true,
       "basis": "Division home dog: home to a NL East rival at +136",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 823570,
       "commence": "2026-09-20T17:10:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 146
+      "open_price": 146,
+      "close_price": 136,
+      "price_move": 1.7,
+      "clv": "beat"
     },
     {
       "date": "2026-09-20",
@@ -49931,13 +49937,16 @@
       "rule": "division-home-dog",
       "auto": true,
       "basis": "Division home dog: home to a NL Central rival at +132",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 824462,
       "commence": "2026-09-20T17:40:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 130
+      "open_price": 130,
+      "close_price": 132,
+      "price_move": -0.4,
+      "clv": "lost"
     },
     {
       "date": "2026-09-20",
@@ -49949,14 +49958,17 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for swingman+opener. Lake Bachar swingman-2g, opener.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.85,
       "line": 8.5,
       "combo": "swingman+opener",
       "gamePk": 823329,
       "commence": "2026-09-20T17:35:00Z",
       "open_line": 8.5,
-      "open_price": -115
+      "open_price": -115,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -49987,15 +49999,18 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for layoff. Jake Irvin layoff-13d.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.96,
       "line": 8.5,
       "combo": "layoff",
       "gamePk": 823001,
       "commence": "2026-09-20T18:15:00Z",
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -104
+      "open_price": -104,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50045,15 +50060,18 @@
       "rule": "form-under",
       "auto": true,
       "basis": "m_sum -86.7 <= -40; both arms outclass the bats. Unflagged.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 7.5,
       "flagged_overlap": false,
       "gamePk": 823570,
       "commence": "2026-09-20T17:10:00Z",
       "shadow": true,
       "open_line": 7.5,
-      "open_price": -106
+      "open_price": -106,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50085,13 +50103,16 @@
       "rule": "home-dog-getaway",
       "auto": true,
       "basis": "Home dog getaway: KC played a night game yesterday, day game today, home dog at +102",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.02,
       "gamePk": 823329,
       "commence": "2026-09-20T17:35:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 102
+      "open_price": 102,
+      "close_price": 102,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50103,13 +50124,16 @@
       "rule": "home-dog-getaway",
       "auto": true,
       "basis": "Home dog getaway: CHC played a night game yesterday, day game today, home dog at +132",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 824462,
       "commence": "2026-09-20T17:40:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 130
+      "open_price": 130,
+      "close_price": 132,
+      "price_move": -0.4,
+      "clv": "lost"
     },
     {
       "date": "2026-09-20",
@@ -50139,8 +50163,8 @@
       "rule": "home-dog-under-parlay",
       "auto": true,
       "basis": "Home dog + under: NYM ML +136 with U7.5 -106, pays 4.59x",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 7.5,
       "gamePk": 823570,
       "commence": "2026-09-20T17:10:00Z",
@@ -50151,7 +50175,11 @@
       "open_line": 7.5,
       "open_price": 378,
       "open_ml_price": 146,
-      "open_under_price": -106
+      "open_under_price": -106,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat",
+      "ml_price_move": 1.7
     },
     {
       "date": "2026-09-20",
@@ -50163,8 +50191,8 @@
       "rule": "home-dog-under-parlay",
       "auto": true,
       "basis": "Home dog + under: CIN ML +132 with U9.5 -105, pays 4.53x",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 9.5,
       "gamePk": 824462,
       "commence": "2026-09-20T17:40:00Z",
@@ -50175,7 +50203,11 @@
       "open_line": 9.5,
       "open_price": 369,
       "open_ml_price": 130,
-      "open_under_price": 104
+      "open_under_price": 104,
+      "close_line": 9.5,
+      "line_move": 0.0,
+      "clv": "flat",
+      "ml_price_move": -0.4
     },
     {
       "date": "2026-09-20",
@@ -50268,12 +50300,15 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "tail -61.0 (Jonah Tong) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 823570,
       "commence": "2026-09-20T17:10:00Z",
       "open_line": null,
-      "open_price": 146
+      "open_price": 146,
+      "close_price": 136,
+      "price_move": 1.7,
+      "clv": "beat"
     },
     {
       "date": "2026-09-20",
@@ -50285,12 +50320,15 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "fade +68.2 (Rhett Lowder) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.64,
       "gamePk": 824462,
       "commence": "2026-09-20T17:40:00Z",
       "open_line": null,
-      "open_price": -154
+      "open_price": -154,
+      "close_price": -156,
+      "price_move": 0.3,
+      "clv": "beat"
     },
     {
       "date": "2026-09-20",

@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-20T18:32:40Z",
+ "generated": "2026-09-20T21:01:53Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-19"
+  "to": "2026-09-20"
  },
- "games": 2321,
+ "games": 2327,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
-  "over": -3.9,
+  "over": -4.0,
   "under": -5.5,
   "parlay": 0.0
  },
@@ -95,7 +95,7 @@
      "roi": 22.2
     }
    ],
-   "per_day": 0.98
+   "per_day": 0.97
   },
   {
    "baseline_key": "side",
@@ -184,14 +184,14 @@
    "ladder_fails": true,
    "record": {
     "w": 54,
-    "l": 37,
-    "n": 91,
-    "units": 31.58,
-    "roi": 34.7
+    "l": 39,
+    "n": 93,
+    "units": 29.58,
+    "roi": 31.8
    },
    "halves": [
     29.8,
-    38.9
+    33.5
    ],
    "monthly": [
     {
@@ -237,13 +237,13 @@
     {
      "month": "2026-09",
      "w": 8,
-     "l": 10,
-     "n": 18,
-     "units": 0.22,
-     "roi": 1.2
+     "l": 12,
+     "n": 20,
+     "units": -1.78,
+     "roi": -8.9
     }
    ],
-   "per_day": 0.52
+   "per_day": 0.53
   },
   {
    "baseline_key": "side",
@@ -258,14 +258,14 @@
    "ladder_fails": false,
    "record": {
     "w": 49,
-    "l": 43,
-    "n": 92,
-    "units": 16.34,
-    "roi": 17.8
+    "l": 44,
+    "n": 93,
+    "units": 15.34,
+    "roi": 16.5
    },
    "halves": [
     4.7,
-    28.7
+    26.2
    ],
    "monthly": [
     {
@@ -311,13 +311,13 @@
     {
      "month": "2026-09",
      "w": 7,
-     "l": 5,
-     "n": 12,
-     "units": 3.54,
-     "roi": 29.5
+     "l": 6,
+     "n": 13,
+     "units": 2.54,
+     "roi": 19.5
     }
    ],
-   "per_day": 0.52
+   "per_day": 0.53
   },
   {
    "baseline_key": "parlay",
@@ -332,14 +332,14 @@
    "ladder_fails": false,
    "record": {
     "w": 89,
-    "l": 183,
-    "n": 272,
-    "units": 110.91,
-    "roi": 40.8
+    "l": 185,
+    "n": 274,
+    "units": 108.91,
+    "roi": 39.7
    },
    "halves": [
     52.4,
-    31.9
+    30.2
    ],
    "monthly": [
     {
@@ -393,17 +393,17 @@
     {
      "month": "2026-09",
      "w": 8,
-     "l": 27,
-     "n": 35,
-     "units": 1.03,
-     "roi": 2.9
+     "l": 29,
+     "n": 37,
+     "units": -0.97,
+     "roi": -2.6
     }
    ],
    "per_day": 1.55
   },
   {
    "baseline_key": "over",
-   "baseline": -3.9,
+   "baseline": -4.0,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -473,7 +473,7 @@
      "roi": 2.9
     }
    ],
-   "per_day": 1.26
+   "per_day": 1.25
   },
   {
    "baseline_key": "under",
@@ -487,15 +487,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 30,
+    "w": 31,
     "l": 23,
-    "n": 53,
-    "units": 3.44,
-    "roi": 6.5
+    "n": 54,
+    "units": 4.54,
+    "roi": 8.4
    },
    "halves": [
     13.6,
-    1.1
+    4.6
    ],
    "monthly": [
     {
@@ -540,18 +540,18 @@
     },
     {
      "month": "2026-09",
-     "w": 3,
+     "w": 4,
      "l": 9,
-     "n": 12,
-     "units": -6.2,
-     "roi": -51.6
+     "n": 13,
+     "units": -5.1,
+     "roi": -39.2
     }
    ],
-   "per_day": 0.3
+   "per_day": 0.31
   },
   {
    "baseline_key": "over",
-   "baseline": -3.9,
+   "baseline": -4.0,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -633,7 +633,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -3.9,
+   "baseline": -4.0,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -793,7 +793,7 @@
      "roi": -30.1
     }
    ],
-   "per_day": 2.68
+   "per_day": 2.67
   },
   {
    "baseline_key": "side",
@@ -867,7 +867,7 @@
      "roi": -35.9
     }
    ],
-   "per_day": 1.13
+   "per_day": 1.12
   },
   {
    "baseline_key": "under",
@@ -941,111 +941,10 @@
      "roi": 11.2
     }
    ],
-   "per_day": 1.01
+   "per_day": 1.0
   }
  ],
  "today": [
-  {
-   "rule": "division-home-dog",
-   "market": "h2h",
-   "pick": "NYM",
-   "price": 136,
-   "side": null,
-   "why": "home to a NL East rival at +136",
-   "gamePk": 823570,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T17:10:00Z",
-   "matchup": "PHI @ NYM",
-   "away": "PHI",
-   "home": "NYM",
-   "total": 7.5
-  },
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "NYM",
-   "price": 359,
-   "side": null,
-   "why": "NYM ML +136 with U7.5 -106, pays 4.59x",
-   "line": 7.5,
-   "ml_price": 136,
-   "under_price": -106,
-   "payout": 4.586,
-   "gamePk": 823570,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T17:10:00Z",
-   "matchup": "PHI @ NYM",
-   "away": "PHI",
-   "home": "NYM",
-   "total": 7.5
-  },
-  {
-   "rule": "home-dog-getaway",
-   "market": "h2h",
-   "pick": "PIT",
-   "price": 102,
-   "line": null,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823329,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T17:35:00Z",
-   "matchup": "KC @ PIT",
-   "total": null,
-   "why": "KC played a night game yesterday, day game today, home dog at +102",
-   "stale": true,
-   "stale_now": "favourite now -118, total still 8.5"
-  },
-  {
-   "rule": "division-home-dog",
-   "market": "h2h",
-   "pick": "CIN",
-   "price": 132,
-   "side": null,
-   "why": "home to a NL Central rival at +132",
-   "gamePk": 824462,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T17:40:00Z",
-   "matchup": "CHC @ CIN",
-   "away": "CHC",
-   "home": "CIN",
-   "total": 9.5
-  },
-  {
-   "rule": "home-dog-getaway",
-   "market": "h2h",
-   "pick": "CIN",
-   "price": 132,
-   "side": null,
-   "why": "CHC played a night game yesterday, day game today, home dog at +132",
-   "gamePk": 824462,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T17:40:00Z",
-   "matchup": "CHC @ CIN",
-   "away": "CHC",
-   "home": "CIN",
-   "total": 9.5
-  },
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "CIN",
-   "price": 353,
-   "side": null,
-   "why": "CIN ML +132 with U9.5 -105, pays 4.53x",
-   "line": 9.5,
-   "ml_price": 132,
-   "under_price": -105,
-   "payout": 4.53,
-   "gamePk": 824462,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T17:40:00Z",
-   "matchup": "CHC @ CIN",
-   "away": "CHC",
-   "home": "CIN",
-   "total": 9.5
-  },
   {
    "rule": "low-line-over",
    "market": "totals",
@@ -1060,21 +959,6 @@
    "away": "OAK",
    "home": "CLE",
    "total": 6.5
-  },
-  {
-   "rule": "cold-arms-under",
-   "market": "totals",
-   "pick": "under",
-   "price": 110,
-   "side": "U",
-   "why": "both starters Mart\u00edn P\u00e9rez 25%, Hunter Brown 25% over in last 8",
-   "gamePk": 824139,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T18:10:00Z",
-   "matchup": "ATL @ HOU",
-   "away": "ATL",
-   "home": "HOU",
-   "total": 7.5
   },
   {
    "rule": "under-juice",
