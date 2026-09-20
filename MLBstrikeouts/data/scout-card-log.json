@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-20T21:02:09Z",
+  "generated": "2026-09-20T23:02:06Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -49980,14 +49980,17 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for swingman. Jack Perkins swingman-2g.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.16,
       "line": 6.5,
       "combo": "swingman",
       "gamePk": 824381,
       "commence": "2026-09-20T17:40:00Z",
       "open_line": 6.5,
-      "open_price": 114
+      "open_price": 114,
+      "close_line": 6.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50022,14 +50025,17 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for swingman+opener+stale-window. Spencer Miles swingman-18g, opener, stale-window-67d.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 7.5,
       "combo": "swingman+opener+stale-window",
       "gamePk": 822844,
       "commence": "2026-09-20T18:35:00Z",
       "open_line": 7.5,
-      "open_price": -115
+      "open_price": -115,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50041,14 +50047,17 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for swingman+layoff+opener. Matt Wilkinson swingman-2g, layoff-16d \u00b7 Jack Dreyer swingman-29g, layoff-81d, opener.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.88,
       "line": 8.5,
       "combo": "swingman+layoff+opener",
       "gamePk": 823896,
       "commence": "2026-09-20T20:10:00Z",
       "open_line": 8.5,
-      "open_price": -114
+      "open_price": -114,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50083,15 +50092,18 @@
       "rule": "form-under",
       "auto": true,
       "basis": "m_sum -68.7 <= -40; both arms outclass the bats. Also flagged.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.88,
       "line": 8.5,
       "flagged_overlap": true,
       "gamePk": 823896,
       "commence": "2026-09-20T20:10:00Z",
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -114
+      "open_price": -114,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50145,13 +50157,16 @@
       "rule": "home-dog-getaway",
       "auto": true,
       "basis": "Home dog getaway: SEA played a night game yesterday, day game today, home dog at +138",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 824300,
       "commence": "2026-09-20T19:10:00Z",
       "non_scout": true,
       "open_line": null,
-      "open_price": 138
+      "open_price": 138,
+      "close_price": 138,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50219,8 +50234,8 @@
       "rule": "home-dog-under-parlay",
       "auto": true,
       "basis": "Home dog + under: COL ML +138 with U10.5 +100, pays 4.76x",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 10.5,
       "gamePk": 824300,
       "commence": "2026-09-20T19:10:00Z",
@@ -50231,7 +50246,11 @@
       "open_line": 10.5,
       "open_price": 376,
       "open_ml_price": 138,
-      "open_under_price": 100
+      "open_under_price": 100,
+      "close_line": 10.5,
+      "line_move": 0.0,
+      "clv": "flat",
+      "ml_price_move": 0.0
     },
     {
       "date": "2026-09-20",
@@ -50243,14 +50262,17 @@
       "rule": "hot-arm-dog-ml",
       "auto": true,
       "basis": "Hot arm dog ML: Ryan Johnson \u2014 team +60% over his last 8 starts, priced +100",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 823975,
       "commence": "2026-09-20T20:07:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": null,
-      "open_price": 104
+      "open_price": 104,
+      "close_price": 100,
+      "price_move": 1.0,
+      "clv": "beat"
     },
     {
       "date": "2026-09-20",
@@ -50262,14 +50284,17 @@
       "rule": "hot-arm-dog-ml",
       "auto": true,
       "basis": "Hot arm dog ML: Will Warren \u2014 team +47% over his last 8 starts, priced +100",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "gamePk": 825028,
       "commence": "2026-09-20T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": null,
-      "open_price": 100
+      "open_price": 100,
+      "close_price": 100,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50281,14 +50306,17 @@
       "rule": "low-line-over",
       "auto": true,
       "basis": "Low line over: posted total 6.5; lines of 7 and under average 8.66 runs",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 6.5,
       "gamePk": 824381,
       "commence": "2026-09-20T17:40:00Z",
       "non_scout": true,
       "open_line": 6.5,
-      "open_price": -140
+      "open_price": -140,
+      "close_line": 6.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50340,12 +50368,15 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "fade +81.6 (Tomoyuki Sugano) at L20. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.61,
       "gamePk": 824300,
       "commence": "2026-09-20T19:10:00Z",
       "open_line": null,
-      "open_price": -164
+      "open_price": -164,
+      "close_price": -164,
+      "price_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50357,12 +50388,15 @@
       "rule": "mismatch-ml",
       "auto": true,
       "basis": "tail -132.2 (Jack Dreyer) + fade +63.5 (Matt Wilkinson) at L20. Both starters point the same way. Carded 2026-09-16 off a 40-play shadow period (25-15, +9.5%); expectation is that, not the +17.2% season figure.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.37,
       "gamePk": 823896,
       "commence": "2026-09-20T20:10:00Z",
       "open_line": null,
-      "open_price": -275
+      "open_price": -275,
+      "close_price": -270,
+      "price_move": -0.4,
+      "clv": "lost"
     },
     {
       "date": "2026-09-20",
@@ -50374,15 +50408,18 @@
       "rule": "pickem-under",
       "auto": true,
       "basis": "Pickem under: favorite only -110 at a 8.5 total",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 8.5,
       "gamePk": 825028,
       "commence": "2026-09-20T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -115
+      "open_price": -115,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50394,14 +50431,17 @@
       "rule": "starter-over-run",
       "auto": true,
       "basis": "Starter over run: over in Dean Kremer 75% of last 8, total 8.5",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 8.5,
       "gamePk": 823975,
       "commence": "2026-09-20T20:07:00Z",
       "non_scout": true,
       "open_line": 8.5,
-      "open_price": 106
+      "open_price": 106,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50413,15 +50453,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -130 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.77,
       "line": 8.5,
       "gamePk": 823975,
       "commence": "2026-09-20T20:07:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -130
+      "open_price": -130,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50433,15 +50476,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -130 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 7.5,
       "gamePk": 822844,
       "commence": "2026-09-20T18:35:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 7.5,
-      "open_price": -128
+      "open_price": -128,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50453,15 +50499,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -124 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 8.5,
       "gamePk": 823247,
       "commence": "2026-09-20T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -124
+      "open_price": -124,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-20",
@@ -50473,15 +50522,18 @@
       "rule": "under-juice",
       "auto": true,
       "basis": "Under juice: book laying -128 on the under",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 8.5,
       "gamePk": 825028,
       "commence": "2026-09-20T20:10:00Z",
       "non_scout": true,
       "shadow": true,
       "open_line": 8.5,
-      "open_price": -128
+      "open_price": -128,
+      "close_line": 8.5,
+      "line_move": 0.0,
+      "clv": "flat"
     }
   ]
 }

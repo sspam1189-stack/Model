@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-20T21:01:32Z",
+  "generated": "2026-09-20T23:01:29Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -76,24 +76,24 @@
     },
     {
       "date": "2026-09-20",
-      "commence": "2026-09-20T20:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
+      "commence": "2026-09-20T18:35:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
       "watch": true,
-      "pitcher": "Will Warren",
+      "pitcher": "Jacob deGrom",
       "hand": "R",
-      "arm_team": "NYY",
-      "opp_team": "ARI",
-      "selection": "NYY",
-      "home": "ARI",
-      "away": "NYY",
+      "arm_team": "TEX",
+      "opp_team": "TOR",
+      "selection": "TOR",
+      "home": "TEX",
+      "away": "TOR",
       "oppLefty": 6,
-      "oppRighty": 5,
+      "oppRighty": 4,
       "lineupConfirmed": true,
-      "odds": 100,
-      "suggest": "take",
-      "suggestUnits": 4.32,
-      "games": 13,
+      "odds": 140,
+      "suggest": "fade",
+      "suggestUnits": 2.52,
+      "games": 14,
       "result": "pending"
     }
   ],
@@ -585,24 +585,6 @@
       "era": 4.17
     },
     {
-      "pitcher": "Will Warren",
-      "hand": "R",
-      "games": 13,
-      "suggest": "take",
-      "suggestUnits": 4.32,
-      "fade": {
-        "w": 4,
-        "l": 9,
-        "u": -5.0
-      },
-      "take": {
-        "w": 9,
-        "l": 4,
-        "u": 4.32
-      },
-      "era": 3.97
-    },
-    {
       "pitcher": "Jake Bennett",
       "hand": "L",
       "games": 16,
@@ -1051,6 +1033,24 @@
         "u": -3.06
       },
       "era": 3.34
+    },
+    {
+      "pitcher": "Jacob deGrom",
+      "hand": "R",
+      "games": 14,
+      "suggest": "fade",
+      "suggestUnits": 2.52,
+      "fade": {
+        "w": 8,
+        "l": 6,
+        "u": 2.52
+      },
+      "take": {
+        "w": 6,
+        "l": 8,
+        "u": -3.52
+      },
+      "era": 3.79
     }
   ]
 }
