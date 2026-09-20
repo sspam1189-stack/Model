@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-20T00:31:43Z",
+  "generated": "2026-09-20T13:05:26Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 12,
     "roi": 0.6262
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-20",
+      "commence": "2026-09-20T17:40:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Griffin Jax",
+      "arm_team": "TB",
+      "opp": "BOS",
+      "selection": "BOS",
+      "venue": "home",
+      "matchup": "BOS @ TB",
+      "odds": 124,
+      "eraVsOpp": 9.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
