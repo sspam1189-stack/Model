@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-19T23:02:28Z",
+ "generated": "2026-09-20T00:32:01Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-19"
  },
- "games": 2309,
+ "games": 2310,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.4,
   "over": -4.2,
-  "under": -5.2,
+  "under": -5.3,
   "parlay": 0.0
  },
  "systems": [
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.3,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -715,7 +715,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.3,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -871,7 +871,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.3,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -1079,13 +1079,13 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "ARI",
-   "price": 330,
+   "price": 323,
    "side": null,
-   "why": "ARI ML +138 with U7.5 -124, pays 4.30x",
+   "why": "ARI ML +134 with U7.5 -124, pays 4.23x",
    "line": 7.5,
-   "ml_price": 138,
+   "ml_price": 134,
    "under_price": -124,
-   "payout": 4.299,
+   "payout": 4.227,
    "gamePk": 825029,
    "date": "2026-09-19",
    "commence": "2026-09-20T00:10:00Z",
@@ -1146,9 +1146,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -122,
+   "price": -128,
    "side": "U",
-   "why": "book laying -122 on the under",
+   "why": "book laying -128 on the under",
    "gamePk": 823976,
    "date": "2026-09-19",
    "commence": "2026-09-20T01:38:00Z",

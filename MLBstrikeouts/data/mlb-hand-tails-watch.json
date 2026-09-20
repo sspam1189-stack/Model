@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-19T23:02:05Z",
+  "generated": "2026-09-20T00:31:40Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -72,6 +72,28 @@
       "suggest": "fade",
       "suggestUnits": 4.0,
       "games": 4,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-19",
+      "commence": "2026-09-19T20:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Christian Scott",
+      "hand": "R",
+      "arm_team": "NYM",
+      "opp_team": "PHI",
+      "selection": "NYM",
+      "home": "NYM",
+      "away": "PHI",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": -120,
+      "suggest": "take",
+      "suggestUnits": 4.56,
+      "games": 13,
       "result": "pending"
     },
     {
@@ -533,6 +555,24 @@
         "u": 4.68
       },
       "era": 2.86
+    },
+    {
+      "pitcher": "Christian Scott",
+      "hand": "R",
+      "games": 13,
+      "suggest": "take",
+      "suggestUnits": 4.56,
+      "fade": {
+        "w": 4,
+        "l": 9,
+        "u": -5.2
+      },
+      "take": {
+        "w": 9,
+        "l": 4,
+        "u": 4.56
+      },
+      "era": 3.76
     },
     {
       "pitcher": "Jos\u00e9 Soriano",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-19T23:02:04Z",
+  "generated": "2026-09-20T00:31:39Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -142,18 +142,18 @@
     }
   ],
   "summary": {
-    "wins": 74,
+    "wins": 75,
     "losses": 38,
-    "units": 30.51,
-    "staked": 144.58,
-    "roi": 0.211,
+    "units": 31.51,
+    "staked": 145.78,
+    "roi": 0.2161,
     "byAction": {
       "fade": {
-        "wins": 74,
+        "wins": 75,
         "losses": 38,
-        "units": 30.51,
-        "staked": 144.58,
-        "roi": 0.211
+        "units": 31.51,
+        "staked": 145.78,
+        "roi": 0.2161
       },
       "take": {
         "wins": 0,
@@ -165,11 +165,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 41,
+        "wins": 42,
         "losses": 17,
-        "units": 20.35,
-        "staked": 75.82,
-        "roi": 0.2684
+        "units": 21.35,
+        "staked": 77.02,
+        "roi": 0.2772
       },
       "L": {
         "wins": 33,
@@ -181,30 +181,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-19",
-      "commence": "2026-09-19T20:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Andrew Painter",
-      "entry": "Andrew Painter",
-      "hand": "R",
-      "arm_team": "PHI",
-      "opp_team": "NYM",
-      "selection": "NYM",
-      "home": "NYM",
-      "away": "PHI",
-      "oppLefty": 6,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-19",
       "commence": "2026-09-19T22:40:00Z",
@@ -267,11 +243,11 @@
       "home": "LAA",
       "away": "MIN",
       "oppLefty": 4,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -2964,6 +2940,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-19",
+      "commence": "2026-09-19T20:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Andrew Painter",
+      "entry": "Andrew Painter",
+      "hand": "R",
+      "arm_team": "PHI",
+      "opp_team": "NYM",
+      "selection": "NYM",
+      "home": "NYM",
+      "away": "PHI",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": true,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }
