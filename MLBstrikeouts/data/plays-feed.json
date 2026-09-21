@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-21T18:32:52Z",
+ "generated": "2026-09-21T21:03:39Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -9,7 +9,7 @@
    "play": "MIN/SF O8.5",
    "market": "totals",
    "line": 8.5,
-   "price": 100,
+   "price": -105,
    "rule": "monday-over",
    "result": "pending",
    "profit": 0.0,
@@ -47,7 +47,7 @@
    "play": "WSH/DET O8.5",
    "market": "totals",
    "line": 8.5,
-   "price": -112,
+   "price": -110,
    "rule": "monday-over",
    "result": "pending",
    "profit": 0.0,
@@ -105,7 +105,7 @@
    "play": "TOR/BAL U7.5",
    "market": "totals",
    "line": 7.5,
-   "price": -115,
+   "price": -120,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -139,6 +139,25 @@
    "group": "non-scout",
    "kind": "not_bet",
    "conflict_skip": true
+  },
+  {
+   "date": "2026-09-21",
+   "play": "TOR/BAL U7.5",
+   "market": "totals",
+   "line": 7.5,
+   "price": -120,
+   "rule": "under-juice",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "TOR @ BAL",
+   "gamePk": 824787,
+   "commence": "2026-09-21T22:35:00Z",
+   "basis": "Under juice: book laying -120 on the under",
+   "open_line": 7.5,
+   "open_price": -120,
+   "name": "Under juice",
+   "group": "non-scout",
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-20",
@@ -48426,8 +48445,8 @@
    "w": 1354,
    "l": 1250,
    "push": 28,
-   "n": 2639,
-   "pending": 7,
+   "n": 2640,
+   "pending": 8,
    "units": 243.12
   },
   "card": {
@@ -48603,8 +48622,8 @@
     "w": 272,
     "l": 237,
     "push": 1,
-    "n": 512,
-    "pending": 2,
+    "n": 513,
+    "pending": 3,
     "units": 0
    }
   }

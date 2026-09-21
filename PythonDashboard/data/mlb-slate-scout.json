@@ -25,11 +25,11 @@
       "away": "TOR",
       "home": "BAL",
       "commence": "2026-09-21T22:35:00Z",
-      "away_ml": -104,
-      "home_ml": -112,
+      "away_ml": -108,
+      "home_ml": -108,
       "total": 7.5,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Trey Yesavage",
@@ -410,8 +410,8 @@
       "away_ml": 114,
       "home_ml": -134,
       "total": 8.5,
-      "over_ml": -112,
-      "under_ml": -108,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "DJ Herz",
@@ -536,18 +536,34 @@
           "pitcher": "River Ryan",
           "listed_as": "River Ryan",
           "resolved": false,
-          "hand": null,
+          "hand": "R",
           "team": "DET",
           "opponent_offense": "WSH",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 75,
+          "opp_wrc_game": 80,
+          "opp_wrc_recent": 86,
+          "opp_wrc_recent_pa": 1155,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 87,
+              "pa": 709,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 75,
+              "pa": 370,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 74,
+              "pa": 272,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 103,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 33,
           "form": {
@@ -629,17 +645,17 @@
           ],
           "mismatch": null,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            87,
+            75,
+            74,
+            78
           ]
         }
       },
       "home_offense_game": 115,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 80,
+      "game_offense": 98,
+      "offense_edge": -35,
       "aligned_ml": null
     },
     {
@@ -647,11 +663,11 @@
       "away": "MIN",
       "home": "SF",
       "commence": "2026-09-22T01:45:00Z",
-      "away_ml": -122,
-      "home_ml": 104,
+      "away_ml": -126,
+      "home_ml": 108,
       "total": 8.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Zebby Matthews",
@@ -1067,7 +1083,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-21T18:32:41Z",
+  "generated": "2026-09-21T21:03:16Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

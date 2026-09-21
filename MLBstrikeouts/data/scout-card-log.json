@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-21T18:32:52Z",
+  "generated": "2026-09-21T21:03:38Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -50564,7 +50564,7 @@
       "play": "TOR/BAL U7.5",
       "market": "totals",
       "game": "TOR @ BAL",
-      "price": -115,
+      "price": -120,
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
@@ -50605,7 +50605,7 @@
       "play": "WSH/DET O8.5",
       "market": "totals",
       "game": "WSH @ DET",
-      "price": -112,
+      "price": -110,
       "stake": 1.0,
       "rule": "monday-over",
       "auto": true,
@@ -50624,7 +50624,7 @@
       "play": "MIN/SF O8.5",
       "market": "totals",
       "game": "MIN @ SF",
-      "price": 100,
+      "price": -105,
       "stake": 1.0,
       "rule": "monday-over",
       "auto": true,
@@ -50677,6 +50677,26 @@
       "shadow": true,
       "open_line": 8.5,
       "open_price": -128
+    },
+    {
+      "date": "2026-09-21",
+      "play": "TOR/BAL U7.5",
+      "market": "totals",
+      "game": "TOR @ BAL",
+      "price": -120,
+      "stake": 1.0,
+      "rule": "under-juice",
+      "auto": true,
+      "basis": "Under juice: book laying -120 on the under",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5,
+      "gamePk": 824787,
+      "commence": "2026-09-21T22:35:00Z",
+      "non_scout": true,
+      "shadow": true,
+      "open_line": 7.5,
+      "open_price": -120
     }
   ]
 }
