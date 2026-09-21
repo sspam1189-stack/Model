@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-21T00:31:46Z",
+ "generated": "2026-09-21T13:02:58Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-20"
  },
- "games": 2334,
+ "games": 2336,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
@@ -487,15 +487,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 31,
+    "w": 32,
     "l": 23,
-    "n": 54,
-    "units": 4.54,
-    "roi": 8.4
+    "n": 55,
+    "units": 5.45,
+    "roi": 9.9
    },
    "halves": [
     13.6,
-    4.6
+    7.3
    ],
    "monthly": [
     {
@@ -540,11 +540,11 @@
     },
     {
      "month": "2026-09",
-     "w": 4,
+     "w": 5,
      "l": 9,
-     "n": 13,
-     "units": -5.1,
-     "roi": -39.2
+     "n": 14,
+     "units": -4.19,
+     "roi": -29.9
     }
    ],
    "per_day": 0.31
@@ -949,17 +949,94 @@
    "rule": "cold-arms-under",
    "market": "totals",
    "pick": "under",
-   "price": -110,
+   "price": -105,
    "side": "U",
-   "why": "both starters Jacob Misiorowski 29%, Brandon Young 38% over in last 8",
-   "gamePk": 824789,
-   "date": "2026-09-20",
-   "commence": "2026-09-20T23:20:00Z",
-   "matchup": "MIL @ BAL",
-   "away": "MIL",
+   "why": "both starters Trey Yesavage 38%, Shane Baz 38% over in last 8",
+   "gamePk": 824787,
+   "date": "2026-09-21",
+   "commence": "2026-09-21T22:35:00Z",
+   "matchup": "TOR @ BAL",
+   "away": "TOR",
    "home": "BAL",
-   "total": 7.5
+   "total": 7.5,
+   "conflict_skip": true
+  },
+  {
+   "rule": "monday-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -115,
+   "side": "O",
+   "why": "Monday: travel day, light schedule, series openers",
+   "gamePk": 824787,
+   "date": "2026-09-21",
+   "commence": "2026-09-21T22:35:00Z",
+   "matchup": "TOR @ BAL",
+   "away": "TOR",
+   "home": "BAL",
+   "total": 7.5,
+   "conflict_skip": true
+  },
+  {
+   "rule": "monday-over",
+   "market": "totals",
+   "pick": "over",
+   "price": 100,
+   "side": "O",
+   "why": "Monday: travel day, light schedule, series openers",
+   "gamePk": 824221,
+   "date": "2026-09-21",
+   "commence": "2026-09-21T22:40:00Z",
+   "matchup": "WSH @ DET",
+   "away": "WSH",
+   "home": "DET",
+   "total": 8.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 824221,
+   "date": "2026-09-21",
+   "commence": "2026-09-21T22:40:00Z",
+   "matchup": "WSH @ DET",
+   "away": "WSH",
+   "home": "DET",
+   "total": 8.5
+  },
+  {
+   "rule": "monday-over",
+   "market": "totals",
+   "pick": "over",
+   "price": 104,
+   "side": "O",
+   "why": "Monday: travel day, light schedule, series openers",
+   "gamePk": 823169,
+   "date": "2026-09-21",
+   "commence": "2026-09-22T01:45:00Z",
+   "matchup": "MIN @ SF",
+   "away": "MIN",
+   "home": "SF",
+   "total": 8.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -128,
+   "side": "U",
+   "why": "book laying -128 on the under",
+   "gamePk": 823169,
+   "date": "2026-09-21",
+   "commence": "2026-09-22T01:45:00Z",
+   "matchup": "MIN @ SF",
+   "away": "MIN",
+   "home": "SF",
+   "total": 8.5
   }
  ],
- "today_date": "2026-09-20"
+ "today_date": "2026-09-21"
 }

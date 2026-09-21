@@ -1,102 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-21T00:31:26Z",
+  "generated": "2026-09-21T13:02:39Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-20",
-      "commence": "2026-09-20T17:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "arm_team": "PHI",
-      "opp_team": "NYM",
-      "selection": "PHI",
-      "home": "NYM",
-      "away": "PHI",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -162,
-      "suggest": "take",
-      "suggestUnits": 6.78,
-      "games": 30,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-20",
-      "commence": "2026-09-20T17:35:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Michael Wacha",
-      "hand": "R",
-      "arm_team": "KC",
-      "opp_team": "PIT",
-      "selection": "PIT",
-      "home": "PIT",
-      "away": "KC",
-      "oppLefty": 6,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -118,
-      "suggest": "fade",
-      "suggestUnits": 2.68,
-      "games": 11,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-20",
-      "commence": "2026-09-20T18:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Mart\u00edn P\u00e9rez",
-      "hand": "L",
-      "arm_team": "ATL",
-      "opp_team": "HOU",
-      "selection": "ATL",
-      "home": "HOU",
-      "away": "ATL",
-      "oppLefty": 1,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": 130,
-      "suggest": "take",
-      "suggestUnits": 4.24,
-      "games": 23,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-20",
-      "commence": "2026-09-20T18:35:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Jacob deGrom",
-      "hand": "R",
-      "arm_team": "TEX",
-      "opp_team": "TOR",
-      "selection": "TOR",
-      "home": "TEX",
-      "away": "TOR",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 140,
-      "suggest": "fade",
-      "suggestUnits": 2.52,
-      "games": 14,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
@@ -204,7 +115,7 @@
         "l": 1,
         "u": 7.62
       },
-      "era": 1.89
+      "era": 1.86
     },
     {
       "pitcher": "Jacob Lopez",
@@ -348,7 +259,7 @@
         "l": 8,
         "u": -6.04
       },
-      "era": 6.06
+      "era": 6.28
     },
     {
       "pitcher": "Cody Bradford",
@@ -402,7 +313,7 @@
         "l": 4,
         "u": 5.28
       },
-      "era": 3.65
+      "era": 3.62
     },
     {
       "pitcher": "Luinder Avila",
@@ -618,7 +529,7 @@
         "l": 9,
         "u": 4.24
       },
-      "era": 3.16
+      "era": 3.12
     },
     {
       "pitcher": "Freddy Peralta",
@@ -672,7 +583,7 @@
         "l": 5,
         "u": 4.08
       },
-      "era": 3.86
+      "era": 3.92
     },
     {
       "pitcher": "Brayan Bello",
@@ -852,7 +763,7 @@
         "l": 3,
         "u": -3.32
       },
-      "era": 6.63
+      "era": 5.73
     },
     {
       "pitcher": "Jose Cabrera",
@@ -924,7 +835,7 @@
         "l": 3,
         "u": -3.02
       },
-      "era": 6.14
+      "era": 4.58
     },
     {
       "pitcher": "Cesar Perdomo",
@@ -960,7 +871,7 @@
         "l": 6,
         "u": -3.34
       },
-      "era": 5.35
+      "era": 4.97
     },
     {
       "pitcher": "Luis Castillo",
@@ -1032,7 +943,7 @@
         "l": 7,
         "u": -3.06
       },
-      "era": 3.34
+      "era": 3.33
     },
     {
       "pitcher": "Jacob deGrom",
@@ -1050,7 +961,7 @@
         "l": 8,
         "u": -3.52
       },
-      "era": 3.79
+      "era": 3.86
     }
   ]
 }

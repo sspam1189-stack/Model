@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-21T00:31:16Z",
+  "generated": "2026-09-21T13:02:30Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -87,7 +87,7 @@
     "wins": 552,
     "losses": 228,
     "voids": 0,
-    "skips": 58,
+    "skips": 59,
     "staked": 987.68,
     "units": 327.62,
     "roi": 0.3317,
@@ -96,7 +96,7 @@
         "wins": 540,
         "losses": 216,
         "voids": 0,
-        "skips": 5,
+        "skips": 6,
         "staked": 963.68,
         "units": 323.14,
         "roi": 0.3353
@@ -114,27 +114,27 @@
   },
   "today": [
     {
-      "date": "2026-09-20",
-      "commence": "2026-09-20T20:07:00Z",
+      "date": "2026-09-21",
+      "commence": "2026-09-21T22:35:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Dean Kremer"
+        "Trey Yesavage"
       ],
-      "fadeTeam": "MIN",
+      "fadeTeam": "TOR",
       "market": "h2h",
-      "selection": null,
+      "selection": "BAL",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
+      "odds": -112,
+      "stake": 1.12,
+      "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "hand_fade_override",
-      "home": "LAA",
-      "away": "MIN",
-      "gamePk": 823975,
+      "reason": null,
+      "home": "BAL",
+      "away": "TOR",
+      "gamePk": 824787,
       "fadeReason": "away"
     }
   ],
@@ -20327,6 +20327,30 @@
       "away": "ATL",
       "gamePk": 824139,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-20",
+      "commence": "2026-09-20T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dean Kremer"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "hand_fade_override",
+      "home": "LAA",
+      "away": "MIN",
+      "gamePk": 823975,
+      "fadeReason": "away"
     }
   ]
 }
