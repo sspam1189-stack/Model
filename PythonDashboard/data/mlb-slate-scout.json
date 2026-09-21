@@ -410,25 +410,41 @@
       "away_ml": 114,
       "home_ml": -134,
       "total": 8.5,
-      "over_ml": 102,
-      "under_ml": -124,
+      "over_ml": -112,
+      "under_ml": -108,
       "sides": {
         "away": {
           "pitcher": "DJ Herz",
           "listed_as": "DJ Herz",
           "resolved": false,
-          "hand": null,
+          "hand": "L",
           "team": "WSH",
           "opponent_offense": "DET",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 127,
+          "opp_wrc_game": 115,
+          "opp_wrc_recent": 97,
+          "opp_wrc_recent_pa": 462,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 108,
+              "pa": 295,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 127,
+              "pa": 190,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": null,
+              "pa": 100,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 56,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 22,
           "form": {
@@ -510,9 +526,9 @@
           ],
           "mismatch": null,
           "aligned75": [
-            null,
-            null,
-            null,
+            108,
+            127,
+            145,
             null
           ]
         },
@@ -620,7 +636,7 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 115,
       "away_offense_game": null,
       "game_offense": null,
       "offense_edge": null,
@@ -631,8 +647,8 @@
       "away": "MIN",
       "home": "SF",
       "commence": "2026-09-22T01:45:00Z",
-      "away_ml": -124,
-      "home_ml": 106,
+      "away_ml": -122,
+      "home_ml": 104,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -1051,7 +1067,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-21T16:01:56Z",
+  "generated": "2026-09-21T18:32:41Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

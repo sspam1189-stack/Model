@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-21T16:02:03Z",
+ "generated": "2026-09-21T18:32:44Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-20"
@@ -981,7 +981,7 @@
    "rule": "monday-over",
    "market": "totals",
    "pick": "over",
-   "price": 102,
+   "price": -112,
    "side": "O",
    "why": "Monday: travel day, light schedule, series openers",
    "gamePk": 824221,
@@ -997,15 +997,18 @@
    "market": "totals",
    "pick": "under",
    "price": -124,
-   "side": "U",
-   "why": "book laying -124 on the under",
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824221,
    "date": "2026-09-21",
    "commence": "2026-09-21T22:40:00Z",
    "matchup": "WSH @ DET",
-   "away": "WSH",
-   "home": "DET",
-   "total": 8.5
+   "total": 8.5,
+   "why": "book laying -124 on the under",
+   "stale": true,
+   "stale_now": "favourite now -134, total still 8.5"
   },
   {
    "rule": "monday-over",
