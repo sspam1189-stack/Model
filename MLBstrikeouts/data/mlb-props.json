@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-09-20T23:01:00Z",
+  "generated": "2026-09-21T00:30:57Z",
   "totalProjections": 28,
   "totalPicks": 3857,
   "totalWatchlist": 27,
@@ -131477,7 +131477,7 @@
       "proj_raw": 8.29,
       "would_be_pick": "UNDER",
       "date": "2026-09-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-20T21:00:59.116972Z",
       "lineupConfirmed": true
     },
@@ -131508,7 +131508,7 @@
       "proj_raw": 4.763,
       "would_be_pick": "OVER",
       "date": "2026-09-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-20T21:00:59.116972Z",
       "lineupConfirmed": true
     }
@@ -132296,7 +132296,7 @@
       "to_win_1u": 0.86,
       "proj_raw": 4.763,
       "date": "2026-09-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-20T21:00:59.116972Z",
       "lineupConfirmed": true
     },
@@ -132326,7 +132326,7 @@
       "to_win_1u": 1.42,
       "proj_raw": 8.29,
       "date": "2026-09-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-09-20T21:00:59.116972Z",
       "lineupConfirmed": true
     }
@@ -132384,16 +132384,16 @@
     "TOR": "Final",
     "COL": "Final",
     "SEA": "Final",
-    "LAA": "Game Over",
-    "MIN": "Game Over",
+    "LAA": "Final",
+    "MIN": "Final",
     "LAD": "Final",
     "SF": "Final",
     "SD": "Final",
     "MIA": "Final",
     "ARI": "Final",
     "NYY": "Final",
-    "BAL": "Warmup",
-    "MIL": "Warmup"
+    "BAL": "In Progress",
+    "MIL": "In Progress"
   },
   "gameTimesById": {
     "823570": "2026-09-20T17:10:00Z",
@@ -132423,11 +132423,11 @@
     "823001": "Final",
     "822844": "Final",
     "824300": "Final",
-    "823975": "Game Over",
+    "823975": "Final",
     "823896": "Final",
     "823247": "Final",
     "825028": "Final",
-    "824789": "Warmup"
+    "824789": "In Progress"
   },
   "todayProbables": [
     {
