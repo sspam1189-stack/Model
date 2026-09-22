@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-22T00:32:36Z",
+ "generated": "2026-09-22T12:15:42Z",
  "span": {
   "from": "2026-03-26",
-  "to": "2026-09-20"
+  "to": "2026-09-21"
  },
  "games": {
-  "gradeable": 2278,
-  "flagged": 595,
+  "gradeable": 2281,
+  "flagged": 596,
   "pushes_dropped": 56
  },
  "card_requires": "swingman",
@@ -54,23 +54,23 @@
   "layoff": "2026-09-02",
   "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-21",
+ "verdicts_as_of": "2026-09-22",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1131,
-   "l": 1147,
-   "n": 2278,
-   "units": -124.9,
-   "roi": -5.5
+   "w": 1133,
+   "l": 1148,
+   "n": 2281,
+   "units": -124.29,
+   "roi": -5.4
   },
   "over": {
-   "w": 1147,
-   "l": 1131,
-   "n": 2278,
-   "units": -89.68,
-   "roi": -3.9
+   "w": 1148,
+   "l": 1133,
+   "n": 2281,
+   "units": -90.77,
+   "roi": -4.0
   }
  },
  "combos": [
@@ -263,18 +263,18 @@
    "shadow": true,
    "shadow_from": "2026-09-02",
    "under": {
-    "w": 48,
+    "w": 49,
     "l": 42,
-    "n": 90,
-    "units": 2.18,
-    "roi": 2.4
+    "n": 91,
+    "units": 3.02,
+    "roi": 3.3
    },
    "over": {
     "w": 42,
-    "l": 48,
-    "n": 90,
-    "units": -9.67,
-    "roi": -10.7
+    "l": 49,
+    "n": 91,
+    "units": -10.67,
+    "roi": -11.7
    }
   },
   {
@@ -456,18 +456,18 @@
   {
    "flag": "layoff",
    "under": {
-    "w": 133,
+    "w": 134,
     "l": 111,
-    "n": 244,
-    "units": 10.28,
-    "roi": 4.2
+    "n": 245,
+    "units": 11.11,
+    "roi": 4.5
    },
    "over": {
     "w": 111,
-    "l": 133,
-    "n": 244,
-    "units": -32.47,
-    "roi": -13.3
+    "l": 134,
+    "n": 245,
+    "units": -33.47,
+    "roi": -13.7
    }
   },
   {

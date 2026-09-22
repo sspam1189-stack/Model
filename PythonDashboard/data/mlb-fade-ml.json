@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-22T00:32:13Z",
+  "generated": "2026-09-22T12:15:18Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 552,
+    "wins": 553,
     "losses": 228,
     "voids": 0,
     "skips": 59,
-    "staked": 987.68,
-    "units": 327.62,
-    "roi": 0.3317,
+    "staked": 988.76,
+    "units": 328.62,
+    "roi": 0.3324,
     "byType": {
       "ml": {
-        "wins": 540,
+        "wins": 541,
         "losses": 216,
         "voids": 0,
         "skips": 6,
-        "staked": 963.68,
-        "units": 323.14,
-        "roi": 0.3353
+        "staked": 964.76,
+        "units": 324.14,
+        "roi": 0.336
       },
       "ml_dog": {
         "wins": 12,
@@ -114,16 +114,64 @@
   },
   "today": [
     {
-      "date": "2026-09-21",
-      "commence": "2026-09-21T22:35:00Z",
+      "date": "2026-09-22",
+      "commence": "2026-09-22T22:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Trey Yesavage"
+        "Payton Tolle"
       ],
-      "fadeTeam": "TOR",
+      "fadeTeam": "BOS",
       "market": "h2h",
-      "selection": "BAL",
+      "selection": "CLE",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "CLE",
+      "gamePk": 824709,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-22",
+      "commence": "2026-09-23T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Cristian Javier"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "HOU",
+      "gamePk": 823089,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-22",
+      "commence": "2026-09-23T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "OAK",
       "line": null,
       "odds": -108,
       "stake": 1.08,
@@ -132,9 +180,57 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "BAL",
-      "away": "TOR",
-      "gamePk": 824787,
+      "home": "OAK",
+      "away": "LAA",
+      "gamePk": 824953,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-22",
+      "commence": "2026-09-22T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": 130,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "STL",
+      "gamePk": 823328,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-22",
+      "commence": "2026-09-23T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "SD",
+      "gamePk": 823897,
       "fadeReason": "away"
     }
   ],
@@ -20350,6 +20446,30 @@
       "home": "LAA",
       "away": "MIN",
       "gamePk": 823975,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-21",
+      "commence": "2026-09-21T22:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trey Yesavage"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "TOR",
+      "gamePk": 824787,
       "fadeReason": "away"
     }
   ]

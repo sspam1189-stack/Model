@@ -1,47 +1,183 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-09-21",
-  "generated": "2026-09-22T00:32:14Z",
+  "date": "2026-09-22",
+  "generated": "2026-09-22T12:15:19Z",
   "hands": {
-    "shane baz": "R",
-    "trey yesavage": "R",
-    "river ryan": "R",
-    "dj herz": "L",
-    "blade tidwell": "R",
-    "zebby matthews": "R"
+    "carlos rodon": "L",
+    "nick martinez": "R",
+    "max fried": "L",
+    "drew rasmussen": "R",
+    "chris bassitt": "R",
+    "max scherzer": "R",
+    "drew anderson": "R",
+    "jackson kent": "L",
+    "jared jones": "R",
+    "andre pallante": "R",
+    "zack wheeler": "R",
+    "dustin may": "R",
+    "payton tolle": "L",
+    "parker messick": "L",
+    "jr ritchie": "R",
+    "brandon williamson": "L",
+    "daniel lynch iv": "L",
+    "anthony kay": "L",
+    "janson junk": "R",
+    "mackenzie gore": "L",
+    "sean manaea": "L",
+    "kyle freeland": "L",
+    "michael soroka": "R",
+    "brady basso": "L",
+    "yusei kikuchi": "L",
+    "logan gilbert": "R",
+    "cristian javier": "R",
+    "anthony molina": "R",
+    "taj bradley": "R",
+    "michael king": "R"
   },
   "names": {
-    "shane baz": "Shane Baz",
-    "trey yesavage": "Trey Yesavage",
-    "river ryan": "River Ryan",
-    "dj herz": "DJ Herz",
-    "blade tidwell": "Blade Tidwell",
-    "zebby matthews": "Zebby Matthews"
+    "carlos rodon": "Carlos Rod\u00f3n",
+    "nick martinez": "Nick Martinez",
+    "max fried": "Max Fried",
+    "drew rasmussen": "Drew Rasmussen",
+    "chris bassitt": "Chris Bassitt",
+    "max scherzer": "Max Scherzer",
+    "drew anderson": "Drew Anderson",
+    "jackson kent": "Jackson Kent",
+    "jared jones": "Jared Jones",
+    "andre pallante": "Andre Pallante",
+    "zack wheeler": "Zack Wheeler",
+    "dustin may": "Dustin May",
+    "payton tolle": "Payton Tolle",
+    "parker messick": "Parker Messick",
+    "jr ritchie": "JR Ritchie",
+    "brandon williamson": "Brandon Williamson",
+    "daniel lynch iv": "Daniel Lynch IV",
+    "anthony kay": "Anthony Kay",
+    "janson junk": "Janson Junk",
+    "mackenzie gore": "MacKenzie Gore",
+    "sean manaea": "Sean Manaea",
+    "kyle freeland": "Kyle Freeland",
+    "michael soroka": "Michael Soroka",
+    "brady basso": "Brady Basso",
+    "yusei kikuchi": "Yusei Kikuchi",
+    "logan gilbert": "Logan Gilbert",
+    "cristian javier": "Cristian Javier",
+    "anthony molina": "Anthony Molina",
+    "taj bradley": "Taj Bradley",
+    "michael king": "Michael King"
   },
   "starters": {
+    "NYY": {
+      "name": "Max Fried",
+      "hand": "L"
+    },
+    "TB": {
+      "name": "Drew Rasmussen",
+      "hand": "R"
+    },
     "BAL": {
-      "name": "Shane Baz",
+      "name": "Chris Bassitt",
       "hand": "R"
     },
     "TOR": {
-      "name": "Trey Yesavage",
+      "name": "Max Scherzer",
       "hand": "R"
     },
     "DET": {
-      "name": "River Ryan",
+      "name": "Drew Anderson",
       "hand": "R"
     },
     "WSH": {
-      "name": "DJ Herz",
+      "name": "Jackson Kent",
       "hand": "L"
     },
+    "PIT": {
+      "name": "Jared Jones",
+      "hand": "R"
+    },
+    "STL": {
+      "name": "Andre Pallante",
+      "hand": "R"
+    },
+    "PHI": {
+      "name": "Zack Wheeler",
+      "hand": "R"
+    },
+    "MIL": {
+      "name": "Dustin May",
+      "hand": "R"
+    },
+    "BOS": {
+      "name": "Payton Tolle",
+      "hand": "L"
+    },
+    "CLE": {
+      "name": "Parker Messick",
+      "hand": "L"
+    },
+    "ATL": {
+      "name": "JR Ritchie",
+      "hand": "R"
+    },
+    "CIN": {
+      "name": "Brandon Williamson",
+      "hand": "L"
+    },
+    "KC": {
+      "name": "Daniel Lynch IV",
+      "hand": "L"
+    },
+    "CWS": {
+      "name": "Anthony Kay",
+      "hand": "L"
+    },
+    "MIA": {
+      "name": "Janson Junk",
+      "hand": "R"
+    },
+    "TEX": {
+      "name": "MacKenzie Gore",
+      "hand": "L"
+    },
+    "NYM": {
+      "name": "Sean Manaea",
+      "hand": "L"
+    },
+    "COL": {
+      "name": "Kyle Freeland",
+      "hand": "L"
+    },
+    "ARI": {
+      "name": "Michael Soroka",
+      "hand": "R"
+    },
+    "OAK": {
+      "name": "Brady Basso",
+      "hand": "L"
+    },
+    "LAA": {
+      "name": "Yusei Kikuchi",
+      "hand": "L"
+    },
+    "SEA": {
+      "name": "Logan Gilbert",
+      "hand": "R"
+    },
+    "HOU": {
+      "name": "Cristian Javier",
+      "hand": "R"
+    },
     "SF": {
-      "name": "Blade Tidwell",
+      "name": "Anthony Molina",
       "hand": "R"
     },
     "MIN": {
-      "name": "Zebby Matthews",
+      "name": "Taj Bradley",
+      "hand": "R"
+    },
+    "SD": {
+      "name": "Michael King",
       "hand": "R"
     }
   }
