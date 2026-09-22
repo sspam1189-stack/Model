@@ -2,14 +2,12 @@
   "sport": "MLB",
   "type": "pitch-hands-today",
   "date": "2026-09-22",
-  "generated": "2026-09-22T16:04:07Z",
+  "generated": "2026-09-22T18:33:37Z",
   "hands": {
     "carlos rodon": "L",
     "nick martinez": "R",
     "max fried": "L",
     "drew rasmussen": "R",
-    "chris bassitt": "R",
-    "max scherzer": "R",
     "drew anderson": "R",
     "riley cornelio": "R",
     "jared jones": "R",
@@ -34,15 +32,15 @@
     "cristian javier": "R",
     "anthony molina": "R",
     "taj bradley": "R",
-    "michael king": "R"
+    "michael king": "R",
+    "chris bassitt": "R",
+    "max scherzer": "R"
   },
   "names": {
     "carlos rodon": "Carlos Rod\u00f3n",
     "nick martinez": "Nick Martinez",
     "max fried": "Max Fried",
     "drew rasmussen": "Drew Rasmussen",
-    "chris bassitt": "Chris Bassitt",
-    "max scherzer": "Max Scherzer",
     "drew anderson": "Drew Anderson",
     "riley cornelio": "Riley Cornelio",
     "jared jones": "Jared Jones",
@@ -67,7 +65,9 @@
     "cristian javier": "Cristian Javier",
     "anthony molina": "Anthony Molina",
     "taj bradley": "Taj Bradley",
-    "michael king": "Michael King"
+    "michael king": "Michael King",
+    "chris bassitt": "Chris Bassitt",
+    "max scherzer": "Max Scherzer"
   },
   "starters": {
     "NYY": {
@@ -76,14 +76,6 @@
     },
     "TB": {
       "name": "Drew Rasmussen",
-      "hand": "R"
-    },
-    "BAL": {
-      "name": "Chris Bassitt",
-      "hand": "R"
-    },
-    "TOR": {
-      "name": "Max Scherzer",
       "hand": "R"
     },
     "DET": {
@@ -184,6 +176,14 @@
     },
     "SD": {
       "name": "Michael King",
+      "hand": "R"
+    },
+    "BAL": {
+      "name": "Chris Bassitt",
+      "hand": "R"
+    },
+    "TOR": {
+      "name": "Max Scherzer",
       "hand": "R"
     }
   }

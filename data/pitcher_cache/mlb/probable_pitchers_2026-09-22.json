@@ -3,7 +3,7 @@
     "game_id": 823543,
     "game_date": "2026-09-22",
     "game_time": "2026-09-22T17:05:00Z",
-    "status": "Pre-Game",
+    "status": "In Progress",
     "home_team": "NYY",
     "home_team_id": 147,
     "away_team": "TB",
@@ -26,20 +26,6 @@
     "home_pitcher_name": "Max Fried",
     "away_pitcher_id": 656876,
     "away_pitcher_name": "Drew Rasmussen"
-  },
-  {
-    "game_id": 824785,
-    "game_date": "2026-09-22",
-    "game_time": "2026-09-22T22:35:00Z",
-    "status": "Scheduled",
-    "home_team": "BAL",
-    "home_team_id": 110,
-    "away_team": "TOR",
-    "away_team_id": 141,
-    "home_pitcher_id": 605135,
-    "home_pitcher_name": "Chris Bassitt",
-    "away_pitcher_id": 453286,
-    "away_pitcher_name": "Max Scherzer"
   },
   {
     "game_id": 824222,
@@ -157,7 +143,7 @@
     "game_id": 824302,
     "game_date": "2026-09-22",
     "game_time": "2026-09-23T00:40:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "COL",
     "home_team_id": 115,
     "away_team": "ARI",
@@ -222,5 +208,19 @@
     "home_pitcher_name": "",
     "away_pitcher_id": 650633,
     "away_pitcher_name": "Michael King"
+  },
+  {
+    "game_id": 824785,
+    "game_date": "2026-09-22",
+    "game_time": "2026-09-22T22:35:00Z",
+    "status": "Postponed",
+    "home_team": "BAL",
+    "home_team_id": 110,
+    "away_team": "TOR",
+    "away_team_id": 141,
+    "home_pitcher_id": 605135,
+    "home_pitcher_name": "Chris Bassitt",
+    "away_pitcher_id": 453286,
+    "away_pitcher_name": "Max Scherzer"
   }
 ]
