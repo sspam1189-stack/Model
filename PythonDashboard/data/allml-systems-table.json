@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-22T18:34:04Z",
+ "generated": "2026-09-22T21:04:46Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-21"
+  "to": "2026-09-22"
  },
- "games": 2339,
+ "games": 2340,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
   "over": -4.1,
-  "under": -5.4,
+  "under": -5.3,
   "parlay": 0.0
  },
  "systems": [
@@ -95,7 +95,7 @@
      "roi": 22.2
     }
    ],
-   "per_day": 0.97
+   "per_day": 0.96
   },
   {
    "baseline_key": "side",
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.4,
+   "baseline": -5.3,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -562,14 +562,14 @@
    "ladder_fails": false,
    "record": {
     "w": 80,
-    "l": 57,
-    "n": 137,
-    "units": 12.65,
-    "roi": 9.2
+    "l": 58,
+    "n": 138,
+    "units": 11.65,
+    "roi": 8.4
    },
    "halves": [
     7.7,
-    11.6
+    9.6
    ],
    "monthly": [
     {
@@ -623,10 +623,10 @@
     {
      "month": "2026-09",
      "w": 8,
-     "l": 5,
-     "n": 13,
-     "units": 1.6,
-     "roi": 12.3
+     "l": 6,
+     "n": 14,
+     "units": 0.6,
+     "roi": 4.3
     }
    ],
    "per_day": 0.77
@@ -715,7 +715,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.4,
+   "baseline": -5.3,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -793,7 +793,7 @@
      "roi": -28.4
     }
    ],
-   "per_day": 2.69
+   "per_day": 2.67
   },
   {
    "baseline_key": "side",
@@ -867,11 +867,11 @@
      "roi": -42.3
     }
    ],
-   "per_day": 1.13
+   "per_day": 1.12
   },
   {
    "baseline_key": "under",
-   "baseline": -5.4,
+   "baseline": -5.3,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -946,45 +946,12 @@
  ],
  "today": [
   {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": -124,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 823543,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T17:05:00Z",
-   "matchup": "TB @ NYY",
-   "away": "TB",
-   "home": "NYY",
-   "total": 6.5
-  },
-  {
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -130,
-   "line": 7.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823543,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T17:05:00Z",
-   "matchup": "TB @ NYY",
-   "total": 7.5,
-   "why": "book laying -130 on the under",
-   "stale": true,
-   "stale_now": "favourite now -138, total now 6.5 (was 7.5)"
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
+   "price": -128,
    "side": "U",
-   "why": "book laying -122 on the under",
+   "why": "book laying -128 on the under",
    "gamePk": 824222,
    "date": "2026-09-22",
    "commence": "2026-09-22T22:40:00Z",
@@ -1027,9 +994,24 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -115,
+   "price": 104,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 824709,
+   "date": "2026-09-22",
+   "commence": "2026-09-22T22:45:00Z",
+   "matchup": "CLE @ BOS",
+   "away": "CLE",
+   "home": "BOS",
+   "total": 6.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -128,
+   "side": "U",
+   "why": "book laying -128 on the under",
    "gamePk": 824709,
    "date": "2026-09-22",
    "commence": "2026-09-22T22:45:00Z",
@@ -1042,9 +1024,9 @@
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "TB",
-   "price": 116,
+   "price": 110,
    "side": null,
-   "why": "Drew Rasmussen \u2014 team +65% over his last 8 starts, priced +116",
+   "why": "Drew Rasmussen \u2014 team +65% over his last 8 starts, priced +110",
    "gamePk": 823494,
    "date": "2026-09-22",
    "commence": "2026-09-22T23:05:00Z",
@@ -1087,7 +1069,7 @@
    "rule": "away-dog-ml",
    "market": "h2h",
    "pick": "CIN",
-   "price": 154,
+   "price": 190,
    "side": null,
    "why": "away dog at a 9.5 total",
    "gamePk": 824867,
@@ -1237,7 +1219,7 @@
    "total": 8.5,
    "why": "book laying -120 on the under",
    "stale": true,
-   "stale_now": "favourite now -124, total still 8.5"
+   "stale_now": "favourite now -130, total still 8.5"
   }
  ],
  "today_date": "2026-09-22"

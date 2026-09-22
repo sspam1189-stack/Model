@@ -1,13 +1,13 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-22T18:33:59Z",
+ "generated": "2026-09-22T21:04:40Z",
  "span": {
   "from": "2026-03-26",
-  "to": "2026-09-21"
+  "to": "2026-09-22"
  },
  "games": {
-  "gradeable": 2281,
+  "gradeable": 2282,
   "flagged": 596,
   "pushes_dropped": 56
  },
@@ -59,17 +59,17 @@
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1133,
+   "w": 1134,
    "l": 1148,
-   "n": 2281,
-   "units": -124.29,
+   "n": 2282,
+   "units": -123.27,
    "roi": -5.4
   },
   "over": {
    "w": 1148,
-   "l": 1133,
-   "n": 2281,
-   "units": -90.77,
+   "l": 1134,
+   "n": 2282,
+   "units": -91.77,
    "roi": -4.0
   }
  },
