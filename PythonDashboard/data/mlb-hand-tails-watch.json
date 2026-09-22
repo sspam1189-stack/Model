@@ -1,13 +1,36 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-22T21:04:26Z",
+  "generated": "2026-09-22T23:02:25Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-22",
+      "commence": "2026-09-22T17:05:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Carlos Rod\u00f3n",
+      "hand": "L",
+      "arm_team": "NYY",
+      "opp_team": "TB",
+      "selection": "NYY",
+      "home": "NYY",
+      "away": "TB",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": -138,
+      "suggest": "take",
+      "suggestUnits": 4.0,
+      "games": 15,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
@@ -370,24 +393,6 @@
       "era": 3.63
     },
     {
-      "pitcher": "Nick Martinez",
-      "hand": "R",
-      "games": 11,
-      "suggest": "take",
-      "suggestUnits": 4.76,
-      "fade": {
-        "w": 3,
-        "l": 8,
-        "u": -5.66
-      },
-      "take": {
-        "w": 8,
-        "l": 3,
-        "u": 4.76
-      },
-      "era": 2.94
-    },
-    {
       "pitcher": "Grant Holmes",
       "hand": "R",
       "games": 14,
@@ -602,6 +607,24 @@
         "u": -4.16
       },
       "era": 7.77
+    },
+    {
+      "pitcher": "Carlos Rod\u00f3n",
+      "hand": "L",
+      "games": 15,
+      "suggest": "take",
+      "suggestUnits": 4.0,
+      "fade": {
+        "w": 5,
+        "l": 10,
+        "u": -5.02
+      },
+      "take": {
+        "w": 10,
+        "l": 5,
+        "u": 4.0
+      },
+      "era": 2.95
     },
     {
       "pitcher": "Yoshinobu Yamamoto",

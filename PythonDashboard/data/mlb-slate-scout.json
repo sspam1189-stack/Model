@@ -4282,8 +4282,8 @@
       "away": "ARI",
       "home": "COL",
       "commence": "2026-09-23T00:40:00Z",
-      "away_ml": -194,
-      "home_ml": 162,
+      "away_ml": -184,
+      "home_ml": 154,
       "total": 10.5,
       "over_ml": -132,
       "under_ml": 108,
@@ -5478,8 +5478,8 @@
       "away_ml": -134,
       "home_ml": 114,
       "total": 7.5,
-      "over_ml": -104,
-      "under_ml": -118,
+      "over_ml": 108,
+      "under_ml": -132,
       "sides": {
         "away": {
           "pitcher": "Taj Bradley",
@@ -6045,21 +6045,37 @@
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
+          "pitcher": "Brock Stewart",
+          "listed_as": "Brock Stewart",
           "resolved": false,
-          "hand": null,
+          "hand": "R",
           "team": "LAD",
           "opponent_offense": "SD",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 129,
+          "opp_wrc_game": 146,
+          "opp_wrc_recent": 114,
+          "opp_wrc_recent_pa": 1188,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 113,
+              "pa": 745,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 129,
+              "pa": 483,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 136,
+              "pa": 417,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 147,
+              "pa": 211,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 15,
           "form": {
@@ -6141,17 +6157,17 @@
           ],
           "mismatch": null,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            113,
+            129,
+            136,
+            147
           ]
         }
       },
       "home_offense_game": 148,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 146,
+      "game_offense": 147,
+      "offense_edge": -2,
       "aligned_ml": null
     }
   ],
@@ -6487,7 +6503,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-22T21:04:39Z",
+  "generated": "2026-09-22T23:02:38Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
