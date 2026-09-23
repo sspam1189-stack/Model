@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-23T18:32:33Z",
+  "generated": "2026-09-23T21:02:47Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 556,
+    "wins": 557,
     "losses": 230,
     "voids": 0,
     "skips": 59,
-    "staked": 994.56,
-    "units": 329.26,
-    "roi": 0.3311,
+    "staked": 995.56,
+    "units": 330.7,
+    "roi": 0.3322,
     "byType": {
       "ml": {
-        "wins": 544,
+        "wins": 545,
         "losses": 218,
         "voids": 0,
         "skips": 6,
-        "staked": 970.56,
-        "units": 324.78,
-        "roi": 0.3346
+        "staked": 971.56,
+        "units": 326.22,
+        "roi": 0.3358
       },
       "ml_dog": {
         "wins": 12,
@@ -115,27 +115,27 @@
   "today": [
     {
       "date": "2026-09-23",
-      "commence": "2026-09-23T17:10:00Z",
+      "commence": "2026-09-23T19:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Framber Valdez"
+        "Connor Prielipp"
       ],
-      "fadeTeam": "DET",
+      "fadeTeam": "MIN",
       "market": "h2h",
-      "selection": "WSH",
+      "selection": "SF",
       "line": null,
-      "odds": 144,
+      "odds": 130,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "DET",
-      "away": "WSH",
-      "gamePk": 824223,
-      "fadeReason": "all"
+      "home": "SF",
+      "away": "MIN",
+      "gamePk": 823168,
+      "fadeReason": "away"
     },
     {
       "date": "2026-09-23",
@@ -188,27 +188,27 @@
     },
     {
       "date": "2026-09-23",
-      "commence": "2026-09-23T19:45:00Z",
+      "commence": "2026-09-23T22:35:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Connor Prielipp"
+        "Trey Gibson"
       ],
-      "fadeTeam": "MIN",
+      "fadeTeam": "BAL",
       "market": "h2h",
-      "selection": "SF",
+      "selection": "TOR",
       "line": null,
-      "odds": 130,
+      "odds": 102,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "SF",
-      "away": "MIN",
-      "gamePk": 823168,
-      "fadeReason": "away"
+      "home": "BAL",
+      "away": "TOR",
+      "gamePk": 824784,
+      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -20568,6 +20568,30 @@
       "away": "SD",
       "gamePk": 823897,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-23",
+      "commence": "2026-09-23T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 144,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.44,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "WSH",
+      "gamePk": 824223,
+      "fadeReason": "all"
     }
   ]
 }

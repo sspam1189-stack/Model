@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-23T18:32:50Z",
+ "generated": "2026-09-23T21:03:05Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-22"
+  "to": "2026-09-23"
  },
- "games": 2354,
+ "games": 2356,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
-  "over": -4.2,
-  "under": -5.3,
+  "over": -4.3,
+  "under": -5.2,
   "parlay": 0.0
  },
  "systems": [
@@ -95,7 +95,7 @@
      "roi": 39.0
     }
    ],
-   "per_day": 0.97
+   "per_day": 0.96
   },
   {
    "baseline_key": "side",
@@ -317,7 +317,7 @@
      "roi": 11.0
     }
    ],
-   "per_day": 0.53
+   "per_day": 0.52
   },
   {
    "baseline_key": "parlay",
@@ -399,11 +399,11 @@
      "roi": -5.2
     }
    ],
-   "per_day": 1.54
+   "per_day": 1.53
   },
   {
    "baseline_key": "over",
-   "baseline": -4.2,
+   "baseline": -4.3,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -473,11 +473,11 @@
      "roi": -3.6
     }
    ],
-   "per_day": 1.25
+   "per_day": 1.24
   },
   {
    "baseline_key": "under",
-   "baseline": -5.3,
+   "baseline": -5.2,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.2,
+   "baseline": -4.3,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -629,11 +629,11 @@
      "roi": 8.7
     }
    ],
-   "per_day": 0.79
+   "per_day": 0.78
   },
   {
    "baseline_key": "over",
-   "baseline": -4.2,
+   "baseline": -4.3,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -711,11 +711,11 @@
      "roi": 12.4
     }
    ],
-   "per_day": 1.44
+   "per_day": 1.43
   },
   {
    "baseline_key": "under",
-   "baseline": -5.3,
+   "baseline": -5.2,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -725,15 +725,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 269,
+    "w": 270,
     "l": 218,
-    "n": 487,
-    "units": 1.43,
-    "roi": 0.3
+    "n": 488,
+    "units": 2.24,
+    "roi": 0.5
    },
    "halves": [
     4.4,
-    -3.4
+    -3.1
    ],
    "monthly": [
     {
@@ -786,14 +786,14 @@
     },
     {
      "month": "2026-09",
-     "w": 35,
+     "w": 36,
      "l": 47,
-     "n": 82,
-     "units": -19.14,
-     "roi": -23.3
+     "n": 83,
+     "units": -18.33,
+     "roi": -22.1
     }
    ],
-   "per_day": 2.72
+   "per_day": 2.71
   },
   {
    "baseline_key": "side",
@@ -867,11 +867,11 @@
      "roi": -35.0
     }
    ],
-   "per_day": 1.13
+   "per_day": 1.12
   },
   {
    "baseline_key": "under",
-   "baseline": -5.3,
+   "baseline": -5.2,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -945,21 +945,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -124,
-   "side": "U",
-   "why": "book laying -124 on the under",
-   "gamePk": 824785,
-   "date": "2026-09-23",
-   "commence": "2026-09-23T17:35:00Z",
-   "matchup": "TOR @ BAL",
-   "away": "TOR",
-   "home": "BAL",
-   "total": 7.5
-  },
   {
    "rule": "home-dog-under-parlay",
    "market": "parlay",
@@ -1064,7 +1049,7 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -122,
+   "price": -118,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
    "gamePk": 823492,
@@ -1094,9 +1079,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -122,
+   "price": -128,
    "side": "U",
-   "why": "book laying -122 on the under",
+   "why": "book laying -128 on the under",
    "gamePk": 824868,
    "date": "2026-09-23",
    "commence": "2026-09-23T23:15:00Z",
@@ -1139,13 +1124,13 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "COL",
-   "price": 326,
+   "price": 309,
    "side": null,
-   "why": "COL ML +134 with U11.5 -122, pays 4.26x",
+   "why": "COL ML +134 with U11.5 -134, pays 4.09x",
    "line": 11.5,
    "ml_price": 134,
-   "under_price": -122,
-   "payout": 4.258,
+   "under_price": -134,
+   "payout": 4.086,
    "gamePk": 824301,
    "date": "2026-09-23",
    "commence": "2026-09-24T00:40:00Z",
@@ -1158,9 +1143,9 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -122,
+   "price": -134,
    "side": "U",
-   "why": "book laying -122 on the under",
+   "why": "book laying -134 on the under",
    "gamePk": 824301,
    "date": "2026-09-23",
    "commence": "2026-09-24T00:40:00Z",

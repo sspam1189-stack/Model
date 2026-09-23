@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-23T18:32:39Z",
+  "generated": "2026-09-23T21:02:52Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -148,18 +148,18 @@
     }
   ],
   "summary": {
-    "wins": 79,
+    "wins": 80,
     "losses": 40,
-    "units": 33.43,
-    "staked": 154.03,
-    "roi": 0.217,
+    "units": 34.87,
+    "staked": 155.03,
+    "roi": 0.2249,
     "byAction": {
       "fade": {
-        "wins": 79,
+        "wins": 80,
         "losses": 40,
-        "units": 33.43,
-        "staked": 154.03,
-        "roi": 0.217
+        "units": 34.87,
+        "staked": 155.03,
+        "roi": 0.2249
       },
       "take": {
         "wins": 0,
@@ -178,39 +178,15 @@
         "roi": 0.2895
       },
       "L": {
-        "wins": 35,
+        "wins": 36,
         "losses": 23,
-        "units": 10.08,
-        "staked": 73.38,
-        "roi": 0.1374
+        "units": 11.52,
+        "staked": 74.38,
+        "roi": 0.1549
       }
     }
   },
   "today": [
-    {
-      "date": "2026-09-23",
-      "commence": "2026-09-23T17:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Framber Valdez",
-      "entry": "Framber Valdez",
-      "hand": "L",
-      "arm_team": "DET",
-      "opp_team": "WSH",
-      "selection": "WSH",
-      "home": "DET",
-      "away": "WSH",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 144,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-23",
       "commence": "2026-09-23T19:45:00Z",
@@ -250,10 +226,10 @@
       "away": "CWS",
       "oppLefty": 7,
       "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "lineupConfirmed": true,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -3162,6 +3138,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-23",
+      "commence": "2026-09-23T17:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Framber Valdez",
+      "entry": "Framber Valdez",
+      "hand": "L",
+      "arm_team": "DET",
+      "opp_team": "WSH",
+      "selection": "WSH",
+      "home": "DET",
+      "away": "WSH",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 144,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.44,
       "book": "fanduel",
       "source": "fanduel_api"
     }

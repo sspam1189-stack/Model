@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-23T18:32:39Z",
+  "generated": "2026-09-23T21:02:53Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -45,12 +45,12 @@
       "away": "MIL",
       "oppLefty": 6,
       "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -126,
       "suggest": "take",
       "suggestUnits": 8.22,
       "games": 10,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-23",
@@ -66,13 +66,13 @@
       "home": "BOS",
       "away": "CLE",
       "oppLefty": 8,
-      "oppRighty": 5,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -134,
       "suggest": "take",
       "suggestUnits": 5.56,
       "games": 18,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-23",
@@ -89,12 +89,12 @@
       "away": "CLE",
       "oppLefty": 4,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 114,
       "suggest": "take",
       "suggestUnits": 14.8,
       "games": 24,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-23",
@@ -111,12 +111,34 @@
       "away": "CIN",
       "oppLefty": 4,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 210,
       "suggest": "take",
       "suggestUnits": 6.02,
       "games": 25,
-      "result": "unconfirmed"
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-23",
+      "commence": "2026-09-24T00:05:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Cody Bradford",
+      "hand": "L",
+      "arm_team": "TEX",
+      "opp_team": "NYM",
+      "selection": "NYM",
+      "home": "TEX",
+      "away": "NYM",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -108,
+      "suggest": "fade",
+      "suggestUnits": 5.46,
+      "games": 4,
+      "result": "pending"
     },
     {
       "date": "2026-09-23",
@@ -132,7 +154,7 @@
       "home": "LAD",
       "away": "SD",
       "oppLefty": 3,
-      "oppRighty": 7,
+      "oppRighty": 6,
       "lineupConfirmed": false,
       "odds": null,
       "suggest": "take",
