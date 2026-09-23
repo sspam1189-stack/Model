@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-23T16:04:38Z",
+ "generated": "2026-09-23T18:32:50Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-22"
@@ -995,7 +995,7 @@
    "total": 8.5,
    "why": "book laying -124 on the under",
    "stale": true,
-   "stale_now": "favourite now -122, total now 7.5 (was 8.5)"
+   "stale_now": "favourite now -120, total now 7.5 (was 8.5)"
   },
   {
    "rule": "cold-arms-under",
@@ -1064,7 +1064,7 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -110,
+   "price": -122,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
    "gamePk": 823492,
@@ -1174,23 +1174,24 @@
    "market": "h2h",
    "pick": "OAK",
    "price": 116,
-   "side": null,
-   "why": "home to a AL West rival at +116",
+   "line": null,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824951,
    "date": "2026-09-23",
    "commence": "2026-09-24T01:40:00Z",
    "matchup": "LAA @ OAK",
-   "away": "LAA",
-   "home": "OAK",
-   "total": 9.5
+   "total": null,
+   "why": "home to a AL West rival at +116",
+   "stale": true,
+   "stale_now": "favourite now -134, total still 9.5"
   },
   {
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "OAK",
    "price": 304,
-   "side": null,
-   "why": "OAK ML +116 with U9.5 -115, pays 4.04x",
    "line": 9.5,
    "ml_price": 116,
    "under_price": -115,
@@ -1199,9 +1200,10 @@
    "date": "2026-09-23",
    "commence": "2026-09-24T01:40:00Z",
    "matchup": "LAA @ OAK",
-   "away": "LAA",
-   "home": "OAK",
-   "total": 9.5
+   "total": 9.5,
+   "why": "OAK ML +116 with U9.5 -115, pays 4.04x",
+   "stale": true,
+   "stale_now": "favourite now -134, total still 9.5"
   },
   {
    "rule": "under-juice",

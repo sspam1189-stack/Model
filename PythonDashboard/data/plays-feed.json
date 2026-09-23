@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-23T16:04:54Z",
+ "generated": "2026-09-23T18:32:58Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -119,7 +119,7 @@
    "play": "NYM/TEX U7.5",
    "market": "totals",
    "line": 7.5,
-   "price": -112,
+   "price": -106,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -213,10 +213,30 @@
   },
   {
    "date": "2026-09-23",
+   "play": "TB/NYY U6.5",
+   "market": "totals",
+   "line": 6.5,
+   "price": 100,
+   "rule": "flag-plays",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "TB @ NYY",
+   "gamePk": 823492,
+   "commence": "2026-09-23T23:05:00Z",
+   "basis": "Verdict under for swingman+layoff+stale-window. Mason Englert swingman-8g, layoff-68d, stale-window-101d.",
+   "combo": "swingman+layoff+stale-window",
+   "open_line": 6.5,
+   "open_price": 100,
+   "name": "Flag Plays",
+   "group": "scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-23",
    "play": "TB/NYY O6.5",
    "market": "totals",
    "line": 6.5,
-   "price": -110,
+   "price": -122,
    "rule": "low-line-over",
    "result": "pending",
    "profit": 0.0,
@@ -49652,16 +49672,16 @@
    "w": 1380,
    "l": 1264,
    "push": 28,
-   "n": 2698,
-   "pending": 26,
+   "n": 2699,
+   "pending": 27,
    "units": 246.34
   },
   "card": {
    "w": 674,
    "l": 630,
    "push": 6,
-   "n": 1325,
-   "pending": 15,
+   "n": 1326,
+   "pending": 16,
    "units": 246.34
   },
   "by_rule": {
@@ -49733,8 +49753,8 @@
     "w": 41,
     "l": 38,
     "push": 0,
-    "n": 83,
-    "pending": 4,
+    "n": 84,
+    "pending": 5,
     "units": 1.71
    },
    "form-under": {

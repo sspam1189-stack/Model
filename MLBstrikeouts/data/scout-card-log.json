@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-23T16:04:53Z",
+  "generated": "2026-09-23T18:32:58Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -51594,7 +51594,7 @@
       "play": "NYM/TEX U7.5",
       "market": "totals",
       "game": "NYM @ TEX",
-      "price": -112,
+      "price": -106,
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
@@ -51608,6 +51608,25 @@
       "shadow": true,
       "open_line": 7.5,
       "open_price": -112
+    },
+    {
+      "date": "2026-09-23",
+      "play": "TB/NYY U6.5",
+      "market": "totals",
+      "game": "TB @ NYY",
+      "price": 100,
+      "stake": 1.0,
+      "rule": "flag-plays",
+      "auto": true,
+      "basis": "Verdict under for swingman+layoff+stale-window. Mason Englert swingman-8g, layoff-68d, stale-window-101d.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 6.5,
+      "combo": "swingman+layoff+stale-window",
+      "gamePk": 823492,
+      "commence": "2026-09-23T23:05:00Z",
+      "open_line": 6.5,
+      "open_price": 100
     },
     {
       "date": "2026-09-23",
@@ -51730,7 +51749,7 @@
       "play": "TB/NYY O6.5",
       "market": "totals",
       "game": "TB @ NYY",
-      "price": -110,
+      "price": -122,
       "stake": 1.0,
       "rule": "low-line-over",
       "auto": true,
