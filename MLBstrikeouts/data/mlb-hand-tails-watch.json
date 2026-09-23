@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-23T21:02:53Z",
+  "generated": "2026-09-23T23:02:34Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -154,
       "suggest": "fade",
-      "suggestUnits": 3.0,
-      "games": 3,
+      "suggestUnits": 4.0,
+      "games": 4,
       "result": "pending"
     },
     {
@@ -68,7 +68,7 @@
       "oppLefty": 8,
       "oppRighty": 4,
       "lineupConfirmed": true,
-      "odds": -134,
+      "odds": -142,
       "suggest": "take",
       "suggestUnits": 5.56,
       "games": 18,
@@ -90,7 +90,7 @@
       "oppLefty": 4,
       "oppRighty": 7,
       "lineupConfirmed": true,
-      "odds": 114,
+      "odds": 120,
       "suggest": "take",
       "suggestUnits": 14.8,
       "games": 24,
@@ -112,7 +112,7 @@
       "oppLefty": 4,
       "oppRighty": 6,
       "lineupConfirmed": true,
-      "odds": 210,
+      "odds": 220,
       "suggest": "take",
       "suggestUnits": 6.02,
       "games": 25,
@@ -139,28 +139,6 @@
       "suggestUnits": 5.46,
       "games": 4,
       "result": "pending"
-    },
-    {
-      "date": "2026-09-23",
-      "commence": "2026-09-24T02:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "arm_team": "SD",
-      "opp_team": "LAD",
-      "selection": "SD",
-      "home": "LAD",
-      "away": "SD",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "take",
-      "suggestUnits": 6.72,
-      "games": 24,
-      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -831,6 +809,24 @@
       "era": 2.51
     },
     {
+      "pitcher": "Cesar Perdomo",
+      "hand": "L",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 4.0,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 4.0
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.0
+      },
+      "era": 4.11
+    },
+    {
       "pitcher": "Trevor Rogers",
       "hand": "L",
       "games": 22,
@@ -1063,24 +1059,6 @@
         "u": -3.02
       },
       "era": 4.58
-    },
-    {
-      "pitcher": "Cesar Perdomo",
-      "hand": "L",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.0
-      },
-      "era": 4.11
     },
     {
       "pitcher": "Dean Kremer",

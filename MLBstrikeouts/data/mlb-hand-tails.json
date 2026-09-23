@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-23T21:02:52Z",
+  "generated": "2026-09-23T23:02:33Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -135,6 +135,12 @@
   ],
   "demotions": [
     {
+      "name": "Connor Prielipp",
+      "hand": "L",
+      "games": 19,
+      "units": 2.16
+    },
+    {
       "name": "Reid Detmers",
       "hand": "L",
       "games": 24,
@@ -149,17 +155,17 @@
   ],
   "summary": {
     "wins": 80,
-    "losses": 40,
-    "units": 34.87,
-    "staked": 155.03,
-    "roi": 0.2249,
+    "losses": 41,
+    "units": 33.87,
+    "staked": 156.03,
+    "roi": 0.2171,
     "byAction": {
       "fade": {
         "wins": 80,
-        "losses": 40,
-        "units": 34.87,
-        "staked": 155.03,
-        "roi": 0.2249
+        "losses": 41,
+        "units": 33.87,
+        "staked": 156.03,
+        "roi": 0.2171
       },
       "take": {
         "wins": 0,
@@ -179,38 +185,14 @@
       },
       "L": {
         "wins": 36,
-        "losses": 23,
-        "units": 11.52,
-        "staked": 74.38,
-        "roi": 0.1549
+        "losses": 24,
+        "units": 10.52,
+        "staked": 75.38,
+        "roi": 0.1396
       }
     }
   },
   "today": [
-    {
-      "date": "2026-09-23",
-      "commence": "2026-09-23T19:45:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Connor Prielipp",
-      "entry": "Connor Prielipp",
-      "hand": "L",
-      "arm_team": "MIN",
-      "opp_team": "SF",
-      "selection": "SF",
-      "home": "SF",
-      "away": "MIN",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 130,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-09-23",
       "commence": "2026-09-23T23:40:00Z",
@@ -272,12 +254,12 @@
       "selection": "LAA",
       "home": "OAK",
       "away": "LAA",
-      "oppLefty": 0,
-      "oppRighty": 9,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -134,
+      "stake": 1.34,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -3162,6 +3144,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.44,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-23",
+      "commence": "2026-09-23T19:45:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Connor Prielipp",
+      "entry": "Connor Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "SF",
+      "selection": "SF",
+      "home": "SF",
+      "away": "MIN",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": 130,
+      "stake": 1.0,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

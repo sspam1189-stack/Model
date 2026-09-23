@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-23T21:03:14Z",
+ "generated": "2026-09-23T23:03:12Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -250,7 +250,7 @@
    "play": "TB/NYY U6.5",
    "market": "totals",
    "line": 6.5,
-   "price": -104,
+   "price": -110,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -270,7 +270,7 @@
    "play": "TB/NYY O6.5",
    "market": "totals",
    "line": 6.5,
-   "price": -118,
+   "price": -110,
    "rule": "low-line-over",
    "result": "pending",
    "profit": 0.0,
@@ -493,15 +493,18 @@
    "line": 7.5,
    "price": 104,
    "rule": "flag-plays",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "WIN",
+   "profit": 1.04,
    "game": "MIN @ SF",
    "gamePk": 823168,
    "commence": "2026-09-23T19:45:00Z",
    "basis": "Verdict under for swingman. Connor Prielipp swingman-2g.",
    "combo": "swingman",
    "open_line": 7.5,
+   "close_line": 7.5,
+   "line_move": 0.0,
    "open_price": -104,
+   "clv": "flat",
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
@@ -513,14 +516,17 @@
    "line": 7.5,
    "price": 369,
    "rule": "home-dog-under-parlay",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "MIN @ SF",
    "gamePk": 823168,
    "commence": "2026-09-23T19:45:00Z",
    "basis": "Home dog + under: SF ML +130 with U7.5 +104, pays 4.69x",
    "open_line": 7.5,
+   "close_line": 7.5,
+   "line_move": 0.0,
    "open_price": 347,
+   "clv": "flat",
    "name": "Home dog + under",
    "group": "non-scout",
    "kind": "card"
@@ -49749,20 +49755,20 @@
  ],
  "summary": {
   "all": {
-   "w": 1383,
-   "l": 1264,
+   "w": 1384,
+   "l": 1265,
    "push": 28,
    "n": 2703,
-   "pending": 28,
-   "units": 247.27
+   "pending": 26,
+   "units": 247.31
   },
   "card": {
-   "w": 675,
-   "l": 630,
+   "w": 676,
+   "l": 631,
    "push": 6,
    "n": 1329,
-   "pending": 18,
-   "units": 247.27
+   "pending": 16,
+   "units": 247.31
   },
   "by_rule": {
    "aligned-ml": {
@@ -49830,12 +49836,12 @@
     "units": 27.72
    },
    "flag-plays": {
-    "w": 42,
+    "w": 43,
     "l": 38,
     "push": 0,
     "n": 85,
-    "pending": 5,
-    "units": 2.64
+    "pending": 4,
+    "units": 3.68
    },
    "form-under": {
     "w": 17,
@@ -49855,11 +49861,11 @@
    },
    "home-dog-under-parlay": {
     "w": 91,
-    "l": 200,
+    "l": 201,
     "push": 0,
     "n": 295,
-    "pending": 4,
-    "units": 99.85
+    "pending": 3,
+    "units": 98.85
    },
    "home-slide-ml": {
     "w": 37,

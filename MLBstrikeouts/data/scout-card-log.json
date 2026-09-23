@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-23T21:03:13Z",
+  "generated": "2026-09-23T23:03:11Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -51567,14 +51567,17 @@
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for swingman. Connor Prielipp swingman-2g.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.04,
       "line": 7.5,
       "combo": "swingman",
       "gamePk": 823168,
       "commence": "2026-09-23T19:45:00Z",
       "open_line": 7.5,
-      "open_price": -104
+      "open_price": -104,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat"
     },
     {
       "date": "2026-09-23",
@@ -51620,7 +51623,7 @@
       "play": "TB/NYY U6.5",
       "market": "totals",
       "game": "TB @ NYY",
-      "price": -104,
+      "price": -110,
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
@@ -51684,8 +51687,8 @@
       "rule": "home-dog-under-parlay",
       "auto": true,
       "basis": "Home dog + under: SF ML +130 with U7.5 +104, pays 4.69x",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 7.5,
       "gamePk": 823168,
       "commence": "2026-09-23T19:45:00Z",
@@ -51696,7 +51699,11 @@
       "open_line": 7.5,
       "open_price": 347,
       "open_ml_price": 128,
-      "open_under_price": -104
+      "open_under_price": -104,
+      "close_line": 7.5,
+      "line_move": 0.0,
+      "clv": "flat",
+      "ml_price_move": -0.4
     },
     {
       "date": "2026-09-23",
@@ -51775,7 +51782,7 @@
       "play": "TB/NYY O6.5",
       "market": "totals",
       "game": "TB @ NYY",
-      "price": -118,
+      "price": -110,
       "stake": 1.0,
       "rule": "low-line-over",
       "auto": true,

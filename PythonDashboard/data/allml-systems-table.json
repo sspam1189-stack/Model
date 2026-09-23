@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-23T21:03:05Z",
+ "generated": "2026-09-23T23:02:55Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-23"
  },
- "games": 2356,
+ "games": 2357,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
   "over": -4.3,
-  "under": -5.2,
+  "under": -5.1,
   "parlay": 0.0
  },
  "systems": [
@@ -332,14 +332,14 @@
    "ladder_fails": false,
    "record": {
     "w": 89,
-    "l": 186,
-    "n": 275,
-    "units": 107.91,
-    "roi": 39.2
+    "l": 187,
+    "n": 276,
+    "units": 106.91,
+    "roi": 38.7
    },
    "halves": [
     50.9,
-    29.9
+    29.1
    ],
    "monthly": [
     {
@@ -393,10 +393,10 @@
     {
      "month": "2026-09",
      "w": 8,
-     "l": 30,
-     "n": 38,
-     "units": -1.97,
-     "roi": -5.2
+     "l": 31,
+     "n": 39,
+     "units": -2.97,
+     "roi": -7.6
     }
    ],
    "per_day": 1.53
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.1,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -715,7 +715,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.1,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -871,7 +871,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.2,
+   "baseline": -5.1,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -945,25 +945,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "SF",
-   "price": 369,
-   "side": null,
-   "why": "SF ML +130 with U7.5 +104, pays 4.69x",
-   "line": 7.5,
-   "ml_price": 130,
-   "under_price": 104,
-   "payout": 4.692,
-   "gamePk": 823168,
-   "date": "2026-09-23",
-   "commence": "2026-09-23T19:45:00Z",
-   "matchup": "MIN @ SF",
-   "away": "MIN",
-   "home": "SF",
-   "total": 7.5
-  },
   {
    "rule": "under-juice",
    "market": "totals",
@@ -1049,7 +1030,7 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -118,
+   "price": -110,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
    "gamePk": 823492,
