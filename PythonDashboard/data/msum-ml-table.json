@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "msum-ml-table",
- "generated": "2026-09-23T00:31:49Z",
+ "generated": "2026-09-23T13:06:23Z",
  "span": {
   "from": "2026-04-12",
   "to": "2026-09-22"
@@ -14,46 +14,46 @@
  "note": "Mismatches computed as-of each game date from the pitcher logs and the batter PA logs, graded at the game's own moneyline. SHADOW: p=0.043 out of a heavily scanned session, April ran -31%, and a better-looking rule died the same morning when its sample got real.",
  "splits": {
   "rule": {
-   "w": 23,
+   "w": 24,
    "l": 20,
-   "n": 43,
-   "units": 8.32,
-   "roi": 19.3
+   "n": 44,
+   "units": 9.42,
+   "roi": 21.4
   },
   "dog": {
-   "w": 23,
+   "w": 24,
    "l": 20,
-   "n": 43,
-   "units": 8.32,
-   "roi": 19.3
+   "n": 44,
+   "units": 9.42,
+   "roi": 21.4
   },
   "favorite": {
-   "w": 76,
-   "l": 48,
-   "n": 124,
-   "units": 4.9,
-   "roi": 4.0
+   "w": 77,
+   "l": 49,
+   "n": 126,
+   "units": 4.83,
+   "roi": 3.8
   },
   "pool_all": {
-   "w": 99,
-   "l": 68,
-   "n": 167,
-   "units": 13.22,
-   "roi": 7.9
+   "w": 101,
+   "l": 69,
+   "n": 170,
+   "units": 14.25,
+   "roi": 8.4
   },
   "control_back_favorite": {
    "w": 97,
-   "l": 70,
-   "n": 167,
-   "units": -1.92,
-   "roi": -1.2
+   "l": 73,
+   "n": 170,
+   "units": -4.92,
+   "roi": -2.9
   },
   "outside_pool": {
-   "w": 791,
-   "l": 649,
-   "n": 1440,
-   "units": -2.55,
-   "roi": -0.2
+   "w": 794,
+   "l": 654,
+   "n": 1448,
+   "units": -5.02,
+   "roi": -0.3
   }
  },
  "monthly": [
@@ -99,11 +99,11 @@
   },
   {
    "month": "2026-09",
-   "w": 4,
+   "w": 5,
    "l": 5,
-   "n": 9,
-   "units": -0.52,
-   "roi": -5.8
+   "n": 10,
+   "units": 0.58,
+   "roi": 5.8
   }
  ]
 }

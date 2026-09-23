@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-23T00:31:49Z",
+ "generated": "2026-09-23T13:06:24Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-22"
  },
- "games": 2340,
+ "games": 2354,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
-  "over": -4.1,
+  "over": -4.2,
   "under": -5.3,
   "parlay": 0.0
  },
@@ -27,15 +27,15 @@
    "status": "card",
    "ladder_fails": true,
    "record": {
-    "w": 92,
+    "w": 93,
     "l": 80,
-    "n": 172,
-    "units": 40.22,
-    "roi": 23.4
+    "n": 173,
+    "units": 42.12,
+    "roi": 24.3
    },
    "halves": [
     28.9,
-    18.0
+    19.9
    ],
    "monthly": [
     {
@@ -88,14 +88,14 @@
     },
     {
      "month": "2026-09",
-     "w": 5,
+     "w": 6,
      "l": 4,
-     "n": 9,
-     "units": 2.0,
-     "roi": 22.2
+     "n": 10,
+     "units": 3.9,
+     "roi": 39.0
     }
    ],
-   "per_day": 0.96
+   "per_day": 0.97
   },
   {
    "baseline_key": "side",
@@ -109,15 +109,15 @@
    "status": "card",
    "ladder_fails": true,
    "record": {
-    "w": 36,
-    "l": 19,
-    "n": 55,
-    "units": 12.42,
-    "roi": 22.6
+    "w": 37,
+    "l": 20,
+    "n": 57,
+    "units": 12.35,
+    "roi": 21.7
    },
    "halves": [
     32.3,
-    10.9
+    9.8
    ],
    "monthly": [
     {
@@ -162,14 +162,14 @@
     },
     {
      "month": "2026-09",
-     "w": 3,
-     "l": 2,
-     "n": 5,
-     "units": -0.1,
-     "roi": -1.9
+     "w": 4,
+     "l": 3,
+     "n": 7,
+     "units": -0.17,
+     "roi": -2.4
     }
    ],
-   "per_day": 0.31
+   "per_day": 0.32
   },
   {
    "baseline_key": "side",
@@ -403,7 +403,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "starter-over-run",
    "name": "Starter over run",
    "market": "totals",
@@ -551,7 +551,7 @@
   },
   {
    "baseline_key": "over",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "low-line-over",
    "name": "Low line over",
    "market": "totals",
@@ -561,15 +561,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 80,
-    "l": 58,
-    "n": 138,
-    "units": 11.65,
-    "roi": 8.4
+    "w": 82,
+    "l": 59,
+    "n": 141,
+    "units": 12.53,
+    "roi": 8.9
    },
    "halves": [
     7.7,
-    9.6
+    10.6
    ],
    "monthly": [
     {
@@ -622,18 +622,18 @@
     },
     {
      "month": "2026-09",
-     "w": 8,
-     "l": 6,
-     "n": 14,
-     "units": 0.6,
-     "roi": 4.3
+     "w": 10,
+     "l": 7,
+     "n": 17,
+     "units": 1.48,
+     "roi": 8.7
     }
    ],
-   "per_day": 0.77
+   "per_day": 0.79
   },
   {
    "baseline_key": "over",
-   "baseline": -4.1,
+   "baseline": -4.2,
    "key": "monday-over",
    "name": "Monday over",
    "market": "totals",
@@ -725,15 +725,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 263,
-    "l": 215,
-    "n": 478,
-    "units": -0.18,
-    "roi": -0.0
+    "w": 269,
+    "l": 218,
+    "n": 487,
+    "units": 1.43,
+    "roi": 0.3
    },
    "halves": [
     4.4,
-    -4.2
+    -3.4
    ],
    "monthly": [
     {
@@ -786,14 +786,14 @@
     },
     {
      "month": "2026-09",
-     "w": 29,
-     "l": 44,
-     "n": 73,
-     "units": -20.76,
-     "roi": -28.4
+     "w": 35,
+     "l": 47,
+     "n": 82,
+     "units": -19.14,
+     "roi": -23.3
     }
    ],
-   "per_day": 2.67
+   "per_day": 2.72
   },
   {
    "baseline_key": "side",
@@ -807,15 +807,15 @@
    "status": "shadow",
    "ladder_fails": false,
    "record": {
-    "w": 96,
+    "w": 97,
     "l": 105,
-    "n": 201,
-    "units": 14.46,
-    "roi": 7.2
+    "n": 202,
+    "units": 15.56,
+    "roi": 7.7
    },
    "halves": [
     15.6,
-    1.3
+    2.2
    ],
    "monthly": [
     {
@@ -860,14 +860,14 @@
     },
     {
      "month": "2026-09",
-     "w": 5,
+     "w": 6,
      "l": 15,
-     "n": 20,
-     "units": -8.46,
-     "roi": -42.3
+     "n": 21,
+     "units": -7.36,
+     "roi": -35.0
     }
    ],
-   "per_day": 1.12
+   "per_day": 1.13
   },
   {
    "baseline_key": "under",
@@ -882,14 +882,14 @@
    "ladder_fails": false,
    "record": {
     "w": 104,
-    "l": 73,
-    "n": 177,
-    "units": 20.25,
-    "roi": 11.4
+    "l": 74,
+    "n": 178,
+    "units": 19.25,
+    "roi": 10.8
    },
    "halves": [
     12.5,
-    10.7
+    9.7
    ],
    "monthly": [
     {
@@ -935,10 +935,10 @@
     {
      "month": "2026-09",
      "w": 6,
-     "l": 4,
-     "n": 10,
-     "units": 1.12,
-     "roi": 11.2
+     "l": 5,
+     "n": 11,
+     "units": 0.12,
+     "roi": 1.1
     }
    ],
    "per_day": 0.99
@@ -949,270 +949,31 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 824222,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T22:40:00Z",
-   "matchup": "WSH @ DET",
-   "away": "WSH",
-   "home": "DET",
-   "total": 8.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -134,
-   "side": "U",
-   "why": "book laying -134 on the under",
-   "gamePk": 823328,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T22:40:00Z",
-   "matchup": "STL @ PIT",
-   "away": "STL",
-   "home": "PIT",
-   "total": 7.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 823412,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T22:40:00Z",
-   "matchup": "MIL @ PHI",
-   "away": "MIL",
-   "home": "PHI",
-   "total": 7.5
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": 104,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 824709,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T22:45:00Z",
-   "matchup": "CLE @ BOS",
-   "away": "CLE",
-   "home": "BOS",
-   "total": 6.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 824709,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T22:45:00Z",
-   "matchup": "CLE @ BOS",
-   "away": "CLE",
-   "home": "BOS",
-   "total": 6.5
-  },
-  {
-   "rule": "hot-arm-dog-ml",
-   "market": "h2h",
-   "pick": "TB",
-   "price": 110,
-   "side": null,
-   "why": "Drew Rasmussen \u2014 team +65% over his last 8 starts, priced +110",
-   "gamePk": 823494,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:05:00Z",
-   "matchup": "TB @ NYY",
-   "away": "TB",
-   "home": "NYY",
-   "total": 6.5
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": 104,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 823494,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:05:00Z",
-   "matchup": "TB @ NYY",
-   "away": "TB",
-   "home": "NYY",
-   "total": 6.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 823494,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:05:00Z",
-   "matchup": "TB @ NYY",
-   "away": "TB",
-   "home": "NYY",
-   "total": 6.5
-  },
-  {
-   "rule": "away-dog-ml",
-   "market": "h2h",
-   "pick": "CIN",
-   "price": 190,
-   "side": null,
-   "why": "away dog at a 9.5 total",
-   "gamePk": 824867,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:15:00Z",
-   "matchup": "CIN @ ATL",
-   "away": "CIN",
-   "home": "ATL",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -130,
-   "side": "U",
-   "why": "book laying -130 on the under",
-   "gamePk": 824867,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:15:00Z",
-   "matchup": "CIN @ ATL",
-   "away": "CIN",
-   "home": "ATL",
-   "total": 9.5
-  },
-  {
-   "rule": "home-slide-ml",
-   "market": "h2h",
-   "pick": "KC",
-   "price": 100,
-   "side": null,
-   "why": "home on L4, new opponent (last faced PIT)",
-   "gamePk": 824061,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:40:00Z",
-   "matchup": "CWS @ KC",
-   "away": "CWS",
-   "home": "KC",
-   "total": 7.5
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": -120,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 824624,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:40:00Z",
-   "matchup": "MIA @ CHC",
-   "away": "MIA",
-   "home": "CHC",
-   "total": 6.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
    "price": -122,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 824061,
-   "date": "2026-09-22",
-   "commence": "2026-09-22T23:40:00Z",
-   "matchup": "CWS @ KC",
-   "total": 8.5,
+   "side": "U",
    "why": "book laying -122 on the under",
-   "stale": true,
-   "stale_now": "favourite now -118, total now 7.5 (was 8.5)"
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 822840,
-   "date": "2026-09-22",
-   "commence": "2026-09-23T00:05:00Z",
-   "matchup": "NYM @ TEX",
-   "away": "NYM",
-   "home": "TEX",
-   "total": 8.5
-  },
-  {
-   "rule": "home-slide-ml",
-   "market": "h2h",
-   "pick": "OAK",
-   "price": -108,
-   "side": null,
-   "why": "home on L6, new opponent (last faced CLE)",
-   "gamePk": 824953,
-   "date": "2026-09-22",
-   "commence": "2026-09-23T01:40:00Z",
-   "matchup": "LAA @ OAK",
-   "away": "LAA",
-   "home": "OAK",
-   "total": 9.5
-  },
-  {
-   "rule": "pickem-under",
-   "market": "totals",
-   "pick": "under",
-   "price": -118,
-   "side": "U",
-   "why": "favorite only -108 at a 9.5 total",
-   "gamePk": 824953,
-   "date": "2026-09-22",
-   "commence": "2026-09-23T01:40:00Z",
-   "matchup": "LAA @ OAK",
-   "away": "LAA",
-   "home": "OAK",
-   "total": 9.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 823089,
-   "date": "2026-09-22",
-   "commence": "2026-09-23T01:40:00Z",
-   "matchup": "HOU @ SEA",
-   "away": "HOU",
-   "home": "SEA",
+   "gamePk": 824785,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T17:35:00Z",
+   "matchup": "TOR @ BAL",
+   "away": "TOR",
+   "home": "BAL",
    "total": 7.5
   },
   {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -132,
-   "side": "U",
-   "why": "book laying -132 on the under",
-   "gamePk": 823166,
-   "date": "2026-09-22",
-   "commence": "2026-09-23T01:45:00Z",
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "SF",
+   "price": 347,
+   "side": null,
+   "why": "SF ML +128 with U7.5 -104, pays 4.47x",
+   "line": 7.5,
+   "ml_price": 128,
+   "under_price": -104,
+   "payout": 4.472,
+   "gamePk": 823168,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T19:45:00Z",
    "matchup": "MIN @ SF",
    "away": "MIN",
    "home": "SF",
@@ -1222,20 +983,239 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -120,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823897,
-   "date": "2026-09-22",
-   "commence": "2026-09-23T02:10:00Z",
+   "price": -124,
+   "side": "U",
+   "why": "book laying -124 on the under",
+   "gamePk": 824784,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T22:35:00Z",
+   "matchup": "TOR @ BAL",
+   "away": "TOR",
+   "home": "BAL",
+   "total": 8.5
+  },
+  {
+   "rule": "cold-arms-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -124,
+   "side": "U",
+   "why": "both starters Logan Henderson 38%, Aaron Nola 38% over in last 8",
+   "gamePk": 823410,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T22:40:00Z",
+   "matchup": "MIL @ PHI",
+   "away": "MIL",
+   "home": "PHI",
+   "total": 7.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "PHI",
+   "price": 294,
+   "side": null,
+   "why": "PHI ML +118 with U7.5 -124, pays 3.94x",
+   "line": 7.5,
+   "ml_price": 118,
+   "under_price": -124,
+   "payout": 3.938,
+   "gamePk": 823410,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T22:40:00Z",
+   "matchup": "MIL @ PHI",
+   "away": "MIL",
+   "home": "PHI",
+   "total": 7.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 823327,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T22:40:00Z",
+   "matchup": "STL @ PIT",
+   "away": "STL",
+   "home": "PIT",
+   "total": 7.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -124,
+   "side": "U",
+   "why": "book laying -124 on the under",
+   "gamePk": 823410,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T22:40:00Z",
+   "matchup": "MIL @ PHI",
+   "away": "MIL",
+   "home": "PHI",
+   "total": 7.5
+  },
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -108,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 823492,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T23:05:00Z",
+   "matchup": "TB @ NYY",
+   "away": "TB",
+   "home": "NYY",
+   "total": 6.5
+  },
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -122,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 824710,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T23:10:00Z",
+   "matchup": "CLE @ BOS",
+   "away": "CLE",
+   "home": "BOS",
+   "total": 6.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 824868,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T23:15:00Z",
+   "matchup": "CIN @ ATL",
+   "away": "CIN",
+   "home": "ATL",
+   "total": 7.5
+  },
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -122,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 824625,
+   "date": "2026-09-23",
+   "commence": "2026-09-23T23:40:00Z",
+   "matchup": "MIA @ CHC",
+   "away": "MIA",
+   "home": "CHC",
+   "total": 6.5
+  },
+  {
+   "rule": "division-home-dog",
+   "market": "h2h",
+   "pick": "COL",
+   "price": 134,
+   "side": null,
+   "why": "home to a NL West rival at +134",
+   "gamePk": 824301,
+   "date": "2026-09-23",
+   "commence": "2026-09-24T00:40:00Z",
+   "matchup": "ARI @ COL",
+   "away": "ARI",
+   "home": "COL",
+   "total": 11.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "COL",
+   "price": 311,
+   "side": null,
+   "why": "COL ML +134 with U11.5 -132, pays 4.11x",
+   "line": 11.5,
+   "ml_price": 134,
+   "under_price": -132,
+   "payout": 4.113,
+   "gamePk": 824301,
+   "date": "2026-09-23",
+   "commence": "2026-09-24T00:40:00Z",
+   "matchup": "ARI @ COL",
+   "away": "ARI",
+   "home": "COL",
+   "total": 11.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -132,
+   "side": "U",
+   "why": "book laying -132 on the under",
+   "gamePk": 824301,
+   "date": "2026-09-23",
+   "commence": "2026-09-24T00:40:00Z",
+   "matchup": "ARI @ COL",
+   "away": "ARI",
+   "home": "COL",
+   "total": 11.5
+  },
+  {
+   "rule": "division-home-dog",
+   "market": "h2h",
+   "pick": "OAK",
+   "price": 116,
+   "side": null,
+   "why": "home to a AL West rival at +116",
+   "gamePk": 824951,
+   "date": "2026-09-23",
+   "commence": "2026-09-24T01:40:00Z",
+   "matchup": "LAA @ OAK",
+   "away": "LAA",
+   "home": "OAK",
+   "total": 9.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "OAK",
+   "price": 304,
+   "side": null,
+   "why": "OAK ML +116 with U9.5 -115, pays 4.04x",
+   "line": 9.5,
+   "ml_price": 116,
+   "under_price": -115,
+   "payout": 4.038,
+   "gamePk": 824951,
+   "date": "2026-09-23",
+   "commence": "2026-09-24T01:40:00Z",
+   "matchup": "LAA @ OAK",
+   "away": "LAA",
+   "home": "OAK",
+   "total": 9.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -130,
+   "side": "U",
+   "why": "book laying -130 on the under",
+   "gamePk": 823894,
+   "date": "2026-09-23",
+   "commence": "2026-09-24T02:10:00Z",
    "matchup": "SD @ LAD",
-   "total": 8.5,
-   "why": "book laying -120 on the under",
-   "stale": true,
-   "stale_now": "favourite now -130, total still 8.5"
+   "away": "SD",
+   "home": "LAD",
+   "total": 8.5
   }
  ],
- "today_date": "2026-09-22"
+ "today_date": "2026-09-23"
 }
