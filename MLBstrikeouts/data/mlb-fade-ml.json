@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-24T00:31:03Z",
+  "generated": "2026-09-24T13:04:39Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,27 +85,27 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 557,
-    "losses": 231,
+    "losses": 232,
     "voids": 0,
-    "skips": 59,
-    "staked": 996.56,
-    "units": 329.7,
-    "roi": 0.3308,
+    "skips": 60,
+    "staked": 997.56,
+    "units": 328.7,
+    "roi": 0.3295,
     "byType": {
       "ml": {
         "wins": 545,
-        "losses": 219,
+        "losses": 220,
         "voids": 0,
         "skips": 6,
-        "staked": 972.56,
-        "units": 325.22,
-        "roi": 0.3344
+        "staked": 973.56,
+        "units": 324.22,
+        "roi": 0.333
       },
       "ml_dog": {
         "wins": 12,
         "losses": 12,
         "voids": 0,
-        "skips": 53,
+        "skips": 54,
         "staked": 24.0,
         "units": 4.48,
         "roi": 0.1867
@@ -114,16 +114,64 @@
   },
   "today": [
     {
-      "date": "2026-09-23",
-      "commence": "2026-09-24T00:40:00Z",
+      "date": "2026-09-24",
+      "commence": "2026-09-24T23:15:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Brady Singer"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "CIN",
       "market": "h2h",
-      "selection": "COL",
+      "selection": "ATL",
+      "line": null,
+      "odds": -215,
+      "stake": 2.15,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "ATL",
+      "away": "CIN",
+      "gamePk": 824866,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-24",
+      "commence": "2026-09-24T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -200,
+      "stake": 2.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "MIA",
+      "gamePk": 824623,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-24",
+      "commence": "2026-09-24T16:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "STL",
       "line": null,
       "odds": 136,
       "stake": 1.0,
@@ -132,58 +180,9 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "COL",
-      "away": "ARI",
-      "gamePk": 824301,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-23",
-      "commence": "2026-09-24T01:40:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Walbert Ure\u00f1a",
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "OAK",
-      "away": "LAA",
-      "gamePk": 824951,
-      "fadeReason": "away/home"
-    },
-    {
-      "date": "2026-09-23",
-      "commence": "2026-09-23T22:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Trey Gibson"
-      ],
-      "fadeTeam": "BAL",
-      "market": "h2h",
-      "selection": "TOR",
-      "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BAL",
-      "away": "TOR",
-      "gamePk": 824784,
+      "home": "PIT",
+      "away": "STL",
+      "gamePk": 823326,
       "fadeReason": "all"
     }
   ],
@@ -20592,6 +20591,55 @@
       "away": "MIN",
       "gamePk": 823168,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-23",
+      "commence": "2026-09-24T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 136,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "COL",
+      "away": "ARI",
+      "gamePk": 824301,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-23",
+      "commence": "2026-09-24T01:40:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs",
+        "Walbert Ure\u00f1a"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "OAK",
+      "away": "LAA",
+      "gamePk": 824951,
+      "fadeReason": "home/away"
     }
   ]
 }

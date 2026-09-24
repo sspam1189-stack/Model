@@ -1,31 +1,58 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-24T00:31:12Z",
+  "generated": "2026-09-24T13:04:50Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-23",
-      "commence": "2026-09-24T02:10:00Z",
+      "date": "2026-09-24",
+      "commence": "2026-09-24T19:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Yoshinobu Yamamoto",
-      "arm_team": "LAD",
-      "fadeTeam": "LAD",
-      "selection": "SD",
-      "home": "LAD",
-      "away": "SD",
+      "pitcher": "Tanner Gordon",
+      "arm_team": "COL",
+      "fadeTeam": "COL",
+      "selection": "ARI",
+      "home": "COL",
+      "away": "ARI",
       "venue": "home",
-      "odds": 188,
+      "odds": -194,
       "suggest": "home",
-      "suggestUnits": 2.97,
-      "games": 13,
+      "suggestUnits": 4.82,
+      "games": 7,
       "result": "pending"
     }
   ],
   "candidates": [
+    {
+      "pitcher": "Cody Bradford",
+      "team": "TEX",
+      "suggest": "all",
+      "suggestUnits": 7.46,
+      "all": {
+        "w": 7,
+        "l": 1,
+        "u": 7.46,
+        "n": 8,
+        "roi": 0.7699
+      },
+      "home": {
+        "w": 3,
+        "l": 1,
+        "u": 2.88,
+        "n": 4,
+        "roi": 0.7059
+      },
+      "away": {
+        "w": 4,
+        "l": 0,
+        "u": 4.58,
+        "n": 4,
+        "roi": 0.8164
+      }
+    },
     {
       "pitcher": "Clay Holmes",
       "team": "CHC",
@@ -51,6 +78,33 @@
         "u": 5.82,
         "n": 7,
         "roi": 0.7275
+      }
+    },
+    {
+      "pitcher": "Yoshinobu Yamamoto",
+      "team": "LAD",
+      "suggest": "home",
+      "suggestUnits": 4.85,
+      "all": {
+        "w": 9,
+        "l": 17,
+        "u": -0.41,
+        "n": 26,
+        "roi": -0.0157
+      },
+      "home": {
+        "w": 6,
+        "l": 8,
+        "u": 4.85,
+        "n": 14,
+        "roi": 0.3464
+      },
+      "away": {
+        "w": 3,
+        "l": 9,
+        "u": -5.26,
+        "n": 12,
+        "roi": -0.4333
       }
     },
     {
@@ -87,17 +141,17 @@
       "suggestUnits": 4.7,
       "all": {
         "w": 15,
-        "l": 12,
-        "u": 5.68,
-        "n": 27,
-        "roi": 0.202
+        "l": 13,
+        "u": 4.68,
+        "n": 28,
+        "roi": 0.1607
       },
       "home": {
         "w": 6,
-        "l": 7,
-        "u": 0.98,
-        "n": 13,
-        "roi": 0.0753
+        "l": 8,
+        "u": -0.02,
+        "n": 14,
+        "roi": -0.0014
       },
       "away": {
         "w": 9,
@@ -105,33 +159,6 @@
         "u": 4.7,
         "n": 14,
         "roi": 0.3113
-      }
-    },
-    {
-      "pitcher": "Cody Bradford",
-      "team": "TEX",
-      "suggest": "away",
-      "suggestUnits": 4.58,
-      "all": {
-        "w": 6,
-        "l": 1,
-        "u": 6.46,
-        "n": 7,
-        "roi": 0.7503
-      },
-      "home": {
-        "w": 2,
-        "l": 1,
-        "u": 1.88,
-        "n": 3,
-        "roi": 0.6267
-      },
-      "away": {
-        "w": 4,
-        "l": 0,
-        "u": 4.58,
-        "n": 4,
-        "roi": 0.8164
       }
     },
     {
@@ -513,6 +540,33 @@
       }
     },
     {
+      "pitcher": "Mason Englert",
+      "team": "TB",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 4,
+        "l": 0,
+        "u": 4.0,
+        "n": 4,
+        "roi": 0.8197
+      },
+      "home": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.9804
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.7772
+      }
+    },
+    {
       "pitcher": "Tobias Myers",
       "team": "NYM",
       "suggest": "away",
@@ -675,33 +729,6 @@
       }
     },
     {
-      "pitcher": "Yoshinobu Yamamoto",
-      "team": "LAD",
-      "suggest": "home",
-      "suggestUnits": 2.97,
-      "all": {
-        "w": 8,
-        "l": 17,
-        "u": -2.29,
-        "n": 25,
-        "roi": -0.0911
-      },
-      "home": {
-        "w": 5,
-        "l": 8,
-        "u": 2.97,
-        "n": 13,
-        "roi": 0.2285
-      },
-      "away": {
-        "w": 3,
-        "l": 9,
-        "u": -5.26,
-        "n": 12,
-        "roi": -0.4333
-      }
-    },
-    {
       "pitcher": "Adrian Houser",
       "team": "SF",
       "suggest": "home",
@@ -789,17 +816,17 @@
       "suggestUnits": 2.68,
       "all": {
         "w": 10,
-        "l": 14,
-        "u": 0.19,
-        "n": 24,
-        "roi": 0.0076
+        "l": 15,
+        "u": -0.81,
+        "n": 25,
+        "roi": -0.0313
       },
       "home": {
         "w": 3,
-        "l": 8,
-        "u": -2.49,
-        "n": 11,
-        "roi": -0.2264
+        "l": 9,
+        "u": -3.49,
+        "n": 12,
+        "roi": -0.2908
       },
       "away": {
         "w": 7,

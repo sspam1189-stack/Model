@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-24T00:31:08Z",
+  "generated": "2026-09-24T13:04:46Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,8 +9,15 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 26,
-  "qualifiedCount": 24,
+  "qualifiedCount": 25,
   "promotions": [
+    {
+      "name": "Cody Bradford",
+      "hand": "L",
+      "games": 5,
+      "units": 6.46,
+      "since": "2026-09-23"
+    },
     {
       "name": "Jake Bennett",
       "hand": "L",
@@ -49,8 +56,8 @@
     {
       "name": "Seth Lugo",
       "hand": "R",
-      "games": 12,
-      "units": 2.0
+      "games": 13,
+      "units": 0.84
     }
   ],
   "arms": {
@@ -130,6 +137,15 @@
         ]
       ]
     },
+    "Cody Bradford": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-09-23",
+          null
+        ]
+      ]
+    },
     "Colin Rea": {
       "hand": "R",
       "windows": [
@@ -148,7 +164,7 @@
         ],
         [
           "2026-08-21",
-          "2026-09-23"
+          "2026-09-24"
         ]
       ]
     },
@@ -281,7 +297,7 @@
       "windows": [
         [
           "2026-08-18",
-          "2026-09-23"
+          "2026-09-24"
         ]
       ]
     },
@@ -303,7 +319,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-09-23"
+          "2026-09-24"
         ]
       ]
     },
@@ -435,7 +451,7 @@
         ],
         [
           "2026-08-10",
-          "2026-09-23"
+          "2026-09-24"
         ]
       ]
     },
@@ -515,7 +531,7 @@
       "windows": [
         [
           "2026-09-08",
-          "2026-09-23"
+          "2026-09-24"
         ]
       ]
     },
