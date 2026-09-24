@@ -1962,38 +1962,134 @@
       "away": "MIL",
       "home": "PHI",
       "commence": "2026-09-24T22:05:00Z",
-      "away_ml": 116,
-      "home_ml": -134,
+      "away_ml": 110,
+      "home_ml": -130,
       "total": 7.5,
       "over_ml": -120,
       "under_ml": -102,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Shane Drohan",
+          "listed_as": "Shane Drohan",
+          "resolved": true,
+          "hand": "L",
           "team": "MIL",
           "opponent_offense": "PHI",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 105,
+          "opp_wrc_game": 99,
+          "opp_wrc_recent": 110,
+          "opp_wrc_recent_pa": 568,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 108,
+              "pa": 385,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 105,
+              "pa": 276,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 92,
+              "pa": 199,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 80,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 28,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 18,
+              "ip": 91.3,
+              "ip_per_gs": 5.07,
+              "era": 5.12,
+              "whip": 1.43,
+              "k_pct": 23.4,
+              "bb_pct": 8.9,
+              "k_bb_pct": 14.5,
+              "hr9": 1.28,
+              "k": 92,
+              "bb": 35,
+              "hr": 13,
+              "er": 52
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 23.0,
+              "ip_per_gs": 4.6,
+              "era": 6.65,
+              "whip": 1.65,
+              "k_pct": 24.5,
+              "bb_pct": 10.8,
+              "k_bb_pct": 13.7,
+              "hr9": 1.96,
+              "k": 25,
+              "bb": 11,
+              "hr": 5,
+              "er": 17
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 12.7,
+              "ip_per_gs": 4.22,
+              "era": 8.53,
+              "whip": 1.66,
+              "k_pct": 26.3,
+              "bb_pct": 8.8,
+              "k_bb_pct": 17.5,
+              "hr9": 3.55,
+              "k": 15,
+              "bb": 5,
+              "hr": 5,
+              "er": 12
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 15.0,
+              "ip_per_g": 3.0,
+              "era": 7.2,
+              "whip": 1.6,
+              "k_pct": 25.8,
+              "bb_pct": 9.1,
+              "k_bb_pct": 16.7,
+              "hr9": 3.0,
+              "k": 17,
+              "bb": 6,
+              "hr": 5,
+              "er": 12,
+              "gs": 3
+            },
+            "relief": {
+              "g": 3,
+              "ip": 4.3,
+              "ip_per_g": 1.44,
+              "era": 0.0,
+              "whip": 1.38,
+              "k_pct": 16.7,
+              "bb_pct": 16.7,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 3,
+              "hr": 0,
+              "er": 0,
+              "from": "2026-08-18",
+              "to": "2026-09-18"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 1.53,
+            "whip": 0.22,
+            "k_pct": 1.1,
+            "bb_pct": 1.9,
+            "ip_per_gs": -0.47,
+            "hr9": 0.68
+          },
           "pen": {
             "last30": {
               "g": 97,
@@ -2061,14 +2157,14 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "swingman-3g"
           ],
-          "mismatch": null,
+          "mismatch": 24.6,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            108,
+            105,
+            92,
+            85
           ]
         },
         "home": {
@@ -2253,10 +2349,10 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 99,
       "away_offense_game": 122,
-      "game_offense": null,
-      "offense_edge": null,
+      "game_offense": 110,
+      "offense_edge": 23,
       "aligned_ml": null
     },
     {
@@ -3062,8 +3158,8 @@
       "away_ml": 184,
       "home_ml": -220,
       "total": 7.5,
-      "over_ml": -114,
-      "under_ml": -106,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Brady Singer",
@@ -3821,8 +3917,8 @@
       "away": "LAA",
       "home": "SEA",
       "commence": "2026-09-25T01:40:00Z",
-      "away_ml": 176,
-      "home_ml": -210,
+      "away_ml": 190,
+      "home_ml": -230,
       "total": 6.5,
       "over_ml": -140,
       "under_ml": 114,
@@ -4636,6 +4732,18 @@
       ]
     },
     {
+      "pitcher": "Shane Drohan",
+      "hand": "L",
+      "team": "MIL",
+      "opponent_offense": "PHI",
+      "opp_wrc_vs_hand": 105,
+      "opp_wrc_recent": 110,
+      "mismatch": 24.6,
+      "flags": [
+        "swingman-3g"
+      ]
+    },
+    {
       "pitcher": "Tanner Gordon",
       "hand": "R",
       "team": "COL",
@@ -4823,7 +4931,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-24T16:02:45Z",
+  "generated": "2026-09-24T18:32:09Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

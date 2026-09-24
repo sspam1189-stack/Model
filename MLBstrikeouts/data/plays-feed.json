@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-24T16:02:57Z",
+ "generated": "2026-09-24T18:32:21Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -188,6 +188,26 @@
    "open_price": -122,
    "name": "Low line over",
    "group": "non-scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-24",
+   "play": "MIL/PHI U7.5",
+   "market": "totals",
+   "line": 7.5,
+   "price": -102,
+   "rule": "flag-plays",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "MIL @ PHI",
+   "gamePk": 823411,
+   "commence": "2026-09-24T22:05:00Z",
+   "basis": "Verdict under for swingman. Shane Drohan swingman-3g.",
+   "combo": "swingman",
+   "open_line": 7.5,
+   "open_price": -102,
+   "name": "Flag Plays",
+   "group": "scout",
    "kind": "card"
   },
   {
@@ -50169,16 +50189,16 @@
    "w": 1396,
    "l": 1279,
    "push": 28,
-   "n": 2721,
-   "pending": 18,
+   "n": 2722,
+   "pending": 19,
    "units": 238.89
   },
   "card": {
    "w": 680,
    "l": 643,
    "push": 6,
-   "n": 1339,
-   "pending": 10,
+   "n": 1340,
+   "pending": 11,
    "units": 238.89
   },
   "by_rule": {
@@ -50250,8 +50270,8 @@
     "w": 44,
     "l": 41,
     "push": 0,
-    "n": 86,
-    "pending": 1,
+    "n": 87,
+    "pending": 2,
     "units": 1.68
    },
    "form-under": {
