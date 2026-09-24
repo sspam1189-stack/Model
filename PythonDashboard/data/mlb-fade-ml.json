@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-24T18:31:54Z",
+  "generated": "2026-09-24T21:02:07Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 557,
-    "losses": 232,
+    "wins": 558,
+    "losses": 233,
     "voids": 0,
     "skips": 60,
-    "staked": 997.56,
+    "staked": 1000.56,
     "units": 328.7,
-    "roi": 0.3295,
+    "roi": 0.3285,
     "byType": {
       "ml": {
-        "wins": 545,
-        "losses": 220,
+        "wins": 546,
+        "losses": 221,
         "voids": 0,
         "skips": 6,
-        "staked": 973.56,
+        "staked": 976.56,
         "units": 324.22,
-        "roi": 0.333
+        "roi": 0.332
       },
       "ml_dog": {
         "wins": 12,
@@ -113,54 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-24",
-      "commence": "2026-09-24T18:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tyler Phillips"
-      ],
-      "fadeTeam": "MIA",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": -200,
-      "stake": 2.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CHC",
-      "away": "MIA",
-      "gamePk": 824623,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-24",
-      "commence": "2026-09-24T16:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Paul Skenes"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "STL",
-      "line": null,
-      "odds": 136,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PIT",
-      "away": "STL",
-      "gamePk": 823326,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-09-24",
       "commence": "2026-09-24T23:15:00Z",
@@ -20640,6 +20592,54 @@
       "away": "LAA",
       "gamePk": 824951,
       "fadeReason": "home/away"
+    },
+    {
+      "date": "2026-09-24",
+      "commence": "2026-09-24T16:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": 136,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "STL",
+      "gamePk": 823326,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-24",
+      "commence": "2026-09-24T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -200,
+      "stake": 2.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "MIA",
+      "gamePk": 824623,
+      "fadeReason": "away"
     }
   ]
 }

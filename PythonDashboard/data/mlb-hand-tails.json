@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-24T18:32:00Z",
+  "generated": "2026-09-24T21:02:12Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -199,7 +199,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-24",
+      "commence": "2026-09-24T23:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Ian Seymour",
+      "entry": "Ian Seymour",
+      "hand": "L",
+      "arm_team": "TB",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "NYY",
+      "away": "TB",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
