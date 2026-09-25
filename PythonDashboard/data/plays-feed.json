@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-25T16:05:13Z",
+ "generated": "2026-09-25T16:35:04Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -430,7 +430,7 @@
    "date": "2026-09-25",
    "play": "TB ML (mismatch -50.7)",
    "market": "h2h",
-   "price": 144,
+   "price": 150,
    "rule": "mismatch-ml",
    "result": "pending",
    "profit": 0.0,
@@ -655,7 +655,7 @@
    "date": "2026-09-25",
    "play": "BOS ML (mismatch -70.8)",
    "market": "h2h",
-   "price": 108,
+   "price": 102,
    "rule": "mismatch-ml",
    "result": "pending",
    "profit": 0.0,

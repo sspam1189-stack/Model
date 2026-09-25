@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-25T16:04:56Z",
+ "generated": "2026-09-25T16:34:47Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-24"
@@ -1122,15 +1122,18 @@
    "market": "totals",
    "pick": "under",
    "price": -132,
-   "side": "U",
-   "why": "book laying -132 on the under",
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824544,
    "date": "2026-09-25",
    "commence": "2026-09-25T23:40:00Z",
    "matchup": "COL @ CWS",
-   "away": "COL",
-   "home": "CWS",
-   "total": 8.5
+   "total": 8.5,
+   "why": "book laying -132 on the under",
+   "stale": true,
+   "stale_now": "favourite now -235, total still 8.5"
   },
   {
    "rule": "under-juice",
