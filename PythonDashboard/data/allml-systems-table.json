@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-24T23:01:43Z",
+ "generated": "2026-09-25T00:31:58Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-24"
@@ -1027,23 +1027,24 @@
    "market": "h2h",
    "pick": "OAK",
    "price": 138,
-   "side": null,
-   "why": "home to a AL West rival at +138",
+   "line": null,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 824950,
    "date": "2026-09-24",
    "commence": "2026-09-25T01:40:00Z",
    "matchup": "HOU @ OAK",
-   "away": "HOU",
-   "home": "OAK",
-   "total": 10.5
+   "total": null,
+   "why": "home to a AL West rival at +138",
+   "stale": true,
+   "stale_now": "favourite now -178, total still 10.5"
   },
   {
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "OAK",
    "price": 363,
-   "side": null,
-   "why": "OAK ML +138 with U10.5 -106, pays 4.63x",
    "line": 10.5,
    "ml_price": 138,
    "under_price": -106,
@@ -1052,9 +1053,10 @@
    "date": "2026-09-24",
    "commence": "2026-09-25T01:40:00Z",
    "matchup": "HOU @ OAK",
-   "away": "HOU",
-   "home": "OAK",
-   "total": 10.5
+   "total": 10.5,
+   "why": "OAK ML +138 with U10.5 -106, pays 4.63x",
+   "stale": true,
+   "stale_now": "favourite now -178, total still 10.5"
   },
   {
    "rule": "low-line-over",
