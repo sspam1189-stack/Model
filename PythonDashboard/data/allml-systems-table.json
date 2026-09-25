@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-25T21:02:38Z",
+ "generated": "2026-09-25T23:02:57Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-25"
  },
- "games": 2383,
+ "games": 2384,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
@@ -561,15 +561,15 @@
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 86,
+    "w": 87,
     "l": 63,
-    "n": 149,
-    "units": 12.14,
-    "roi": 8.1
+    "n": 150,
+    "units": 12.98,
+    "roi": 8.7
    },
    "halves": [
     6.4,
-    10.4
+    11.5
    ],
    "monthly": [
     {
@@ -622,11 +622,11 @@
     },
     {
      "month": "2026-09",
-     "w": 14,
+     "w": 15,
      "l": 11,
-     "n": 25,
-     "units": 1.09,
-     "roi": 4.4
+     "n": 26,
+     "units": 1.93,
+     "roi": 7.4
     }
    ],
    "per_day": 0.82
@@ -949,49 +949,16 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -120,
+   "price": -110,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 823491,
+   "gamePk": 823489,
    "date": "2026-09-25",
-   "commence": "2026-09-25T20:05:00Z",
+   "commence": "2026-09-25T20:10:00Z",
    "matchup": "BAL @ NYY",
    "away": "BAL",
    "home": "NYY",
    "total": 6.5
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
-   "price": -120,
-   "line": 6.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 823489,
-   "date": "2026-09-25",
-   "commence": "2026-09-25T20:10:00Z",
-   "matchup": "BAL @ NYY",
-   "total": 6.5,
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "stale": true,
-   "stale_now": "favourite now -500, total now 7.5 (was 6.5)"
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -132,
-   "side": "U",
-   "why": "book laying -132 on the under",
-   "gamePk": 823489,
-   "date": "2026-09-25",
-   "commence": "2026-09-25T20:10:00Z",
-   "matchup": "BAL @ NYY",
-   "away": "BAL",
-   "home": "NYY",
-   "total": 7.5
   },
   {
    "rule": "low-line-over",
@@ -1151,15 +1118,15 @@
    "total": 8.5,
    "why": "book laying -132 on the under",
    "stale": true,
-   "stale_now": "favourite now -235, total still 8.5"
+   "stale_now": "favourite now -250, total still 8.5"
   },
   {
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -120,
+   "price": -128,
    "side": "U",
-   "why": "book laying -120 on the under",
+   "why": "book laying -128 on the under",
    "gamePk": 823652,
    "date": "2026-09-25",
    "commence": "2026-09-26T00:10:00Z",
@@ -1253,7 +1220,7 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -118,
+   "price": -115,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
    "gamePk": 823085,
@@ -1269,15 +1236,18 @@
    "market": "totals",
    "pick": "under",
    "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
+   "line": 7.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 823167,
    "date": "2026-09-25",
    "commence": "2026-09-26T02:15:00Z",
    "matchup": "LAD @ SF",
-   "away": "LAD",
-   "home": "SF",
-   "total": 7.5
+   "total": 7.5,
+   "why": "book laying -122 on the under",
+   "stale": true,
+   "stale_now": "favourite now -330, total still 7.5"
   }
  ],
  "today_date": "2026-09-25"
