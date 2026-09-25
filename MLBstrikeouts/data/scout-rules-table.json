@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-25T18:35:02Z",
+ "generated": "2026-09-25T20:22:30Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-24"
+  "to": "2026-09-25"
  },
- "games": 2380,
+ "games": 2381,
  "baselines": {
   "side": -3.5,
   "under": -5.1,
@@ -83,7 +83,7 @@
      "roi": -58.8
     }
    ],
-   "per_day": 0.91
+   "per_day": 0.9
   },
   {
    "key": "aligned-ml",
@@ -209,7 +209,7 @@
      "roi": 25.5
     }
    ],
-   "per_day": 0.66
+   "per_day": 0.65
   }
  ]
 }

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-25T18:34:32Z",
+  "generated": "2026-09-25T20:22:00Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -20,8 +20,8 @@
       "venue": "away",
       "odds": 102,
       "suggest": "away",
-      "suggestUnits": 5.82,
-      "games": 7,
+      "suggestUnits": 6.84,
+      "games": 8,
       "result": "pending"
     },
     {
@@ -72,6 +72,33 @@
       }
     },
     {
+      "pitcher": "Clay Holmes",
+      "team": "CHC",
+      "suggest": "away",
+      "suggestUnits": 6.84,
+      "all": {
+        "w": 10,
+        "l": 6,
+        "u": 5.28,
+        "n": 16,
+        "roi": 0.3014
+      },
+      "home": {
+        "w": 3,
+        "l": 5,
+        "u": -1.56,
+        "n": 8,
+        "roi": -0.1831
+      },
+      "away": {
+        "w": 7,
+        "l": 1,
+        "u": 6.84,
+        "n": 8,
+        "roi": 0.76
+      }
+    },
+    {
       "pitcher": "Mason Barnett",
       "team": "OAK",
       "suggest": "all",
@@ -96,33 +123,6 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.519
-      }
-    },
-    {
-      "pitcher": "Clay Holmes",
-      "team": "CHC",
-      "suggest": "away",
-      "suggestUnits": 5.82,
-      "all": {
-        "w": 9,
-        "l": 6,
-        "u": 4.26,
-        "n": 15,
-        "roi": 0.2579
-      },
-      "home": {
-        "w": 3,
-        "l": 5,
-        "u": -1.56,
-        "n": 8,
-        "roi": -0.1831
-      },
-      "away": {
-        "w": 6,
-        "l": 1,
-        "u": 5.82,
-        "n": 7,
-        "roi": 0.7275
       }
     },
     {
