@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-25T00:31:36Z",
+  "generated": "2026-09-25T13:05:50Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,92 +9,92 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-24",
-      "commence": "2026-09-24T16:35:00Z",
+      "date": "2026-09-25",
+      "commence": "2026-09-25T22:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Kyle Leahy",
-      "hand": "R",
-      "arm_team": "STL",
-      "opp_team": "PIT",
-      "selection": "STL",
-      "home": "PIT",
-      "away": "STL",
-      "oppLefty": 6,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": 136,
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "TB",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "TB",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.04,
-      "games": 12,
-      "result": "pending"
+      "suggestUnits": 6.78,
+      "games": 30,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-24",
-      "commence": "2026-09-24T18:10:00Z",
+      "date": "2026-09-25",
+      "commence": "2026-09-25T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Freddy Peralta",
+      "hand": "R",
+      "arm_team": "TB",
+      "opp_team": "PHI",
+      "selection": "TB",
+      "home": "PHI",
+      "away": "TB",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.22,
+      "games": 15,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-25",
+      "commence": "2026-09-25T23:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Randy Dobnak",
-      "hand": "R",
+      "pitcher": "Noah Cameron",
+      "hand": "L",
       "arm_team": "KC",
-      "opp_team": "CWS",
-      "selection": "CWS",
-      "home": "KC",
-      "away": "CWS",
-      "oppLefty": 7,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -132,
-      "suggest": "fade",
-      "suggestUnits": 2.82,
-      "games": 8,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-24",
-      "commence": "2026-09-24T19:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Eduardo Rodriguez",
-      "hand": "L",
-      "arm_team": "ARI",
-      "opp_team": "COL",
-      "selection": "ARI",
-      "home": "COL",
-      "away": "ARI",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -194,
-      "suggest": "take",
-      "suggestUnits": 17.28,
-      "games": 23,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-24",
-      "commence": "2026-09-24T22:45:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Ranger Suarez",
-      "hand": "L",
-      "arm_team": "BOS",
       "opp_team": "CLE",
-      "selection": "BOS",
-      "home": "BOS",
+      "selection": "CLE",
+      "home": "KC",
       "away": "CLE",
-      "oppLefty": 7,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -130,
+      "oppLefty": 6,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 8.04,
+      "games": 22,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-25",
+      "commence": "2026-09-26T01:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jacob Lopez",
+      "hand": "L",
+      "arm_team": "OAK",
+      "opp_team": "HOU",
+      "selection": "OAK",
+      "home": "OAK",
+      "away": "HOU",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 4.92,
-      "games": 21,
-      "result": "pending"
+      "suggestUnits": 7.53,
+      "games": 18,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -402,7 +402,7 @@
         "l": 4,
         "u": 5.04
       },
-      "era": 3.65
+      "era": 3.66
     },
     {
       "pitcher": "Andrew Abbott",
@@ -421,24 +421,6 @@
         "u": 5.02
       },
       "era": 4.61
-    },
-    {
-      "pitcher": "Ranger Suarez",
-      "hand": "L",
-      "games": 21,
-      "suggest": "take",
-      "suggestUnits": 4.92,
-      "fade": {
-        "w": 7,
-        "l": 14,
-        "u": -6.72
-      },
-      "take": {
-        "w": 14,
-        "l": 7,
-        "u": 4.92
-      },
-      "era": 3.27
     },
     {
       "pitcher": "J.T. Ginn",
@@ -996,7 +978,7 @@
         "l": 3,
         "u": -3.0
       },
-      "era": 10.24
+      "era": 9.24
     },
     {
       "pitcher": "Matt Wilkinson",
@@ -1050,7 +1032,7 @@
         "l": 6,
         "u": -3.5
       },
-      "era": 3.27
+      "era": 3.76
     },
     {
       "pitcher": "Luis Castillo",

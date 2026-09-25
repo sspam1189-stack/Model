@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-25T00:32:09Z",
+ "generated": "2026-09-25T13:06:22Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-24"
  },
- "games": 2373,
+ "games": 2380,
  "baselines": {
   "side": -3.5,
   "under": -5.1,
-  "over": -4.4
+  "over": -4.3
  },
  "note": "Season history for the scout rules that had no table: Form under, Aligned ML and Mismatch ML. Replayed as-of each game date -- a game's own result is never in the features that select it. CAVEAT: the live rules read published wRC+ cells; this replay uses the wOBA index computed from the batter PA logs, the only version recomputable for a past date. Same construction, same input, not byte-identical -- a faithful replay of the rule, not of the exact cells the tab printed.",
  "rules": [
@@ -24,14 +24,14 @@
    "baseline": -5.1,
    "record": {
     "w": 91,
-    "l": 72,
-    "n": 163,
-    "units": 9.38,
-    "roi": 5.8
+    "l": 73,
+    "n": 164,
+    "units": 8.38,
+    "roi": 5.1
    },
    "halves": [
     26.6,
-    -6.4
+    -7.3
    ],
    "monthly": [
     {
@@ -77,13 +77,13 @@
     {
      "month": "2026-09",
      "w": 6,
-     "l": 20,
-     "n": 26,
-     "units": -14.87,
-     "roi": -57.2
+     "l": 21,
+     "n": 27,
+     "units": -15.87,
+     "roi": -58.8
     }
    ],
-   "per_day": 0.9
+   "per_day": 0.91
   },
   {
    "key": "aligned-ml",
@@ -149,15 +149,15 @@
    "baseline_key": "side",
    "baseline": -3.5,
    "record": {
-    "w": 73,
-    "l": 44,
-    "n": 117,
-    "units": 11.06,
-    "roi": 9.5
+    "w": 74,
+    "l": 45,
+    "n": 119,
+    "units": 10.63,
+    "roi": 8.9
    },
    "halves": [
     13.5,
-    6.4
+    5.6
    ],
    "monthly": [
     {
@@ -202,14 +202,14 @@
     },
     {
      "month": "2026-09",
-     "w": 10,
-     "l": 4,
-     "n": 14,
-     "units": 4.51,
-     "roi": 32.2
+     "w": 11,
+     "l": 5,
+     "n": 16,
+     "units": 4.07,
+     "roi": 25.5
     }
    ],
-   "per_day": 0.65
+   "per_day": 0.66
   }
  ]
 }
