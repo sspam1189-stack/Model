@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-25T20:21:59Z",
+  "generated": "2026-09-25T21:02:18Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T17:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "arm_team": "CHC",
-      "opp_team": "BOS",
-      "selection": "BOS",
-      "home": "BOS",
-      "away": "CHC",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 102,
-      "suggest": "fade",
-      "suggestUnits": 2.9,
-      "games": 10,
-      "result": "pending"
-    },
     {
       "date": "2026-09-25",
       "commence": "2026-09-25T20:05:00Z",
@@ -110,13 +88,13 @@
       "home": "KC",
       "away": "CLE",
       "oppLefty": 6,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -142,
       "suggest": "fade",
       "suggestUnits": 8.04,
       "games": 22,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-25",
@@ -1041,24 +1019,6 @@
         "u": -3.02
       },
       "era": 4.58
-    },
-    {
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "games": 10,
-      "suggest": "fade",
-      "suggestUnits": 2.9,
-      "fade": {
-        "w": 6,
-        "l": 4,
-        "u": 2.9
-      },
-      "take": {
-        "w": 4,
-        "l": 6,
-        "u": -3.56
-      },
-      "era": 3.25
     },
     {
       "pitcher": "Dean Kremer",
