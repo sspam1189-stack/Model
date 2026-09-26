@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-26T16:03:48Z",
+ "generated": "2026-09-26T18:33:28Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-25"
@@ -1036,37 +1036,31 @@
    "rule": "starter-over-run",
    "market": "totals",
    "pick": "over",
-   "price": 112,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
+   "price": 100,
+   "side": "O",
+   "why": "over in Rhett Lowder 75% of last 8, total 8.5",
    "gamePk": 822759,
    "date": "2026-09-26",
    "commence": "2026-09-26T19:07:00Z",
    "matchup": "CIN @ TOR",
-   "total": 8.5,
-   "why": "over in Rhett Lowder 75% of last 8, total 8.5",
-   "stale": true,
-   "stale_now": "favourite now -162, total now 7.5 (was 8.5)"
+   "away": "CIN",
+   "home": "TOR",
+   "total": 8.5
   },
   {
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -138,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
    "gamePk": 822759,
    "date": "2026-09-26",
    "commence": "2026-09-26T19:07:00Z",
    "matchup": "CIN @ TOR",
-   "total": 8.5,
-   "why": "book laying -138 on the under",
-   "stale": true,
-   "stale_now": "favourite now -162, total now 7.5 (was 8.5)"
+   "away": "CIN",
+   "home": "TOR",
+   "total": 8.5
   },
   {
    "rule": "under-juice",
