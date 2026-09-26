@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-26T00:31:18Z",
+  "generated": "2026-09-26T11:49:52Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,114 +9,26 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T20:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "NYY",
-      "selection": "BAL",
-      "home": "NYY",
-      "away": "BAL",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": -108,
-      "suggest": "take",
-      "suggestUnits": 5.28,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T22:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "arm_team": "PHI",
-      "opp_team": "TB",
-      "selection": "PHI",
-      "home": "PHI",
-      "away": "TB",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -178,
-      "suggest": "take",
-      "suggestUnits": 6.78,
-      "games": 30,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T23:07:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Jos\u00e9 Soriano",
-      "hand": "R",
-      "arm_team": "TOR",
-      "opp_team": "CIN",
-      "selection": "TOR",
-      "home": "TOR",
-      "away": "CIN",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -154,
-      "suggest": "take",
-      "suggestUnits": 4.54,
-      "games": 13,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T23:40:00Z",
+      "date": "2026-09-26",
+      "commence": "2026-09-26T23:10:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Noah Cameron",
-      "hand": "L",
+      "pitcher": "Michael Wacha",
+      "hand": "R",
       "arm_team": "KC",
       "opp_team": "CLE",
       "selection": "CLE",
       "home": "KC",
       "away": "CLE",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -142,
+      "oppLefty": 8,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 8.04,
-      "games": 22,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-26T01:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Jacob Lopez",
-      "hand": "L",
-      "arm_team": "OAK",
-      "opp_team": "HOU",
-      "selection": "OAK",
-      "home": "OAK",
-      "away": "HOU",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 156,
-      "suggest": "take",
-      "suggestUnits": 7.53,
-      "games": 18,
-      "result": "pending"
+      "suggestUnits": 2.68,
+      "games": 11,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -175,6 +87,42 @@
       "era": 2.47
     },
     {
+      "pitcher": "Jacob Lopez",
+      "hand": "L",
+      "games": 19,
+      "suggest": "take",
+      "suggestUnits": 9.09,
+      "fade": {
+        "w": 7,
+        "l": 12,
+        "u": -11.97
+      },
+      "take": {
+        "w": 12,
+        "l": 7,
+        "u": 9.09
+      },
+      "era": 5.42
+    },
+    {
+      "pitcher": "Noah Cameron",
+      "hand": "L",
+      "games": 23,
+      "suggest": "fade",
+      "suggestUnits": 9.04,
+      "fade": {
+        "w": 16,
+        "l": 7,
+        "u": 9.04
+      },
+      "take": {
+        "w": 7,
+        "l": 16,
+        "u": -10.02
+      },
+      "era": 4.28
+    },
+    {
       "pitcher": "Jes\u00fas Luzardo",
       "hand": "L",
       "games": 26,
@@ -193,24 +141,6 @@
       "era": 2.87
     },
     {
-      "pitcher": "Noah Cameron",
-      "hand": "L",
-      "games": 22,
-      "suggest": "fade",
-      "suggestUnits": 8.04,
-      "fade": {
-        "w": 15,
-        "l": 7,
-        "u": 8.04
-      },
-      "take": {
-        "w": 7,
-        "l": 15,
-        "u": -9.02
-      },
-      "era": 4.08
-    },
-    {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
       "games": 10,
@@ -227,42 +157,6 @@
         "u": 7.62
       },
       "era": 1.86
-    },
-    {
-      "pitcher": "Jacob Lopez",
-      "hand": "L",
-      "games": 18,
-      "suggest": "take",
-      "suggestUnits": 7.53,
-      "fade": {
-        "w": 7,
-        "l": 11,
-        "u": -10.11
-      },
-      "take": {
-        "w": 11,
-        "l": 7,
-        "u": 7.53
-      },
-      "era": 5.63
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 30,
-      "suggest": "take",
-      "suggestUnits": 6.78,
-      "fade": {
-        "w": 9,
-        "l": 21,
-        "u": -8.83
-      },
-      "take": {
-        "w": 21,
-        "l": 9,
-        "u": 6.78
-      },
-      "era": 2.93
     },
     {
       "pitcher": "Robbie Ray",
@@ -337,6 +231,24 @@
       "era": 4.0
     },
     {
+      "pitcher": "Jos\u00e9 Soriano",
+      "hand": "R",
+      "games": 14,
+      "suggest": "take",
+      "suggestUnits": 5.54,
+      "fade": {
+        "w": 5,
+        "l": 9,
+        "u": -7.24
+      },
+      "take": {
+        "w": 9,
+        "l": 5,
+        "u": 5.54
+      },
+      "era": 3.91
+    },
+    {
       "pitcher": "Rhett Lowder",
       "hand": "R",
       "games": 10,
@@ -371,24 +283,6 @@
         "u": 5.32
       },
       "era": 2.68
-    },
-    {
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "games": 12,
-      "suggest": "take",
-      "suggestUnits": 5.28,
-      "fade": {
-        "w": 4,
-        "l": 8,
-        "u": -6.86
-      },
-      "take": {
-        "w": 8,
-        "l": 4,
-        "u": 5.28
-      },
-      "era": 3.62
     },
     {
       "pitcher": "Luinder Avila",
@@ -445,6 +339,24 @@
       "era": 4.61
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 31,
+      "suggest": "take",
+      "suggestUnits": 5.0,
+      "fade": {
+        "w": 10,
+        "l": 21,
+        "u": -7.33
+      },
+      "take": {
+        "w": 21,
+        "l": 10,
+        "u": 5.0
+      },
+      "era": 2.91
+    },
+    {
       "pitcher": "J.T. Ginn",
       "hand": "R",
       "games": 12,
@@ -499,6 +411,24 @@
       "era": 3.06
     },
     {
+      "pitcher": "Tarik Skubal",
+      "hand": "L",
+      "games": 21,
+      "suggest": "take",
+      "suggestUnits": 4.78,
+      "fade": {
+        "w": 6,
+        "l": 15,
+        "u": -6.2
+      },
+      "take": {
+        "w": 15,
+        "l": 6,
+        "u": 4.78
+      },
+      "era": 2.72
+    },
+    {
       "pitcher": "Grant Holmes",
       "hand": "R",
       "games": 14,
@@ -551,24 +481,6 @@
         "u": 4.56
       },
       "era": 3.85
-    },
-    {
-      "pitcher": "Jos\u00e9 Soriano",
-      "hand": "R",
-      "games": 13,
-      "suggest": "take",
-      "suggestUnits": 4.54,
-      "fade": {
-        "w": 5,
-        "l": 8,
-        "u": -6.24
-      },
-      "take": {
-        "w": 8,
-        "l": 5,
-        "u": 4.54
-      },
-      "era": 3.72
     },
     {
       "pitcher": "Spencer Strider",
@@ -658,7 +570,25 @@
         "l": 5,
         "u": 4.22
       },
-      "era": 4.56
+      "era": 4.42
+    },
+    {
+      "pitcher": "Brandon Young",
+      "hand": "R",
+      "games": 13,
+      "suggest": "take",
+      "suggestUnits": 4.2,
+      "fade": {
+        "w": 5,
+        "l": 8,
+        "u": -5.86
+      },
+      "take": {
+        "w": 8,
+        "l": 5,
+        "u": 4.2
+      },
+      "era": 3.56
     },
     {
       "pitcher": "Brandon Pfaadt",
@@ -676,7 +606,7 @@
         "l": 2,
         "u": 4.2
       },
-      "era": 3.28
+      "era": 3.38
     },
     {
       "pitcher": "Brandon Williamson",
@@ -715,6 +645,24 @@
       "era": 3.92
     },
     {
+      "pitcher": "Sean Burke",
+      "hand": "R",
+      "games": 12,
+      "suggest": "take",
+      "suggestUnits": 4.06,
+      "fade": {
+        "w": 4,
+        "l": 8,
+        "u": -5.06
+      },
+      "take": {
+        "w": 8,
+        "l": 4,
+        "u": 4.06
+      },
+      "era": 3.73
+    },
+    {
       "pitcher": "Brayan Bello",
       "hand": "R",
       "games": 4,
@@ -730,7 +678,7 @@
         "l": 4,
         "u": -4.16
       },
-      "era": 7.77
+      "era": 7.18
     },
     {
       "pitcher": "Carlos Rod\u00f3n",
@@ -802,7 +750,7 @@
         "l": 13,
         "u": -5.96
       },
-      "era": 4.07
+      "era": 4.03
     },
     {
       "pitcher": "Zac Gallen",
@@ -910,7 +858,7 @@
         "l": 7,
         "u": -4.4
       },
-      "era": 3.83
+      "era": 3.79
     },
     {
       "pitcher": "Gabriel Hughes",
@@ -1162,7 +1110,7 @@
         "l": 8,
         "u": -3.52
       },
-      "era": 3.86
+      "era": 4.2
     }
   ]
 }

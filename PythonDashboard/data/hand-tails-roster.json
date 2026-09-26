@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-26T00:31:15Z",
+  "generated": "2026-09-26T11:49:49Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 26,
-  "qualifiedCount": 25,
+  "qualifiedCount": 24,
   "promotions": [
     {
       "name": "Cody Bradford",
@@ -28,8 +28,8 @@
     {
       "name": "Noah Cameron",
       "hand": "L",
-      "games": 22,
-      "units": 8.04,
+      "games": 23,
+      "units": 9.04,
       "since": "2026-06-18"
     },
     {
@@ -42,6 +42,12 @@
   ],
   "demotions": [
     {
+      "name": "Andrew Alvarez",
+      "hand": "L",
+      "games": 15,
+      "units": 2.98
+    },
+    {
       "name": "Connor Prielipp",
       "hand": "L",
       "games": 19,
@@ -50,8 +56,8 @@
     {
       "name": "Reid Detmers",
       "hand": "L",
-      "games": 24,
-      "units": 2.36
+      "games": 25,
+      "units": 1.18
     },
     {
       "name": "Seth Lugo",
@@ -70,7 +76,7 @@
         ],
         [
           "2026-08-30",
-          null
+          "2026-09-26"
         ]
       ]
     },
@@ -164,7 +170,7 @@
         ],
         [
           "2026-08-21",
-          "2026-09-25"
+          "2026-09-26"
         ]
       ]
     },
@@ -297,7 +303,7 @@
       "windows": [
         [
           "2026-08-18",
-          "2026-09-25"
+          "2026-09-26"
         ]
       ]
     },
@@ -319,7 +325,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-09-25"
+          "2026-09-26"
         ]
       ]
     },
@@ -531,7 +537,7 @@
       "windows": [
         [
           "2026-09-08",
-          "2026-09-25"
+          "2026-09-26"
         ]
       ]
     },

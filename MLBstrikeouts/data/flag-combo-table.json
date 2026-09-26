@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-26T00:31:33Z",
+ "generated": "2026-09-26T11:50:09Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-25"
  },
  "games": {
-  "gradeable": 2327,
-  "flagged": 618,
+  "gradeable": 2341,
+  "flagged": 621,
   "pushes_dropped": 56
  },
  "card_requires": "swingman",
@@ -54,23 +54,23 @@
   "layoff": "2026-09-02",
   "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-25",
+ "verdicts_as_of": "2026-09-26",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1160,
-   "l": 1167,
-   "n": 2327,
-   "units": -119.57,
-   "roi": -5.1
+   "w": 1164,
+   "l": 1177,
+   "n": 2341,
+   "units": -126.01,
+   "roi": -5.4
   },
   "over": {
-   "w": 1167,
-   "l": 1160,
-   "n": 2327,
-   "units": -100.29,
-   "roi": -4.3
+   "w": 1177,
+   "l": 1164,
+   "n": 2341,
+   "units": -95.0,
+   "roi": -4.1
   }
  },
  "combos": [
@@ -84,18 +84,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 44,
+    "w": 45,
     "l": 25,
-    "n": 69,
-    "units": 15.35,
-    "roi": 22.2
+    "n": 70,
+    "units": 16.29,
+    "roi": 23.3
    },
    "over": {
     "w": 25,
-    "l": 44,
-    "n": 69,
-    "units": -20.74,
-    "roi": -30.1
+    "l": 45,
+    "n": 70,
+    "units": -21.74,
+    "roi": -31.1
    }
   },
   {
@@ -111,17 +111,17 @@
    "shadow_from": null,
    "under": {
     "w": 29,
-    "l": 27,
-    "n": 56,
-    "units": -0.5,
-    "roi": -0.9
+    "l": 28,
+    "n": 57,
+    "units": -1.5,
+    "roi": -2.6
    },
    "over": {
-    "w": 27,
+    "w": 28,
     "l": 29,
-    "n": 56,
-    "units": -4.69,
-    "roi": -8.4
+    "n": 57,
+    "units": -3.78,
+    "roi": -6.6
    }
   },
   {
@@ -438,17 +438,17 @@
    "shadow_from": null,
    "under": {
     "w": 50,
-    "l": 55,
-    "n": 105,
-    "units": -8.86,
-    "roi": -8.4
+    "l": 56,
+    "n": 106,
+    "units": -9.86,
+    "roi": -9.3
    },
    "over": {
-    "w": 55,
+    "w": 56,
     "l": 50,
-    "n": 105,
-    "units": 1.0,
-    "roi": 1.0
+    "n": 106,
+    "units": 2.04,
+    "roi": 1.9
    }
   }
  ],
@@ -457,68 +457,68 @@
    "flag": "layoff",
    "under": {
     "w": 137,
-    "l": 117,
-    "n": 254,
-    "units": 7.76,
-    "roi": 3.1
+    "l": 118,
+    "n": 255,
+    "units": 6.76,
+    "roi": 2.7
    },
    "over": {
-    "w": 117,
+    "w": 118,
     "l": 137,
-    "n": 254,
-    "units": -31.25,
-    "roi": -12.3
+    "n": 255,
+    "units": -30.34,
+    "roi": -11.9
    }
   },
   {
    "flag": "stale-window",
    "under": {
     "w": 123,
-    "l": 119,
-    "n": 242,
-    "units": -7.11,
-    "roi": -2.9
+    "l": 120,
+    "n": 243,
+    "units": -8.11,
+    "roi": -3.3
    },
    "over": {
-    "w": 119,
+    "w": 120,
     "l": 123,
-    "n": 242,
-    "units": -13.97,
-    "roi": -5.8
+    "n": 243,
+    "units": -12.93,
+    "roi": -5.3
    }
   },
   {
    "flag": "opener",
    "under": {
     "w": 121,
-    "l": 92,
-    "n": 213,
-    "units": 18.14,
-    "roi": 8.5
+    "l": 93,
+    "n": 214,
+    "units": 17.14,
+    "roi": 8.0
    },
    "over": {
-    "w": 92,
+    "w": 93,
     "l": 121,
-    "n": 213,
-    "units": -36.98,
-    "roi": -17.4
+    "n": 214,
+    "units": -36.07,
+    "roi": -16.9
    }
   },
   {
    "flag": "swingman",
    "under": {
-    "w": 195,
-    "l": 151,
-    "n": 346,
-    "units": 25.91,
-    "roi": 7.5
+    "w": 196,
+    "l": 152,
+    "n": 348,
+    "units": 25.86,
+    "roi": 7.4
    },
    "over": {
-    "w": 151,
-    "l": 195,
-    "n": 346,
-    "units": -57.04,
-    "roi": -16.5
+    "w": 152,
+    "l": 196,
+    "n": 348,
+    "units": -57.13,
+    "roi": -16.4
    }
   }
  ]

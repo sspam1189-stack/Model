@@ -1,29 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-26T00:31:22Z",
+  "generated": "2026-09-26T11:49:56Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T23:10:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Eury P\u00e9rez",
-      "arm_team": "MIA",
-      "opp": "ATL",
-      "selection": "ATL",
-      "venue": "home",
-      "matchup": "ATL @ MIA",
-      "odds": -118,
-      "eraVsOpp": 7.0,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Spencer Arrighetti",
@@ -218,6 +202,22 @@
       }
     },
     {
+      "pitcher": "Yunior Marte",
+      "opp": "LAD",
+      "arm_team": "SF",
+      "eraVsOpp": 7.45,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.2564
+      }
+    },
+    {
       "pitcher": "Cole Ragans",
       "opp": "CLE",
       "arm_team": "KC",
@@ -295,22 +295,6 @@
         "u": -2.0,
         "n": 2,
         "roi": -1.0
-      }
-    },
-    {
-      "pitcher": "Eury P\u00e9rez",
-      "opp": "ATL",
-      "arm_team": "MIA",
-      "eraVsOpp": 7.0,
-      "ipVsOpp": 9.0,
-      "erVsOpp": 7,
-      "startsVsOpp": 2,
-      "fadeRecord": {
-        "w": 1,
-        "l": 1,
-        "u": -0.48,
-        "n": 2,
-        "roi": -0.1765
       }
     },
     {
@@ -827,6 +811,22 @@
       }
     },
     {
+      "pitcher": "Andrew Alvarez",
+      "opp": "NYM",
+      "arm_team": "WSH",
+      "eraVsOpp": 6.1,
+      "ipVsOpp": 10.3,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.08,
+        "n": 2,
+        "roi": -0.0357
+      }
+    },
+    {
       "pitcher": "Ranger Suarez",
       "opp": "NYY",
       "arm_team": "BOS",
@@ -840,6 +840,38 @@
         "u": 3.32,
         "n": 3,
         "roi": 0.8737
+      }
+    },
+    {
+      "pitcher": "Gavin Williams",
+      "opp": "KC",
+      "arm_team": "CLE",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 15.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 1,
+        "l": 2,
+        "u": -1.0,
+        "n": 3,
+        "roi": -0.3311
+      }
+    },
+    {
+      "pitcher": "Michael McGreevy",
+      "opp": "MIL",
+      "arm_team": "STL",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 15.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 2,
+        "l": 1,
+        "u": 0.48,
+        "n": 3,
+        "roi": 0.0881
       }
     },
     {

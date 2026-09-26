@@ -1,45 +1,27 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-26T00:31:19Z",
+  "generated": "2026-09-26T11:49:53Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T17:05:00Z",
+      "date": "2026-09-26",
+      "commence": "2026-09-26T23:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Clay Holmes",
-      "arm_team": "CHC",
-      "fadeTeam": "CHC",
-      "selection": "BOS",
-      "home": "BOS",
-      "away": "CHC",
+      "pitcher": "Quinn Mathews",
+      "arm_team": "STL",
+      "fadeTeam": "STL",
+      "selection": "MIL",
+      "home": "MIL",
+      "away": "STL",
       "venue": "away",
-      "odds": 102,
+      "odds": -188,
       "suggest": "away",
-      "suggestUnits": 6.84,
-      "games": 8,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T23:40:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Sean Burke",
-      "arm_team": "CWS",
-      "fadeTeam": "CWS",
-      "selection": "COL",
-      "home": "CWS",
-      "away": "COL",
-      "venue": "home",
-      "odds": 205,
-      "suggest": "home",
-      "suggestUnits": 2.52,
-      "games": 16,
+      "suggestUnits": 3.0,
+      "games": 5,
       "result": "pending"
     }
   ],
@@ -402,17 +384,17 @@
       "suggestUnits": 3.44,
       "all": {
         "w": 14,
-        "l": 12,
-        "u": 1.38,
-        "n": 26,
-        "roi": 0.0456
+        "l": 13,
+        "u": 0.2,
+        "n": 27,
+        "roi": 0.0064
       },
       "home": {
         "w": 5,
-        "l": 7,
-        "u": -2.06,
-        "n": 12,
-        "roi": -0.159
+        "l": 8,
+        "u": -3.24,
+        "n": 13,
+        "roi": -0.2291
       },
       "away": {
         "w": 9,
@@ -699,17 +681,17 @@
       "suggestUnits": 3.0,
       "all": {
         "w": 5,
-        "l": 3,
-        "u": 1.94,
-        "n": 8,
-        "roi": 0.196
+        "l": 4,
+        "u": 0.94,
+        "n": 9,
+        "roi": 0.0862
       },
       "home": {
         "w": 1,
-        "l": 2,
-        "u": -1.06,
-        "n": 3,
-        "roi": -0.3252
+        "l": 3,
+        "u": -2.06,
+        "n": 4,
+        "roi": -0.4836
       },
       "away": {
         "w": 4,
@@ -807,10 +789,10 @@
       "suggestUnits": 2.8,
       "all": {
         "w": 17,
-        "l": 12,
-        "u": 2.46,
-        "n": 29,
-        "roi": 0.0672
+        "l": 13,
+        "u": 1.28,
+        "n": 30,
+        "roi": 0.0339
       },
       "home": {
         "w": 10,
@@ -821,10 +803,10 @@
       },
       "away": {
         "w": 7,
-        "l": 5,
-        "u": -0.34,
-        "n": 12,
-        "roi": -0.0193
+        "l": 6,
+        "u": -1.52,
+        "n": 13,
+        "roi": -0.0808
       }
     },
     {
@@ -861,17 +843,17 @@
       "suggestUnits": 2.66,
       "all": {
         "w": 10,
-        "l": 6,
-        "u": 3.96,
-        "n": 16,
-        "roi": 0.1993
+        "l": 7,
+        "u": 2.88,
+        "n": 17,
+        "roi": 0.1375
       },
       "home": {
         "w": 4,
-        "l": 3,
-        "u": 1.3,
-        "n": 7,
-        "roi": 0.1762
+        "l": 4,
+        "u": 0.22,
+        "n": 8,
+        "roi": 0.026
       },
       "away": {
         "w": 6,
@@ -879,33 +861,6 @@
         "u": 2.66,
         "n": 9,
         "roi": 0.213
-      }
-    },
-    {
-      "pitcher": "Sean Burke",
-      "team": "CWS",
-      "suggest": "home",
-      "suggestUnits": 2.52,
-      "all": {
-        "w": 11,
-        "l": 14,
-        "u": -4.62,
-        "n": 25,
-        "roi": -0.15
-      },
-      "home": {
-        "w": 9,
-        "l": 7,
-        "u": 2.52,
-        "n": 16,
-        "roi": 0.1337
-      },
-      "away": {
-        "w": 2,
-        "l": 7,
-        "u": -7.14,
-        "n": 9,
-        "roi": -0.597
       }
     }
   ]
