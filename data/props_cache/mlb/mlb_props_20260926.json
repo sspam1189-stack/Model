@@ -76,17 +76,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Griffin Jax",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -118,
-    "under_price": -108,
-    "event_home": "PHI",
-    "event_away": "TB",
-    "source": "fanduel",
-    "_event_id": "36115377"
-  },
-  {
     "player": "Bailey Ober 15.5",
     "market": "outs",
     "line": 15.5,
@@ -120,39 +109,6 @@
     "_event_id": "36115378"
   },
   {
-    "player": "Walker Buehler",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -128,
-    "under_price": 100,
-    "event_home": "SD",
-    "event_away": "ARI",
-    "source": "fanduel",
-    "_event_id": "36115379"
-  },
-  {
-    "player": "Kade Anderson",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": -146,
-    "under_price": 114,
-    "event_home": "SEA",
-    "event_away": "LAA",
-    "source": "fanduel",
-    "_event_id": "36115380"
-  },
-  {
-    "player": "Ryan Johnson",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 112,
-    "under_price": -142,
-    "event_home": "SEA",
-    "event_away": "LAA",
-    "source": "fanduel",
-    "_event_id": "36115380"
-  },
-  {
     "player": "Matt Wilkinson",
     "market": "strikeouts",
     "line": 3.5,
@@ -173,83 +129,6 @@
     "event_away": "LAD",
     "source": "fanduel",
     "_event_id": "36115381"
-  },
-  {
-    "player": "Quinn Mathews 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": 124,
-    "under_price": -166,
-    "event_home": "MIL",
-    "event_away": "STL",
-    "source": "fanduel",
-    "_event_id": "36115382"
-  },
-  {
-    "player": "Quinn Mathews",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -111,
-    "under_price": -115,
-    "event_home": "MIL",
-    "event_away": "STL",
-    "source": "fanduel",
-    "_event_id": "36115382"
-  },
-  {
-    "player": "Dustin May",
-    "market": "strikeouts",
-    "line": 2.5,
-    "over_price": -146,
-    "under_price": 114,
-    "event_home": "MIL",
-    "event_away": "STL",
-    "source": "fanduel",
-    "_event_id": "36115382"
-  },
-  {
-    "player": "Tanner Bibee 14.5",
-    "market": "outs",
-    "line": 14.5,
-    "over_price": -200,
-    "under_price": 148,
-    "event_home": "KC",
-    "event_away": "CLE",
-    "source": "fanduel",
-    "_event_id": "36115384"
-  },
-  {
-    "player": "Tanner Bibee",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -122,
-    "under_price": -104,
-    "event_home": "KC",
-    "event_away": "CLE",
-    "source": "fanduel",
-    "_event_id": "36115384"
-  },
-  {
-    "player": "Michael Wacha 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -132,
-    "under_price": 100,
-    "event_home": "KC",
-    "event_away": "CLE",
-    "source": "fanduel",
-    "_event_id": "36115384"
-  },
-  {
-    "player": "Michael Wacha",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -148,
-    "under_price": 116,
-    "event_home": "KC",
-    "event_away": "CLE",
-    "source": "fanduel",
-    "_event_id": "36115384"
   },
   {
     "player": "Davis Martin 14.5",
@@ -285,11 +164,132 @@
     "_event_id": "36115386"
   },
   {
+    "player": "Griffin Jax",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -113,
+    "under_price": -113,
+    "event_home": "PHI",
+    "event_away": "TB",
+    "source": "fanduel",
+    "_event_id": "36115377"
+  },
+  {
+    "player": "Walker Buehler",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -125,
+    "under_price": -102,
+    "event_home": "SD",
+    "event_away": "ARI",
+    "source": "fanduel",
+    "_event_id": "36115379"
+  },
+  {
+    "player": "Kade Anderson",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": -146,
+    "under_price": 114,
+    "event_home": "SEA",
+    "event_away": "LAA",
+    "source": "fanduel",
+    "_event_id": "36115380"
+  },
+  {
+    "player": "Ryan Johnson",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 112,
+    "under_price": -142,
+    "event_home": "SEA",
+    "event_away": "LAA",
+    "source": "fanduel",
+    "_event_id": "36115380"
+  },
+  {
+    "player": "Quinn Mathews 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": 124,
+    "under_price": -166,
+    "event_home": "MIL",
+    "event_away": "STL",
+    "source": "fanduel",
+    "_event_id": "36115382"
+  },
+  {
+    "player": "Quinn Mathews",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -111,
+    "under_price": -115,
+    "event_home": "MIL",
+    "event_away": "STL",
+    "source": "fanduel",
+    "_event_id": "36115382"
+  },
+  {
+    "player": "Dustin May",
+    "market": "strikeouts",
+    "line": 2.5,
+    "over_price": -142,
+    "under_price": 112,
+    "event_home": "MIL",
+    "event_away": "STL",
+    "source": "fanduel",
+    "_event_id": "36115382"
+  },
+  {
+    "player": "Tanner Bibee 14.5",
+    "market": "outs",
+    "line": 14.5,
+    "over_price": -200,
+    "under_price": 148,
+    "event_home": "KC",
+    "event_away": "CLE",
+    "source": "fanduel",
+    "_event_id": "36115384"
+  },
+  {
+    "player": "Tanner Bibee",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -125,
+    "under_price": -102,
+    "event_home": "KC",
+    "event_away": "CLE",
+    "source": "fanduel",
+    "_event_id": "36115384"
+  },
+  {
+    "player": "Michael Wacha 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -132,
+    "under_price": 100,
+    "event_home": "KC",
+    "event_away": "CLE",
+    "source": "fanduel",
+    "_event_id": "36115384"
+  },
+  {
+    "player": "Michael Wacha",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -148,
+    "under_price": 116,
+    "event_home": "KC",
+    "event_away": "CLE",
+    "source": "fanduel",
+    "_event_id": "36115384"
+  },
+  {
     "player": "Hayden Wesneski",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -162,
-    "under_price": 126,
+    "over_price": -150,
+    "under_price": 118,
     "event_home": "OAK",
     "event_away": "HOU",
     "source": "fanduel",
@@ -305,5 +305,15 @@
     "event_away": "HOU",
     "source": "fanduel",
     "_event_id": "36115390"
+  },
+  {
+    "player": "Aaron Nola",
+    "market": "strikeouts",
+    "line": 1.5,
+    "over_price": -170,
+    "under_price": 133,
+    "event_home": "PHI",
+    "event_away": "TB",
+    "source": "rotowire:draftkings"
   }
 ]
