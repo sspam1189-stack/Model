@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-25T23:02:57Z",
+ "generated": "2026-09-26T00:31:39Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-25"
  },
- "games": 2384,
+ "games": 2385,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
@@ -562,14 +562,14 @@
    "ladder_fails": false,
    "record": {
     "w": 87,
-    "l": 63,
-    "n": 150,
-    "units": 12.98,
-    "roi": 8.7
+    "l": 64,
+    "n": 151,
+    "units": 11.98,
+    "roi": 7.9
    },
    "halves": [
     6.4,
-    11.5
+    9.8
    ],
    "monthly": [
     {
@@ -623,13 +623,13 @@
     {
      "month": "2026-09",
      "w": 15,
-     "l": 11,
-     "n": 26,
-     "units": 1.93,
-     "roi": 7.4
+     "l": 12,
+     "n": 27,
+     "units": 0.93,
+     "roi": 3.4
     }
    ],
-   "per_day": 0.82
+   "per_day": 0.83
   },
   {
    "baseline_key": "over",
@@ -964,39 +964,6 @@
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
-   "price": -110,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
-   "gamePk": 824706,
-   "date": "2026-09-25",
-   "commence": "2026-09-25T21:35:00Z",
-   "matchup": "CHC @ BOS",
-   "away": "CHC",
-   "home": "BOS",
-   "total": 6.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -120,
-   "line": 6.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 824706,
-   "date": "2026-09-25",
-   "commence": "2026-09-25T22:05:00Z",
-   "matchup": "CHC @ BOS",
-   "total": 6.5,
-   "why": "book laying -120 on the under",
-   "stale": true,
-   "stale_now": "favourite now -118, total still 6.5"
-  },
-  {
-   "rule": "low-line-over",
-   "market": "totals",
-   "pick": "over",
    "price": -118,
    "side": "O",
    "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
@@ -1151,7 +1118,7 @@
    "total": null,
    "why": "home to a AL West rival at +144",
    "stale": true,
-   "stale_now": "favourite now -180, total still 9.5"
+   "stale_now": "favourite now -186, total still 9.5"
   },
   {
    "rule": "home-dog-under-parlay",
@@ -1169,15 +1136,15 @@
    "total": 9.5,
    "why": "OAK ML +144 with U9.5 -128, pays 4.35x",
    "stale": true,
-   "stale_now": "favourite now -180, total still 9.5"
+   "stale_now": "favourite now -186, total still 9.5"
   },
   {
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "OAK",
-   "price": 152,
+   "price": 156,
    "side": null,
-   "why": "Jacob Lopez \u2014 team +57% over his last 8 starts, priced +152",
+   "why": "Jacob Lopez \u2014 team +57% over his last 8 starts, priced +156",
    "gamePk": 824947,
    "date": "2026-09-25",
    "commence": "2026-09-26T01:40:00Z",
@@ -1190,9 +1157,9 @@
    "rule": "hot-arm-dog-ml",
    "market": "h2h",
    "pick": "ARI",
-   "price": 114,
+   "price": 108,
    "side": null,
-   "why": "Brandon Pfaadt \u2014 team +43% over his last 8 starts, priced +114",
+   "why": "Brandon Pfaadt \u2014 team +43% over his last 8 starts, priced +108",
    "gamePk": 823248,
    "date": "2026-09-25",
    "commence": "2026-09-26T01:40:00Z",

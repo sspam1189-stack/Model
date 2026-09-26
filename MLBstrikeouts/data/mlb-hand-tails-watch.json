@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-25T23:02:36Z",
+  "generated": "2026-09-26T00:31:18Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -10,24 +10,24 @@
   "today": [
     {
       "date": "2026-09-25",
-      "commence": "2026-09-25T20:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
+      "commence": "2026-09-25T20:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
       "watch": true,
-      "pitcher": "Trevor Rogers",
-      "hand": "L",
+      "pitcher": "Brandon Young",
+      "hand": "R",
       "arm_team": "BAL",
       "opp_team": "NYY",
-      "selection": "NYY",
+      "selection": "BAL",
       "home": "NYY",
       "away": "BAL",
-      "oppLefty": 2,
-      "oppRighty": 7,
+      "oppLefty": 7,
+      "oppRighty": 2,
       "lineupConfirmed": true,
-      "odds": -122,
-      "suggest": "fade",
-      "suggestUnits": 2.6,
-      "games": 23,
+      "odds": -108,
+      "suggest": "take",
+      "suggestUnits": 5.28,
+      "games": 12,
       "result": "pending"
     },
     {
@@ -109,14 +109,14 @@
       "selection": "OAK",
       "home": "OAK",
       "away": "HOU",
-      "oppLefty": 2,
+      "oppLefty": 3,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 156,
       "suggest": "take",
       "suggestUnits": 7.53,
       "games": 18,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -787,6 +787,24 @@
       "era": 3.92
     },
     {
+      "pitcher": "Trevor Rogers",
+      "hand": "L",
+      "games": 22,
+      "suggest": "fade",
+      "suggestUnits": 3.82,
+      "fade": {
+        "w": 13,
+        "l": 9,
+        "u": 3.82
+      },
+      "take": {
+        "w": 9,
+        "l": 13,
+        "u": -5.96
+      },
+      "era": 4.07
+    },
+    {
       "pitcher": "Zac Gallen",
       "hand": "R",
       "games": 6,
@@ -1127,24 +1145,6 @@
         "u": -3.72
       },
       "era": 3.61
-    },
-    {
-      "pitcher": "Trevor Rogers",
-      "hand": "L",
-      "games": 23,
-      "suggest": "fade",
-      "suggestUnits": 2.6,
-      "fade": {
-        "w": 13,
-        "l": 10,
-        "u": 2.6
-      },
-      "take": {
-        "w": 10,
-        "l": 13,
-        "u": -4.92
-      },
-      "era": 4.07
     },
     {
       "pitcher": "Jacob deGrom",

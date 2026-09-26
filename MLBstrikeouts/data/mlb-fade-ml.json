@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-25T23:02:26Z",
+  "generated": "2026-09-26T00:31:10Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 558,
-    "losses": 234,
+    "losses": 235,
     "voids": 0,
     "skips": 60,
-    "staked": 1002.76,
-    "units": 326.5,
-    "roi": 0.3256,
+    "staked": 1003.94,
+    "units": 325.32,
+    "roi": 0.324,
     "byType": {
       "ml": {
         "wins": 546,
-        "losses": 222,
+        "losses": 223,
         "voids": 0,
         "skips": 6,
-        "staked": 978.76,
-        "units": 322.02,
-        "roi": 0.329
+        "staked": 979.94,
+        "units": 320.84,
+        "roi": 0.3274
       },
       "ml_dog": {
         "wins": 12,
@@ -185,30 +185,6 @@
       "away": "HOU",
       "gamePk": 824947,
       "fadeReason": "all/home"
-    },
-    {
-      "date": "2026-09-25",
-      "commence": "2026-09-25T21:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Brayan Bello"
-      ],
-      "fadeTeam": "BOS",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "CHC",
-      "gamePk": 824706,
-      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -20736,6 +20712,30 @@
       "home": "ATL",
       "away": "CIN",
       "gamePk": 824866,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-25",
+      "commence": "2026-09-25T21:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "CHC",
+      "gamePk": 824706,
       "fadeReason": "all"
     }
   ]

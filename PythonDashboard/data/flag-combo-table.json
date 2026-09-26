@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-25T23:02:51Z",
+ "generated": "2026-09-26T00:31:33Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-25"
  },
  "games": {
-  "gradeable": 2326,
-  "flagged": 617,
+  "gradeable": 2327,
+  "flagged": 618,
   "pushes_dropped": 56
  },
  "card_requires": "swingman",
@@ -59,17 +59,17 @@
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1159,
+   "w": 1160,
    "l": 1167,
-   "n": 2326,
-   "units": -120.48,
-   "roi": -5.2
+   "n": 2327,
+   "units": -119.57,
+   "roi": -5.1
   },
   "over": {
    "w": 1167,
-   "l": 1159,
-   "n": 2326,
-   "units": -99.29,
+   "l": 1160,
+   "n": 2327,
+   "units": -100.29,
    "roi": -4.3
   }
  },
@@ -239,18 +239,18 @@
    "shadow": true,
    "shadow_from": "2026-09-03",
    "under": {
-    "w": 25,
+    "w": 26,
     "l": 34,
-    "n": 59,
-    "units": -11.59,
-    "roi": -19.6
+    "n": 60,
+    "units": -10.68,
+    "roi": -17.8
    },
    "over": {
     "w": 34,
-    "l": 25,
-    "n": 59,
-    "units": 6.06,
-    "roi": 10.3
+    "l": 26,
+    "n": 60,
+    "units": 5.06,
+    "roi": 8.4
    }
   },
   {
@@ -473,18 +473,18 @@
   {
    "flag": "stale-window",
    "under": {
-    "w": 122,
+    "w": 123,
     "l": 119,
-    "n": 241,
-    "units": -8.02,
-    "roi": -3.3
+    "n": 242,
+    "units": -7.11,
+    "roi": -2.9
    },
    "over": {
     "w": 119,
-    "l": 122,
-    "n": 241,
-    "units": -12.97,
-    "roi": -5.4
+    "l": 123,
+    "n": 242,
+    "units": -13.97,
+    "roi": -5.8
    }
   },
   {
@@ -507,18 +507,18 @@
   {
    "flag": "swingman",
    "under": {
-    "w": 194,
+    "w": 195,
     "l": 151,
-    "n": 345,
-    "units": 25.0,
-    "roi": 7.2
+    "n": 346,
+    "units": 25.91,
+    "roi": 7.5
    },
    "over": {
     "w": 151,
-    "l": 194,
-    "n": 345,
-    "units": -56.04,
-    "roi": -16.2
+    "l": 195,
+    "n": 346,
+    "units": -57.04,
+    "roi": -16.5
    }
   }
  ]
