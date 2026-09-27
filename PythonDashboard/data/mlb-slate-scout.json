@@ -3854,35 +3854,131 @@
       "away_ml": 102,
       "home_ml": -120,
       "total": 7.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": -118,
+      "under_ml": -104,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Taylor Clarke",
+          "listed_as": "Taylor Clarke",
+          "resolved": true,
+          "hand": "R",
           "team": "ARI",
           "opponent_offense": "SD",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 118,
+          "opp_wrc_game": 122,
+          "opp_wrc_recent": 109,
+          "opp_wrc_recent_pa": 1308,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 108,
+              "pa": 737,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 118,
+              "pa": 537,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 114,
+              "pa": 415,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 85,
+              "pa": 156,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 48,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 1,
+              "ip": 1.7,
+              "ip_per_gs": 1.67,
+              "era": 0.0,
+              "whip": 0.6,
+              "k_pct": 16.7,
+              "bb_pct": 16.7,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 1,
+              "bb": 1,
+              "hr": 0,
+              "er": 0
+            },
+            "recent": {
+              "gs": 1,
+              "ip": 1.7,
+              "ip_per_gs": 1.67,
+              "era": 0.0,
+              "whip": 0.6,
+              "k_pct": 16.7,
+              "bb_pct": 16.7,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 1,
+              "bb": 1,
+              "hr": 0,
+              "er": 0
+            },
+            "hot": {
+              "gs": 1,
+              "ip": 1.7,
+              "ip_per_gs": 1.67,
+              "era": 0.0,
+              "whip": 0.6,
+              "k_pct": 16.7,
+              "bb_pct": 16.7,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 1,
+              "bb": 1,
+              "hr": 0,
+              "er": 0
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 5.3,
+              "ip_per_g": 1.07,
+              "era": 8.44,
+              "whip": 2.25,
+              "k_pct": 18.5,
+              "bb_pct": 7.4,
+              "k_bb_pct": 11.1,
+              "hr9": 1.69,
+              "k": 5,
+              "bb": 2,
+              "hr": 1,
+              "er": 5,
+              "gs": 0
+            },
+            "relief": {
+              "g": 7,
+              "ip": 8.3,
+              "ip_per_g": 1.19,
+              "era": 5.4,
+              "whip": 1.68,
+              "k_pct": 18.4,
+              "bb_pct": 5.3,
+              "k_bb_pct": 13.2,
+              "hr9": 1.08,
+              "k": 7,
+              "bb": 2,
+              "hr": 1,
+              "er": 5,
+              "from": "2026-09-07",
+              "to": "2026-09-24"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 98,
@@ -3950,14 +4046,17 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "opener",
+            "thin-sample",
+            "layoff-24d",
+            "swingman-7g"
           ],
-          "mismatch": null,
+          "mismatch": 0.8,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            108,
+            118,
+            114,
+            85
           ]
         },
         "home": {
@@ -4142,10 +4241,10 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 122,
       "away_offense_game": 127,
-      "game_offense": null,
-      "offense_edge": null,
+      "game_offense": 124,
+      "offense_edge": 5,
       "aligned_ml": null
     },
     {
@@ -4153,8 +4252,8 @@
       "away": "HOU",
       "home": "OAK",
       "commence": "2026-09-27T01:40:00Z",
-      "away_ml": -156,
-      "home_ml": 132,
+      "away_ml": -158,
+      "home_ml": 134,
       "total": 9.5,
       "over_ml": -120,
       "under_ml": -102,
@@ -4533,11 +4632,11 @@
       "away": "LAA",
       "home": "SEA",
       "commence": "2026-09-27T01:40:00Z",
-      "away_ml": 138,
-      "home_ml": -164,
+      "away_ml": 132,
+      "home_ml": -156,
       "total": 7.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": 102,
+      "under_ml": -124,
       "sides": {
         "away": {
           "pitcher": "Ryan Johnson",
@@ -5034,6 +5133,21 @@
       "flags": []
     },
     {
+      "pitcher": "Taylor Clarke",
+      "hand": "R",
+      "team": "ARI",
+      "opponent_offense": "SD",
+      "opp_wrc_vs_hand": 118,
+      "opp_wrc_recent": 109,
+      "mismatch": 0.8,
+      "flags": [
+        "opener",
+        "thin-sample",
+        "layoff-24d",
+        "swingman-7g"
+      ]
+    },
+    {
       "pitcher": "Hayden Wesneski",
       "hand": "R",
       "team": "HOU",
@@ -5165,7 +5279,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-26T23:02:43Z",
+  "generated": "2026-09-27T00:31:51Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
