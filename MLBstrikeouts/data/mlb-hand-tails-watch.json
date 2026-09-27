@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-27T00:31:37Z",
+  "generated": "2026-09-27T13:05:31Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,48 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-26",
-      "commence": "2026-09-26T20:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:05:00Z",
+      "betType": "watch_take",
+      "action": "take",
       "watch": true,
-      "pitcher": "Matt Wilkinson",
-      "hand": "L",
-      "arm_team": "SF",
-      "opp_team": "LAD",
-      "selection": "LAD",
-      "home": "SF",
-      "away": "LAD",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -300,
-      "suggest": "fade",
-      "suggestUnits": 4.0,
-      "games": 4,
-      "result": "pending"
+      "pitcher": "Zack Wheeler",
+      "hand": "R",
+      "arm_team": "PHI",
+      "opp_team": "TB",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "TB",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.82,
+      "games": 9,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-09-26",
-      "commence": "2026-09-26T23:10:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:07:00Z",
+      "betType": "watch_take",
+      "action": "take",
       "watch": true,
-      "pitcher": "Michael Wacha",
-      "hand": "R",
-      "arm_team": "KC",
-      "opp_team": "CLE",
-      "selection": "CLE",
-      "home": "KC",
-      "away": "CLE",
-      "oppLefty": 8,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -110,
-      "suggest": "fade",
-      "suggestUnits": 2.68,
-      "games": 11,
-      "result": "pending"
+      "pitcher": "Brandon Williamson",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "TOR",
+      "selection": "CIN",
+      "home": "TOR",
+      "away": "CIN",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.16,
+      "games": 7,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -286,7 +286,7 @@
         "l": 8,
         "u": -6.04
       },
-      "era": 6.28
+      "era": 5.98
     },
     {
       "pitcher": "Max Meyer",
@@ -685,6 +685,24 @@
       "era": 3.73
     },
     {
+      "pitcher": "Nathan Eovaldi",
+      "hand": "R",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 4.04,
+      "fade": {
+        "w": 3,
+        "l": 7,
+        "u": -5.26
+      },
+      "take": {
+        "w": 7,
+        "l": 3,
+        "u": 4.04
+      },
+      "era": 4.14
+    },
+    {
       "pitcher": "Brayan Bello",
       "hand": "R",
       "games": 4,
@@ -754,7 +772,7 @@
         "l": 4,
         "u": -4.02
       },
-      "era": 4.58
+      "era": 4.37
     },
     {
       "pitcher": "Cesar Perdomo",
@@ -791,6 +809,24 @@
         "u": -5.96
       },
       "era": 4.03
+    },
+    {
+      "pitcher": "Michael Wacha",
+      "hand": "R",
+      "games": 12,
+      "suggest": "fade",
+      "suggestUnits": 3.68,
+      "fade": {
+        "w": 8,
+        "l": 4,
+        "u": 3.68
+      },
+      "take": {
+        "w": 4,
+        "l": 8,
+        "u": -4.12
+      },
+      "era": 3.32
     },
     {
       "pitcher": "Zac Gallen",
@@ -1079,24 +1115,6 @@
         "u": -4.06
       },
       "era": 3.16
-    },
-    {
-      "pitcher": "Michael Wacha",
-      "hand": "R",
-      "games": 11,
-      "suggest": "fade",
-      "suggestUnits": 2.68,
-      "fade": {
-        "w": 7,
-        "l": 4,
-        "u": 2.68
-      },
-      "take": {
-        "w": 4,
-        "l": 7,
-        "u": -3.06
-      },
-      "era": 3.33
     },
     {
       "pitcher": "Andre Pallante",

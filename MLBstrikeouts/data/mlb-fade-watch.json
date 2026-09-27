@@ -1,42 +1,24 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-27T00:31:38Z",
+  "generated": "2026-09-27T13:05:31Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-09-26",
-      "commence": "2026-09-26T16:35:00Z",
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Connelly Early",
-      "arm_team": "WSH",
-      "fadeTeam": "WSH",
-      "selection": "NYM",
-      "home": "WSH",
-      "away": "NYM",
-      "venue": "home",
-      "odds": -108,
-      "suggest": "home",
-      "suggestUnits": 3.0,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-26",
-      "commence": "2026-09-26T23:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Quinn Mathews",
-      "arm_team": "STL",
-      "fadeTeam": "STL",
-      "selection": "MIL",
-      "home": "MIL",
-      "away": "STL",
+      "pitcher": "JR Ritchie",
+      "arm_team": "ATL",
+      "fadeTeam": "ATL",
+      "selection": "MIA",
+      "home": "MIA",
+      "away": "ATL",
       "venue": "away",
-      "odds": -164,
+      "odds": -108,
       "suggest": "away",
       "suggestUnits": 3.0,
       "games": 5,
@@ -285,6 +267,33 @@
         "u": 4.0,
         "n": 4,
         "roi": 0.5806
+      }
+    },
+    {
+      "pitcher": "Quinn Mathews",
+      "team": "STL",
+      "suggest": "away",
+      "suggestUnits": 4.0,
+      "all": {
+        "w": 5,
+        "l": 4,
+        "u": 0.88,
+        "n": 9,
+        "roi": 0.0682
+      },
+      "home": {
+        "w": 0,
+        "l": 3,
+        "u": -3.12,
+        "n": 3,
+        "roi": -1.0
+      },
+      "away": {
+        "w": 5,
+        "l": 1,
+        "u": 4.0,
+        "n": 6,
+        "roi": 0.4086
       }
     },
     {
@@ -690,33 +699,6 @@
         "u": 3.0,
         "n": 5,
         "roi": 0.4886
-      }
-    },
-    {
-      "pitcher": "Quinn Mathews",
-      "team": "STL",
-      "suggest": "away",
-      "suggestUnits": 3.0,
-      "all": {
-        "w": 4,
-        "l": 4,
-        "u": -0.12,
-        "n": 8,
-        "roi": -0.0106
-      },
-      "home": {
-        "w": 0,
-        "l": 3,
-        "u": -3.12,
-        "n": 3,
-        "roi": -1.0
-      },
-      "away": {
-        "w": 4,
-        "l": 1,
-        "u": 3.0,
-        "n": 5,
-        "roi": 0.3681
       }
     },
     {

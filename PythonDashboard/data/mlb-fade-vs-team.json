@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-27T00:31:41Z",
+  "generated": "2026-09-27T13:05:34Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -15,17 +15,32 @@
   },
   "today": [
     {
-      "date": "2026-09-26",
-      "commence": "2026-09-27T00:40:00Z",
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:10:00Z",
       "betType": "fade_vs_team",
-      "pitcher": "Walker Buehler",
-      "arm_team": "SD",
-      "opp": "ARI",
-      "selection": "ARI",
+      "pitcher": "Janson Junk",
+      "arm_team": "MIA",
+      "opp": "ATL",
+      "selection": "ATL",
       "venue": "home",
-      "matchup": "ARI @ SD",
-      "odds": 102,
-      "eraVsOpp": 8.0,
+      "matchup": "ATL @ MIA",
+      "odds": -108,
+      "eraVsOpp": 11.25,
+      "startsVsOpp": 2,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:10:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Andre Pallante",
+      "arm_team": "STL",
+      "opp": "MIL",
+      "selection": "MIL",
+      "venue": "away",
+      "matchup": "STL @ MIL",
+      "odds": -245,
+      "eraVsOpp": 9.0,
       "startsVsOpp": 2,
       "result": "pending"
     }
@@ -798,25 +813,6 @@
       "startsVsOpp": 3,
       "starts": [],
       "qualifiedOn": "2026-09-11"
-    },
-    {
-      "pitcher": "Walker Buehler",
-      "opp": "ARI",
-      "arm_team": "SD",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 8.0,
-      "ipVsOpp": 9.0,
-      "erVsOpp": 8,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-08-06"
     },
     {
       "pitcher": "Davis Martin",

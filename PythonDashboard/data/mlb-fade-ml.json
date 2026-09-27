@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-27T00:31:27Z",
+  "generated": "2026-09-27T13:05:21Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 560,
+    "wins": 561,
     "losses": 235,
     "voids": 0,
     "skips": 61,
-    "staked": 1006.56,
-    "units": 326.96,
-    "roi": 0.3248,
+    "staked": 1008.14,
+    "units": 327.96,
+    "roi": 0.3253,
     "byType": {
       "ml": {
-        "wins": 548,
+        "wins": 549,
         "losses": 223,
         "voids": 0,
         "skips": 6,
-        "staked": 982.56,
-        "units": 322.48,
-        "roi": 0.3282
+        "staked": 984.14,
+        "units": 323.48,
+        "roi": 0.3287
       },
       "ml_dog": {
         "wins": 12,
@@ -114,28 +114,100 @@
   },
   "today": [
     {
-      "date": "2026-09-26",
-      "commence": "2026-09-27T01:40:00Z",
+      "date": "2026-09-27",
+      "commence": "2026-09-27T17:05:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jack Perkins"
+        "Shane Baz"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "BAL",
       "market": "h2h",
-      "selection": "HOU",
+      "selection": "NYY",
       "line": null,
-      "odds": -158,
-      "stake": 1.58,
+      "odds": -130,
+      "stake": 1.3,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "OAK",
-      "away": "HOU",
-      "gamePk": 824949,
+      "home": "NYY",
+      "away": "BAL",
+      "gamePk": 823490,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -178,
+      "stake": 1.78,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "LAA",
+      "gamePk": 823084,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 150,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "CIN",
+      "gamePk": 822761,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shota Imanaga"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": 106,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "CHC",
+      "gamePk": 824705,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -20761,6 +20833,30 @@
       "away": "CIN",
       "gamePk": 822759,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-26",
+      "commence": "2026-09-27T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Perkins"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -158,
+      "stake": 1.58,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "HOU",
+      "gamePk": 824949,
+      "fadeReason": "all"
     }
   ]
 }

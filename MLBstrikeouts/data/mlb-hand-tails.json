@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-27T00:31:36Z",
+  "generated": "2026-09-27T13:05:30Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -167,18 +167,18 @@
     }
   ],
   "summary": {
-    "wins": 82,
+    "wins": 83,
     "losses": 47,
-    "units": 28.15,
-    "staked": 166.75,
-    "roi": 0.1688,
+    "units": 29.15,
+    "staked": 168.31,
+    "roi": 0.1732,
     "byAction": {
       "fade": {
-        "wins": 82,
+        "wins": 83,
         "losses": 47,
-        "units": 28.15,
-        "staked": 166.75,
-        "roi": 0.1688
+        "units": 29.15,
+        "staked": 168.31,
+        "roi": 0.1732
       },
       "take": {
         "wins": 0,
@@ -190,11 +190,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 44,
+        "wins": 45,
         "losses": 20,
-        "units": 19.23,
-        "staked": 84.77,
-        "roi": 0.2268
+        "units": 20.23,
+        "staked": 86.33,
+        "roi": 0.2343
       },
       "L": {
         "wins": 38,
@@ -207,24 +207,24 @@
   },
   "today": [
     {
-      "date": "2026-09-26",
-      "commence": "2026-09-27T01:40:00Z",
+      "date": "2026-09-27",
+      "commence": "2026-09-27T17:05:00Z",
       "betType": "hand_fade",
       "action": "fade",
-      "pitcher": "Ryan Johnson",
-      "entry": "Ryan Johnson",
+      "pitcher": "Shane Baz",
+      "entry": "Shane Baz",
       "hand": "R",
-      "arm_team": "LAA",
-      "opp_team": "SEA",
-      "selection": "SEA",
-      "home": "SEA",
-      "away": "LAA",
+      "arm_team": "BAL",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "NYY",
+      "away": "BAL",
       "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -156,
-      "stake": 1.56,
-      "result": "pending",
+      "oppRighty": 2,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -3325,6 +3325,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-26",
+      "commence": "2026-09-27T01:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Ryan Johnson",
+      "entry": "Ryan Johnson",
+      "hand": "R",
+      "arm_team": "LAA",
+      "opp_team": "SEA",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "LAA",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }
