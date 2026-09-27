@@ -2,12 +2,10 @@
   "sport": "MLB",
   "type": "pitch-hands-today",
   "date": "2026-09-27",
-  "generated": "2026-09-27T18:32:30Z",
+  "generated": "2026-09-27T21:01:05Z",
   "hands": {
     "dj herz": "L",
     "sean manaea": "L",
-    "elmer rodriguez": "R",
-    "shane baz": "R",
     "zack wheeler": "R",
     "nick martinez": "R",
     "tanner houck": "R",
@@ -33,13 +31,13 @@
     "janson junk": "R",
     "jr ritchie": "R",
     "jacob misiorowski": "R",
-    "andre pallante": "R"
+    "andre pallante": "R",
+    "elmer rodriguez": "R",
+    "shane baz": "R"
   },
   "names": {
     "dj herz": "DJ Herz",
     "sean manaea": "Sean Manaea",
-    "elmer rodriguez": "Elmer Rodr\u00edguez",
-    "shane baz": "Shane Baz",
     "zack wheeler": "Zack Wheeler",
     "nick martinez": "Nick Martinez",
     "tanner houck": "Tanner Houck",
@@ -65,7 +63,9 @@
     "janson junk": "Janson Junk",
     "jr ritchie": "JR Ritchie",
     "jacob misiorowski": "Jacob Misiorowski",
-    "andre pallante": "Andre Pallante"
+    "andre pallante": "Andre Pallante",
+    "elmer rodriguez": "Elmer Rodr\u00edguez",
+    "shane baz": "Shane Baz"
   },
   "starters": {
     "WSH": {
@@ -75,14 +75,6 @@
     "NYM": {
       "name": "Sean Manaea",
       "hand": "L"
-    },
-    "NYY": {
-      "name": "Elmer Rodr\u00edguez",
-      "hand": "R"
-    },
-    "BAL": {
-      "name": "Shane Baz",
-      "hand": "R"
     },
     "PHI": {
       "name": "Zack Wheeler",
@@ -186,6 +178,14 @@
     },
     "STL": {
       "name": "Andre Pallante",
+      "hand": "R"
+    },
+    "NYY": {
+      "name": "Elmer Rodr\u00edguez",
+      "hand": "R"
+    },
+    "BAL": {
+      "name": "Shane Baz",
       "hand": "R"
     }
   }

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-27T18:33:17Z",
+ "generated": "2026-09-27T21:01:50Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -638,14 +638,17 @@
    "line": 8.5,
    "price": -120,
    "rule": "pickem-under",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "NYM @ WSH",
    "gamePk": 822679,
    "commence": "2026-09-27T17:05:00Z",
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "open_line": 8.5,
+   "close_line": 8.5,
+   "line_move": 0.0,
    "open_price": -120,
+   "clv": "flat",
    "name": "Pickem under",
    "group": "non-scout",
    "kind": "not_bet"
@@ -657,14 +660,17 @@
    "line": 8.5,
    "price": -122,
    "rule": "under-juice",
-   "result": "pending",
-   "profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
    "game": "NYM @ WSH",
    "gamePk": 822679,
    "commence": "2026-09-27T17:05:00Z",
    "basis": "Under juice: book laying -122 on the under",
    "open_line": 8.5,
+   "close_line": 8.5,
+   "line_move": 0.0,
    "open_price": -120,
+   "clv": "flat",
    "name": "Under juice",
    "group": "non-scout",
    "kind": "not_bet"
@@ -52474,10 +52480,10 @@
  "summary": {
   "all": {
    "w": 1437,
-   "l": 1329,
+   "l": 1331,
    "push": 28,
    "n": 2831,
-   "pending": 37,
+   "pending": 35,
    "units": 228.7
   },
   "card": {
@@ -52627,10 +52633,10 @@
    },
    "pickem-under": {
     "w": 110,
-    "l": 85,
+    "l": 86,
     "push": 4,
     "n": 202,
-    "pending": 3,
+    "pending": 2,
     "units": 13.39
    },
    "scout-ml-both-halves-aligned": {
@@ -52651,10 +52657,10 @@
    },
    "under-juice": {
     "w": 300,
-    "l": 253,
+    "l": 254,
     "push": 1,
     "n": 564,
-    "pending": 10,
+    "pending": 9,
     "units": 0
    }
   }

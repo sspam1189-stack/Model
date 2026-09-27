@@ -1,13 +1,29 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-27T18:32:43Z",
+  "generated": "2026-09-27T21:01:17Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T17:05:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Sean Manaea",
+      "arm_team": "NYM",
+      "opp": "WSH",
+      "selection": "WSH",
+      "venue": "away",
+      "matchup": "NYM @ WSH",
+      "odds": 100,
+      "eraVsOpp": 6.57,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Spencer Arrighetti",
@@ -423,6 +439,22 @@
         "u": 0.05,
         "n": 3,
         "roi": 0.0167
+      }
+    },
+    {
+      "pitcher": "Sean Manaea",
+      "opp": "WSH",
+      "arm_team": "NYM",
+      "eraVsOpp": 6.57,
+      "ipVsOpp": 12.3,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.0,
+        "n": 2,
+        "roi": 0.0
       }
     },
     {

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-27T18:32:38Z",
+  "generated": "2026-09-27T21:01:12Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -205,32 +205,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T17:05:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Shane Baz",
-      "entry": "Shane Baz",
-      "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "NYY",
-      "selection": "NYY",
-      "home": "NYY",
-      "away": "BAL",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -3349,6 +3324,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T17:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Shane Baz",
+      "entry": "Shane Baz",
+      "hand": "R",
+      "arm_team": "BAL",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "NYY",
+      "away": "BAL",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": false,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "VOID",
+      "reason": "postponed",
+      "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

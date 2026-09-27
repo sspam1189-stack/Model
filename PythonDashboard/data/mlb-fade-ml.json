@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-27T18:32:29Z",
+  "generated": "2026-09-27T21:01:05Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -86,7 +86,7 @@
   "summary": {
     "wins": 561,
     "losses": 235,
-    "voids": 0,
+    "voids": 1,
     "skips": 61,
     "staked": 1008.14,
     "units": 327.96,
@@ -95,7 +95,7 @@
       "ml": {
         "wins": 549,
         "losses": 223,
-        "voids": 0,
+        "voids": 1,
         "skips": 6,
         "staked": 984.14,
         "units": 323.48,
@@ -136,30 +136,6 @@
       "away": "CIN",
       "gamePk": 822761,
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T17:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Shane Baz"
-      ],
-      "fadeTeam": "BAL",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -122,
-      "stake": 1.22,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYY",
-      "away": "BAL",
-      "gamePk": 823490,
-      "fadeReason": "away"
     },
     {
       "date": "2026-09-27",
@@ -20857,6 +20833,30 @@
       "away": "HOU",
       "gamePk": 824949,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "postponed",
+      "home": "NYY",
+      "away": "BAL",
+      "gamePk": 823490,
+      "fadeReason": "away"
     }
   ]
 }

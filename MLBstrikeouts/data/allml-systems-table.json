@@ -1,17 +1,17 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-27T18:33:00Z",
+ "generated": "2026-09-27T21:01:34Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-26"
+  "to": "2026-09-27"
  },
- "games": 2412,
+ "games": 2413,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.5,
   "over": -4.0,
-  "under": -5.4,
+  "under": -5.5,
   "parlay": 0.0
  },
  "systems": [
@@ -95,7 +95,7 @@
      "roi": 39.0
     }
    ],
-   "per_day": 0.95
+   "per_day": 0.94
   },
   {
    "baseline_key": "side",
@@ -477,7 +477,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.4,
+   "baseline": -5.5,
    "key": "cold-arms-under",
    "name": "Cold arms under",
    "market": "totals",
@@ -629,7 +629,7 @@
      "roi": 7.8
     }
    ],
-   "per_day": 0.85
+   "per_day": 0.84
   },
   {
    "baseline_key": "over",
@@ -715,7 +715,7 @@
   },
   {
    "baseline_key": "under",
-   "baseline": -5.4,
+   "baseline": -5.5,
    "key": "under-juice",
    "name": "Under juice",
    "market": "totals",
@@ -726,14 +726,14 @@
    "ladder_fails": false,
    "record": {
     "w": 280,
-    "l": 228,
-    "n": 508,
-    "units": 0.03,
-    "roi": 0.0
+    "l": 229,
+    "n": 509,
+    "units": -0.97,
+    "roi": -0.2
    },
    "halves": [
     4.6,
-    -4.1
+    -4.5
    ],
    "monthly": [
     {
@@ -787,13 +787,13 @@
     {
      "month": "2026-09",
      "w": 46,
-     "l": 57,
-     "n": 103,
-     "units": -20.54,
-     "roi": -19.9
+     "l": 58,
+     "n": 104,
+     "units": -21.54,
+     "roi": -20.7
     }
    ],
-   "per_day": 2.78
+   "per_day": 2.77
   },
   {
    "baseline_key": "side",
@@ -867,11 +867,11 @@
      "roi": -10.7
     }
    ],
-   "per_day": 1.12
+   "per_day": 1.11
   },
   {
    "baseline_key": "under",
-   "baseline": -5.4,
+   "baseline": -5.5,
    "key": "pickem-under",
    "name": "Pickem under",
    "market": "totals",
@@ -941,58 +941,10 @@
      "roi": -7.2
     }
    ],
-   "per_day": 0.99
+   "per_day": 0.98
   }
  ],
  "today": [
-  {
-   "rule": "pickem-under",
-   "market": "totals",
-   "pick": "under",
-   "price": -120,
-   "line": 8.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
-   "gamePk": 822679,
-   "date": "2026-09-27",
-   "commence": "2026-09-27T17:05:00Z",
-   "matchup": "NYM @ WSH",
-   "total": 8.5,
-   "why": "favorite only -110 at a 8.5 total",
-   "stale": true,
-   "stale_now": "favourite now -118, total still 8.5"
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
-   "side": "U",
-   "why": "book laying -122 on the under",
-   "gamePk": 822679,
-   "date": "2026-09-27",
-   "commence": "2026-09-27T17:05:00Z",
-   "matchup": "NYM @ WSH",
-   "away": "NYM",
-   "home": "WSH",
-   "total": 8.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -128,
-   "side": "U",
-   "why": "book laying -128 on the under",
-   "gamePk": 823490,
-   "date": "2026-09-27",
-   "commence": "2026-09-27T17:05:00Z",
-   "matchup": "BAL @ NYY",
-   "away": "BAL",
-   "home": "NYY",
-   "total": 7.5
-  },
   {
    "rule": "low-line-over",
    "market": "totals",
