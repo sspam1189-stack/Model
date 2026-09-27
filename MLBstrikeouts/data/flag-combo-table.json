@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-27T21:01:28Z",
+ "generated": "2026-09-27T23:02:04Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-27"
  },
  "games": {
-  "gradeable": 2355,
-  "flagged": 630,
+  "gradeable": 2368,
+  "flagged": 635,
   "pushes_dropped": 56
  },
  "card_requires": "swingman",
@@ -59,17 +59,17 @@
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1169,
-   "l": 1186,
-   "n": 2355,
-   "units": -130.51,
+   "w": 1176,
+   "l": 1192,
+   "n": 2368,
+   "units": -130.41,
    "roi": -5.5
   },
   "over": {
-   "w": 1186,
-   "l": 1169,
-   "n": 2355,
-   "units": -91.87,
+   "w": 1192,
+   "l": 1176,
+   "n": 2368,
+   "units": -93.52,
    "roi": -3.9
   }
  },
@@ -214,18 +214,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 18,
+    "w": 19,
     "l": 11,
-    "n": 29,
-    "units": 5.33,
-    "roi": 18.4
+    "n": 30,
+    "units": 6.2,
+    "roi": 20.7
    },
    "over": {
     "w": 11,
-    "l": 18,
-    "n": 29,
-    "units": -7.92,
-    "roi": -27.3
+    "l": 19,
+    "n": 30,
+    "units": -8.92,
+    "roi": -29.7
    }
   },
   {
@@ -239,18 +239,18 @@
    "shadow": true,
    "shadow_from": "2026-09-03",
    "under": {
-    "w": 26,
+    "w": 28,
     "l": 34,
-    "n": 60,
-    "units": -10.68,
-    "roi": -17.8
+    "n": 62,
+    "units": -8.96,
+    "roi": -14.5
    },
    "over": {
     "w": 34,
-    "l": 26,
-    "n": 60,
-    "units": 5.06,
-    "roi": 8.4
+    "l": 28,
+    "n": 62,
+    "units": 3.06,
+    "roi": 4.9
    }
   },
   {
@@ -289,17 +289,17 @@
    "shadow_from": null,
    "under": {
     "w": 26,
-    "l": 27,
-    "n": 53,
-    "units": -3.48,
-    "roi": -6.6
+    "l": 28,
+    "n": 54,
+    "units": -4.48,
+    "roi": -8.3
    },
    "over": {
-    "w": 27,
+    "w": 28,
     "l": 26,
-    "n": 53,
-    "units": -1.55,
-    "roi": -2.9
+    "n": 54,
+    "units": -0.73,
+    "roi": -1.4
    }
   },
   {
@@ -388,18 +388,18 @@
    "shadow": false,
    "shadow_from": null,
    "under": {
-    "w": 29,
+    "w": 30,
     "l": 26,
-    "n": 55,
-    "units": 0.33,
-    "roi": 0.6
+    "n": 56,
+    "units": 1.31,
+    "roi": 2.3
    },
    "over": {
     "w": 26,
-    "l": 29,
-    "n": 55,
-    "units": -5.08,
-    "roi": -9.2
+    "l": 30,
+    "n": 56,
+    "units": -6.08,
+    "roi": -10.9
    }
   },
   {
@@ -457,68 +457,68 @@
    "flag": "layoff",
    "under": {
     "w": 139,
-    "l": 121,
-    "n": 260,
-    "units": 5.68,
-    "roi": 2.2
+    "l": 122,
+    "n": 261,
+    "units": 4.68,
+    "roi": 1.8
    },
    "over": {
-    "w": 121,
+    "w": 122,
     "l": 139,
-    "n": 260,
-    "units": -29.8,
-    "roi": -11.5
+    "n": 261,
+    "units": -28.99,
+    "roi": -11.1
    }
   },
   {
    "flag": "stale-window",
    "under": {
-    "w": 124,
+    "w": 127,
     "l": 123,
-    "n": 247,
-    "units": -10.29,
-    "roi": -4.2
+    "n": 250,
+    "units": -7.7,
+    "roi": -3.1
    },
    "over": {
     "w": 123,
-    "l": 124,
-    "n": 247,
-    "units": -11.29,
-    "roi": -4.6
+    "l": 127,
+    "n": 250,
+    "units": -14.29,
+    "roi": -5.7
    }
   },
   {
    "flag": "opener",
    "under": {
-    "w": 121,
+    "w": 123,
     "l": 95,
-    "n": 216,
-    "units": 15.14,
-    "roi": 7.0
+    "n": 218,
+    "units": 16.99,
+    "roi": 7.8
    },
    "over": {
     "w": 95,
-    "l": 121,
-    "n": 216,
-    "units": -34.34,
-    "roi": -15.9
+    "l": 123,
+    "n": 218,
+    "units": -36.34,
+    "roi": -16.7
    }
   },
   {
    "flag": "swingman",
    "under": {
-    "w": 197,
-    "l": 155,
-    "n": 352,
-    "units": 23.67,
-    "roi": 6.7
+    "w": 200,
+    "l": 156,
+    "n": 356,
+    "units": 25.27,
+    "roi": 7.1
    },
    "over": {
-    "w": 155,
-    "l": 197,
-    "n": 352,
-    "units": -55.6,
-    "roi": -15.8
+    "w": 156,
+    "l": 200,
+    "n": 356,
+    "units": -57.78,
+    "roi": -16.2
    }
   }
  ]

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-27T21:01:13Z",
+  "generated": "2026-09-27T23:01:47Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -20,8 +20,8 @@
       "venue": "away",
       "odds": -124,
       "suggest": "away",
-      "suggestUnits": 3.0,
-      "games": 5,
+      "suggestUnits": 4.0,
+      "games": 6,
       "result": "pending"
     }
   ],
@@ -194,11 +194,11 @@
       "suggest": "home",
       "suggestUnits": 4.08,
       "all": {
-        "w": 9,
+        "w": 10,
         "l": 9,
-        "u": 1.44,
-        "n": 18,
-        "roi": 0.0726
+        "u": 2.74,
+        "n": 19,
+        "roi": 0.1315
       },
       "home": {
         "w": 6,
@@ -208,11 +208,38 @@
         "roi": 0.3893
       },
       "away": {
-        "w": 3,
+        "w": 4,
         "l": 5,
-        "u": -2.64,
-        "n": 8,
-        "roi": -0.2821
+        "u": -1.34,
+        "n": 9,
+        "roi": -0.1293
+      }
+    },
+    {
+      "pitcher": "JR Ritchie",
+      "team": "ATL",
+      "suggest": "away",
+      "suggestUnits": 4.0,
+      "all": {
+        "w": 7,
+        "l": 4,
+        "u": 3.28,
+        "n": 11,
+        "roi": 0.2492
+      },
+      "home": {
+        "w": 2,
+        "l": 3,
+        "u": -0.72,
+        "n": 5,
+        "roi": -0.1246
+      },
+      "away": {
+        "w": 5,
+        "l": 1,
+        "u": 4.0,
+        "n": 6,
+        "roi": 0.542
       }
     },
     {
@@ -672,33 +699,6 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.7692
-      }
-    },
-    {
-      "pitcher": "JR Ritchie",
-      "team": "ATL",
-      "suggest": "away",
-      "suggestUnits": 3.0,
-      "all": {
-        "w": 6,
-        "l": 4,
-        "u": 2.28,
-        "n": 10,
-        "roi": 0.1913
-      },
-      "home": {
-        "w": 2,
-        "l": 3,
-        "u": -0.72,
-        "n": 5,
-        "roi": -0.1246
-      },
-      "away": {
-        "w": 4,
-        "l": 1,
-        "u": 3.0,
-        "n": 5,
-        "roi": 0.4886
       }
     },
     {

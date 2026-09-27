@@ -1,50 +1,19 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-27T21:01:16Z",
+  "generated": "2026-09-27T23:01:49Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 11,
+    "w": 12,
     "l": 1,
-    "u": 10.82,
-    "n": 12,
-    "roi": 0.6262
+    "u": 11.82,
+    "n": 13,
+    "roi": 0.6115
   },
-  "today": [
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:10:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Janson Junk",
-      "arm_team": "MIA",
-      "opp": "ATL",
-      "selection": "ATL",
-      "venue": "home",
-      "matchup": "ATL @ MIA",
-      "odds": 106,
-      "eraVsOpp": 11.25,
-      "startsVsOpp": 2,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:10:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Andre Pallante",
-      "arm_team": "STL",
-      "opp": "MIL",
-      "selection": "MIL",
-      "venue": "away",
-      "matchup": "STL @ MIL",
-      "odds": -205,
-      "eraVsOpp": 9.0,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -234,6 +203,34 @@
         }
       ],
       "qualifiedOn": "2026-05-27"
+    },
+    {
+      "pitcher": "Andre Pallante",
+      "opp": "MIL",
+      "arm_team": "STL",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.4878
+      },
+      "eraVsOpp": 9.56,
+      "ipVsOpp": 16.0,
+      "erVsOpp": 17,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-09-27",
+          "venue": "away",
+          "matchup": "STL @ MIL",
+          "selection": "MIL",
+          "opp_ml": -205,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-09"
     },
     {
       "pitcher": "Chris Murphy",
@@ -435,25 +432,6 @@
       "qualifiedOn": "2026-07-01"
     },
     {
-      "pitcher": "Andre Pallante",
-      "opp": "MIL",
-      "arm_team": "STL",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 11.0,
-      "erVsOpp": 11,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-07-09"
-    },
-    {
       "pitcher": "Seth Lugo",
       "opp": "CLE",
       "arm_team": "KC",
@@ -511,6 +489,25 @@
       "qualifiedOn": "2026-06-21"
     },
     {
+      "pitcher": "JR Ritchie",
+      "opp": "MIA",
+      "arm_team": "ATL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.38,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-27"
+    },
+    {
       "pitcher": "Tatsuya Imai",
       "opp": "MIN",
       "arm_team": "HOU",
@@ -543,25 +540,6 @@
       },
       "eraVsOpp": 10.0,
       "ipVsOpp": 9.0,
-      "erVsOpp": 10,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-08-06"
-    },
-    {
-      "pitcher": "Janson Junk",
-      "opp": "ATL",
-      "arm_team": "MIA",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 11.25,
-      "ipVsOpp": 8.0,
       "erVsOpp": 10,
       "startsVsOpp": 2,
       "starts": [],

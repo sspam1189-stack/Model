@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-27T21:01:05Z",
+  "generated": "2026-09-27T23:01:37Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 561,
-    "losses": 235,
+    "wins": 562,
+    "losses": 237,
     "voids": 1,
     "skips": 61,
-    "staked": 1008.14,
-    "units": 327.96,
-    "roi": 0.3253,
+    "staked": 1011.88,
+    "units": 326.96,
+    "roi": 0.3231,
     "byType": {
       "ml": {
-        "wins": 549,
-        "losses": 223,
+        "wins": 550,
+        "losses": 225,
         "voids": 1,
         "skips": 6,
-        "staked": 984.14,
-        "units": 323.48,
-        "roi": 0.3287
+        "staked": 987.88,
+        "units": 322.48,
+        "roi": 0.3264
       },
       "ml_dog": {
         "wins": 12,
@@ -112,80 +112,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": 142,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "CIN",
-      "gamePk": 822761,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Shota Imanaga"
-      ],
-      "fadeTeam": "CHC",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "CHC",
-      "gamePk": 824705,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Yusei Kikuchi"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -174,
-      "stake": 1.74,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SEA",
-      "away": "LAA",
-      "gamePk": 823084,
-      "fadeReason": "all"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-04-05",
@@ -20857,6 +20784,78 @@
       "away": "BAL",
       "gamePk": 823490,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shota Imanaga"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "CHC",
+      "gamePk": 824705,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 142,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "CIN",
+      "gamePk": 822761,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -174,
+      "stake": 1.74,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "LAA",
+      "gamePk": 823084,
+      "fadeReason": "all"
     }
   ]
 }

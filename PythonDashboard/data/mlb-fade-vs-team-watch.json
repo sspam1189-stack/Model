@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-27T21:01:17Z",
+  "generated": "2026-09-27T23:01:50Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -21,6 +21,36 @@
       "odds": 100,
       "eraVsOpp": 6.57,
       "startsVsOpp": 2,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:05:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Jack Dreyer",
+      "arm_team": "LAD",
+      "opp": "SF",
+      "selection": "SF",
+      "venue": "away",
+      "matchup": "LAD @ SF",
+      "odds": 210,
+      "eraVsOpp": 6.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-27",
+      "commence": "2026-09-27T19:10:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Janson Junk",
+      "arm_team": "MIA",
+      "opp": "ATL",
+      "selection": "ATL",
+      "venue": "home",
+      "matchup": "ATL @ MIA",
+      "odds": 106,
+      "eraVsOpp": 7.82,
+      "startsVsOpp": 3,
       "result": "pending"
     }
   ],
@@ -103,6 +133,22 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.6122
+      }
+    },
+    {
+      "pitcher": "Janson Junk",
+      "opp": "ATL",
+      "arm_team": "MIA",
+      "eraVsOpp": 7.82,
+      "ipVsOpp": 12.7,
+      "erVsOpp": 11,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 2,
+        "l": 1,
+        "u": 1.0,
+        "n": 3,
+        "roi": 0.2203
       }
     },
     {
@@ -952,6 +998,22 @@
         "u": 0.34,
         "n": 2,
         "roi": 0.1574
+      }
+    },
+    {
+      "pitcher": "Jack Dreyer",
+      "opp": "SF",
+      "arm_team": "LAD",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 3.0,
+      "erVsOpp": 2,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 0,
+        "l": 2,
+        "u": -2.0,
+        "n": 2,
+        "roi": -1.0
       }
     }
   ]
