@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-27T16:04:33Z",
+ "generated": "2026-09-27T18:33:00Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-26"
@@ -1024,7 +1024,7 @@
    "total": null,
    "why": "home to a AL West rival at +144",
    "stale": true,
-   "stale_now": "favourite now -190, total still 9.5"
+   "stale_now": "favourite now -196, total still 10.5"
   },
   {
    "rule": "home-dog-under-parlay",
@@ -1042,7 +1042,7 @@
    "total": 9.5,
    "why": "OAK ML +144 with U9.5 -102, pays 4.83x",
    "stale": true,
-   "stale_now": "favourite now -190, total still 9.5"
+   "stale_now": "favourite now -196, total now 10.5 (was 9.5)"
   },
   {
    "rule": "under-juice",
@@ -1081,16 +1081,16 @@
    "rule": "division-home-dog",
    "market": "h2h",
    "pick": "SD",
-   "price": 132,
+   "price": 130,
    "side": null,
-   "why": "home to a NL West rival at +132",
+   "why": "home to a NL West rival at +130",
    "gamePk": 823246,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
    "matchup": "ARI @ SD",
    "away": "ARI",
    "home": "SD",
-   "total": 8.5
+   "total": 7.5
   },
   {
    "rule": "division-home-dog",
@@ -1108,22 +1108,22 @@
    "total": null,
    "why": "home to a AL Central rival at +120",
    "stale": true,
-   "stale_now": "favourite now -112, total still 8.5"
+   "stale_now": "favourite now -110, total still 8.5"
   },
   {
    "rule": "home-dog-getaway",
    "market": "h2h",
    "pick": "SD",
-   "price": 132,
+   "price": 130,
    "side": null,
-   "why": "ARI played a night game yesterday, day game today, home dog at +132",
+   "why": "ARI played a night game yesterday, day game today, home dog at +130",
    "gamePk": 823246,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
    "matchup": "ARI @ SD",
    "away": "ARI",
    "home": "SD",
-   "total": 8.5
+   "total": 7.5
   },
   {
    "rule": "home-dog-getaway",
@@ -1141,26 +1141,26 @@
    "total": null,
    "why": "CLE played a night game yesterday, day game today, home dog at +120",
    "stale": true,
-   "stale_now": "favourite now -112, total still 8.5"
+   "stale_now": "favourite now -110, total still 8.5"
   },
   {
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "SD",
-   "price": 298,
+   "price": 360,
    "side": null,
-   "why": "SD ML +132 with U8.5 -140, pays 3.98x",
-   "line": 8.5,
-   "ml_price": 132,
-   "under_price": -140,
-   "payout": 3.977,
+   "why": "SD ML +130 with U7.5 +100, pays 4.60x",
+   "line": 7.5,
+   "ml_price": 130,
+   "under_price": 100,
+   "payout": 4.6,
    "gamePk": 823246,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
    "matchup": "ARI @ SD",
    "away": "ARI",
    "home": "SD",
-   "total": 8.5
+   "total": 7.5
   },
   {
    "rule": "home-dog-under-parlay",
@@ -1178,30 +1178,48 @@
    "total": 8.5,
    "why": "KC ML +120 with U8.5 -112, pays 4.16x",
    "stale": true,
-   "stale_now": "favourite now -112, total still 8.5"
+   "stale_now": "favourite now -110, total still 8.5"
+  },
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -128,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 823084,
+   "date": "2026-09-27",
+   "commence": "2026-09-27T19:10:00Z",
+   "matchup": "LAA @ SEA",
+   "away": "LAA",
+   "home": "SEA",
+   "total": 6.5
   },
   {
    "rule": "low-line-over",
    "market": "totals",
    "pick": "over",
    "price": -130,
-   "side": "O",
-   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "line": 6.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
    "gamePk": 823731,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
    "matchup": "STL @ MIL",
-   "away": "STL",
-   "home": "MIL",
-   "total": 6.5
+   "total": 6.5,
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "stale": true,
+   "stale_now": "favourite now -205, total now 7.5 (was 6.5)"
   },
   {
    "rule": "pickem-under",
    "market": "totals",
    "pick": "under",
-   "price": -110,
+   "price": -128,
    "side": "U",
-   "why": "favorite only -112 at a 8.5 total",
+   "why": "favorite only -110 at a 8.5 total",
    "gamePk": 824055,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
@@ -1226,7 +1244,7 @@
    "total": 8.5,
    "why": "favorite only -108 at a 8.5 total",
    "stale": true,
-   "stale_now": "favourite now -116, total still 8.5"
+   "stale_now": "favourite now -124, total still 8.5"
   },
   {
    "rule": "starter-over-run",
@@ -1247,7 +1265,7 @@
    "rule": "starter-over-run",
    "market": "totals",
    "pick": "over",
-   "price": -110,
+   "price": 100,
    "side": "O",
    "why": "over in Anthony Kay 75% of last 8, total 8.5",
    "gamePk": 824542,
@@ -1262,31 +1280,16 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -140,
+   "price": -128,
    "side": "U",
-   "why": "book laying -140 on the under",
-   "gamePk": 823246,
+   "why": "book laying -128 on the under",
+   "gamePk": 824055,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
-   "matchup": "ARI @ SD",
-   "away": "ARI",
-   "home": "SD",
+   "matchup": "CLE @ KC",
+   "away": "CLE",
+   "home": "KC",
    "total": 8.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -134,
-   "side": "U",
-   "why": "book laying -134 on the under",
-   "gamePk": 823084,
-   "date": "2026-09-27",
-   "commence": "2026-09-27T19:10:00Z",
-   "matchup": "LAA @ SEA",
-   "away": "LAA",
-   "home": "SEA",
-   "total": 7.5
   },
   {
    "rule": "under-juice",
@@ -1310,6 +1313,21 @@
    "price": -122,
    "side": "U",
    "why": "book laying -122 on the under",
+   "gamePk": 824542,
+   "date": "2026-09-27",
+   "commence": "2026-09-27T19:10:00Z",
+   "matchup": "COL @ CWS",
+   "away": "COL",
+   "home": "CWS",
+   "total": 8.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -130,
+   "side": "U",
+   "why": "book laying -130 on the under",
    "gamePk": 823814,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
@@ -1322,19 +1340,52 @@
    "rule": "under-juice",
    "market": "totals",
    "pick": "under",
-   "price": -144,
-   "line": 7.5,
-   "ml_price": null,
-   "under_price": null,
-   "payout": null,
+   "price": -128,
+   "side": "U",
+   "why": "book laying -128 on the under",
    "gamePk": 823731,
    "date": "2026-09-27",
    "commence": "2026-09-27T19:10:00Z",
    "matchup": "STL @ MIL",
-   "total": 7.5,
-   "why": "book laying -144 on the under",
+   "away": "STL",
+   "home": "MIL",
+   "total": 7.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -140,
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
+   "gamePk": 823246,
+   "date": "2026-09-27",
+   "commence": "2026-09-27T19:10:00Z",
+   "matchup": "ARI @ SD",
+   "total": 8.5,
+   "why": "book laying -140 on the under",
    "stale": true,
-   "stale_now": "favourite now -205, total now 6.5 (was 7.5)"
+   "stale_now": "favourite now -154, total now 7.5 (was 8.5)"
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -134,
+   "line": 7.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
+   "gamePk": 823084,
+   "date": "2026-09-27",
+   "commence": "2026-09-27T19:10:00Z",
+   "matchup": "LAA @ SEA",
+   "total": 7.5,
+   "why": "book laying -134 on the under",
+   "stale": true,
+   "stale_now": "favourite now -174, total now 6.5 (was 7.5)"
   }
  ],
  "today_date": "2026-09-27"

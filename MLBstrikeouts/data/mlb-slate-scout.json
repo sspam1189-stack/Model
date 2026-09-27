@@ -1170,11 +1170,11 @@
       "away": "CHC",
       "home": "BOS",
       "commence": "2026-09-27T19:05:00Z",
-      "away_ml": -122,
-      "home_ml": 104,
+      "away_ml": -118,
+      "home_ml": 100,
       "total": 7.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Shota Imanaga",
@@ -1358,21 +1358,37 @@
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
+          "pitcher": "Tanner Houck",
+          "listed_as": "Tanner Houck",
           "resolved": false,
-          "hand": null,
+          "hand": "R",
           "team": "BOS",
           "opponent_offense": "CHC",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 101,
+          "opp_wrc_game": 92,
+          "opp_wrc_recent": 122,
+          "opp_wrc_recent_pa": 1396,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 120,
+              "pa": 796,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 101,
+              "pa": 504,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 96,
+              "pa": 385,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 78,
+              "pa": 198,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -23,
           "form": {
@@ -1454,17 +1470,17 @@
           ],
           "mismatch": null,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            120,
+            101,
+            96,
+            78
           ]
         }
       },
       "home_offense_game": 74,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 92,
+      "game_offense": 83,
+      "offense_edge": 18,
       "aligned_ml": null
     },
     {
@@ -1472,11 +1488,11 @@
       "away": "HOU",
       "home": "OAK",
       "commence": "2026-09-27T19:05:00Z",
-      "away_ml": -190,
-      "home_ml": 160,
-      "total": 9.5,
-      "over_ml": -128,
-      "under_ml": 104,
+      "away_ml": -196,
+      "home_ml": 164,
+      "total": 10.5,
+      "over_ml": -112,
+      "under_ml": -108,
       "sides": {
         "away": {
           "pitcher": "Peter Lambert",
@@ -1797,31 +1813,127 @@
       "under_ml": -115,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Jack Dreyer",
+          "listed_as": "Jack Dreyer",
+          "resolved": true,
+          "hand": "L",
           "team": "LAD",
           "opponent_offense": "SF",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 71,
+          "opp_wrc_game": 86,
+          "opp_wrc_recent": 75,
+          "opp_wrc_recent_pa": 690,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 89,
+              "pa": 376,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 71,
+              "pa": 279,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 66,
+              "pa": 218,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 101,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -29,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 2,
+              "ip": 2.0,
+              "ip_per_gs": 1.0,
+              "era": 4.5,
+              "whip": 1.0,
+              "k_pct": 50.0,
+              "bb_pct": 12.5,
+              "k_bb_pct": 37.5,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 1,
+              "hr": 0,
+              "er": 1
+            },
+            "recent": {
+              "gs": 2,
+              "ip": 2.0,
+              "ip_per_gs": 1.0,
+              "era": 4.5,
+              "whip": 1.0,
+              "k_pct": 50.0,
+              "bb_pct": 12.5,
+              "k_bb_pct": 37.5,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 1,
+              "hr": 0,
+              "er": 1
+            },
+            "hot": {
+              "gs": 2,
+              "ip": 2.0,
+              "ip_per_gs": 1.0,
+              "era": 4.5,
+              "whip": 1.0,
+              "k_pct": 50.0,
+              "bb_pct": 12.5,
+              "k_bb_pct": 37.5,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 1,
+              "hr": 0,
+              "er": 1
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 5.3,
+              "ip_per_g": 1.07,
+              "era": 5.06,
+              "whip": 1.31,
+              "k_pct": 13.0,
+              "bb_pct": 13.0,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 3,
+              "hr": 0,
+              "er": 3,
+              "gs": 1
+            },
+            "relief": {
+              "g": 31,
+              "ip": 27.3,
+              "ip_per_g": 0.88,
+              "era": 2.63,
+              "whip": 1.13,
+              "k_pct": 26.8,
+              "bb_pct": 11.6,
+              "k_bb_pct": 15.2,
+              "hr9": 0.33,
+              "k": 30,
+              "bb": 13,
+              "hr": 1,
+              "er": 8,
+              "from": "2026-07-05",
+              "to": "2026-09-23"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 97,
@@ -1889,14 +2001,17 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "opener",
+            "thin-sample",
+            "stale-window-81d",
+            "swingman-31g"
           ],
-          "mismatch": null,
+          "mismatch": -55.2,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            89,
+            71,
+            66,
+            48
           ]
         },
         "home": {
@@ -2019,11 +2134,27 @@
           ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 86,
       "away_offense_game": 138,
-      "game_offense": null,
-      "offense_edge": null,
-      "aligned_ml": null
+      "game_offense": 112,
+      "offense_edge": 52,
+      "aligned_ml": {
+        "pick": "LAD",
+        "ml": -255,
+        "away_offense": [
+          115,
+          122,
+          120,
+          110
+        ],
+        "home_offense": [
+          89,
+          71,
+          66,
+          48
+        ],
+        "min_pa": 75
+      }
     },
     {
       "matchup": "CIN @ TOR",
@@ -2429,11 +2560,11 @@
       "away": "CLE",
       "home": "KC",
       "commence": "2026-09-27T19:10:00Z",
-      "away_ml": -112,
-      "home_ml": -104,
+      "away_ml": -106,
+      "home_ml": -110,
       "total": 8.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": 104,
+      "under_ml": -128,
       "sides": {
         "away": {
           "pitcher": "Parker Messick",
@@ -2809,11 +2940,11 @@
       "away": "PIT",
       "home": "DET",
       "commence": "2026-09-27T19:10:00Z",
-      "away_ml": -118,
-      "home_ml": 100,
+      "away_ml": -104,
+      "home_ml": -112,
       "total": 7.5,
-      "over_ml": -124,
-      "under_ml": 102,
+      "over_ml": -120,
+      "under_ml": -102,
       "sides": {
         "away": {
           "pitcher": "Jared Jones",
@@ -3192,11 +3323,11 @@
       "away": "ARI",
       "home": "SD",
       "commence": "2026-09-27T19:10:00Z",
-      "away_ml": -156,
-      "home_ml": 132,
-      "total": 8.5,
-      "over_ml": 114,
-      "under_ml": -140,
+      "away_ml": -154,
+      "home_ml": 130,
+      "total": 7.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Michael Soroka",
@@ -3607,11 +3738,11 @@
       "away": "LAA",
       "home": "SEA",
       "commence": "2026-09-27T19:10:00Z",
-      "away_ml": 144,
-      "home_ml": -172,
-      "total": 7.5,
-      "over_ml": 110,
-      "under_ml": -134,
+      "away_ml": 146,
+      "home_ml": -174,
+      "total": 6.5,
+      "over_ml": -128,
+      "under_ml": 104,
       "sides": {
         "away": {
           "pitcher": "Yusei Kikuchi",
@@ -4367,11 +4498,11 @@
       "away": "COL",
       "home": "CWS",
       "commence": "2026-09-27T19:10:00Z",
-      "away_ml": 142,
-      "home_ml": -168,
+      "away_ml": 138,
+      "home_ml": -164,
       "total": 8.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": 100,
+      "under_ml": -122,
       "sides": {
         "away": {
           "pitcher": "Kyle Freeland",
@@ -4747,11 +4878,11 @@
       "away": "ATL",
       "home": "MIA",
       "commence": "2026-09-27T19:10:00Z",
-      "away_ml": -102,
-      "home_ml": -116,
+      "away_ml": 106,
+      "home_ml": -124,
       "total": 8.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": 106,
+      "under_ml": -130,
       "sides": {
         "away": {
           "pitcher": "JR Ritchie",
@@ -5148,9 +5279,9 @@
       "commence": "2026-09-27T19:10:00Z",
       "away_ml": 172,
       "home_ml": -205,
-      "total": 6.5,
-      "over_ml": -130,
-      "under_ml": 106,
+      "total": 7.5,
+      "over_ml": 104,
+      "under_ml": -128,
       "sides": {
         "away": {
           "pitcher": "Andre Pallante",
@@ -5799,9 +5930,24 @@
       "opp_wrc_recent": 90,
       "mismatch": -52.0,
       "flags": []
+    },
+    {
+      "pitcher": "Jack Dreyer",
+      "hand": "L",
+      "team": "LAD",
+      "opponent_offense": "SF",
+      "opp_wrc_vs_hand": 71,
+      "opp_wrc_recent": 75,
+      "mismatch": -55.2,
+      "flags": [
+        "opener",
+        "thin-sample",
+        "stale-window-81d",
+        "swingman-31g"
+      ]
     }
   ],
-  "generated": "2026-09-27T16:04:26Z",
+  "generated": "2026-09-27T18:32:53Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

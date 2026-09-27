@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-27T16:04:04Z",
+  "generated": "2026-09-27T18:32:29Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -115,6 +115,30 @@
   "today": [
     {
       "date": "2026-09-27",
+      "commence": "2026-09-27T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 142,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "CIN",
+      "gamePk": 822761,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-27",
       "commence": "2026-09-27T17:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -149,7 +173,7 @@
       "market": "h2h",
       "selection": "BOS",
       "line": null,
-      "odds": 104,
+      "odds": 100,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -173,8 +197,8 @@
       "market": "h2h",
       "selection": "SEA",
       "line": null,
-      "odds": -172,
-      "stake": 1.72,
+      "odds": -174,
+      "stake": 1.74,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -184,30 +208,6 @@
       "away": "LAA",
       "gamePk": 823084,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": 142,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "CIN",
-      "gamePk": 822761,
-      "fadeReason": "home"
     }
   ],
   "bets": [
