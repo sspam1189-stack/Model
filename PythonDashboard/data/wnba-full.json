@@ -24421,9 +24421,11 @@
           "_book": "FanDuel",
           "status": "STARTED",
           "trends": {
-            "away": "ATS +/- -1.9 \u00b7 Over 54.6% \u00b7 Under 45.5% \u00b7 O/U +/- 1.1",
-            "home": "ATS +/- 1.3 \u00b7 Over 52.3% \u00b7 Under 47.7% \u00b7 O/U +/- 0.9"
-          }
+            "away": "ATS +/- -1.3 \u00b7 Over 53.3% \u00b7 Under 46.7% \u00b7 O/U +/- 0.9",
+            "home": "ATS +/- 0.7 \u00b7 Over 51.1% \u00b7 Under 48.9% \u00b7 O/U +/- 0.6"
+          },
+          "awayScore": 91.0,
+          "homeScore": 75.0
         },
         {
           "away": "Indiana Fever",
@@ -24473,9 +24475,12 @@
           "h2hNote": null,
           "stakeUnits": 1,
           "trends": {
-            "away": "ATS +/- 0.8 \u00b7 Over 59.1% \u00b7 Under 40.9% \u00b7 O/U +/- 6.2",
-            "home": "ATS +/- -1.0 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 1.4"
-          }
+            "away": "ATS +/- 0.5 \u00b7 Over 60.0% \u00b7 Under 40.0% \u00b7 O/U +/- 6.2",
+            "home": "ATS +/- -0.7 \u00b7 Over 51.1% \u00b7 Under 48.9% \u00b7 O/U +/- 1.5"
+          },
+          "awayScore": 85.0,
+          "homeScore": 102.0,
+          "sResult": "WIN"
         },
         {
           "away": "Washington Mystics",
@@ -24552,7 +24557,7 @@
           "pUnder": 0.835,
           "pCover": 0.621,
           "pOU": null,
-          "marginVar": 221.6,
+          "marginVar": 221.2,
           "marginStd": 14.9,
           "_features": {
             "dTS": -0.02499999999999991,
@@ -24581,8 +24586,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         75-45-0   (62.5%)   [graded 120]\n  Elite:       75-45-0   (62.5%)   [graded 120]\n\nFAV/DOG (Spread)\n  Favorites:   33-23-0   (58.9%)   [graded 56]\n  Underdogs:   42-22-0   (65.6%)   [graded 64]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "09/27/2026, 02:15:41 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         76-45-0   (62.8%)   [graded 121]\n  Elite:       76-45-0   (62.8%)   [graded 121]\n\nFAV/DOG (Spread)\n  Favorites:   34-23-0   (59.6%)   [graded 57]\n  Underdogs:   42-22-0   (65.6%)   [graded 64]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "09/27/2026, 07:00:39 PM"
     }
   ],
   "weights": {
@@ -24606,7 +24611,7 @@
     "h2hWeight": 0.0,
     "probElite": 0.63
   },
-  "residualVar": 162.0,
+  "residualVar": 161.6,
   "weightsVar": {
     "wTS": 3.7255,
     "wTO": 3.8939,
