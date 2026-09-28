@@ -1280,25 +1280,34 @@ def run_daily(date_key=None):
     else:
         print(f"  [calib] insufficient graded sample — calibration off")
 
-    projections = project_pitcher_props(
-        pitcher_logs,
-        team_batting_stats=team_batting,
-        prop_lines=prop_lines,
-        kalman_state=kalman_state,
-        pitcher_adv_stats=adv_stats,
-        pitcher_sabermetrics=saber_stats,
-        pitcher_splits=splits,
-        probable_pitchers=probable,
-        injury_report=None,
-        weather_by_game=weather_data,
-        batter_k_rates=batter_k_rates,
-        lineup_data=lineup_data,
-        savant_rates=savant_rates,
-        empirical_std=runtime_emp_std or None,
-        career_k_rates=batter_career_k_rates,
-        calib_coefs=calib_coefs,
-        proj_date=date_iso,
-    )
+    # No MLB games today (off day / end of season) -> no slate. The engine's
+    # probable-starter gate is `if probable_pitchers and ...`, so an EMPTY
+    # list disables it and every pitcher gets projected vs his LAST opponent;
+    # any stray line (FanDuel's next-UTC-day window picks up tomorrow's games)
+    # then became a phantom pick (2026-09-28: Luzardo PHI "vs ATL").
+    if not probable:
+        print("  No MLB games on the schedule today — skipping projections")
+        projections = []
+    else:
+        projections = project_pitcher_props(
+            pitcher_logs,
+            team_batting_stats=team_batting,
+            prop_lines=prop_lines,
+            kalman_state=kalman_state,
+            pitcher_adv_stats=adv_stats,
+            pitcher_sabermetrics=saber_stats,
+            pitcher_splits=splits,
+            probable_pitchers=probable,
+            injury_report=None,
+            weather_by_game=weather_data,
+            batter_k_rates=batter_k_rates,
+            lineup_data=lineup_data,
+            savant_rates=savant_rates,
+            empirical_std=runtime_emp_std or None,
+            career_k_rates=batter_career_k_rates,
+            calib_coefs=calib_coefs,
+            proj_date=date_iso,
+        )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
 
