@@ -1,58 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-28T00:31:17Z",
+  "generated": "2026-09-28T13:01:57Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "arm_team": "CWS",
-      "opp_team": "COL",
-      "selection": "CWS",
-      "home": "CWS",
-      "away": "COL",
-      "oppLefty": 4,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -164,
-      "suggest": "take",
-      "suggestUnits": 4.9,
-      "games": 26,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:10:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Andre Pallante",
-      "hand": "R",
-      "arm_team": "STL",
-      "opp_team": "MIL",
-      "selection": "MIL",
-      "home": "MIL",
-      "away": "STL",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -205,
-      "suggest": "fade",
-      "suggestUnits": 3.66,
-      "games": 10,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
@@ -178,7 +133,7 @@
         "l": 1,
         "u": 7.62
       },
-      "era": 1.86
+      "era": 1.8
     },
     {
       "pitcher": "Robbie Ray",
@@ -412,7 +367,7 @@
         "l": 11,
         "u": 4.9
       },
-      "era": 4.56
+      "era": 4.47
     },
     {
       "pitcher": "Drew Rasmussen",
@@ -448,7 +403,7 @@
         "l": 2,
         "u": 4.82
       },
-      "era": 3.06
+      "era": 3.0
     },
     {
       "pitcher": "Tarik Skubal",
@@ -556,7 +511,7 @@
         "l": 2,
         "u": 4.5
       },
-      "era": 3.87
+      "era": 3.72
     },
     {
       "pitcher": "Jake Bennett",
@@ -880,7 +835,7 @@
         "l": 7,
         "u": -4.72
       },
-      "era": 3.61
+      "era": 3.83
     },
     {
       "pitcher": "Reynaldo L\u00f3pez",
@@ -1060,7 +1015,7 @@
         "l": 6,
         "u": -3.34
       },
-      "era": 4.97
+      "era": 4.68
     },
     {
       "pitcher": "Randy Dobnak",

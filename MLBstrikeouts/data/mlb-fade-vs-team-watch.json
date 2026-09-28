@@ -1,59 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-28T00:31:21Z",
+  "generated": "2026-09-28T13:02:01Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T17:05:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Sean Manaea",
-      "arm_team": "NYM",
-      "opp": "WSH",
-      "selection": "WSH",
-      "venue": "away",
-      "matchup": "NYM @ WSH",
-      "odds": 100,
-      "eraVsOpp": 6.57,
-      "startsVsOpp": 2,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:05:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Jack Dreyer",
-      "arm_team": "LAD",
-      "opp": "SF",
-      "selection": "SF",
-      "venue": "away",
-      "matchup": "LAD @ SF",
-      "odds": 210,
-      "eraVsOpp": 6.0,
-      "startsVsOpp": 2,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-27",
-      "commence": "2026-09-27T19:10:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Janson Junk",
-      "arm_team": "MIA",
-      "opp": "ATL",
-      "selection": "ATL",
-      "venue": "home",
-      "matchup": "ATL @ MIA",
-      "odds": 106,
-      "eraVsOpp": 7.82,
-      "startsVsOpp": 3,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Spencer Arrighetti",
