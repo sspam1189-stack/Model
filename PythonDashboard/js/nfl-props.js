@@ -9,7 +9,8 @@ function _pct(v) {
     async function renderNFLProps() {
       const el = document.getElementById('content');
       const data = await fetchData('nfl-props');
-      if (!data || !data.props || !data.props.length) {
+      const projections = (data && data.projections) || [];
+      if (!data || ((!data.props || !data.props.length) && !projections.length)) {
         el.textContent = '';
         const card = document.createElement('div');
         card.className = 'card card-games';
@@ -28,6 +29,7 @@ function _pct(v) {
       }
 
       const marketLabels = {pass_yds:'PaYd', pass_tds:'pTD', rush_yds:'RuYd', rush_att:'RuAt', rec_yds:'RecY', receptions:'Rec', pass_att:'PassAtt'};
+      data.props = data.props || [];
       let picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
@@ -80,7 +82,7 @@ function _pct(v) {
       const tabStyle = 'padding:6px 16px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
       const tabActiveStyle = 'padding:6px 16px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
 
-      let nflPropsView = 'all'; // 'all' | 'weekly'
+      let nflPropsView = 'all'; // 'all' | 'weekly' | 'proj'
 
       const toolbar = document.createElement('div');
       toolbar.className = 'card';
@@ -94,12 +96,15 @@ function _pct(v) {
       viewAllBtn.textContent = 'All Picks';
       const viewWeeklyBtn = document.createElement('button');
       viewWeeklyBtn.textContent = 'By Week';
+      const viewProjBtn = document.createElement('button');
+      viewProjBtn.textContent = 'Projections';
       tabRow.appendChild(viewAllBtn);
       tabRow.appendChild(viewWeeklyBtn);
+      if (projections.length) tabRow.appendChild(viewProjBtn);
       toolbar.appendChild(tabRow);
 
       // Row 2: Market filter pills
-      const allMarketKeys = [...new Set(picks.map(p => p.market))];
+      const allMarketKeys = [...new Set(picks.concat(projections).map(p => p.market))];
       const marketBtnBar = document.createElement('div');
       marketBtnBar.className = 'props-toolbar-pills';
       marketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
@@ -616,8 +621,101 @@ function _pct(v) {
         contentArea.appendChild(card);
       }
 
+      // ── Projections view: every projected player-market this week, official
+      // play or not, one card per game in kickoff order ──
+      const gameOf = r => r.game || [r.team, r.opp].filter(Boolean).sort().join(' vs ');
+      const kickoff = r => { const t = Date.parse(r.commence || ''); return isNaN(t) ? Infinity : t; };
+      const gameKeys = [...new Set(projections.slice().sort((a, b) => kickoff(a) - kickoff(b)).map(gameOf))];
+      const gameSel = document.createElement('select');
+      gameSel.style.cssText = selStyle;
+      gameSel.innerHTML = '<option value="all">All Games</option>' + gameKeys.map(g => `<option value="${g}">${g}</option>`).join('');
+      const projFilterLabel = document.createElement('span');
+      projFilterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
+      const projMarketOrder = ['pass_yds','pass_att','pass_tds','rush_yds','rush_att','rec_yds','receptions'];
+      const statusLabel = {pick:'PLAY', below:'—', ev:'EV ✗', injury:'OUT', noline:'no line'};
+
+      function renderNFLProjectionsView() {
+        contentArea.textContent = '';
+        let fp = projections.slice();
+        if (activeMarketFilter !== 'all') fp = fp.filter(r => r.market === activeMarketFilter);
+        if (gameSel.value !== 'all') fp = fp.filter(r => gameOf(r) === gameSel.value);
+        fp = fp.filter(r => playerMatches(r, playerSearch.value));
+        const nPlays = fp.filter(r => r.status === 'pick').length;
+        projFilterLabel.textContent = `${fp.length} projections · ${nPlays} official plays`;
+
+        if (!fp.length) {
+          const empty = document.createElement('div');
+          empty.className = 'card card-games';
+          empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No projections for selected filter.'}));
+          contentArea.appendChild(empty);
+          return;
+        }
+
+        const byGame = {};
+        for (const r of fp) (byGame[gameOf(r)] = byGame[gameOf(r)] || []).push(r);
+        const mIdx = m => { const i = projMarketOrder.indexOf(m); return i === -1 ? 99 : i; };
+
+        for (const g of gameKeys.filter(k => byGame[k])) {
+          const rows = byGame[g].sort((a, b) =>
+            (a.team || '').localeCompare(b.team || '') || mIdx(a.market) - mIdx(b.market) || (b.proj || 0) - (a.proj || 0));
+          const card = document.createElement('div');
+          card.className = 'card card-games';
+          card.style.marginBottom = '16px';
+          const t = kickoff(rows[0]);
+          const when = isFinite(t) ? ' · ' + new Date(t).toLocaleString('en-US', {timeZone:'America/Chicago', weekday:'short', hour:'numeric', minute:'2-digit'}) + ' CT' : '';
+          card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent: g + when}));
+
+          const wrap = document.createElement('div');
+          wrap.className = 'props-table-wrap';
+          const tbl = document.createElement('table');
+          tbl.className = 'props-data-table';
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const hRow = tbl.createTHead().insertRow();
+          ['Player','Team','Cat','Proj','Line','Lean','%','Status'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
+            if (h === 'Player') th.style.textAlign = 'left';
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
+          for (const r of rows) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            if (r.status === 'pick') row.style.background = 'rgba(124,108,240,0.12)';
+            const cells = [
+              r.player + (r.injury ? ` (${r.injury[0].toUpperCase()})` : ''),
+              r.team || '', marketLabels[r.market] || r.market, String(r.proj),
+              r.line != null ? String(r.line) : '—',
+              r.lean === 'OVER' ? 'O' : r.lean === 'UNDER' ? 'U' : '—',
+              _pct(r.pCover),
+              statusLabel[r.status] || r.status || ''
+            ];
+            cells.forEach((val, i) => {
+              const td = row.insertCell();
+              td.textContent = val;
+              td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1) td.style.color = '#999';
+              if (i === 2) { td.style.color = '#aaa'; td.style.fontSize = '11px'; }
+              if (i === 3 && r.line != null) td.style.color = r.proj > r.line ? 'var(--green)' : r.proj < r.line ? 'var(--red)' : '';
+              if (i === 5 && r.lean) { td.style.fontWeight = '700'; td.style.color = r.lean === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 7) {
+                td.style.fontSize = '11px';
+                if (r.status === 'pick') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontWeight = '700'; }
+                else td.style.color = '#777';
+              }
+            });
+          }
+          wrap.appendChild(tbl);
+          card.appendChild(wrap);
+          contentArea.appendChild(card);
+        }
+      }
+
       function refreshNFLView() {
         if (nflPropsView === 'weekly') renderNFLWeeklyView();
+        else if (nflPropsView === 'proj') renderNFLProjectionsView();
         else renderNFLAllPicksView();
       }
 
@@ -625,8 +723,13 @@ function _pct(v) {
         nflPropsView = v;
         viewAllBtn.style.cssText = v === 'all' ? tabActiveStyle : tabStyle;
         viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
+        viewProjBtn.style.cssText = v === 'proj' ? tabActiveStyle : tabStyle;
         filterRow.textContent = '';
-        if (v === 'all') {
+        if (v === 'proj') {
+          filterRow.appendChild(gameSel);
+          filterRow.appendChild(playerSearch);
+          filterRow.appendChild(projFilterLabel);
+        } else if (v === 'all') {
           filterRow.appendChild(seasonSel);
           filterRow.appendChild(weekSel);
           filterRow.appendChild(teamSel);
@@ -642,6 +745,8 @@ function _pct(v) {
 
       viewAllBtn.onclick = () => setNFLPropsView('all');
       viewWeeklyBtn.onclick = () => setNFLPropsView('weekly');
+      viewProjBtn.onclick = () => setNFLPropsView('proj');
+      gameSel.addEventListener('change', () => renderNFLProjectionsView());
       seasonSel.addEventListener('change', () => { updateWeekOptions(); nflAllPicksPage = 0; renderNFLAllPicksView(); });
       weekSel.addEventListener('change', () => { nflAllPicksPage = 0; renderNFLAllPicksView(); });
       teamSel.addEventListener('change', () => { nflAllPicksPage = 0; renderNFLAllPicksView(); });

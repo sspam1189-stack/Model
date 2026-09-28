@@ -226,6 +226,8 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
     team_pass_rate = compute_team_pass_rate(prior_pbp)
     team_envs = {}
     commence_by_abbr = {}
+    game_by_abbr = {}
+    next_opp = {}   # this week's opponent (proj["opp"] is the LAST game's)
     allowed_matchups = set()
     for entry in odds_list:
         home_abbr = _resolve_abbr(entry.get("home", ""))
@@ -242,6 +244,8 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
         commence = entry.get("commenceTimeIso") or entry.get("commence_time")
         commence_by_abbr[home_abbr] = commence
         commence_by_abbr[away_abbr] = commence
+        game_by_abbr[home_abbr] = game_by_abbr[away_abbr] = f"{away_abbr} @ {home_abbr}"
+        next_opp[home_abbr], next_opp[away_abbr] = away_abbr, home_abbr
         allowed_matchups.add((entry.get("home", ""), entry.get("away", "")))
 
     if not team_envs:
@@ -321,6 +325,9 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
 
     # --- Project + generate picks ---
     picks = []
+    # Every projected player-market, official play or not, so the dashboard
+    # can show the full board. Display-only: never graded, never in "props".
+    projections = []
     n_projected = 0
     n_inj_blocked = 0
     n_ev_blocked = 0
@@ -352,11 +359,33 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
                 continue
             n_projected += 1
 
+            proj_val, std = mdata["proj"], mdata["std"]
+            row = {
+                "player": name,
+                "team": team,
+                "opp": next_opp.get(team) or proj.get("opp", ""),
+                "market": market,
+                "proj": round(proj_val, 1),
+                "std": round(std, 1) if std else None,
+                "line": None,
+                "lean": None,
+                "pCover": None,
+                "odds": None,
+                "status": "noline",
+                "season": int(season),
+                "week": int(week),
+                "commence": commence_by_abbr.get(team),
+                "game": game_by_abbr.get(team),
+            }
+            if inj_status:
+                row["injury"] = inj_status
+            projections.append(row)
+
             line_data = _find_line(nk, market, team)
             if not line_data or line_data.get("line") is None:
                 continue
             line = float(line_data["line"])
-            proj_val, std = mdata["proj"], mdata["std"]
+            row["line"] = line
             if not std or std <= 0:
                 continue
 
@@ -364,29 +393,34 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
             p_over = float(t_dist.cdf(z, df=PROP_T_DF))
             p_under = 1.0 - p_over
             best_p = max(p_over, p_under)
+            direction = "OVER" if p_over > p_under else "UNDER"
+            price = (line_data.get("over_price") if direction == "OVER"
+                     else line_data.get("under_price"))
+            row.update(lean=direction, pCover=round(best_p, 3), odds=price,
+                       status="below")
+
             thresh = MARKET_THRESHOLDS.get(market, 0.80)
             if best_p < thresh:
                 continue
 
-            direction = "OVER" if p_over > p_under else "UNDER"
-            price = (line_data.get("over_price") if direction == "OVER"
-                     else line_data.get("under_price"))
-
             # Injury gate: OUT/Doubtful never fires
             if inj_status in ("out", "doubtful"):
                 n_inj_blocked += 1
+                row["status"] = "injury"
                 continue
 
             # EV gate: must clear the actual price's breakeven + margin
             breakeven = implied_breakeven(price if price is not None else DEFAULT_PRICE)
             if best_p < breakeven + EV_MARGIN:
                 n_ev_blocked += 1
+                row["status"] = "ev"
                 continue
+            row["status"] = "pick"
 
             pick = {
                 "player": name,
                 "team": team,
-                "opp": proj.get("opp", ""),
+                "opp": next_opp.get(team) or proj.get("opp", ""),
                 "market": market,
                 "proj": round(proj_val, 1),
                 "std": round(std, 1),
@@ -441,6 +475,19 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
               "(game started or already graded)")
 
     merged = kept_other + locked + fresh
+
+    # Projections board: current week only. Keep rows for games that already
+    # kicked off (the books pull those lines, so a re-run can't rebuild them).
+    fresh_proj_keys = {(r["player"], r["market"]) for r in projections}
+    kept_proj = []
+    for r in data.get("projections", []):
+        if not _is_current(r) or (r.get("player"), r.get("market")) in fresh_proj_keys:
+            continue
+        commence = _parse_iso(r.get("commence"))
+        if commence is not None and commence <= now:
+            kept_proj.append(r)
+    all_proj = kept_proj + projections
+    all_proj.sort(key=lambda r: (r["status"] != "pick", -(r.get("pCover") or 0)))
     merged.sort(key=lambda p: (
         p.get("season") or 0,
         p.get("week") if isinstance(p.get("week"), int) else 0,
@@ -454,6 +501,7 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
         "totalProjections": n_projected,
         "totalPicks": len(merged),
         "props": merged,
+        "projections": all_proj,
         "summary": _summarize(merged),
     })
     _write_props_json(data)

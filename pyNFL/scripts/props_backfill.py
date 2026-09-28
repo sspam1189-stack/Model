@@ -906,11 +906,13 @@ def write_dashboard_json(results, seasons):
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
         existing_props = []
+        existing_proj = []
         try:
             if os.path.exists(path):
                 with open(path, "r") as f:
                     existing = json.load(f)
                 existing_props = existing.get("props", [])
+                existing_proj = existing.get("projections", [])
         except Exception:
             existing_props = []
 
@@ -932,6 +934,8 @@ def write_dashboard_json(results, seasons):
 
         merged = kept + all_picks
         dashboard_merged = {**dashboard, "props": merged, "totalPicks": len(merged)}
+        if existing_proj:  # live projections board -- not the backfill's to touch
+            dashboard_merged["projections"] = existing_proj
 
         if kept:
             print(f"  Merged: kept {len(kept)} picks from other weeks + {len(all_picks)} new")
