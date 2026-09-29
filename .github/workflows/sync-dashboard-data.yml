@@ -2,7 +2,8 @@ name: Sync Dashboard Data
 
 on:
   # Hourly schedule disabled 2026-08-04 (user): the only scheduled runs should be
-  # MLB Run Daily on the self-hosted runners. In-season models (MLB, WNBA) write
+  # MLB Run Daily on the self-hosted runners (MLB itself retired 2026-09-29;
+  # the WNBA daily is now the only in-season scheduled run). In-season models (MLB, WNBA) write
   # to PythonDashboard/data via their own daily workflows; this only synced
   # offseason models (NBA/NFL/NCAA) + a redundant mlb-props copy. Kept as a
   # manual (workflow_dispatch) sync -- re-enable the cron when those return.
