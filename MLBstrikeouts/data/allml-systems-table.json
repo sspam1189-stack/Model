@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-29T00:31:59Z",
+ "generated": "2026-09-29T13:02:50Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-27"
@@ -944,6 +944,82 @@
    "per_day": 0.99
   }
  ],
- "today": [],
- "today_date": null
+ "today": [
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -122,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 849845,
+   "date": "2026-09-29",
+   "commence": "2026-09-29T18:00:00Z",
+   "matchup": "PHI @ ATL",
+   "away": "PHI",
+   "home": "ATL",
+   "total": 6.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 849849,
+   "date": "2026-09-29",
+   "commence": "2026-09-29T21:00:00Z",
+   "matchup": "CWS @ HOU",
+   "away": "CWS",
+   "home": "HOU",
+   "total": 8.5
+  },
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -102,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
+   "gamePk": 849851,
+   "date": "2026-09-29",
+   "commence": "2026-09-30T00:00:00Z",
+   "matchup": "BOS @ NYY",
+   "away": "BOS",
+   "home": "NYY",
+   "total": 6.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -120,
+   "side": "U",
+   "why": "book laying -120 on the under",
+   "gamePk": 849851,
+   "date": "2026-09-29",
+   "commence": "2026-09-30T00:00:00Z",
+   "matchup": "BOS @ NYY",
+   "away": "BOS",
+   "home": "NYY",
+   "total": 6.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -124,
+   "side": "U",
+   "why": "book laying -124 on the under",
+   "gamePk": 849843,
+   "date": "2026-09-29",
+   "commence": "2026-09-30T02:00:00Z",
+   "matchup": "CHC @ SD",
+   "away": "CHC",
+   "home": "SD",
+   "total": 7.5
+  }
+ ],
+ "today_date": "2026-09-29"
 }

@@ -1,192 +1,60 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-09-27",
-  "generated": "2026-09-28T00:31:09Z",
+  "date": "2026-09-29",
+  "generated": "2026-09-29T13:02:23Z",
   "hands": {
-    "dj herz": "L",
-    "sean manaea": "L",
-    "zack wheeler": "R",
-    "nick martinez": "R",
-    "tanner houck": "R",
-    "shota imanaga": "L",
-    "seth johnson": "R",
-    "peter lambert": "R",
-    "carson seymour": "R",
-    "jack dreyer": "L",
-    "max scherzer": "R",
-    "brandon williamson": "L",
-    "daniel lynch iv": "L",
-    "parker messick": "L",
-    "river ryan": "R",
-    "jared jones": "R",
-    "randy vasquez": "R",
-    "michael soroka": "R",
-    "logan gilbert": "R",
-    "yusei kikuchi": "L",
-    "dean kremer": "R",
-    "mackenzie gore": "L",
-    "anthony kay": "L",
-    "kyle freeland": "L",
-    "janson junk": "R",
-    "jr ritchie": "R",
-    "jacob misiorowski": "R",
-    "andre pallante": "R",
-    "elmer rodriguez": "R",
-    "shane baz": "R"
+    "chris sale": "L",
+    "jesus luzardo": "L",
+    "aj blubaugh": "R",
+    "hagen smith": "L",
+    "cam schlittler": "R",
+    "payton tolle": "L",
+    "michael king": "R",
+    "matthew boyd": "L"
   },
   "names": {
-    "dj herz": "DJ Herz",
-    "sean manaea": "Sean Manaea",
-    "zack wheeler": "Zack Wheeler",
-    "nick martinez": "Nick Martinez",
-    "tanner houck": "Tanner Houck",
-    "shota imanaga": "Shota Imanaga",
-    "seth johnson": "Seth Johnson",
-    "peter lambert": "Peter Lambert",
-    "carson seymour": "Carson Seymour",
-    "jack dreyer": "Jack Dreyer",
-    "max scherzer": "Max Scherzer",
-    "brandon williamson": "Brandon Williamson",
-    "daniel lynch iv": "Daniel Lynch IV",
-    "parker messick": "Parker Messick",
-    "river ryan": "River Ryan",
-    "jared jones": "Jared Jones",
-    "randy vasquez": "Randy V\u00e1squez",
-    "michael soroka": "Michael Soroka",
-    "logan gilbert": "Logan Gilbert",
-    "yusei kikuchi": "Yusei Kikuchi",
-    "dean kremer": "Dean Kremer",
-    "mackenzie gore": "MacKenzie Gore",
-    "anthony kay": "Anthony Kay",
-    "kyle freeland": "Kyle Freeland",
-    "janson junk": "Janson Junk",
-    "jr ritchie": "JR Ritchie",
-    "jacob misiorowski": "Jacob Misiorowski",
-    "andre pallante": "Andre Pallante",
-    "elmer rodriguez": "Elmer Rodr\u00edguez",
-    "shane baz": "Shane Baz"
+    "chris sale": "Chris Sale",
+    "jesus luzardo": "Jes\u00fas Luzardo",
+    "aj blubaugh": "AJ Blubaugh",
+    "hagen smith": "Hagen Smith",
+    "cam schlittler": "Cam Schlittler",
+    "payton tolle": "Payton Tolle",
+    "michael king": "Michael King",
+    "matthew boyd": "Matthew Boyd"
   },
   "starters": {
-    "WSH": {
-      "name": "DJ Herz",
-      "hand": "L"
-    },
-    "NYM": {
-      "name": "Sean Manaea",
+    "ATL": {
+      "name": "Chris Sale",
       "hand": "L"
     },
     "PHI": {
-      "name": "Zack Wheeler",
+      "name": "Jes\u00fas Luzardo",
+      "hand": "L"
+    },
+    "HOU": {
+      "name": "AJ Blubaugh",
       "hand": "R"
     },
-    "TB": {
-      "name": "Nick Martinez",
+    "CWS": {
+      "name": "Hagen Smith",
+      "hand": "L"
+    },
+    "NYY": {
+      "name": "Cam Schlittler",
       "hand": "R"
     },
     "BOS": {
-      "name": "Tanner Houck",
+      "name": "Payton Tolle",
+      "hand": "L"
+    },
+    "SD": {
+      "name": "Michael King",
       "hand": "R"
     },
     "CHC": {
-      "name": "Shota Imanaga",
+      "name": "Matthew Boyd",
       "hand": "L"
-    },
-    "OAK": {
-      "name": "Seth Johnson",
-      "hand": "R"
-    },
-    "HOU": {
-      "name": "Peter Lambert",
-      "hand": "R"
-    },
-    "SF": {
-      "name": "Carson Seymour",
-      "hand": "R"
-    },
-    "LAD": {
-      "name": "Jack Dreyer",
-      "hand": "L"
-    },
-    "TOR": {
-      "name": "Max Scherzer",
-      "hand": "R"
-    },
-    "CIN": {
-      "name": "Brandon Williamson",
-      "hand": "L"
-    },
-    "KC": {
-      "name": "Daniel Lynch IV",
-      "hand": "L"
-    },
-    "CLE": {
-      "name": "Parker Messick",
-      "hand": "L"
-    },
-    "DET": {
-      "name": "River Ryan",
-      "hand": "R"
-    },
-    "PIT": {
-      "name": "Jared Jones",
-      "hand": "R"
-    },
-    "SD": {
-      "name": "Randy V\u00e1squez",
-      "hand": "R"
-    },
-    "ARI": {
-      "name": "Michael Soroka",
-      "hand": "R"
-    },
-    "SEA": {
-      "name": "Logan Gilbert",
-      "hand": "R"
-    },
-    "LAA": {
-      "name": "Yusei Kikuchi",
-      "hand": "L"
-    },
-    "MIN": {
-      "name": "Dean Kremer",
-      "hand": "R"
-    },
-    "TEX": {
-      "name": "MacKenzie Gore",
-      "hand": "L"
-    },
-    "CWS": {
-      "name": "Anthony Kay",
-      "hand": "L"
-    },
-    "COL": {
-      "name": "Kyle Freeland",
-      "hand": "L"
-    },
-    "MIA": {
-      "name": "Janson Junk",
-      "hand": "R"
-    },
-    "ATL": {
-      "name": "JR Ritchie",
-      "hand": "R"
-    },
-    "MIL": {
-      "name": "Jacob Misiorowski",
-      "hand": "R"
-    },
-    "STL": {
-      "name": "Andre Pallante",
-      "hand": "R"
-    },
-    "NYY": {
-      "name": "Elmer Rodr\u00edguez",
-      "hand": "R"
-    },
-    "BAL": {
-      "name": "Shane Baz",
-      "hand": "R"
     }
   }
 }

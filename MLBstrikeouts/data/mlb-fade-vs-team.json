@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-29T00:31:43Z",
+  "generated": "2026-09-29T13:02:35Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 13,
     "roi": 0.6115
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-29",
+      "commence": "2026-09-30T02:00:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Matthew Boyd",
+      "arm_team": "CHC",
+      "opp": "SD",
+      "selection": "SD",
+      "venue": "away",
+      "matchup": "CHC @ SD",
+      "odds": -126,
+      "eraVsOpp": 8.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
