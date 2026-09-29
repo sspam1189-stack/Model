@@ -207,10 +207,11 @@ let cache = {};
 let sourceMeta = {};
 let summaryCache = {};
 let summaryMeta = {};
-// CSW .1 (VAR 1.20 / cap 26 from 2026-09-29) is the live model and the
-// default tab; CSW .1 Old and Whiff .1/Cap26 are shadows, their tab buttons
-// hidden (display:none in index.html, user 2026-09-29) — still run + publish.
-let activeTab = 'mlb-props';
+// Opens on WNBA (first league, in season) since 2026-09-29. MLB K's CSW .1
+// (VAR 1.20 / cap 26) is the live K model; CSW .1 Old and Whiff .1/Cap26 are
+// shadows, their tab buttons hidden (display:none in index.html) — still
+// run + publish. Keep this in sync with the tab marked .active in index.html.
+let activeTab = 'wnba-full';
 let viewMode = 'today';
 let historyPage = 0;
 const DAYS_PER_PAGE = 7;
@@ -553,7 +554,7 @@ document.querySelectorAll('.tab').forEach(tab => {
 });
 
 // mount the league that owns whichever tab starts active
-setLeague(leagueOf(document.querySelector('.tab.active')) || 'MLB',
+setLeague(leagueOf(document.querySelector('.tab.active')) || 'WNBA',
           { selectFirstTab: false });
 
 async function fetchData(key) {
