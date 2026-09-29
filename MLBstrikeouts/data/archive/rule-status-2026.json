@@ -1,0 +1,116 @@
+{
+ "sport": "MLB",
+ "type": "rule-status",
+ "generated": "2026-09-29T13:03:02Z",
+ "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
+ "rules": {
+  "flag-plays": {
+   "status": "card",
+   "name": "Flag Plays",
+   "why": "Per-combo verdicts on the defect flags; swingman alone 38-23 +19.0% (p=0.030), seven combos to the under and swingman+stale-window to the over. Carded 2026-09-01.",
+   "group": "scout"
+  },
+  "form-under": {
+   "status": "shadow",
+   "name": "Form under",
+   "why": "SHADOW 2026-09-16 (user), same day it came off the card and by the same reasoning as aligned-ml: keep it logging, carry no units, and let its own rows answer whether September was a break or a blip. m_sum <= -40 -> under. Carded 2026-09-01 on 84-52 +17.2% (n=136, perm p=0.005), which the full-season replay reproduces EXACTLY as its record through 8/31 -- the case was real, not a construction artifact. Then September: 3-17 -71.7% on the replay, 10-27 -18.05u live, and its edge over a blind under on the same dates ran +38 (May), +46 (Jun), +16 (Jul), -5.5 (Aug), -47.0 (Sep), landing at -3.8% across the last 100 plays. Taking the OVER on the same trigger was considered and REJECTED (user, 2026-09-16): the over side of those 156 games is 69-87 -15.1%, negative in five of six months, and its one good month is September, which was a league-wide over month -- blind over +12.5% vs blind under -21.2% over all 199 September games at 9.51 mean runs, the season high. The trigger stopped paying; the other side of it was never the answer. Settled rows stay in the ledger.",
+   "group": "scout"
+  },
+  "better-arm-ml": {
+   "status": "card",
+   "name": "Better arm ML",
+   "why": "m_sum >= +40, back the lower-mismatch side, plus money only. 19-15 +26.0% (n=34); backing the favorite in the same games is -1.9% and the rule is flat outside the pool. Carded 2026-09-01.",
+   "group": "scout"
+  },
+  "aligned-ml": {
+   "status": "shadow",
+   "name": "Aligned ML",
+   "why": "SHADOW 2026-09-16 (user), up from retired: a retired rule writes no rows, so the doubt about it can never resolve, and shadow costs nothing to carry. Retired 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the 75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case, on a ladder measured inert for runs. The full-season replay published the next day (scout-rules-table.json) put it at 6-7 -12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% blind baseline -- the opposite of the 3-1 that justified carding it. Settled rows stay in the ledger; it logs nothing further.",
+   "group": "scout"
+  },
+  "mismatch-ml": {
+   "status": "card",
+   "name": "Mismatch ML",
+   "why": "tail m <= -45 / fade m >= +55. Carded 8/29 without a shadow period and pulled 8/30 at 1-3; revived 2026-09-01 as shadow for the 15-20 tracked plays the gate asks for, at August's +9.4% expectation. CARDED 2026-09-16 (user): the shadow period ran 40 plays, double what the gate asked, at 25-15 +3.79u +9.5% -- August's expectation hit almost exactly -- and the second half (15-5 +30.3%) carried the first (10-10 -11.3%). Shadow rows stay shadow; the card record starts here. NOTE the shadow split is lopsided: the tail half (m <= -45) is 19-8 +22.6% and the fade half (m >= +55) is 6-7 -17.8%, and plus-money sides are 5-9 -25.3% against +28.2% for minus-money. n is small either way -- this is a flag to watch, not a narrowing anyone has earned.",
+   "group": "scout"
+  },
+  "better-arm-ml-fav": {
+   "status": "shadow",
+   "name": "Better arm ML (favorite half)",
+   "why": "Out of scope since the dogs-only narrowing; measured, never bet.",
+   "group": "scout"
+  },
+  "away-dog-ml": {
+   "status": "card",
+   "name": "Away dog ML",
+   "why": "Away team priced as a dog in a game with a total of 9.5 or higher.",
+   "group": "non-scout"
+  },
+  "home-slide-ml": {
+   "status": "card",
+   "name": "Home slide ML",
+   "why": "Home team on a 4-game losing streak or longer, facing a different opponent than its last game.",
+   "group": "non-scout"
+  },
+  "division-home-dog": {
+   "status": "card",
+   "name": "Division home dog",
+   "why": "Home team hosting a division rival and priced +115 to +149: back the home side.",
+   "group": "non-scout"
+  },
+  "home-dog-getaway": {
+   "status": "card",
+   "name": "Home dog getaway",
+   "why": "Day game, the visitors played a night game yesterday, and the home team is a plus-money dog: back the home side.",
+   "group": "non-scout"
+  },
+  "home-dog-under-parlay": {
+   "status": "card",
+   "name": "Home dog + under",
+   "why": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
+   "group": "non-scout"
+  },
+  "starter-over-run": {
+   "status": "card",
+   "name": "Starter over run",
+   "why": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.0 or higher: over -- but only when BOTH starters have >=6 prior starts and the OTHER one is definitely cold (<=0.40) or definitely hot (>=0.75), never merely middling. The gate was 8.5 with no partner or start-count condition before 2026-09-03.",
+   "group": "non-scout"
+  },
+  "cold-arms-under": {
+   "status": "card",
+   "name": "Cold arms under",
+   "why": "Both starters have gone over in 40% or less of their last 8 and the total is 8.0 or lower: under. Was <=35% with no total gate before 2026-09-03.",
+   "group": "non-scout"
+  },
+  "low-line-over": {
+   "status": "card",
+   "name": "Low line over",
+   "why": "Posted total of 7 or lower: over.",
+   "group": "non-scout"
+  },
+  "monday-over": {
+   "status": "card",
+   "name": "Monday over",
+   "why": "Any game on a Monday: over.",
+   "group": "non-scout"
+  },
+  "under-juice": {
+   "status": "shadow",
+   "name": "Under juice",
+   "why": "Under priced -120 or shorter: under.",
+   "group": "non-scout"
+  },
+  "hot-arm-dog-ml": {
+   "status": "shadow",
+   "name": "Hot arm dog ML",
+   "why": "Plus-money side whose starter's team is +40% ROI or better over his last 8 starts: back that side.",
+   "group": "non-scout"
+  },
+  "pickem-under": {
+   "status": "shadow",
+   "name": "Pickem under",
+   "why": "Favorite at -115 or shorter and total 8.5 or higher: under.",
+   "group": "non-scout"
+  }
+ }
+}

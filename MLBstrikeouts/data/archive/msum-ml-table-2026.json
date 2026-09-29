@@ -1,0 +1,109 @@
+{
+ "sport": "MLB",
+ "type": "msum-ml-table",
+ "generated": "2026-09-29T13:02:50Z",
+ "span": {
+  "from": "2026-04-12",
+  "to": "2026-09-27"
+ },
+ "threshold": 40.0,
+ "status": "card",
+ "require_dog": true,
+ "shadow_target": 20,
+ "rule": "m_sum >= +40: back the team whose starter has the LOWER mismatch (the better arm), and only when that team is a plus-money dog.",
+ "note": "Mismatches computed as-of each game date from the pitcher logs and the batter PA logs, graded at the game's own moneyline. SHADOW: p=0.043 out of a heavily scanned session, April ran -31%, and a better-looking rule died the same morning when its sample got real.",
+ "splits": {
+  "rule": {
+   "w": 25,
+   "l": 22,
+   "n": 47,
+   "units": 8.5,
+   "roi": 18.1
+  },
+  "dog": {
+   "w": 25,
+   "l": 22,
+   "n": 47,
+   "units": 8.5,
+   "roi": 18.1
+  },
+  "favorite": {
+   "w": 78,
+   "l": 50,
+   "n": 128,
+   "units": 4.39,
+   "roi": 3.4
+  },
+  "pool_all": {
+   "w": 103,
+   "l": 72,
+   "n": 175,
+   "units": 12.89,
+   "roi": 7.4
+  },
+  "control_back_favorite": {
+   "w": 100,
+   "l": 75,
+   "n": 175,
+   "units": -5.35,
+   "roi": -3.1
+  },
+  "outside_pool": {
+   "w": 827,
+   "l": 672,
+   "n": 1499,
+   "units": 2.66,
+   "roi": 0.2
+  }
+ },
+ "monthly": [
+  {
+   "month": "2026-04",
+   "w": 1,
+   "l": 0,
+   "n": 1,
+   "units": 1.18,
+   "roi": 118.0
+  },
+  {
+   "month": "2026-05",
+   "w": 2,
+   "l": 2,
+   "n": 4,
+   "units": 0.32,
+   "roi": 8.0
+  },
+  {
+   "month": "2026-06",
+   "w": 4,
+   "l": 3,
+   "n": 7,
+   "units": 2.36,
+   "roi": 33.7
+  },
+  {
+   "month": "2026-07",
+   "w": 5,
+   "l": 5,
+   "n": 10,
+   "units": 0.5,
+   "roi": 5.0
+  },
+  {
+   "month": "2026-08",
+   "w": 7,
+   "l": 5,
+   "n": 12,
+   "units": 4.48,
+   "roi": 37.3
+  },
+  {
+   "month": "2026-09",
+   "w": 6,
+   "l": 7,
+   "n": 13,
+   "units": -0.34,
+   "roi": -2.6
+  }
+ ]
+}

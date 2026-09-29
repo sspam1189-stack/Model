@@ -1,0 +1,999 @@
+{
+  "sport": "MLB",
+  "type": "fade-vs-team",
+  "generated": "2026-09-29T13:02:35Z",
+  "seasonStart": "2026-04-05",
+  "minStarts": 2,
+  "fadeEra": 8.0,
+  "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
+  "overall": {
+    "w": 12,
+    "l": 1,
+    "u": 11.82,
+    "n": 13,
+    "roi": 0.6115
+  },
+  "today": [
+    {
+      "date": "2026-09-29",
+      "commence": "2026-09-30T02:00:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Matthew Boyd",
+      "arm_team": "CHC",
+      "opp": "SD",
+      "selection": "SD",
+      "venue": "away",
+      "matchup": "CHC @ SD",
+      "odds": -126,
+      "eraVsOpp": 8.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
+  "entries": [
+    {
+      "pitcher": "Joe Ryan",
+      "opp": "KC",
+      "arm_team": "MIN",
+      "source": "curated",
+      "record": {
+        "w": 3,
+        "l": 0,
+        "u": 4.16,
+        "n": 3,
+        "roi": 1.3867
+      },
+      "eraVsOpp": 4.67,
+      "ipVsOpp": 17.3,
+      "erVsOpp": 9,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-06-06",
+          "venue": "home",
+          "matchup": "KC @ MIN",
+          "selection": "KC",
+          "opp_ml": 120,
+          "result": "win"
+        },
+        {
+          "date": "2026-07-29",
+          "venue": "home",
+          "matchup": "KC @ MIN",
+          "selection": "KC",
+          "opp_ml": 166,
+          "result": "win"
+        },
+        {
+          "date": "2026-08-04",
+          "venue": "away",
+          "matchup": "MIN @ KC",
+          "selection": "KC",
+          "opp_ml": 130,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Anthony Kay",
+      "opp": "NYY",
+      "arm_team": "CWS",
+      "source": "curated",
+      "record": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.6993
+      },
+      "eraVsOpp": 6.75,
+      "ipVsOpp": 9.3,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-06-17",
+          "venue": "away",
+          "matchup": "CWS @ NYY",
+          "selection": "NYY",
+          "opp_ml": -168,
+          "result": "win"
+        },
+        {
+          "date": "2026-07-28",
+          "venue": "home",
+          "matchup": "NYY @ CWS",
+          "selection": "NYY",
+          "opp_ml": -118,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Joe Ryan",
+      "opp": "CLE",
+      "arm_team": "MIN",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.12,
+        "n": 1,
+        "roi": 1.12
+      },
+      "eraVsOpp": 8.36,
+      "ipVsOpp": 14.0,
+      "erVsOpp": 13,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-09-13",
+          "venue": "home",
+          "matchup": "CLE @ MIN",
+          "selection": "CLE",
+          "opp_ml": 112,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-20"
+    },
+    {
+      "pitcher": "Will Warren",
+      "opp": "PHI",
+      "arm_team": "NYY",
+      "source": "curated",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.5051
+      },
+      "eraVsOpp": 18.0,
+      "ipVsOpp": 3.0,
+      "erVsOpp": 6,
+      "startsVsOpp": 1,
+      "starts": [
+        {
+          "date": "2026-07-26",
+          "venue": "away",
+          "matchup": "NYY @ PHI",
+          "selection": "PHI",
+          "opp_ml": -198,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Jameson Taillon",
+      "opp": "PIT",
+      "arm_team": "CHC",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.7576
+      },
+      "eraVsOpp": 10.2,
+      "ipVsOpp": 15.0,
+      "erVsOpp": 17,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-07-26",
+          "venue": "away",
+          "matchup": "CHC @ PIT",
+          "selection": "PIT",
+          "opp_ml": -132,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-05-27"
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "opp": "LAD",
+      "arm_team": "COL",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.3704
+      },
+      "eraVsOpp": 9.22,
+      "ipVsOpp": 13.7,
+      "erVsOpp": 14,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-08-17",
+          "venue": "home",
+          "matchup": "LAD @ COL",
+          "selection": "LAD",
+          "opp_ml": -270,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-05-27"
+    },
+    {
+      "pitcher": "Andre Pallante",
+      "opp": "MIL",
+      "arm_team": "STL",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.4878
+      },
+      "eraVsOpp": 9.56,
+      "ipVsOpp": 16.0,
+      "erVsOpp": 17,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-09-27",
+          "venue": "away",
+          "matchup": "STL @ MIL",
+          "selection": "MIL",
+          "opp_ml": -205,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-09"
+    },
+    {
+      "pitcher": "Chris Murphy",
+      "opp": "CLE",
+      "arm_team": "CWS",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.6579
+      },
+      "eraVsOpp": 20.25,
+      "ipVsOpp": 2.7,
+      "erVsOpp": 6,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-09-15",
+          "venue": "away",
+          "matchup": "CWS @ CLE",
+          "selection": "CLE",
+          "opp_ml": -152,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-05"
+    },
+    {
+      "pitcher": "Tatsuya Imai",
+      "opp": "SEA",
+      "arm_team": "HOU",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 18.69,
+      "ipVsOpp": 4.3,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-05-12"
+    },
+    {
+      "pitcher": "Cade Cavalli",
+      "opp": "PIT",
+      "arm_team": "WSH",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 17.18,
+      "ipVsOpp": 3.7,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-05"
+    },
+    {
+      "pitcher": "Sonny Gray",
+      "opp": "MIN",
+      "arm_team": "BOS",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 8.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-05-24"
+    },
+    {
+      "pitcher": "Jes\u00fas Luzardo",
+      "opp": "CHC",
+      "arm_team": "PHI",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.1,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-04-21"
+    },
+    {
+      "pitcher": "Joey Cantillo",
+      "opp": "BAL",
+      "arm_team": "CLE",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 7.0,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-07"
+    },
+    {
+      "pitcher": "Seth Lugo",
+      "opp": "LAA",
+      "arm_team": "KC",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.82,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 12,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-14"
+    },
+    {
+      "pitcher": "Matthew Boyd",
+      "opp": "SD",
+      "arm_team": "CHC",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-06-30"
+    },
+    {
+      "pitcher": "Jos\u00e9 Soriano",
+      "opp": "CWS",
+      "arm_team": "LAA",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-05-04"
+    },
+    {
+      "pitcher": "Walker Buehler",
+      "opp": "CHC",
+      "arm_team": "SD",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 11.42,
+      "ipVsOpp": 8.7,
+      "erVsOpp": 11,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-01"
+    },
+    {
+      "pitcher": "Seth Lugo",
+      "opp": "CLE",
+      "arm_team": "KC",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 15.26,
+      "ipVsOpp": 7.7,
+      "erVsOpp": 13,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-30"
+    },
+    {
+      "pitcher": "Sean Burke",
+      "opp": "SEA",
+      "arm_team": "CWS",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-05-20"
+    },
+    {
+      "pitcher": "Stephen Kolek",
+      "opp": "STL",
+      "arm_team": "KC",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 10.12,
+      "ipVsOpp": 8.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-06-21"
+    },
+    {
+      "pitcher": "JR Ritchie",
+      "opp": "MIA",
+      "arm_team": "ATL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.38,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-27"
+    },
+    {
+      "pitcher": "Tatsuya Imai",
+      "opp": "MIN",
+      "arm_team": "HOU",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 12.0,
+      "ipVsOpp": 6.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-01"
+    },
+    {
+      "pitcher": "Foster Griffin",
+      "opp": "NYM",
+      "arm_team": "CLE",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 10.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-06"
+    },
+    {
+      "pitcher": "Randy V\u00e1squez",
+      "opp": "LAD",
+      "arm_team": "SD",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.59,
+      "ipVsOpp": 7.3,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-02"
+    },
+    {
+      "pitcher": "David Sandlin",
+      "opp": "MIN",
+      "arm_team": "CWS",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.1,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-06-01"
+    },
+    {
+      "pitcher": "Spencer Miles",
+      "opp": "BAL",
+      "arm_team": "TOR",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 10.8,
+      "ipVsOpp": 5.0,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-12"
+    },
+    {
+      "pitcher": "Joey Cantillo",
+      "opp": "TEX",
+      "arm_team": "CLE",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.1,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-01"
+    },
+    {
+      "pitcher": "Zebby Matthews",
+      "opp": "DET",
+      "arm_team": "MIN",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 12.96,
+      "ipVsOpp": 8.3,
+      "erVsOpp": 12,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-09"
+    },
+    {
+      "pitcher": "Bryce Elder",
+      "opp": "NYM",
+      "arm_team": "ATL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 13.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 13,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-10"
+    },
+    {
+      "pitcher": "Ryan Gusto",
+      "opp": "PHI",
+      "arm_team": "MIA",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 10.24,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 11,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-29"
+    },
+    {
+      "pitcher": "Kai-Wei Teng",
+      "opp": "DET",
+      "arm_team": "HOU",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 11.57,
+      "ipVsOpp": 7.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-06-27"
+    },
+    {
+      "pitcher": "Seth Lugo",
+      "opp": "TB",
+      "arm_team": "KC",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.18,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-01"
+    },
+    {
+      "pitcher": "Roki Sasaki",
+      "opp": "SD",
+      "arm_team": "LAD",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 11.57,
+      "ipVsOpp": 7.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-07-02"
+    },
+    {
+      "pitcher": "Tim Mayza",
+      "opp": "NYM",
+      "arm_team": "PHI",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 16.2,
+      "ipVsOpp": 1.7,
+      "erVsOpp": 3,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-18"
+    },
+    {
+      "pitcher": "Bryce Elder",
+      "opp": "SF",
+      "arm_team": "ATL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.64,
+      "ipVsOpp": 9.3,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-31"
+    },
+    {
+      "pitcher": "Andrew Abbott",
+      "opp": "MIL",
+      "arm_team": "CIN",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 11,
+      "startsVsOpp": 3,
+      "starts": [],
+      "qualifiedOn": "2026-09-11"
+    },
+    {
+      "pitcher": "Davis Martin",
+      "opp": "BOS",
+      "arm_team": "CWS",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 14.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 14,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-04"
+    },
+    {
+      "pitcher": "Brandon Sproat",
+      "opp": "PIT",
+      "arm_team": "MIL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 6.0,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-03"
+    },
+    {
+      "pitcher": "Braxton Ashcraft",
+      "opp": "MIL",
+      "arm_team": "PIT",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.1,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-06"
+    },
+    {
+      "pitcher": "Michael McGreevy",
+      "opp": "CHC",
+      "arm_team": "STL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.22,
+      "ipVsOpp": 7.7,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-15"
+    },
+    {
+      "pitcher": "Janson Junk",
+      "opp": "NYM",
+      "arm_team": "MIA",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 8.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-09"
+    },
+    {
+      "pitcher": "Kyle Leahy",
+      "opp": "COL",
+      "arm_team": "STL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.22,
+      "ipVsOpp": 7.7,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-06"
+    },
+    {
+      "pitcher": "Matthew Liberatore",
+      "opp": "COL",
+      "arm_team": "STL",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.64,
+      "ipVsOpp": 9.3,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-05"
+    },
+    {
+      "pitcher": "Jackson Jobe",
+      "opp": "CWS",
+      "arm_team": "DET",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 8.38,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-09-19"
+    },
+    {
+      "pitcher": "Davis Martin",
+      "opp": "NYY",
+      "arm_team": "CWS",
+      "source": "both",
+      "record": {
+        "w": 1,
+        "l": 1,
+        "u": -0.46,
+        "n": 2,
+        "roi": -0.1586
+      },
+      "eraVsOpp": 12.54,
+      "ipVsOpp": 9.3,
+      "erVsOpp": 13,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-06-16",
+          "venue": "away",
+          "matchup": "CWS @ NYY",
+          "selection": "NYY",
+          "opp_ml": -144,
+          "result": "win"
+        },
+        {
+          "date": "2026-07-29",
+          "venue": "home",
+          "matchup": "NYY @ CWS",
+          "selection": "NYY",
+          "opp_ml": -146,
+          "result": "loss"
+        }
+      ]
+    }
+  ]
+}
