@@ -187,6 +187,12 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props_w01c26.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
+  'mlb-props-cv125c25': {
+    name: 'MLB Props (CSW .1 Old)',
+    local: 'data/mlb-props_cv125c25.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props_cv125c25.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
   'mlb-batter-props': {
     name: 'MLB Batter Props',
     local: 'data/mlb-props.json',
@@ -201,9 +207,9 @@ let cache = {};
 let sourceMeta = {};
 let summaryCache = {};
 let summaryMeta = {};
-// CSW .1 was hidden 2026-09-02 and shown again 2026-09-29; Whiff .1/Cap26
-// stays the default tab.
-let activeTab = 'mlb-props-w01c26';
+// CSW .1 (VAR 1.20 / cap 26 from 2026-09-29) is the live model and the
+// default tab; CSW .1 Old and Whiff .1/Cap26 are shadows.
+let activeTab = 'mlb-props';
 let viewMode = 'today';
 let historyPage = 0;
 const DAYS_PER_PAGE = 7;
@@ -1674,7 +1680,8 @@ function updateLastRunInfo() {
   const labels = {
     fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
-    'mlb-props': "MLB K's CSW .1", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26",
+    'mlb-props': "MLB K's CSW .1", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26 (shadow)",
+    'mlb-props-cv125c25': "MLB K's CSW .1 Old (shadow)",
     'mlb-batter-props': 'MLB Batter Props',
   };
   const data = cache[activeTab];
@@ -2501,7 +2508,11 @@ async function render() {
   }
   // MLB Pitcher Props — Whiff .1/Cap26 variant (same renderer, _w01c26 data file)
   if (activeTab === 'mlb-props-w01c26') {
-    return renderMLBProps('mlb-props-w01c26', "MLB K's Whiff .1/Cap26");
+    return renderMLBProps('mlb-props-w01c26', "MLB K's Whiff .1/Cap26 (shadow)");
+  }
+  // MLB Pitcher Props — old-live CSW shadow (VAR 1.25 / cap 25, _cv125c25 data file)
+  if (activeTab === 'mlb-props-cv125c25') {
+    return renderMLBProps('mlb-props-cv125c25', "MLB K's CSW .1 Old (shadow)");
   }
   // MLB Batter Props
   if (activeTab === 'mlb-batter-props') {

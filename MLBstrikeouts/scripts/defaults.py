@@ -193,7 +193,15 @@ VAR_MULT = {
     # optimum shifts down: df3/var1.25 holds df3's +35.2% season ROI while recovering
     # ~+3.7u of the volume df3 alone lost (var 1.20/1.15 overshoot, June craters).
     # Same 2D-backfit caveat as PROP_T_DF. Revert = VAR 1.30 + PROP_T_DF 5.
-    "strikeouts":   1.25,
+    #
+    # 2026-09-29: 1.25 -> 1.20, shipped as a PAIR with BF_CAP 25 -> 26 (end-of-
+    # season sweep, ~160 walk-forward backfills, csw + whiff, PROP_T_DF x VAR
+    # included). csw b0.1/cap26/var1.20/df3: +135.8u season (27.9% ROI) vs the
+    # old live +120.4u; Jul-Sep +22.9u vs +12.4u, every month positive. VAR 1.20
+    # helped BOTH metrics; df5/var1.25 is an equivalent ridge point, df3 kept.
+    # The 7/30 "1.20 overshoots, June craters" did not reproduce on the full
+    # season (June +19% vs +18%). Old config shadows as MLB_K_VARIANT=cv125c25.
+    "strikeouts":   1.20,
 }
 
 # ---------------------------------------------------------------------------
@@ -646,7 +654,10 @@ BF_MULT = 1.00
 # 2026-05-29: 24 -> 25 with K_QUALITY_METRIC=csw. CSW's projection distribution
 # wants a higher cap than whiff (whiff peaks at 24, CSW season peaks at 26 but
 # 25 is the recent-units + accuracy optimum). See K_QUALITY_METRIC note.
-BF_CAP = 25.0
+# 2026-09-29: 25 -> 26, paired with VAR_MULT 1.25 -> 1.20 (see VAR_MULT note).
+# csw cap 25/26/27 at var 1.20 is a plateau (Jul-Sep +19.2/+22.9/+22.9u); 26 is
+# its center.
+BF_CAP = 26.0
 
 # Per-pitcher BF ceiling percentile. When > 0, each pitcher's projected BF
 # is capped at the Nth percentile of their own recent game BFs (from the
@@ -1009,10 +1020,23 @@ MLB_TEAM_ABBR = {
 # config-dependent output paths (kalman_state, mlb-props, emp_std_cache) so
 # variants never clobber the live files.
 MLB_K_VARIANT = os.environ.get("MLB_K_VARIANT", "")
+#
+# 2026-09-29: live moved to csw VAR 1.20 / BF_CAP 26. Both shadows now PIN their
+# own VAR/BF_CAP so they keep running the exact config they ran all season:
+#   MLB_K_VARIANT = "w01c26"   -> Whiff .1/Cap26, VAR 1.25 (unchanged model)
+#   MLB_K_VARIANT = "cv125c25" -> the pre-9/29 live csw: blend 0.1, VAR 1.25,
+#                                 BF_CAP 25 ("MLB K's CSW .1 (Old)").
 if MLB_K_VARIANT == "w01c26":
     K_QUALITY_METRIC = "whiff"      # force whiff (shadow A/B vs the live csw model)
     CSW_XBA_BLEND_WEIGHT = 0.1
     BF_CAP = 26.0
+    VAR_MULT["strikeouts"] = 1.25
     VARIANT_SUFFIX = "_w01c26"
+elif MLB_K_VARIANT == "cv125c25":
+    K_QUALITY_METRIC = "csw"
+    CSW_XBA_BLEND_WEIGHT = 0.1
+    BF_CAP = 25.0
+    VAR_MULT["strikeouts"] = 1.25
+    VARIANT_SUFFIX = "_cv125c25"
 else:                       # live model (csw, blend 0.1, base knobs)
     VARIANT_SUFFIX = ""

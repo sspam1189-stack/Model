@@ -104,6 +104,19 @@ jobs:
           MLB_K_VARIANT: w01c26
         run: python -m scripts.run_daily
 
+      # Old-live CSW shadow ("MLB K's CSW .1 Old"): the csw config that ran
+      # live through 2026-09-29 (VAR 1.25 / BF_CAP 25), kept running after
+      # live moved to VAR 1.20 / BF_CAP 26. Writes only *_cv125c25 outputs.
+      - name: Run daily MLB props (CSW .1 Old shadow)
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          MLB_K_VARIANT: cv125c25
+        run: python -m scripts.run_daily
+
       # Fade-list moneyline model ("MLB Fade ML"): when a fade-list pitcher
       # starts, bet the opponent's FanDuel moneyline. Grades prior bets from
       # the frozen ML cache + game results, then writes today's picks. Live
@@ -384,7 +397,7 @@ jobs:
           $ErrorActionPreference = 'SilentlyContinue'
           New-Item -ItemType Directory -Force PythonDashboard/data | Out-Null
           $names = @(
-            'mlb-props', 'mlb-props_w01c26', 'mlb-fade-ml', 'mlb-hand-tails',
+            'mlb-props', 'mlb-props_w01c26', 'mlb-props_cv125c25', 'mlb-fade-ml', 'mlb-hand-tails',
             'mlb-hand-tails-watch', 'mlb-all-ml', 'mlb-fade-watch', 'mlb-pitch-hands',
             'mlb-fade-vs-team', 'mlb-fade-vs-team-watch', 'mlb-team-woba-splits',
             'mlb-slate-scout', 'flag-combo-table', 'msum-ml-table', 'rule-status',
@@ -415,7 +428,7 @@ jobs:
           git add -A
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
-          git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
+          git commit -m "Run daily MLB Pitcher Props (CSW + Whiff/CSW-Old shadows) + Game Hits [skip ci]"
           # Retry like the WNBA daily does: this runner races the other daily
           # pipelines for main, and a lost race would otherwise fail the run.
           $tries = 0
