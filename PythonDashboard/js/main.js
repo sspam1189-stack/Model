@@ -208,7 +208,8 @@ let sourceMeta = {};
 let summaryCache = {};
 let summaryMeta = {};
 // CSW .1 (VAR 1.20 / cap 26 from 2026-09-29) is the live model and the
-// default tab; CSW .1 Old and Whiff .1/Cap26 are shadows.
+// default tab; CSW .1 Old and Whiff .1/Cap26 are shadows, their tab buttons
+// hidden (display:none in index.html, user 2026-09-29) — still run + publish.
 let activeTab = 'mlb-props';
 let viewMode = 'today';
 let historyPage = 0;
