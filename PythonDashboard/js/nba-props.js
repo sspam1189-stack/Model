@@ -358,7 +358,7 @@
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 9 && p.pCover != null) { td.style.fontWeight = '600'; td.style.color = p.pCover >= 0.65 ? 'var(--green)' : (p.pCover < 0.60 ? '#999' : ''); }
+                if (i === 9 && p.pCover != null) td.style.fontWeight = '600';  // no color bands: they ignored each market's own cutoff (user, 2026-09-29)
               });
             }
             tbody.replaceWith(newBody);
@@ -438,7 +438,7 @@
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 9 && p.pCover != null) { td.style.fontWeight = '600'; td.style.color = p.pCover >= 0.65 ? 'var(--green)' : (p.pCover < 0.60 ? '#999' : ''); }
+                if (i === 9 && p.pCover != null) td.style.fontWeight = '600';  // no color bands: they ignored each market's own cutoff (user, 2026-09-29)
               });
             }
             tomCard.appendChild(tomTbl);
@@ -677,8 +677,7 @@
               if (i===1) td.style.color = '#999';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+                            if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }
           tableWrap.appendChild(tbl);
