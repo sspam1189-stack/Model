@@ -253,6 +253,10 @@ def _get_todays_teams(date_key):
     return teams
 
 
+_ESPN_TO_FD = {"GS": "GSV", "LA": "LAS", "LV": "LVA", "NY": "NYL",
+               "WSH": "WAS", "POR": "PDX"}
+
+
 def _get_started_teams(date_key):
     """
     Return set of team abbreviations whose games have already tipped off.
@@ -286,7 +290,8 @@ def _get_started_teams(date_key):
             for team in comp.get("competitors", []):
                 abbr = (team.get("team") or {}).get("abbreviation", "")
                 if abbr:
-                    started.add(abbr)
+                    # ESPN -> FanDuel abbreviations, so it matches pick["team"]
+                    started.add(_ESPN_TO_FD.get(abbr, abbr))
 
     return started
 
