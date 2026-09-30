@@ -683,8 +683,7 @@ def main(subject_label="[PY]"):
         pass
 
     # In playoffs, inflate star/starter minutes (mirrors jsFull behavior).
-    # season_type.is_playoffs() is currently hardcoded to False — flip the
-    # season_type.py override (or pass playoff_mode=True manually) to turn on.
+    # On from season_type.PLAYOFF_START (2026-09-27).
     from sources.season_type import is_playoffs as _is_playoffs
     _playoff_mode = _is_playoffs(date)
     lineup_stats = adjust_team_stats(

@@ -10,7 +10,7 @@ from datetime import datetime
 import pytz
 
 
-PLAYOFF_START = "20260914"  # WNBA 2026 playoffs day 1 — PROVISIONAL estimate (mid-Sep). WNBA plays May-Sep with playoffs in Sep; any mid-Sep value keeps the whole regular season classified correctly. Confirm when the WNBA releases the 2026 schedule.
+PLAYOFF_START = "20260927"  # WNBA 2026 playoffs day 1 (ESPN season type 3; regular season ended 9/24). Was a provisional "20260914", which ran 9/14-9/26 as Playoffs and fetched EMPTY playoff stats (0 team-def / adv / per-36). Set next season's date from the published schedule.
 
 
 def _today_yyyymmdd():

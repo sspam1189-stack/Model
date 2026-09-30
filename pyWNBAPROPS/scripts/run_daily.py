@@ -395,11 +395,19 @@ def run_daily(date_key=None):
     # --- Stage 4: Fetch team defensive stats ---
     print(f"\n  [4/7] Fetching team defensive stats...")
     team_def = fetch_team_def_stats(season=season, season_type=_season_type)
+    # Playoff fetches are empty until playoff games exist -> fall back to the
+    # regular season rather than project with no matchup data (9/14-9/26/2026).
+    if not team_def and _season_type != "Regular Season":
+        print(f"  {_season_type} team-def empty -> using Regular Season")
+        team_def = fetch_team_def_stats(season=season, season_type="Regular Season")
     print(f"  {len(team_def)} teams with defensive stats")
 
     # --- Stage 5: Fetch advanced player stats ---
     print(f"\n  [5/8] Fetching advanced player stats (USG%, TS%, PACE)...")
     adv_stats = fetch_player_advanced_stats(season=season, season_type=_season_type)
+    if not adv_stats and _season_type != "Regular Season":
+        print(f"  {_season_type} advanced empty -> using Regular Season")
+        adv_stats = fetch_player_advanced_stats(season=season, season_type="Regular Season")
     print(f"  {len(adv_stats)} players with advanced stats")
 
     # --- Stage 5b: Fetch player positions, positional defense, per-36 ---
@@ -407,6 +415,10 @@ def run_daily(date_key=None):
     player_positions = fetch_player_positions(season=season)
     team_def_by_pos = fetch_team_def_by_position(season=season, season_type=_season_type)
     player_per36 = fetch_player_per36_stats(season=season, season_type=_season_type)
+    if not team_def_by_pos and _season_type != "Regular Season":
+        team_def_by_pos = fetch_team_def_by_position(season=season, season_type="Regular Season")
+    if not player_per36 and _season_type != "Regular Season":
+        player_per36 = fetch_player_per36_stats(season=season, season_type="Regular Season")
     print(f"  {len(player_positions)} positions, {len(team_def_by_pos)} teams pos-def, {len(player_per36)} per-36")
 
     # --- Stage 6: Fetch prop lines (FanDuel primary, Odds API fallback) ---

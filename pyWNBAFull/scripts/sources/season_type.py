@@ -2,15 +2,15 @@ from datetime import datetime
 import pytz
 
 
-# WNBA: the playoff-override machinery (empirical HCA, per-team HCA, probHigh
-# floor) in run_daily/backfill is NBA-backtested and NOT validated for the
-# WNBA's short, thin playoffs. Per the design spec ("NBA conclusions are NOT
-# inherited"), we keep the ENTIRE WNBA season classified as Regular Season by
-# parking PLAYOFF_START past the season end. The WNBA playoffs still fetch fine
-# from nba_api under season_type='Regular Season' for the regular-season stat
-# base; postseason games simply aren't given special HCA treatment.
-# Revisit only if a WNBA-specific playoff backtest justifies it.
-PLAYOFF_START = "29990101"  # effectively disabled — treat all WNBA dates as Regular Season
+# WNBA playoffs ON from 2026-09-27 (user, 2026-09-30: "similar to NBA").
+# Was parked at 29990101 (all dates Regular Season) because the NBA playoff
+# machinery isn't WNBA-validated; the user chose to run it anyway. From
+# PLAYOFF_START: team stats = regular season blended with playoff games
+# (nba_stats.PLAYOFF_RAMP_GAMES), playoff minutes inflation (lineup_adjust),
+# probHigh floor 0.65, per-team HCA, and empirical playoff HCA once >= 10
+# playoff games are in history.json. 2026: regular season ended 9/24, playoff
+# round 1 day 1 = 9/27 (ESPN season type 3). Set next season's date by hand.
+PLAYOFF_START = "20260927"
 
 
 def _today_yyyymmdd():
@@ -22,7 +22,7 @@ def _today_yyyymmdd():
 def get_season_type(date_str=None):
     """
     nba_api season_type value: "Regular Season" or "Playoffs".
-    WNBA: always "Regular Season" (see PLAYOFF_START note above).
+    "Playoffs" from PLAYOFF_START on (see note above).
     """
     d = (date_str or _today_yyyymmdd()).replace("-", "")
     return "Playoffs" if int(d) >= int(PLAYOFF_START) else "Regular Season"

@@ -150,6 +150,40 @@ def fetch_nba_stats(date_to=None, date_from=None, season_type="Regular Season"):
     return stats
 
 
+# -- Blend playoff + regular season stats per team (ported from pyFull) --
+
+BLEND_KEYS = ["OFF", "DEF", "TS", "TO", "ORR", "PACE"]
+# NBA uses 16 (max ~28 playoff games). WNBA's bracket (bo3 / bo5 / bo7) caps a
+# team at ~15 games, so the same proportion lands at 8: a finalist reaches full
+# playoff weight, a first-round exit (2-3 games) stays ~70-75% regular season.
+PLAYOFF_RAMP_GAMES = 8
+
+
+def _blend_playoff_stats(reg_season, playoff_stats):
+    if not playoff_stats or not len(playoff_stats):
+        return reg_season
+    blended = {}
+    blend_count = 0
+    for team, rs in reg_season.items():
+        po = playoff_stats.get(team)
+        if not po or not po.get("GP") or po["GP"] < 1:
+            blended[team] = dict(rs)
+            continue
+        po_weight = min(po["GP"] / PLAYOFF_RAMP_GAMES, 1.0)
+        out = dict(rs)
+        for k in BLEND_KEYS:
+            po_val, rs_val = po.get(k), rs.get(k)
+            if (isinstance(po_val, (int, float)) and math.isfinite(po_val)
+                    and isinstance(rs_val, (int, float)) and math.isfinite(rs_val)):
+                out[k] = rs_val * (1 - po_weight) + po_val * po_weight
+        out["GP"] = rs["GP"]  # keep regular-season GP for min-games checks
+        blended[team] = out
+        blend_count += 1
+    if blend_count > 0:
+        print(f"  [wnba_stats] Blended playoff+regular for {blend_count} teams")
+    return blended
+
+
 # -- Enhanced stats (season + last10 + home + away) --
 
 def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
@@ -157,13 +191,26 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     Returns { "season": ..., "last10": ..., "home": ..., "away": ... }
     all keyed by full team name.
 
-    WNBA has no separate playoff-blend path (short playoffs, thin samples);
-    we always fetch the requested season_type. Regular Season is the default
-    and covers the vast majority of the schedule.
+    Playoffs (2026-09-30, mirrors pyFull): season = Regular Season base blended
+    with a playoff overlay weighted GP / PLAYOFF_RAMP_GAMES; L10 and home/away
+    splits stay Regular Season (a few playoff games per team is too thin).
     """
+    in_playoffs = season_type == "Playoffs"
     print(f"  [wnba_stats] Fetching enhanced stats (season + last10 + home + away) [{season_type}]...")
 
-    season = _fetch_team_stats(date_to, None, season_type=season_type)
+    if in_playoffs:
+        reg_season = _fetch_team_stats(date_to, None, season_type="Regular Season")
+        print(f"  [wnba_stats] Regular season base: {len(reg_season)} teams")
+        time.sleep(1.5)
+        try:
+            po_season = _fetch_team_stats(date_to, None, season_type="Playoffs")
+        except Exception as e:
+            print(f"  [wnba_stats] Playoffs stats empty (playoffs just started?): {e}. Using regular season only.")
+            po_season = None
+        season = _blend_playoff_stats(reg_season, po_season)
+    else:
+        season = _fetch_team_stats(date_to, None, season_type=season_type)
+    base_type = "Regular Season" if in_playoffs else season_type
     time.sleep(1.5)
 
     last10 = None
@@ -179,9 +226,9 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
             dt = datetime.datetime(int(s[:4]), int(s[4:6]), int(s[6:8]))
             from_dt = dt - datetime.timedelta(days=20)
             date_from = from_dt.strftime("%Y-%m-%d")
-            last10 = _fetch_team_stats(date_to, date_from, season_type=season_type)
+            last10 = _fetch_team_stats(date_to, date_from, season_type=base_type)
         else:
-            last10 = _fetch_team_stats(date_to, None, last_n_games=10, season_type=season_type)
+            last10 = _fetch_team_stats(date_to, None, last_n_games=10, season_type=base_type)
         print(f"  [wnba_stats] Last 10 (rolling window): {len(last10)} teams")
         time.sleep(1.5)
     except Exception as e:
@@ -189,7 +236,7 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         last10 = None
 
     try:
-        home = _fetch_team_stats(date_to, None, location="Home", season_type=season_type)
+        home = _fetch_team_stats(date_to, None, location="Home", season_type=base_type)
         print(f"  [wnba_stats] Home splits: {len(home)} teams")
         time.sleep(1.5)
     except Exception as e:
@@ -197,7 +244,7 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         home = None
 
     try:
-        away = _fetch_team_stats(date_to, None, location="Road", season_type=season_type)
+        away = _fetch_team_stats(date_to, None, location="Road", season_type=base_type)
         print(f"  [wnba_stats] Away splits: {len(away)} teams")
     except Exception as e:
         print(f"  [wnba_stats] Away fetch failed ({e}) -- skipping")
