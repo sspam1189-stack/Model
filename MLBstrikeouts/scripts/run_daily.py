@@ -109,6 +109,63 @@ def _is_game_postponed(team_abbr, game_date):
     return False
 
 
+_POSTSEASON_STARTERS = {}
+
+
+def _postseason_starters(game_date):
+    """{team_abbr: {...starter line...}} for FINAL non-regular-season games on
+    game_date (YYYY-MM-DD), read from MLB box scores.
+
+    fetch_pitcher_game_logs is regular-season only (gameType=R — playoff starts
+    must not feed projections), but the daily slate includes every scheduled
+    game, so from the Wild Card round on the K model makes picks the log-based
+    grader can never match. This is the grader's fallback for those. A team
+    whose game is not Final yet is left out, so its picks stay ungraded.
+    """
+    if game_date in _POSTSEASON_STARTERS:
+        return _POSTSEASON_STARTERS[game_date]
+    from sources.mlb_stats import _fetch_json, BASE_URL, MLB_TEAM_ID_TO_ABBR
+    out = {}
+    try:
+        sched = _fetch_json(f"{BASE_URL}/schedule?sportId=1&date={game_date}")
+        for d in sched.get("dates", []):
+            for g in d.get("games", []):
+                if g.get("gameType") == "R":
+                    continue
+                if g.get("status", {}).get("abstractGameState") != "Final":
+                    continue
+                bs = _fetch_json(f"{BASE_URL}/game/{g['gamePk']}/boxscore")
+                for side in ("home", "away"):
+                    t = bs.get("teams", {}).get(side, {})
+                    abbr = MLB_TEAM_ID_TO_ABBR.get(t.get("team", {}).get("id"), "")
+                    pitchers = t.get("pitchers") or []
+                    if not abbr or not pitchers:
+                        continue
+                    p = t.get("players", {}).get(f"ID{pitchers[0]}", {})
+                    x = p.get("stats", {}).get("pitching", {})
+                    whole, _, frac = str(x.get("inningsPitched", "0")).partition(".")
+                    out[abbr] = {
+                        "pitcher_name": p.get("person", {}).get("fullName", ""),
+                        "k": x.get("strikeOuts"),
+                        "outs": int(whole or 0) * 3 + int(frac or 0),
+                        "bf": x.get("battersFaced"),
+                        "pitches": x.get("numberOfPitches"),
+                    }
+    except Exception as e:
+        print(f"  [grade] postseason box-score fetch failed for {game_date}: {e}")
+        return {}   # not cached -> retried next run
+    _POSTSEASON_STARTERS[game_date] = out
+    return out
+
+
+def _same_pitcher(a, b):
+    import unicodedata
+    def n(s):
+        s = unicodedata.normalize("NFKD", s or "")
+        return "".join(c for c in s if not unicodedata.combining(c)).casefold().strip()
+    return n(a) == n(b)
+
+
 _EMP_STD_CACHE_DIR = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "data", "emp_std_cache",
                  f"mlb{VARIANT_SUFFIX}")
@@ -587,6 +644,24 @@ def grade_previous_picks(season=None):
             and int(g.get("outs", 0) or 0) == 0
             and int(g.get("pitches", 0) or 0) == 0
         )]
+        if not games:
+            # Postseason: not in the regular-season logs at all. Grade off the
+            # box score's starter line, or void if someone else started.
+            ps = _postseason_starters(pick["date"]).get(pick.get("team", ""))
+            if ps:
+                if _same_pitcher(ps["pitcher_name"], player):
+                    games = [{"k": ps["k"], "outs": ps["outs"], "bf": ps["bf"],
+                              "pitches": ps["pitches"]}]
+                else:
+                    pick["result"] = "VOID"
+                    pick["actual"] = None
+                    pick["voidReason"] = "pitcher_scratched"
+                    pick["voidNote"] = f"did not start (team threw: {ps['pitcher_name']})"
+                    if not is_watch:
+                        graded += 1
+                    else:
+                        watch_graded += 1
+                    continue
         if not games:
             # No game log for this pitcher/date.  Could be:
             #   (a) game postponed / suspended / cancelled — mark VOID
