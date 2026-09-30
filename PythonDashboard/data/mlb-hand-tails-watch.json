@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-29T14:07:18Z",
+  "generated": "2026-09-30T15:54:22Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,12 +9,12 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-09-29",
-      "commence": "2026-09-29T18:00:00Z",
+      "date": "2026-09-30",
+      "commence": "2026-09-30T18:00:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Jes\u00fas Luzardo",
+      "pitcher": "Cristopher S\u00e1nchez",
       "hand": "L",
       "arm_team": "PHI",
       "opp_team": "ATL",
@@ -23,11 +23,33 @@
       "away": "PHI",
       "oppLefty": 4,
       "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -116,
+      "suggest": "take",
+      "suggestUnits": 5.0,
+      "games": 31,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-30",
+      "commence": "2026-10-01T00:00:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Sonny Gray",
+      "hand": "R",
+      "arm_team": "BOS",
+      "opp_team": "NYY",
+      "selection": "BOS",
+      "home": "NYY",
+      "away": "BOS",
+      "oppLefty": 8,
+      "oppRighty": 1,
       "lineupConfirmed": false,
       "odds": null,
       "suggest": "take",
-      "suggestUnits": 8.4,
-      "games": 26,
+      "suggestUnits": 6.56,
+      "games": 19,
       "result": "unconfirmed"
     }
   ],
@@ -123,24 +145,6 @@
       "era": 4.28
     },
     {
-      "pitcher": "Jes\u00fas Luzardo",
-      "hand": "L",
-      "games": 26,
-      "suggest": "take",
-      "suggestUnits": 8.4,
-      "fade": {
-        "w": 7,
-        "l": 19,
-        "u": -10.14
-      },
-      "take": {
-        "w": 19,
-        "l": 7,
-        "u": 8.4
-      },
-      "era": 2.87
-    },
-    {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
       "games": 10,
@@ -157,6 +161,24 @@
         "u": 7.62
       },
       "era": 1.8
+    },
+    {
+      "pitcher": "Jes\u00fas Luzardo",
+      "hand": "L",
+      "games": 27,
+      "suggest": "take",
+      "suggestUnits": 7.4,
+      "fade": {
+        "w": 8,
+        "l": 19,
+        "u": -9.14
+      },
+      "take": {
+        "w": 19,
+        "l": 8,
+        "u": 7.4
+      },
+      "era": 2.87
     },
     {
       "pitcher": "Robbie Ray",

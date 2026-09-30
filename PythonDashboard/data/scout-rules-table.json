@@ -1,16 +1,16 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-29T14:07:35Z",
+ "generated": "2026-09-30T15:54:57Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-27"
+  "to": "2026-09-29"
  },
- "games": 2424,
+ "games": 2428,
  "baselines": {
-  "side": -3.5,
-  "under": -5.5,
-  "over": -3.9
+  "side": -3.6,
+  "under": -5.7,
+  "over": -3.8
  },
  "note": "Season history for the scout rules that had no table: Form under, Aligned ML and Mismatch ML. Replayed as-of each game date -- a game's own result is never in the features that select it. CAVEAT: the live rules read published wRC+ cells; this replay uses the wOBA index computed from the batter PA logs, the only version recomputable for a past date. Same construction, same input, not byte-identical -- a faithful replay of the rule, not of the exact cells the tab printed.",
  "rules": [
@@ -21,17 +21,17 @@
    "rule": "m_sum <= -40: both arms outclassed by the bats -> under.",
    "status": "shadow",
    "baseline_key": "under",
-   "baseline": -5.5,
+   "baseline": -5.7,
    "record": {
     "w": 93,
-    "l": 76,
-    "n": 169,
-    "units": 7.17,
-    "roi": 4.2
+    "l": 78,
+    "n": 171,
+    "units": 5.17,
+    "roi": 3.0
    },
    "halves": [
     27.5,
-    -8.9
+    -10.6
    ],
    "monthly": [
     {
@@ -77,10 +77,10 @@
     {
      "month": "2026-09",
      "w": 8,
-     "l": 24,
-     "n": 32,
-     "units": -17.09,
-     "roi": -53.4
+     "l": 26,
+     "n": 34,
+     "units": -19.09,
+     "roi": -56.2
     }
    ],
    "per_day": 0.92
@@ -92,7 +92,7 @@
    "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
    "status": "shadow",
    "baseline_key": "side",
-   "baseline": -3.5,
+   "baseline": -3.6,
    "record": {
     "w": 6,
     "l": 8,
@@ -147,17 +147,17 @@
    "rule": "Starter at mismatch <= -45 -> back his team; at >= +55 -> back the opponent.",
    "status": "card",
    "baseline_key": "side",
-   "baseline": -3.5,
+   "baseline": -3.6,
    "record": {
     "w": 75,
-    "l": 47,
-    "n": 122,
-    "units": 8.96,
-    "roi": 7.3
+    "l": 48,
+    "n": 123,
+    "units": 7.96,
+    "roi": 6.5
    },
    "halves": [
     13.5,
-    3.0
+    1.6
    ],
    "monthly": [
     {
@@ -203,10 +203,10 @@
     {
      "month": "2026-09",
      "w": 12,
-     "l": 7,
-     "n": 19,
-     "units": 2.41,
-     "roi": 12.7
+     "l": 8,
+     "n": 20,
+     "units": 1.41,
+     "roi": 7.0
     }
    ],
    "per_day": 0.66

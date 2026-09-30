@@ -1,35 +1,19 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-09-29T14:07:20Z",
+  "generated": "2026-09-30T15:54:26Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 12,
+    "w": 13,
     "l": 1,
-    "u": 11.82,
-    "n": 13,
-    "roi": 0.6115
+    "u": 12.82,
+    "n": 14,
+    "roi": 0.6226
   },
-  "today": [
-    {
-      "date": "2026-09-29",
-      "commence": "2026-09-30T02:00:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Matthew Boyd",
-      "arm_team": "CHC",
-      "opp": "SD",
-      "selection": "SD",
-      "venue": "away",
-      "matchup": "CHC @ SD",
-      "odds": -126,
-      "eraVsOpp": 8.0,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -221,6 +205,34 @@
       "qualifiedOn": "2026-05-27"
     },
     {
+      "pitcher": "Matthew Boyd",
+      "opp": "SD",
+      "arm_team": "CHC",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.7937
+      },
+      "eraVsOpp": 8.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-09-29",
+          "venue": "away",
+          "matchup": "CHC @ SD",
+          "selection": "SD",
+          "opp_ml": -126,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-06-30"
+    },
+    {
       "pitcher": "Andre Pallante",
       "opp": "MIL",
       "arm_team": "STL",
@@ -389,25 +401,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-08-14"
-    },
-    {
-      "pitcher": "Matthew Boyd",
-      "opp": "SD",
-      "arm_team": "CHC",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 8.0,
-      "ipVsOpp": 9.0,
-      "erVsOpp": 8,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-06-30"
     },
     {
       "pitcher": "Jos\u00e9 Soriano",

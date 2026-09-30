@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-29T14:07:11Z",
+  "generated": "2026-09-30T15:54:12Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -112,7 +112,56 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-30",
+      "commence": "2026-10-01T02:00:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "CHC",
+      "gamePk": 849842,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-30",
+      "commence": "2026-09-30T21:00:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Hunter Brown"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "CWS",
+      "gamePk": 849846,
+      "fadeReason": "all"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-05",
