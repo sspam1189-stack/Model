@@ -115,7 +115,8 @@ from defaults import current_season
 # 1. Basic player game logs
 # ---------------------------------------------------------------------------
 
-def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=None):
+def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=None,
+                           force=False):
     """
     Fetch all player game logs for the season via nba_api.
 
@@ -130,7 +131,10 @@ def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=No
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if _game_logs_cache_is_fresh(cache_path):
+    # force=True skips the cache: the freshness check is satisfied by ANY game
+    # dated yesterday, so a cache written mid-game (partial stat lines, later
+    # games missing) would otherwise be frozen and mis-grade picks.
+    if not force and _game_logs_cache_is_fresh(cache_path):
         with open(cache_path, "r") as f:
             data = json.load(f)
         print(f"  [player_stats] Using cache: {os.path.basename(cache_path)} ({len(data)} logs)")

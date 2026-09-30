@@ -93,10 +93,10 @@ def grade_previous_picks(season=None):
     if season is None:
         from defaults import current_season
         season = current_season()
-    all_logs = fetch_player_game_logs(season=season)
+    all_logs = fetch_player_game_logs(season=season, force=True)
     for extra_type in ("PlayIn", "Playoffs"):
         try:
-            extra = fetch_player_game_logs(season=season, season_type=extra_type)
+            extra = fetch_player_game_logs(season=season, season_type=extra_type, force=True)
             if extra:
                 all_logs.extend(extra)
         except Exception:
@@ -357,13 +357,13 @@ def run_daily(date_key=None):
 
     # --- Stage 2: Fetch player game logs (Regular + PlayIn + Playoffs) ---
     print(f"\n  [2/7] Fetching player game logs...")
-    player_game_logs = fetch_player_game_logs(season=season)
+    player_game_logs = fetch_player_game_logs(season=season, force=True)
     if not player_game_logs:
         print("  ERROR: No player game logs fetched. Exiting.")
         return
     for extra_type in ("PlayIn", "Playoffs"):
         try:
-            extra = fetch_player_game_logs(season=season, season_type=extra_type)
+            extra = fetch_player_game_logs(season=season, season_type=extra_type, force=True)
             if extra:
                 player_game_logs.extend(extra)
                 print(f"  +{len(extra)} {extra_type} logs")
