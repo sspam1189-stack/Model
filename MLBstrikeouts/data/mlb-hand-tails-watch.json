@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-30T17:23:08Z",
+  "generated": "2026-10-01T00:55:48Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -118,
       "suggest": "take",
-      "suggestUnits": 5.0,
-      "games": 31,
+      "suggestUnits": 6.0,
+      "games": 32,
       "result": "pending"
     },
     {
@@ -45,12 +45,12 @@
       "away": "BOS",
       "oppLefty": 8,
       "oppRighty": 1,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 116,
       "suggest": "take",
       "suggestUnits": 6.56,
       "games": 19,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -235,6 +235,24 @@
       "era": 4.66
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 32,
+      "suggest": "take",
+      "suggestUnits": 6.0,
+      "fade": {
+        "w": 10,
+        "l": 22,
+        "u": -8.33
+      },
+      "take": {
+        "w": 22,
+        "l": 10,
+        "u": 6.0
+      },
+      "era": 2.91
+    },
+    {
       "pitcher": "Joey Cantillo",
       "hand": "L",
       "games": 24,
@@ -359,24 +377,6 @@
         "u": 5.02
       },
       "era": 4.61
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 31,
-      "suggest": "take",
-      "suggestUnits": 5.0,
-      "fade": {
-        "w": 10,
-        "l": 21,
-        "u": -7.33
-      },
-      "take": {
-        "w": 21,
-        "l": 10,
-        "u": 5.0
-      },
-      "era": 2.91
     },
     {
       "pitcher": "J.T. Ginn",

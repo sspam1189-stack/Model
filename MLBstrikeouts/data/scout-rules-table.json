@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-30T17:23:40Z",
+ "generated": "2026-10-01T00:56:21Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-29"
+  "to": "2026-09-30"
  },
- "games": 2428,
+ "games": 2430,
  "baselines": {
-  "side": -3.6,
+  "side": -3.5,
   "under": -5.7,
   "over": -3.8
  },
@@ -92,7 +92,7 @@
    "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
    "status": "shadow",
    "baseline_key": "side",
-   "baseline": -3.6,
+   "baseline": -3.5,
    "record": {
     "w": 6,
     "l": 8,
@@ -147,7 +147,7 @@
    "rule": "Starter at mismatch <= -45 -> back his team; at >= +55 -> back the opponent.",
    "status": "card",
    "baseline_key": "side",
-   "baseline": -3.6,
+   "baseline": -3.5,
    "record": {
     "w": 75,
     "l": 48,

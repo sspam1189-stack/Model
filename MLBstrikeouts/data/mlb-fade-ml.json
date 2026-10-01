@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-30T17:22:58Z",
+  "generated": "2026-10-01T00:55:37Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 562,
+    "wins": 563,
     "losses": 237,
     "voids": 0,
     "skips": 61,
-    "staked": 1011.88,
-    "units": 326.96,
-    "roi": 0.3231,
+    "staked": 1012.88,
+    "units": 328.24,
+    "roi": 0.3241,
     "byType": {
       "ml": {
-        "wins": 550,
+        "wins": 551,
         "losses": 225,
         "voids": 0,
         "skips": 6,
-        "staked": 987.88,
-        "units": 322.48,
-        "roi": 0.3264
+        "staked": 988.88,
+        "units": 323.76,
+        "roi": 0.3274
       },
       "ml_dog": {
         "wins": 12,
@@ -125,8 +125,8 @@
       "market": "h2h",
       "selection": "SD",
       "line": null,
-      "odds": -144,
-      "stake": 1.44,
+      "odds": -146,
+      "stake": 1.46,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -136,30 +136,6 @@
       "away": "CHC",
       "gamePk": 849842,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-30",
-      "commence": "2026-09-30T21:00:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Hunter Brown"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "CWS",
-      "line": null,
-      "odds": 128,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "HOU",
-      "away": "CWS",
-      "gamePk": 849846,
-      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -20880,6 +20856,30 @@
       "home": "SEA",
       "away": "LAA",
       "gamePk": 823084,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-30",
+      "commence": "2026-09-30T21:00:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Hunter Brown"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.28,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "CWS",
+      "gamePk": 849846,
       "fadeReason": "all"
     }
   ]
