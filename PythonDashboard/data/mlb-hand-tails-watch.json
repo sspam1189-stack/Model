@@ -1,58 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-10-01T00:55:48Z",
+  "generated": "2026-10-01T18:48:47Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-30",
-      "commence": "2026-09-30T18:00:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "arm_team": "PHI",
-      "opp_team": "ATL",
-      "selection": "PHI",
-      "home": "ATL",
-      "away": "PHI",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -118,
-      "suggest": "take",
-      "suggestUnits": 6.0,
-      "games": 32,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-30",
-      "commence": "2026-10-01T00:00:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Sonny Gray",
-      "hand": "R",
-      "arm_team": "BOS",
-      "opp_team": "NYY",
-      "selection": "BOS",
-      "home": "NYY",
-      "away": "BOS",
-      "oppLefty": 8,
-      "oppRighty": 1,
-      "lineupConfirmed": true,
-      "odds": 116,
-      "suggest": "take",
-      "suggestUnits": 6.56,
-      "games": 19,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
@@ -199,24 +154,6 @@
       "era": 3.73
     },
     {
-      "pitcher": "Sonny Gray",
-      "hand": "R",
-      "games": 19,
-      "suggest": "take",
-      "suggestUnits": 6.56,
-      "fade": {
-        "w": 5,
-        "l": 14,
-        "u": -8.38
-      },
-      "take": {
-        "w": 14,
-        "l": 5,
-        "u": 6.56
-      },
-      "era": 2.72
-    },
-    {
       "pitcher": "Cody Bradford",
       "hand": "L",
       "games": 5,
@@ -269,6 +206,24 @@
         "u": 5.9
       },
       "era": 4.0
+    },
+    {
+      "pitcher": "Sonny Gray",
+      "hand": "R",
+      "games": 20,
+      "suggest": "take",
+      "suggestUnits": 5.56,
+      "fade": {
+        "w": 6,
+        "l": 14,
+        "u": -7.38
+      },
+      "take": {
+        "w": 14,
+        "l": 6,
+        "u": 5.56
+      },
+      "era": 2.72
     },
     {
       "pitcher": "Jos\u00e9 Soriano",

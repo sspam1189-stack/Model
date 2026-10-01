@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-10-01T00:56:21Z",
+ "generated": "2026-10-01T18:49:19Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-30"
  },
- "games": 2430,
+ "games": 2432,
  "baselines": {
-  "side": -3.5,
+  "side": -3.6,
   "under": -5.7,
   "over": -3.8
  },
@@ -24,14 +24,14 @@
    "baseline": -5.7,
    "record": {
     "w": 93,
-    "l": 78,
-    "n": 171,
-    "units": 5.17,
-    "roi": 3.0
+    "l": 79,
+    "n": 172,
+    "units": 4.17,
+    "roi": 2.4
    },
    "halves": [
     27.5,
-    -10.6
+    -11.4
    ],
    "monthly": [
     {
@@ -77,10 +77,10 @@
     {
      "month": "2026-09",
      "w": 8,
-     "l": 26,
-     "n": 34,
-     "units": -19.09,
-     "roi": -56.2
+     "l": 27,
+     "n": 35,
+     "units": -20.09,
+     "roi": -57.4
     }
    ],
    "per_day": 0.92
@@ -92,7 +92,7 @@
    "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
    "status": "shadow",
    "baseline_key": "side",
-   "baseline": -3.5,
+   "baseline": -3.6,
    "record": {
     "w": 6,
     "l": 8,
@@ -147,7 +147,7 @@
    "rule": "Starter at mismatch <= -45 -> back his team; at >= +55 -> back the opponent.",
    "status": "card",
    "baseline_key": "side",
-   "baseline": -3.5,
+   "baseline": -3.6,
    "record": {
     "w": 75,
     "l": 48,
