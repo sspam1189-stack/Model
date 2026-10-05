@@ -25250,7 +25250,7 @@
         "wDEF": 1.313,
         "constant": -0.162,
         "paceAdj": 0.773,
-        "hca": 7.1,
+        "hca": 7.666666666666667,
         "sprHigh": 4,
         "ouHigh": 5,
         "sprEliteBump": 3,
@@ -25271,7 +25271,7 @@
         "wDEF": 1.313,
         "constant": -0.162,
         "paceAdj": 0.773,
-        "hca": 7.1,
+        "hca": 7.666666666666667,
         "sprHigh": 4,
         "ouHigh": 5,
         "sprEliteBump": 3,
@@ -25294,9 +25294,11 @@
           "_book": "FanDuel",
           "status": "STARTED",
           "trends": {
-            "away": "ATS +/- -0.9 \u00b7 Over 52.2% \u00b7 Under 47.8% \u00b7 O/U +/- 0.5",
-            "home": "ATS +/- 0.6 \u00b7 Over 54.4% \u00b7 Under 45.7% \u00b7 O/U +/- 2.2"
-          }
+            "away": "ATS +/- -1.0 \u00b7 Over 53.2% \u00b7 Under 46.8% \u00b7 O/U +/- 0.5",
+            "home": "ATS +/- 0.7 \u00b7 Over 55.3% \u00b7 Under 44.7% \u00b7 O/U +/- 2.2"
+          },
+          "awayScore": 82.0,
+          "homeScore": 92.0
         },
         {
           "away": "Las Vegas Aces",
@@ -25346,13 +25348,16 @@
           "h2hNote": null,
           "stakeUnits": 1,
           "trends": {
-            "away": "ATS +/- -0.7 \u00b7 Over 51.1% \u00b7 Under 48.9% \u00b7 O/U +/- 1.4",
-            "home": "ATS +/- 2.6 \u00b7 Over 42.6% \u00b7 Under 57.5% \u00b7 O/U +/- -3.3"
-          }
+            "away": "ATS +/- -0.9 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 0.8",
+            "home": "ATS +/- 2.7 \u00b7 Over 41.7% \u00b7 Under 58.3% \u00b7 O/U +/- -3.8"
+          },
+          "awayScore": 60.0,
+          "homeScore": 71.0,
+          "sResult": "WIN"
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         77-47-0   (62.1%)   [graded 124]\n  Elite:       77-47-0   (62.1%)   [graded 124]\n\nFAV/DOG (Spread)\n  Favorites:   35-23-0   (60.3%)   [graded 58]\n  Underdogs:   42-24-0   (63.6%)   [graded 66]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "10/04/2026, 01:48:03 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         78-47-0   (62.4%)   [graded 125]\n  Elite:       78-47-0   (62.4%)   [graded 125]\n\nFAV/DOG (Spread)\n  Favorites:   35-23-0   (60.3%)   [graded 58]\n  Underdogs:   43-24-0   (64.2%)   [graded 67]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "10/04/2026, 07:15:33 PM"
     }
   ],
   "weights": {
@@ -25363,7 +25368,7 @@
     "wDEF": 1.313,
     "constant": -0.162,
     "paceAdj": 0.773,
-    "hca": 7.1,
+    "hca": 7.666666666666667,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -25376,7 +25381,7 @@
     "h2hWeight": 0.0,
     "probElite": 0.63
   },
-  "residualVar": 162.2,
+  "residualVar": 161.8,
   "weightsVar": {
     "wTS": 3.7112,
     "wTO": 3.893,
