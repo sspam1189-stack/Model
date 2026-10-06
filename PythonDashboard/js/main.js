@@ -1739,10 +1739,10 @@ function nflGetWeekLabel(run) {
   return run.date || '—';
 }
 
-function nflGetActionablePicks(runs) {
+function nflGetActionablePicks(runs, includeBurnIn = false) {
   const results = [];
   for (const r of runs) {
-    if (r.burnIn) continue;
+    if (r.burnIn && !includeBurnIn) continue;
     for (const g of r.games || []) {
       if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
@@ -1837,6 +1837,39 @@ function nflRenderWeeklyPicks(run) {
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
+    </div>`;
+}
+
+// ─── NFL Model Reference: last week + this season ───
+// Reads ALL runs (ignores the season filter) so it always shows the current
+// season. Burn-in weeks are included: this is a plain record of what the
+// projection picked, not a claim that it is trusted.
+function nflRenderModelRecent(allRuns) {
+  const season = Math.max(...allRuns.map(r => r.season || 0));
+  const seasonRuns = allRuns.filter(r => r.season === season);
+  const picks = nflGetActionablePicks(seasonRuns, true);
+  if (!picks.length) return '';
+  const lastWeek = Math.max(...picks.map(p => p.week));
+  const bucket = ps => {
+    const w = ps.filter(p => p.result === 'WIN').length;
+    const l = ps.filter(p => p.result === 'LOSS').length;
+    const units = calcUnits(w, l);
+    const pct = w + l ? 100 * w / (w + l) : 0;
+    return `<td>${w}-${l}${ps.length - w - l ? `-${ps.length - w - l}` : ''}</td>
+      <td class="center"><span class="${pctClass(pct)}">${fmtPct(pct)}</span></td>
+      <td class="center"><span class="${unitClass(units)}">${fmtUnits(units)}</span></td>`;
+  };
+  return `
+    <div class="card card-records">
+      <div class="card-title">Model Record — ${season}</div>
+      <table class="data">
+        <thead><tr><th>Window</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th></tr></thead>
+        <tbody>
+          <tr><td>Last Week (Wk ${lastWeek})</td>${bucket(picks.filter(p => p.week === lastWeek))}</tr>
+          <tr><td>${season} Season</td>${bucket(picks)}</tr>
+        </tbody>
+      </table>
+      <div class="card-subtitle">Spread picks vs the market line, graded games only. Includes weeks 1-3 burn-in.</div>
     </div>`;
 }
 

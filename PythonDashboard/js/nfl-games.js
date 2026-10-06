@@ -117,6 +117,7 @@ async function renderNFL() {
         ${nflShowModel ? '▾' : '▸'} Model Reference (no market edge — not a betting product)
       </div>`;
     if (nflShowModel) {
+      html += nflRenderModelRecent(allRuns);
       html += nflRenderTodayPicks(selectedRun);
       html += nflRenderWeeklyPicks(selectedRun);
       html += '<div class="section-label">Spread Record (ATS)</div>';
