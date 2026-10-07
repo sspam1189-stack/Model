@@ -82,6 +82,41 @@ def _parse_iso(ts):
 # Injury gate
 # ---------------------------------------------------------------------------
 
+_API_KEY_FOR = {"rush_yds": "player_rush_yds", "rush_att": "player_rush_attempts",
+                "pass_yds": "player_pass_yds", "pass_tds": "player_pass_tds",
+                "rec_yds": "player_reception_yds", "receptions": "player_receptions"}
+
+
+def _line_id(pl):
+    nk = _name_key(pl.get("player", ""))
+    return (nk, _first_prefix(pl.get("player", ""))[:2], pl.get("market", ""),
+            pl.get("event_home", ""))
+
+
+def _fill_gaps_from_odds_api(prop_lines, season, week):
+    """Append Odds API lines for active markets FanDuel does not cover."""
+    api_markets = [_API_KEY_FOR[m] for m in ACTIVE_MARKETS if m in _API_KEY_FOR]
+    if not api_markets:
+        return prop_lines
+    if not os.environ.get("ODDS_API_KEY"):
+        print("  [props] No ODDS_API_KEY -- skipping Odds API gap-fill")
+        return prop_lines
+    try:
+        extra = fetch_nfl_player_props(season=season, week=week,
+                                       markets=api_markets, cache_tag="_gap")
+    except Exception as e:
+        print(f"  [props] Odds API gap-fill failed: {e}")
+        return prop_lines
+    have = {_line_id(pl) for pl in prop_lines or []}
+    added = []
+    for pl in extra or []:
+        if pl.get("market") in ACTIVE_MARKETS and _line_id(pl) not in have:
+            added.append({**pl, "source": "oddsapi"})
+    print(f"  [props] Odds API filled {len(added)} lines FanDuel lacked "
+          f"({len(extra or [])} fetched)")
+    return list(prop_lines or []) + added
+
+
 def _first_prefix(name):
     """Leading first-name letters as written, lowercased.
 
@@ -316,6 +351,11 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
         except Exception as e:
             print(f"  [props] Prop lines fetch failed: {e}")
             prop_lines = []
+    # FanDuel posts only a couple of rushing lines per game (tiered, filled in
+    # through the week) and never posts attempts, so active markets come back
+    # thin. Fill just those gaps from the Odds API: two markets, one pull a day
+    # (daily cache), FanDuel wins wherever it has a line.
+    prop_lines = _fill_gaps_from_odds_api(prop_lines, season, week)
     if allowed_matchups and prop_lines:
         prop_lines = [
             pl for pl in prop_lines

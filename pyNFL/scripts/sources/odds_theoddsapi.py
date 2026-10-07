@@ -670,10 +670,10 @@ _MARKET_MAP = {
 _PROPS_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "props_cache" / "nfl"
 
 
-def _props_cache_path(season, week):
+def _props_cache_path(season, week, tag=""):
     """Daily cache for live props (preserves daily snapshots)."""
     today = datetime.datetime.now(ZoneInfo("America/Chicago")).strftime("%Y%m%d")
-    return _PROPS_CACHE_DIR / f"nfl_props_{season}_W{week}_{today}.json"
+    return _PROPS_CACHE_DIR / f"nfl_props_{season}_W{week}{tag}_{today}.json"
 
 
 def _historical_props_cache_path(season, week):
@@ -681,9 +681,14 @@ def _historical_props_cache_path(season, week):
     return _PROPS_CACHE_DIR / f"nfl_props_{season}_W{week}.json"
 
 
-def fetch_nfl_player_props(api_key=None, season=None, week=None):
+def fetch_nfl_player_props(api_key=None, season=None, week=None,
+                           markets=None, cache_tag=""):
     """
     Fetch player prop lines for all current NFL events.
+
+    markets: optional subset of PROP_MARKETS (API keys). Credits scale with the
+    number of markets, so gap-filling for FanDuel passes only what it lacks and
+    a distinct cache_tag so it never collides with a full pull's daily cache.
 
     Returns list of dicts:
     [{"player": str, "market": str, "line": float, "over_price": int, "under_price": int,
@@ -691,7 +696,7 @@ def fetch_nfl_player_props(api_key=None, season=None, week=None):
     """
     # Check if today's cache already exists (don't re-fetch same day)
     if season and week:
-        cp = _props_cache_path(season, week)
+        cp = _props_cache_path(season, week, cache_tag)
         cached = _load_cache(cp, max_age_hours=None)
         if cached is not None:
             print(f"  [props] Using today's cached props for {season} W{week} ({cp.name})")
@@ -711,7 +716,7 @@ def fetch_nfl_player_props(api_key=None, season=None, week=None):
     print(f"  [props] Found {len(events)} NFL events")
 
     all_props = []
-    markets_str = ",".join(PROP_MARKETS)
+    markets_str = ",".join(markets or PROP_MARKETS)
 
     for ev in events:
         event_id = ev.get("id")
@@ -779,7 +784,7 @@ def fetch_nfl_player_props(api_key=None, season=None, week=None):
 
     if season and week and all_props:
         os.makedirs(_PROPS_CACHE_DIR, exist_ok=True)
-        _save_cache(all_props, _props_cache_path(season, week))
+        _save_cache(all_props, _props_cache_path(season, week, cache_tag))
 
     return all_props
 
