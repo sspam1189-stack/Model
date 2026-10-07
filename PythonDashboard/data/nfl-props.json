@@ -1,9 +1,9 @@
 {
   "season": 2026,
   "week": 5,
-  "generated": "2026-10-07T15:34:39",
+  "generated": "2026-10-07T10:48:34",
   "totalProjections": 84,
-  "totalPicks": 191,
+  "totalPicks": 189,
   "props": [
     {
       "player": "J.Hurts",
@@ -3746,27 +3746,6 @@
       "units": 1.0
     },
     {
-      "player": "Bi.Robinson",
-      "team": "ATL",
-      "opp": "BAL",
-      "market": "rush_yds",
-      "proj": 129.2,
-      "std": 42.4,
-      "line": 35.5,
-      "pick": "OVER",
-      "edge": 93.7,
-      "pCover": 0.954,
-      "conf": "high",
-      "odds": -114,
-      "breakeven": 0.533,
-      "season": 2026,
-      "week": 5,
-      "commence": "2026-10-12T00:21:00.000Z",
-      "live": true,
-      "result": null,
-      "generatedAt": "2026-10-07T15:34:39"
-    },
-    {
       "player": "J.Cook",
       "team": "BUF",
       "opp": "LA",
@@ -3785,7 +3764,7 @@
       "commence": "2026-10-13T00:16:00.000Z",
       "live": true,
       "result": null,
-      "generatedAt": "2026-10-07T15:34:39"
+      "generatedAt": "2026-10-07T10:48:34"
     },
     {
       "player": "Br.Robinson",
@@ -3806,49 +3785,11 @@
       "commence": "2026-10-12T00:21:00.000Z",
       "live": true,
       "result": null,
-      "generatedAt": "2026-10-07T15:34:39"
-    },
-    {
-      "player": "B.Tuten",
-      "team": "JAX",
-      "opp": "PHI",
-      "market": "rush_yds",
-      "proj": 89.6,
-      "std": 25.2,
-      "line": 62.5,
-      "pick": "OVER",
-      "edge": 27.1,
-      "pCover": 0.828,
-      "conf": "high",
-      "odds": -114,
-      "breakeven": 0.533,
-      "season": 2026,
-      "week": 5,
-      "commence": "2026-10-11T13:30:00.000Z",
-      "live": true,
-      "result": null,
-      "generatedAt": "2026-10-07T15:34:39"
+      "generatedAt": "2026-10-07T10:48:34"
     }
   ],
   "summary": "141W-46L (75.4%) +90.7u all graded picks",
   "projections": [
-    {
-      "player": "Bi.Robinson",
-      "team": "ATL",
-      "opp": "BAL",
-      "market": "rush_yds",
-      "proj": 129.2,
-      "std": 42.4,
-      "line": 35.5,
-      "lean": "OVER",
-      "pCover": 0.954,
-      "odds": -114,
-      "status": "pick",
-      "season": 2026,
-      "week": 5,
-      "commence": "2026-10-12T00:21:00.000Z",
-      "game": "BAL @ ATL"
-    },
     {
       "player": "J.Cook",
       "team": "BUF",
@@ -3884,17 +3825,34 @@
       "game": "BAL @ ATL"
     },
     {
+      "player": "Bi.Robinson",
+      "team": "ATL",
+      "opp": "BAL",
+      "market": "rush_yds",
+      "proj": 129.2,
+      "std": 42.4,
+      "line": 88.5,
+      "lean": "OVER",
+      "pCover": 0.805,
+      "odds": -114,
+      "status": "below",
+      "season": 2026,
+      "week": 5,
+      "commence": "2026-10-12T00:21:00.000Z",
+      "game": "BAL @ ATL"
+    },
+    {
       "player": "B.Tuten",
       "team": "JAX",
       "opp": "PHI",
       "market": "rush_yds",
       "proj": 89.6,
       "std": 25.2,
-      "line": 62.5,
+      "line": 65.5,
       "lean": "OVER",
-      "pCover": 0.828,
+      "pCover": 0.803,
       "odds": -114,
-      "status": "pick",
+      "status": "below",
       "season": 2026,
       "week": 5,
       "commence": "2026-10-11T13:30:00.000Z",

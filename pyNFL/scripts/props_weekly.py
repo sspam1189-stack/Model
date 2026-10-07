@@ -82,6 +82,23 @@ def _parse_iso(ts):
 # Injury gate
 # ---------------------------------------------------------------------------
 
+def _first_prefix(name):
+    """Leading first-name letters as written, lowercased.
+
+    nflfastr tells same-initial teammates apart with two letters ('Bi.Robinson'
+    vs 'Br.Robinson'); the feeds spell the full name. 'B.Robinson' -> 'b'.
+    """
+    name = name.strip()
+    if "." in name and " " not in name:
+        return name.split(".", 1)[0].lower()
+    return name.split()[0].lower() if name.split() else ""
+
+
+def _first_token(name):
+    parts = name.strip().split()
+    return parts[0].lower() if parts else ""
+
+
 def build_injury_lookup(injury_report):
     """
     Map (first_initial, last_name) -> normalized status for players who are
@@ -103,6 +120,34 @@ def build_injury_lookup(injury_report):
                 continue
             lookup[nk] = status
     return lookup
+
+
+def injury_status_for(name, nk, injury_report, injury_lookup):
+    """Injury status for one player, safe against same-initial teammates.
+
+    (initial, last) alone gave Brian Robinson Jr. Bijan Robinson's tag (and
+    vice versa). When the projection name carries a 2+ letter prefix, only a
+    report entry whose first name starts with it counts.
+    """
+    prefix = _first_prefix(name)
+    if len(prefix) < 2:
+        return injury_lookup.get(nk)
+    best = None
+    seen_other = False
+    for entries in (injury_report or {}).values():
+        for e in entries:
+            en = str(e.get("player", ""))
+            if _name_key(en) != nk:
+                continue
+            if not _first_token(en).startswith(prefix):
+                seen_other = True
+                continue
+            st = str(e.get("status", "")).lower()
+            if st in ("out", "doubtful") or (st == "questionable" and best is None):
+                best = st
+    if best is None and not seen_other:
+        return injury_lookup.get(nk)
+    return best
 
 
 # ---------------------------------------------------------------------------
@@ -293,8 +338,14 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
         print("  [props] No prop lines available — nothing to pick")
         return
 
-    def _find_line(nk, market, team):
+    def _find_line(nk, market, team, name=""):
         candidates = line_lookup.get((nk[0], nk[1], market), [])
+        # Same-initial teammates (Bijan/Brian Robinson, both ATL) share the
+        # (initial, last, team) key; split them on the first-name prefix.
+        prefix = _first_prefix(name)
+        if len(prefix) >= 2 and len(candidates) > 1:
+            candidates = [c for c in candidates
+                          if _first_token(c.get("player", "")).startswith(prefix)]
         for c in candidates:
             if c["_teams"] and team in c["_teams"]:
                 return c
@@ -352,7 +403,7 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
 
         name = proj["name"]
         nk = _name_key(name)
-        inj_status = injury_lookup.get(nk)
+        inj_status = injury_status_for(name, nk, injury_report, injury_lookup)
 
         for market, mdata in proj["markets"].items():
             if market not in ACTIVE_MARKETS:
@@ -381,7 +432,7 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
                 row["injury"] = inj_status
             projections.append(row)
 
-            line_data = _find_line(nk, market, team)
+            line_data = _find_line(nk, market, team, name)
             if not line_data or line_data.get("line") is None:
                 continue
             line = float(line_data["line"])
