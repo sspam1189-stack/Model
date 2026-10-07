@@ -417,6 +417,34 @@ def available_seasons():
     return list(range(1999, current_year + 1))
 
 
+class PBPCoverageError(RuntimeError):
+    """PBP is missing weeks the schedule says have been played."""
+
+
+def fetch_pbp_through(season, through_week):
+    """fetch_pbp(season), guaranteeing every week 1..through_week is present.
+
+    A short in-season file (stale cache, upstream lag) otherwise projects
+    quietly off partial data -- that is how 2026 ran on week 1 alone for weeks
+    2-4. On a gap, force one re-download; if it is still short, fail loudly.
+    """
+    def _missing(df):
+        have = set(df["week"].dropna().astype(int)) if "week" in df.columns else set()
+        return [w for w in range(1, through_week + 1) if w not in have]
+
+    pbp = fetch_pbp(season)
+    gap = _missing(pbp)
+    if gap:
+        print(f"  [nflfastr] {season} PBP missing weeks {gap} -- forcing re-download")
+        pbp = fetch_pbp(season, force_refresh=True)
+        gap = _missing(pbp)
+    if gap:
+        raise PBPCoverageError(
+            f"{season} play-by-play is missing weeks {gap} (need 1-{through_week}); "
+            "refusing to project off partial data")
+    return pbp
+
+
 def current_season():
     """Auto-detect the current NFL season year."""
     now = datetime.datetime.now()
