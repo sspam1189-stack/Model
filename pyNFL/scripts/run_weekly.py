@@ -50,7 +50,7 @@ from calibration import build_calibration_table
 import defaults
 
 # Source modules
-from sources.nflfastr import fetch_pbp, current_season
+from sources.nflfastr import fetch_pbp, fetch_pbp_through, current_season
 from sources.nfl_stats import compute_team_stats, compute_team_stats_through_week, compute_player_stats
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_historical_odds
 from sources.odds_fanduel import fetch_fanduel_nfl_odds
@@ -523,7 +523,7 @@ def stage_fetch(season, week, store):
         # A missing season in Week 2+ is an outage — silently projecting off
         # last year would be wrong.
         try:
-            pbp = fetch_pbp(season)
+            pbp = fetch_pbp_through(season, through_week)
             print(f"  Got {len(pbp):,} plays for {season}")
         except Exception as e:
             print(f"  ERROR: PBP fetch failed: {e}")

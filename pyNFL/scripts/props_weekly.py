@@ -26,7 +26,7 @@ from datetime import datetime, timedelta, timezone
 
 from scipy.stats import t as t_dist
 
-from sources.nflfastr import fetch_pbp, NoPBPDataError
+from sources.nflfastr import fetch_pbp, fetch_pbp_through, NoPBPDataError
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_nfl_player_props
 from sources.odds_fanduel import (
     fetch_fanduel_nfl_odds, fetch_fanduel_nfl_player_props,
@@ -183,7 +183,7 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
     print(f"\n== PROPS PROJECT — {season} Week {week} ==\n")
 
     try:
-        pbp = fetch_pbp(season)
+        pbp = fetch_pbp_through(season, week - 1)
     except NoPBPDataError:
         pbp = None
     if pbp is None or pbp.empty:
