@@ -13,3 +13,6 @@ cache/
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+data/stats_cache/nfl/*.fetched
+data/stats_cache/nfl/pbp_2026_*

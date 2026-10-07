@@ -92,6 +92,37 @@ def _is_cache_fresh(path, max_age_hours=6):
 # Play-by-play
 # ---------------------------------------------------------------------------
 
+def _current_season():
+    """NFL season in progress (a January game still belongs to last year's)."""
+    today = datetime.date.today()
+    return today.year if today.month >= 3 else today.year - 1
+
+
+def _stamp_path(cache):
+    return cache + ".fetched"
+
+
+def _pbp_cache_fresh(cache, season):
+    """Is the PBP cache usable without re-downloading?
+
+    File mtime alone is wrong for the live season: a git checkout stamps every
+    file with the checkout time, so a short in-season parquet that was once
+    committed looked "fresh" on every CI run and froze 2026 at week 1. For the
+    current season, trust the cache only if a sidecar written at fetch time
+    says it is recent. Completed seasons never change, so mtime is fine there.
+    """
+    if not _is_cache_fresh(cache):
+        return False
+    if season < _current_season():
+        return True
+    try:
+        with open(_stamp_path(cache)) as f:
+            age_hours = (time.time() - float(f.read().strip())) / 3600
+        return 0 <= age_hours < 6
+    except (OSError, ValueError):
+        return False
+
+
 class NoPBPDataError(RuntimeError):
     """nflverse has no play-by-play for this season yet (pre-Week-1 404).
 
@@ -122,7 +153,7 @@ def fetch_pbp(season, weeks=None, force_refresh=False):
     _ensure_cache_dir()
     cache = _cache_path("pbp", season, weeks)
 
-    if not force_refresh and _is_cache_fresh(cache):
+    if not force_refresh and _pbp_cache_fresh(cache, season):
         print(f"  [nflfastr] Loading cached PBP for {season} (weeks={weeks or 'all'})")
         df = pd.read_parquet(cache)
         print(f"  [nflfastr] Cached: {len(df):,} plays")
@@ -208,6 +239,8 @@ def fetch_pbp(season, weeks=None, force_refresh=False):
     # Save to cache
     try:
         df.to_parquet(cache, index=False)
+        with open(_stamp_path(cache), "w") as f:
+            f.write(str(time.time()))
         print(f"  [nflfastr] Cached {len(df):,} plays to {os.path.basename(cache)}")
     except Exception as e:
         print(f"  [nflfastr] Warning: cache write failed ({e})")
