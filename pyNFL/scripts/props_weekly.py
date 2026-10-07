@@ -82,6 +82,58 @@ def _parse_iso(ts):
 # Injury gate
 # ---------------------------------------------------------------------------
 
+_API_KEY_FOR = {"rush_yds": "player_rush_yds", "rush_att": "player_rush_attempts",
+                "pass_yds": "player_pass_yds", "pass_tds": "player_pass_tds",
+                "rec_yds": "player_reception_yds", "receptions": "player_receptions"}
+
+
+def _line_id(pl):
+    nk = _name_key(pl.get("player", ""))
+    return (nk, _first_prefix(pl.get("player", ""))[:2], pl.get("market", ""),
+            pl.get("event_home", ""))
+
+
+def _fill_gaps_from_odds_api(prop_lines, season, week):
+    """Append Odds API lines for active markets FanDuel does not cover."""
+    api_markets = [_API_KEY_FOR[m] for m in ACTIVE_MARKETS if m in _API_KEY_FOR]
+    if not api_markets:
+        return prop_lines
+    if not os.environ.get("ODDS_API_KEY"):
+        print("  [props] No ODDS_API_KEY -- skipping Odds API gap-fill")
+        return prop_lines
+    try:
+        extra = fetch_nfl_player_props(season=season, week=week,
+                                       markets=api_markets, cache_tag="_gap")
+    except Exception as e:
+        print(f"  [props] Odds API gap-fill failed: {e}")
+        return prop_lines
+    have = {_line_id(pl) for pl in prop_lines or []}
+    added = []
+    for pl in extra or []:
+        if pl.get("market") in ACTIVE_MARKETS and _line_id(pl) not in have:
+            added.append({**pl, "source": "oddsapi"})
+    print(f"  [props] Odds API filled {len(added)} lines FanDuel lacked "
+          f"({len(extra or [])} fetched)")
+    return list(prop_lines or []) + added
+
+
+def _first_prefix(name):
+    """Leading first-name letters as written, lowercased.
+
+    nflfastr tells same-initial teammates apart with two letters ('Bi.Robinson'
+    vs 'Br.Robinson'); the feeds spell the full name. 'B.Robinson' -> 'b'.
+    """
+    name = name.strip()
+    if "." in name and " " not in name:
+        return name.split(".", 1)[0].lower()
+    return name.split()[0].lower() if name.split() else ""
+
+
+def _first_token(name):
+    parts = name.strip().split()
+    return parts[0].lower() if parts else ""
+
+
 def build_injury_lookup(injury_report):
     """
     Map (first_initial, last_name) -> normalized status for players who are
@@ -103,6 +155,34 @@ def build_injury_lookup(injury_report):
                 continue
             lookup[nk] = status
     return lookup
+
+
+def injury_status_for(name, nk, injury_report, injury_lookup):
+    """Injury status for one player, safe against same-initial teammates.
+
+    (initial, last) alone gave Brian Robinson Jr. Bijan Robinson's tag (and
+    vice versa). When the projection name carries a 2+ letter prefix, only a
+    report entry whose first name starts with it counts.
+    """
+    prefix = _first_prefix(name)
+    if len(prefix) < 2:
+        return injury_lookup.get(nk)
+    best = None
+    seen_other = False
+    for entries in (injury_report or {}).values():
+        for e in entries:
+            en = str(e.get("player", ""))
+            if _name_key(en) != nk:
+                continue
+            if not _first_token(en).startswith(prefix):
+                seen_other = True
+                continue
+            st = str(e.get("status", "")).lower()
+            if st in ("out", "doubtful") or (st == "questionable" and best is None):
+                best = st
+    if best is None and not seen_other:
+        return injury_lookup.get(nk)
+    return best
 
 
 # ---------------------------------------------------------------------------
@@ -271,6 +351,11 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
         except Exception as e:
             print(f"  [props] Prop lines fetch failed: {e}")
             prop_lines = []
+    # FanDuel posts only a couple of rushing lines per game (tiered, filled in
+    # through the week) and never posts attempts, so active markets come back
+    # thin. Fill just those gaps from the Odds API: two markets, one pull a day
+    # (daily cache), FanDuel wins wherever it has a line.
+    prop_lines = _fill_gaps_from_odds_api(prop_lines, season, week)
     if allowed_matchups and prop_lines:
         prop_lines = [
             pl for pl in prop_lines
@@ -293,8 +378,14 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
         print("  [props] No prop lines available — nothing to pick")
         return
 
-    def _find_line(nk, market, team):
+    def _find_line(nk, market, team, name=""):
         candidates = line_lookup.get((nk[0], nk[1], market), [])
+        # Same-initial teammates (Bijan/Brian Robinson, both ATL) share the
+        # (initial, last, team) key; split them on the first-name prefix.
+        prefix = _first_prefix(name)
+        if len(prefix) >= 2 and len(candidates) > 1:
+            candidates = [c for c in candidates
+                          if _first_token(c.get("player", "")).startswith(prefix)]
         for c in candidates:
             if c["_teams"] and team in c["_teams"]:
                 return c
@@ -352,7 +443,7 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
 
         name = proj["name"]
         nk = _name_key(name)
-        inj_status = injury_lookup.get(nk)
+        inj_status = injury_status_for(name, nk, injury_report, injury_lookup)
 
         for market, mdata in proj["markets"].items():
             if market not in ACTIVE_MARKETS:
@@ -381,7 +472,7 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
                 row["injury"] = inj_status
             projections.append(row)
 
-            line_data = _find_line(nk, market, team)
+            line_data = _find_line(nk, market, team, name)
             if not line_data or line_data.get("line") is None:
                 continue
             line = float(line_data["line"])
