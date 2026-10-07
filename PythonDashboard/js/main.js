@@ -1842,12 +1842,11 @@ function nflRenderWeeklyPicks(run) {
 
 // ─── NFL Model Reference: last week + this season ───
 // Reads ALL runs (ignores the season filter) so it always shows the current
-// season. Burn-in weeks are included: this is a plain record of what the
-// projection picked, not a claim that it is trusted.
+// season. Burn-in weeks are excluded, matching the rest of Model Reference.
 function nflRenderModelRecent(allRuns) {
   const season = Math.max(...allRuns.map(r => r.season || 0));
   const seasonRuns = allRuns.filter(r => r.season === season);
-  const picks = nflGetActionablePicks(seasonRuns, true);
+  const picks = nflGetActionablePicks(seasonRuns);
   if (!picks.length) return '';
   const lastWeek = Math.max(...picks.map(p => p.week));
   const bucket = ps => {
@@ -1869,7 +1868,7 @@ function nflRenderModelRecent(allRuns) {
           <tr><td>${season} Season</td>${bucket(picks)}</tr>
         </tbody>
       </table>
-      <div class="card-subtitle">Spread picks vs the market line, graded games only. Includes weeks 1-3 burn-in.</div>
+      <div class="card-subtitle">Spread picks vs the market line, graded games only. Burn-in weeks excluded.</div>
     </div>`;
 }
 
