@@ -261,10 +261,10 @@
     const bar = document.createElement("div");
     bar.className = "wf-trigger-bar";
     bar.innerHTML = `
+      <button type="button" class="wf-btn" data-wf="nfl">Run NFL Daily</button>
       <button type="button" class="wf-btn" data-wf="python">Run NBA Daily</button>
       <button type="button" class="wf-btn" data-wf="wnba">Run WNBA Daily</button>
-      <button type="button" class="wf-btn" data-wf="mlb">Run MLB Daily</button>
-      <button type="button" class="wf-btn" data-wf="nfl">Run NFL Daily</button>`;
+      <button type="button" class="wf-btn" data-wf="mlb">Run MLB Daily</button>`;
     subtitle.insertAdjacentElement("afterend", bar);
     bar.querySelectorAll(".wf-btn").forEach(btn => {
       btn.addEventListener("click", () => dispatch(btn.dataset.wf));
