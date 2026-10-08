@@ -71,6 +71,17 @@ BASE_STAKE_UNITS = 1
 ELITE_STAKE_UNITS = 2
 
 
+# Fire floor (2026-10-08, by choice): only the 2u band fires. The 1u band
+# (0.58-0.65) went 155-108 (58.9%), +36.20u, +12.5% ROI on 289.30u risked over
+# the 2025-26 season -- positive, but 1u of every 2.4 risked for under half the
+# 2u band's +30.5% ROI, so we pass on those games. This costs expected profit:
+# +0.138u/pick forgone, below the 0.20u/pick bar a threshold change normally
+# has to clear. Applied per run in run_daily (a copy, like the playoff floor), so
+# the self-tuned probHigh in history.json is untouched and backfills keep
+# replaying the full 0.58 book. Set to None to restore the tuned threshold.
+MIN_FIRE_PCOVER = ELITE_STAKE_CUT
+
+
 def stake_units_for(p_cover):
     """Recommended stake (units) for a fired spread pick given its P(cover)."""
     if p_cover is not None and p_cover >= ELITE_STAKE_CUT:

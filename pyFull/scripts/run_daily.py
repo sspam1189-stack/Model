@@ -27,7 +27,7 @@ from sources.lineup_adjust import fetch_player_advanced, adjust_team_stats
 from sources.rest_detect import detect_b2b, apply_b2b_adjustment
 from sources.h2h_matchup import fetch_h2h_matchups
 from sources.season_type import get_season_type, get_espn_season_type, is_playoffs, PLAYOFF_START
-from defaults import stake_units_for
+from defaults import stake_units_for, MIN_FIRE_PCOVER
 from model_engine import load_defaults, get_avgs, analyze_game
 from store import load_store, save_store, upsert_run
 from self_tune import tune_weights, compute_residual_var
@@ -809,6 +809,14 @@ def main(subject_label="[PY]"):
         if _new_ph != _old_ph:
             base_w["probHigh"] = _new_ph
             print(f"[playoff] probHigh raised to {_new_ph} (was {_old_ph}) - filters out 0.60-0.65 picks")
+
+    # --- Fire floor: only the 2u band fires (see defaults.MIN_FIRE_PCOVER) ---
+    # base_w is a per-run copy, so this never rewrites the self-tuned probHigh.
+    if MIN_FIRE_PCOVER is not None:
+        _ph = base_w.get("probHigh", 0.58)
+        if _ph < MIN_FIRE_PCOVER:
+            base_w["probHigh"] = MIN_FIRE_PCOVER
+            print(f"[fire floor] probHigh {_ph} -> {MIN_FIRE_PCOVER} (2u band only)")
 
     # --- Per-team HCA in playoffs only ---
     # Some teams (CLE, BOS) have near-zero personal home advantage; others (NYK)
