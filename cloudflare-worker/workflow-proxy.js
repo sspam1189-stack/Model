@@ -14,6 +14,8 @@ const WORKFLOWS = {
   // a clean registration.
   mlb: "mlb-daily.yml",
   wnba: "wnba-run-daily.yml",
+  // Dispatched with no inputs, so the workflow runs its default stage ("all").
+  nfl: "nfl-weekly.yml",
 };
 
 // A run older than this that is still queued/in_progress is treated as STALE
@@ -142,14 +144,14 @@ export default {
     const url = new URL(request.url);
     const parts = url.pathname.split("/").filter(Boolean);
 
-    // /dispatch/{python|mlb}
+    // /dispatch/{python|mlb|wnba|nfl}
     if (parts[0] === "dispatch" && request.method === "POST") {
       const auth = checkAuth(request, env);
       if (auth) return auth;
       return dispatchWorkflow(env, parts[1]);
     }
 
-    // /status/{python|mlb}?since=ISO
+    // /status/{python|mlb|wnba|nfl}?since=ISO
     if (parts[0] === "status" && request.method === "GET") {
       const auth = checkAuth(request, env);
       if (auth) return auth;
