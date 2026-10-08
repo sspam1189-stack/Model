@@ -20,6 +20,7 @@
     python: "data/nba-props.json",
     mlb: "data/mlb-props.json",
     wnba: "data/wnba-props.json",
+    nfl: "data/nfl-props.json",
   };
   const PAGES_DEPLOY_TIMEOUT_MS = 90_000;
   const PAGES_POLL_INTERVAL_MS = 4_000;
@@ -115,6 +116,7 @@
       python: "NBA Run Daily (NBA + Fullseason + Props)",
       mlb: "MLB Run Daily",
       wnba: "WNBA Run Daily (Fullseason + Props)",
+      nfl: "NFL Run Daily (Games + Props)",
     };
     const release = () => {
       dispatchInFlight = false;
@@ -243,6 +245,7 @@
         python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",
         wnba: "WNBA Run Daily (Fullseason + Props)",
+      nfl: "NFL Run Daily (Games + Props)",
       };
       dispatchInFlight = true;
       setButtonsDisabled(true);
@@ -260,7 +263,8 @@
     bar.innerHTML = `
       <button type="button" class="wf-btn" data-wf="python">Run NBA Daily</button>
       <button type="button" class="wf-btn" data-wf="wnba">Run WNBA Daily</button>
-      <button type="button" class="wf-btn" data-wf="mlb">Run MLB Daily</button>`;
+      <button type="button" class="wf-btn" data-wf="mlb">Run MLB Daily</button>
+      <button type="button" class="wf-btn" data-wf="nfl">Run NFL Daily</button>`;
     subtitle.insertAdjacentElement("afterend", bar);
     bar.querySelectorAll(".wf-btn").forEach(btn => {
       btn.addEventListener("click", () => dispatch(btn.dataset.wf));
