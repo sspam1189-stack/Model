@@ -1089,38 +1089,6 @@ function renderRecordBanner(runs, modelSummary = null) {
       </div>
     </div>`;
 
-  // Playoffs record (filter by pick date, not run date)
-  const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= playoffCutoff());
-  if (recentPicks.length > 0) {
-    const rw = recentPicks.filter(p => p.result === 'WIN').length;
-    const rl = recentPicks.filter(p => p.result === 'LOSS').length;
-    const rp = recentPicks.filter(p => p.result === 'PUSH').length;
-    const re = { w: rw, l: rl, p: rp, pct: winPct(rw, rl), units: calcUnits(rw, rl), played: rw + rl + rp };
-    const rTotal = re.w + re.l;
-    const rPct = rTotal > 0 ? (re.w / rTotal * 100) : 0;
-    const rUClass = re.units > 0 ? 'positive' : re.units < 0 ? 'negative' : 'neutral';
-    const rPClass = rPct > 52.4 ? 'positive' : rPct < 50 ? 'negative' : 'neutral';
-    html += `
-    <div class="record-banner" style="margin-top:8px;opacity:0.85">
-      <div class="record-item">
-        <div class="label">Playoffs</div>
-        <div class="value">${re.w}-${re.l}${re.p > 0 ? `-${re.p}` : ''}</div>
-      </div>
-      <div class="record-item">
-        <div class="label">Win %</div>
-        <div class="value ${rPClass}">${fmtPct(rPct)}</div>
-      </div>
-      <div class="record-item">
-        <div class="label">Units</div>
-        <div class="value ${rUClass}">${fmtUnits(re.units)}</div>
-      </div>
-      <div class="record-item">
-        <div class="label">Graded</div>
-        <div class="value">${re.played}</div>
-      </div>
-    </div>`;
-  }
-
   return html;
 }
 
