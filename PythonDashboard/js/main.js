@@ -1203,8 +1203,8 @@ function renderSpreadRecord(runs, modelSummary = null) {
     <td class="center">${b.played}</td></tr>`;
   // Stake-tier breakdown: picks clearing the elite pCover cut are staked 2u, the
   // rest 1u. Units in these rows reflect the ACTUAL stake (2u P&L is not flat).
-  // WNBA only for now.
-  const showStakeRows = activeTab === 'wnba-full';
+  // Every model with stake tiers (NBA, WNBA).
+  const showStakeRows = eliteStakeCut() != null;
   const cut = eliteStakeCut();
   const fire = fireThreshold();
   const oneLabel = fire != null ? `1u (P>${Math.round(fire * 100)}%)` : `1u (P<${Math.round(cut * 100)}%)`;
