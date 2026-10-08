@@ -466,7 +466,8 @@ function seasonSelector(runs) {
   // Archived NBA seasons are listed even before their runs are loaded.
   if (activeTab === 'fullseason') found.push(...nbaArchivedSeasons);
   const seasons = [...new Set(found)].sort().reverse();
-  if (seasons.length <= 1) return '';
+  // NBA Full Season always shows it, so the control is there before rollover.
+  if (seasons.length < (activeTab === 'fullseason' ? 1 : 2)) return '';
   const sf = effectiveSeason();
   let opts = `<option value="all" ${sf === 'all' ? 'selected' : ''}>All Seasons</option>`;
   for (const s of seasons) {
