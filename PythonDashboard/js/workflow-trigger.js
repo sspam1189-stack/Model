@@ -12,6 +12,8 @@
   // ACTIVE_RUN_LS on "completed", every page load resumed it and re-disabled
   // all three Run buttons. Real runs finish in 5-19 minutes.
   const STALE_RUN_MS = 2 * 60 * 60 * 1000;
+  // Buttons that stay unclickable. Remove a key to turn its button back on.
+  const DISABLED_WORKFLOWS = new Set(["mlb"]);
 
   // Last data file each workflow updates (the one written last in the serial
   // commit chain). Polled after the workflow completes to wait until Pages
@@ -108,7 +110,7 @@
   async function dispatch(workflow) {
     // Gate first: prompt() doesn't block queued click events, so a fast
     // double-click would otherwise reach a second prompt and trigger b2b runs.
-    if (dispatchInFlight) return;
+    if (dispatchInFlight || DISABLED_WORKFLOWS.has(workflow)) return;
     dispatchInFlight = true;
     setButtonsDisabled(true);
 
@@ -156,7 +158,9 @@
   }
 
   function setButtonsDisabled(disabled) {
-    document.querySelectorAll(".wf-btn").forEach(b => { b.disabled = disabled; });
+    document.querySelectorAll(".wf-btn").forEach(b => {
+      b.disabled = disabled || DISABLED_WORKFLOWS.has(b.dataset.wf);
+    });
   }
 
   function pollUntilDone(workflow, since) {
@@ -273,6 +277,10 @@
       .join("");
     subtitle.insertAdjacentElement("afterend", bar);
     bar.querySelectorAll(".wf-btn").forEach(btn => {
+      if (DISABLED_WORKFLOWS.has(btn.dataset.wf)) {
+        btn.disabled = true;
+        btn.title = "Disabled";
+      }
       btn.addEventListener("click", () => dispatch(btn.dataset.wf));
     });
   }
