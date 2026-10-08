@@ -218,6 +218,18 @@ const DAYS_PER_PAGE = 7;
 
 // ─── Generic Season Filter (shared across ALL tabs) ───
 let seasonFilter = 'all';
+// NBA Full Season opens on the current season ('current'), not on every season
+// blended: the daily rollover archives last season out of the live file, so the
+// two are different records. effectiveSeason() resolves it; the archived
+// seasons are published to data/archive/ and loaded on demand.
+let nbaCurrentSeason = null;
+let nbaArchivedSeasons = [];
+let nbaArchiveManifestLoaded = false;
+const nbaArchiveLoaded = new Set();
+function effectiveSeason() {
+  if (seasonFilter !== 'current') return seasonFilter;
+  return (activeTab === 'fullseason' && nbaCurrentSeason) || 'all';
+}
 let nflWeekFilter = 'latest';
 let nflSystemFilter = 'all';   // which situational system to show ('all' = every one)
 let nflShowModel = false;      // the projection is reference-only; collapsed by default
@@ -443,17 +455,22 @@ function getRunSeason(run) {
 }
 
 function filterBySeason(runs) {
-  if (seasonFilter === 'all') return runs;
-  return runs.filter(r => getRunSeason(r) === String(seasonFilter));
+  const sf = effectiveSeason();
+  if (sf === 'all') return runs;
+  return runs.filter(r => getRunSeason(r) === String(sf));
 }
 
 function seasonSelector(runs) {
   // Newest first. NBA-style labels ("2025-26") reverse-sort correctly as strings.
-  const seasons = [...new Set(runs.map(r => getRunSeason(r)).filter(Boolean))].sort().reverse();
+  const found = runs.map(r => getRunSeason(r)).filter(Boolean);
+  // Archived NBA seasons are listed even before their runs are loaded.
+  if (activeTab === 'fullseason') found.push(...nbaArchivedSeasons);
+  const seasons = [...new Set(found)].sort().reverse();
   if (seasons.length <= 1) return '';
-  let opts = `<option value="all" ${seasonFilter === 'all' ? 'selected' : ''}>All Seasons</option>`;
+  const sf = effectiveSeason();
+  let opts = `<option value="all" ${sf === 'all' ? 'selected' : ''}>All Seasons</option>`;
   for (const s of seasons) {
-    opts += `<option value="${s}" ${String(seasonFilter) === String(s) ? 'selected' : ''}>${s}</option>`;
+    opts += `<option value="${s}" ${String(sf) === String(s) ? 'selected' : ''}>${s}</option>`;
   }
   return `<select onchange="setSeasonFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
 }
@@ -546,7 +563,7 @@ document.querySelectorAll('.tab').forEach(tab => {
     if (lg) setLeague(lg, { selectFirstTab: false });
     historyPage = 0;
     viewMode = 'today';
-    seasonFilter = 'all';
+    seasonFilter = tab.dataset.tab === 'fullseason' ? 'current' : 'all';
     nflWeekFilter = 'latest';
     nflHistoryWeekFilter = 'all';
     render();
@@ -757,6 +774,7 @@ function tallyPicks(picks, { conf = null, side = null, stake = null } = {}) {
   const confKey = conf ? String(conf).trim().toLowerCase() : null;
   let w = 0, l = 0, p = 0;
   const matched = [];
+  const matchedStaked = [];   // same picks at their recommended stake (1u / 2u)
   for (const g of picks) {
     if (!g.sPick || g.sPick === 'PASS') continue;
     if (!isActionable(g.sConf)) continue;
@@ -779,8 +797,9 @@ function tallyPicks(picks, { conf = null, side = null, stake = null } = {}) {
     else if (result === 'LOSS') l++;
     else p++;
     matched.push({ result, odds: g.sOdds ?? g.odds, stake: stake ? st : 1 });
+    matchedStaked.push({ result, odds: g.sOdds ?? g.odds, stake: st });
   }
-  return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l, matched), played: w + l + p };
+  return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l, matched), stakedUnits: calcUnits(w, l, matchedStaked), played: w + l + p };
 }
 
 function computeSummary(runs) {
@@ -1055,7 +1074,9 @@ function renderRecordBanner(runs, modelSummary = null) {
   const segLabels = { total: 'Elite Record', regular: 'Regular Season', playoffs: 'Playoffs' };
 
   const e = tallyPicks(segments[activeSeg]);
-  const label = segLabels[activeSeg];
+  const sf = effectiveSeason();
+  const label = segLabels[activeSeg] +
+    (activeTab === 'fullseason' && sf !== 'all' && activeSeg === 'total' ? ` · ${sf}` : '');
   const total = e.w + e.l;
   const pct = total > 0 ? (e.w / total * 100) : 0;
   const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
@@ -1088,38 +1109,6 @@ function renderRecordBanner(runs, modelSummary = null) {
         <div class="value">${e.played}</div>
       </div>
     </div>`;
-
-  // Playoffs record (filter by pick date, not run date)
-  const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= playoffCutoff());
-  if (recentPicks.length > 0) {
-    const rw = recentPicks.filter(p => p.result === 'WIN').length;
-    const rl = recentPicks.filter(p => p.result === 'LOSS').length;
-    const rp = recentPicks.filter(p => p.result === 'PUSH').length;
-    const re = { w: rw, l: rl, p: rp, pct: winPct(rw, rl), units: calcUnits(rw, rl), played: rw + rl + rp };
-    const rTotal = re.w + re.l;
-    const rPct = rTotal > 0 ? (re.w / rTotal * 100) : 0;
-    const rUClass = re.units > 0 ? 'positive' : re.units < 0 ? 'negative' : 'neutral';
-    const rPClass = rPct > 52.4 ? 'positive' : rPct < 50 ? 'negative' : 'neutral';
-    html += `
-    <div class="record-banner" style="margin-top:8px;opacity:0.85">
-      <div class="record-item">
-        <div class="label">Playoffs</div>
-        <div class="value">${re.w}-${re.l}${re.p > 0 ? `-${re.p}` : ''}</div>
-      </div>
-      <div class="record-item">
-        <div class="label">Win %</div>
-        <div class="value ${rPClass}">${fmtPct(rPct)}</div>
-      </div>
-      <div class="record-item">
-        <div class="label">Units</div>
-        <div class="value ${rUClass}">${fmtUnits(re.units)}</div>
-      </div>
-      <div class="record-item">
-        <div class="label">Graded</div>
-        <div class="value">${re.played}</div>
-      </div>
-    </div>`;
-  }
 
   return html;
 }
@@ -1203,14 +1192,19 @@ function renderTodayPicks(run, runs) {
 function renderSpreadRecord(runs, modelSummary = null) {
   const s = computeSummary(runs);
   const modelBucket = s.all;
+  // Flat is 1u on every pick. The 2u/1u column is the same picks at the model's
+  // recommended stake (2u when P(cover) clears the elite cut, else 1u), so it
+  // matches the 1U/2U badges in Team Picks. Only models with stake tiers get it.
+  const hasStake = eliteStakeCut() != null;
   const row = (label, b) => `<tr><td>${label}</td><td>${b.w}-${b.l}-${b.p}</td>
     <td class="center"><span class="${pctClass(b.pct)}">${fmtPct(Number(b.pct || 0))}</span></td>
     <td class="center"><span class="${unitClass(b.units)}">${fmtUnits(b.units)}</span></td>
+    ${hasStake ? `<td class="center"><span class="${unitClass(b.stakedUnits)}">${fmtUnits(b.stakedUnits)}</span></td>` : ''}
     <td class="center">${b.played}</td></tr>`;
   // Stake-tier breakdown: picks clearing the elite pCover cut are staked 2u, the
   // rest 1u. Units in these rows reflect the ACTUAL stake (2u P&L is not flat).
-  // WNBA only for now.
-  const showStakeRows = activeTab === 'wnba-full';
+  // Every model with stake tiers (NBA, WNBA).
+  const showStakeRows = eliteStakeCut() != null;
   const cut = eliteStakeCut();
   const fire = fireThreshold();
   const oneLabel = fire != null ? `1u (P>${Math.round(fire * 100)}%)` : `1u (P<${Math.round(cut * 100)}%)`;
@@ -1225,7 +1219,7 @@ function renderSpreadRecord(runs, modelSummary = null) {
     <div class="card card-records">
       <div class="card-title">Spread Record (ATS)</div>
       <table class="data">
-        <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Graded</th></tr></thead>
+        <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th>${hasStake ? '<th class="center" title="Units at the recommended stake: 2u on elite picks, 1u otherwise">2u/1u</th>' : ''}<th class="center">Graded</th></tr></thead>
         <tbody>
           ${row('Model', modelBucket)}
           ${stakeRows}
@@ -1335,11 +1329,14 @@ function renderGameCards(run) {
 function renderLast10(runs) {
   const picks = computeLast10(runs);
   if (!picks.length) return '';
+  // Every fired pick is 'elite', so a conf badge says nothing; models with stake
+  // tiers show the 1U/2U stake instead.
+  const hasStake = eliteStakeCut() != null;
   const rows = picks.map(p => `<tr>
     <td>${esc(p.dateDisplay || p.date)}</td>
     <td>${esc(p.matchup)}</td>
     <td><span class="pick-team">${esc(aliasInText(p.pick))}</span></td>
-    <td class="center">${confBadge(p.conf)}</td>
+    <td class="center">${hasStake ? stakeBadge(p.pCover) : confBadge(p.conf)}</td>
     <td class="center">${resultBadge(p.result)}</td>
     <td class="center">${esc(p.final)}</td>
   </tr>`).join('');
@@ -1349,7 +1346,7 @@ function renderLast10(runs) {
     <div class="card card-trends">
       <div class="card-title">Last 10 Spread</div>
       <table class="data">
-        <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Conf</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
+        <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">${hasStake ? 'Stake' : 'Conf'}</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
       <div class="l10-tally">Last 10: <span class="win-text">${t.w}W</span>\u2013<span class="loss-text">${t.l}L</span>\u2013${t.p}P \u00b7 <span class="${pctClass(t.pct)}">${fmtPct(t.pct)}</span> \u00b7 <span class="${unitClass(t.units)}">${fmtUnits(t.units)}</span></div>
@@ -2508,6 +2505,37 @@ function nflRenderHistoryWeek(run) {
 // ─── NFL Player Props Render ───
 
 
+// Fold archived NBA seasons into the live feed. The live file only ever holds the
+// season in progress; last season lives in data/archive/fullseason-<season>.json
+// (copied there by py-run-daily.yml). Only the seasons the current selection
+// needs are fetched, so the default view costs nothing extra.
+async function mergeNbaArchives(data) {
+  if (data._liveSeason === undefined) {
+    const live = data.runs.map(r => nbaSeason(r.date)).filter(Boolean).sort();
+    data._liveSeason = live.length ? live[live.length - 1] : null;
+  }
+  if (!nbaArchiveManifestLoaded) {
+    nbaArchiveManifestLoaded = true;
+    try {
+      const r = await fetch('data/archive/fullseason-seasons.json?t=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) nbaArchivedSeasons = ((await r.json()).seasons || []).slice().sort();
+    } catch { /* no archive published: live season only */ }
+  }
+  nbaCurrentSeason = data._liveSeason || nbaArchivedSeasons[nbaArchivedSeasons.length - 1] || null;
+  const want = effectiveSeason() === 'all' ? nbaArchivedSeasons : [effectiveSeason()];
+  for (const season of want) {
+    if (!nbaArchivedSeasons.includes(season) || nbaArchiveLoaded.has(season)) continue;
+    try {
+      const r = await fetch(`data/archive/fullseason-${season}.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) continue;
+      const have = new Set(data.runs.map(x => x.date));
+      const add = ((await r.json()).runs || []).filter(x => !have.has(x.date));
+      data.runs = data.runs.concat(add).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      nbaArchiveLoaded.add(season);
+    } catch { /* leave that season out rather than break the page */ }
+  }
+}
+
 async function render() {
   const el = document.getElementById('content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading picks...</div>';
@@ -2579,6 +2607,7 @@ async function render() {
     return;
   }
 
+  if (activeTab === 'fullseason') await mergeNbaArchives(data);
   const allRuns = data.runs;
   const runs = filterBySeason(allRuns);
   const nonBurnIn = runs.filter(r => !r.burnIn);
