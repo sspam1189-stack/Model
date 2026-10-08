@@ -1329,11 +1329,14 @@ function renderGameCards(run) {
 function renderLast10(runs) {
   const picks = computeLast10(runs);
   if (!picks.length) return '';
+  // Every fired pick is 'elite', so a conf badge says nothing; models with stake
+  // tiers show the 1U/2U stake instead.
+  const hasStake = eliteStakeCut() != null;
   const rows = picks.map(p => `<tr>
     <td>${esc(p.dateDisplay || p.date)}</td>
     <td>${esc(p.matchup)}</td>
     <td><span class="pick-team">${esc(aliasInText(p.pick))}</span></td>
-    <td class="center">${confBadge(p.conf)}</td>
+    <td class="center">${hasStake ? stakeBadge(p.pCover) : confBadge(p.conf)}</td>
     <td class="center">${resultBadge(p.result)}</td>
     <td class="center">${esc(p.final)}</td>
   </tr>`).join('');
@@ -1343,7 +1346,7 @@ function renderLast10(runs) {
     <div class="card card-trends">
       <div class="card-title">Last 10 Spread</div>
       <table class="data">
-        <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Conf</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
+        <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">${hasStake ? 'Stake' : 'Conf'}</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
       <div class="l10-tally">Last 10: <span class="win-text">${t.w}W</span>\u2013<span class="loss-text">${t.l}L</span>\u2013${t.p}P \u00b7 <span class="${pctClass(t.pct)}">${fmtPct(t.pct)}</span> \u00b7 <span class="${unitClass(t.units)}">${fmtUnits(t.units)}</span></div>
