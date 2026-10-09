@@ -1032,16 +1032,26 @@
       }
 
       function buildPropsTable(mProps) {
+        // With the category filter on All, each row needs to say which stat it is.
+        // The Cat column sits right after Name; styling below keys off the base
+        // column index (li) so it is unaffected by the extra column.
+        const showCat = nbaActiveMarket === 'all';
+        const nameAt = headers.indexOf('Name');
+        const catAt = showCat ? nameAt + 1 : -1;
+        const withCat = (arr, v) => showCat ? [...arr.slice(0, catAt), v, ...arr.slice(catAt)] : arr;
+        const hdrs = withCat(headers, 'Cat');
+        const cls = withCat(colClasses, 'col-cat');
+        const baseIdx = i => (showCat && i > catAt) ? i - 1 : i;
         const wrap = document.createElement('div');
         wrap.className = 'props-table-wrap';
         const tbl = document.createElement('table');
         tbl.className = 'props-data-table';
         tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
         const hRow = tbl.createTHead().insertRow();
-        headers.forEach((h, i) => {
+        hdrs.forEach((h, i) => {
           const th = document.createElement('th');
           th.textContent = h;
-          th.className = colClasses[i] || 'col-' + i;
+          th.className = cls[i] || 'col-' + i;
           th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
           if (h === 'Name') th.style.textAlign = 'left';
           hRow.appendChild(th);
@@ -1069,27 +1079,29 @@
             pcStr,
             p.pick === 'OVER' ? 'O' : 'U'
           ];
-          cells.forEach((val, i) => {
+          withCat(cells, marketLabels[p.market] || p.market).forEach((val, i) => {
             const td = row.insertCell();
             td.textContent = val;
-            td.className = colClasses[i] || 'col-' + i;
+            td.className = cls[i] || 'col-' + i;
             td.style.cssText = 'padding:4px 4px;text-align:center';
+            if (i === catAt) { td.style.color = '#bbb'; td.style.fontWeight = '600'; return; }
+            const li = baseIdx(i);
             if (isBacktest) {
-              if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
-              if (i === 2 || i === 3) td.style.color = '#999';
-              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i === 7) td.style.color = '#aaa';
-              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 10) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (li === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (li === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
+              if (li === 2 || li === 3) td.style.color = '#999';
+              if (li === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (li === 6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (li === 7) td.style.color = '#aaa';
+              if (li === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (li === 10) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
             } else {
-              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 5) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i === 6) td.style.color = '#aaa';
-              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (li === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (li === 1 || li === 2) td.style.color = '#999';
+              if (li === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (li === 5) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (li === 6) td.style.color = '#aaa';
+              if (li === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
             }
           });
         }
