@@ -12,7 +12,7 @@
     },
     "Dallas Wings": {
       "adj_mean": 3.5487256897078896,
-      "adj_var": 28.512651575705014,
+      "adj_var": 28.762651575705014,
       "innov_ewma": 0.9155589615149399
     },
     "Indiana Fever": {
@@ -21,9 +21,9 @@
       "innov_ewma": 0.459917115669668
     },
     "Las Vegas Aces": {
-      "adj_mean": 3.0194966489509367,
-      "adj_var": 27.77200445042974,
-      "innov_ewma": -0.29112511852598644
+      "adj_mean": 1.8914174759874818,
+      "adj_var": 25.157429530295136,
+      "innov_ewma": -4.017079171802439
     },
     "Los Angeles Sparks": {
       "adj_mean": 3.7349719911475603,
@@ -36,9 +36,9 @@
       "innov_ewma": -3.1346039202136504
     },
     "New York Liberty": {
-      "adj_mean": 2.6892635591462644,
+      "adj_mean": 2.6969947469057978,
       "adj_var": 30,
-      "innov_ewma": 8.63119832386822
+      "innov_ewma": 5.627295247470733
     },
     "Phoenix Mercury": {
       "adj_mean": 1.9888451691925877,
@@ -52,7 +52,7 @@
     },
     "Seattle Storm": {
       "adj_mean": -1.1094892999079562,
-      "adj_var": 28.98794593877035,
+      "adj_var": 29.23794593877035,
       "innov_ewma": 0.9202505843369014
     },
     "Toronto Tempo": {
@@ -61,18 +61,18 @@
       "innov_ewma": -5.167936384725488
     },
     "Golden State Valkyries": {
-      "adj_mean": 1.3827885210636555,
-      "adj_var": 23.47709976167002,
-      "innov_ewma": -1.6841050368072494
+      "adj_mean": 2.3364117040786443,
+      "adj_var": 21.680020664295487,
+      "innov_ewma": 2.7331795708358353
     },
     "Atlanta Dream": {
-      "adj_mean": 3.3378816647359555,
-      "adj_var": 30,
-      "innov_ewma": -2.2569426180231575
+      "adj_mean": 3.3329356666113408,
+      "adj_var": 27.198051719852845,
+      "innov_ewma": -1.4840290386714414
     },
     "Washington Mystics": {
       "adj_mean": -0.1388537924997565,
-      "adj_var": 29.40392645881973,
+      "adj_var": 29.65392645881973,
       "innov_ewma": -3.511413077003275
     }
   },
@@ -116,9 +116,11 @@
     "20261002:Dallas Wings@Golden State Valkyries": true,
     "20261004:Las Vegas Aces@Golden State Valkyries": true,
     "20261007:New York Liberty@Atlanta Dream": true,
-    "20261007:Las Vegas Aces@Golden State Valkyries": true
+    "20261007:Las Vegas Aces@Golden State Valkyries": true,
+    "20261009:Atlanta Dream@New York Liberty": true,
+    "20261009:Golden State Valkyries@Las Vegas Aces": true
   },
-  "lastDriftDate": "20261009",
+  "lastDriftDate": "20261010",
   "meta": {
     "season": "2025-26",
     "created": "2026-07-16T15:06:03.518205"
