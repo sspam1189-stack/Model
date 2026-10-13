@@ -39,10 +39,13 @@ def _season_of_date(date_str, start_month):
     return season_label(d, start_month)
 
 
-def _same_bytes(a, b):
+def _same_content(a, b):
+    """Same JSON payload. Not a byte compare: the Windows runner writes CRLF and
+    a Linux checkout or local edit writes LF, so a byte compare misses an
+    archive that already holds this exact season and writes a -2 duplicate
+    (which the dashboard then lists as a second season)."""
     try:
-        with open(a, "rb") as fa, open(b, "rb") as fb:
-            return fa.read() == fb.read()
+        return _load(a) is not None and _load(a) == _load(b)
     except Exception:
         return False
 
@@ -51,7 +54,7 @@ def _archive(path, season):
     """Copy path into <dir>/archive/<base>-<season>.json and return that path.
 
     Never clobbers: an existing archive with different content gets a -2, -3
-    suffix. An existing byte-identical archive is reused as-is.
+    suffix. An existing archive with the same JSON content is reused as-is.
     Raises on any failure — the caller must NOT reset when this raises.
     """
     arch_dir = os.path.join(os.path.dirname(os.path.abspath(path)), "archive")
@@ -59,8 +62,8 @@ def _archive(path, season):
     cand = os.path.join(arch_dir, f"{base}-{season}.json")
     n = 2
     while os.path.exists(cand):
-        if _same_bytes(path, cand):
-            return cand  # already archived, byte for byte
+        if _same_content(path, cand):
+            return cand  # already archived (same content)
         cand = os.path.join(arch_dir, f"{base}-{season}-{n}.json")
         n += 1
     os.makedirs(arch_dir, exist_ok=True)
