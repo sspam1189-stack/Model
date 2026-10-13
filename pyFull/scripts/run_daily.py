@@ -533,6 +533,7 @@ def main(subject_label="[PY]"):
                 enhanced_stats = None
         except Exception:
             enhanced_stats = None
+    burn_in_msg = None
     if not enhanced_stats:
         try:
             enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
@@ -540,19 +541,19 @@ def main(subject_label="[PY]"):
             # Season burn-in: nba_stats drops teams under 10 GP and raises when
             # fewer than 20 remain, which is every day of the season's first
             # ~3 weeks. That is expected, not a failure — exiting 1 here also
-            # skipped the nba-props job (needs: nba-fullseason). Save any
-            # grading done above and stop cleanly; other errors still fail.
+            # skipped the nba-props job (needs: nba-fullseason). Keep going far
+            # enough to write today's injury cache (pyNBAPROPS reads it), then
+            # stop cleanly below. Every other error still fails the run.
             if "stats incomplete" not in str(e):
                 raise
-            save_store(store)
-            print(f"[burn-in] {e} -- no picks until 20+ teams have 10 GP. Exiting cleanly.")
-            return
-        os.makedirs(_shared_cache_dir, exist_ok=True)
-        try:
-            with open(_cache_path, "w", encoding="utf-8") as f:
-                json.dump(enhanced_stats, f)
-        except Exception:
-            pass
+            burn_in_msg = str(e)
+        if enhanced_stats:
+            os.makedirs(_shared_cache_dir, exist_ok=True)
+            try:
+                with open(_cache_path, "w", encoding="utf-8") as f:
+                    json.dump(enhanced_stats, f)
+            except Exception:
+                pass
     # FanDuel primary (no API key needed), The Odds API fallback
     odds = fetch_fanduel_nba_odds()
     if not odds:
@@ -616,8 +617,12 @@ def main(subject_label="[PY]"):
                 return pg
         return None
 
-    ats = fetch_ats_trends()
-    ou = fetch_ou_trends()
+    # TeamRankings trends are display-only (the engine never reads them), so a
+    # TeamRankings outage must not take the picks or the props job down.
+    try: ats = fetch_ats_trends()
+    except Exception as e: print(f"  Warning: ATS trends fetch failed: {e}"); ats = {}
+    try: ou = fetch_ou_trends()
+    except Exception as e: print(f"  Warning: O/U trends fetch failed: {e}"); ou = {}
     h2h_matchups = None
     # Always fetch fresh injuries, merge with cache for started/finished games
     injury_data = None
@@ -677,6 +682,11 @@ def main(subject_label="[PY]"):
               f" ({len(_locked_teams)} locked)")
     except Exception as _e:
         print(f"  [injury] Cache write failed (non-fatal): {_e}")
+
+    if burn_in_msg:
+        save_store(store)
+        print(f"[burn-in] {burn_in_msg} -- no picks until 20+ teams have 10 GP. Exiting cleanly.")
+        return
 
     # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides).
     # Aliasing it to store["weights"] made those per-run overrides permanent —
