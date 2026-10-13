@@ -534,7 +534,19 @@ def main(subject_label="[PY]"):
         except Exception:
             enhanced_stats = None
     if not enhanced_stats:
-        enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+        try:
+            enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+        except Exception as e:
+            # Season burn-in: nba_stats drops teams under 10 GP and raises when
+            # fewer than 20 remain, which is every day of the season's first
+            # ~3 weeks. That is expected, not a failure — exiting 1 here also
+            # skipped the nba-props job (needs: nba-fullseason). Save any
+            # grading done above and stop cleanly; other errors still fail.
+            if "stats incomplete" not in str(e):
+                raise
+            save_store(store)
+            print(f"[burn-in] {e} -- no picks until 20+ teams have 10 GP. Exiting cleanly.")
+            return
         os.makedirs(_shared_cache_dir, exist_ok=True)
         try:
             with open(_cache_path, "w", encoding="utf-8") as f:
