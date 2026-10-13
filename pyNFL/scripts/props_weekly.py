@@ -62,7 +62,20 @@ _CALIB_PATH = os.path.normpath(
 # Picks only fire on markets that survived the 2023-2025 backtest.
 ACTIVE_MARKETS = [m for m in MARKETS if m not in DISABLED_MARKETS]
 
-GAME_WINDOW_DAYS = 7      # only project games commencing within this window
+
+def _week_window_utc(season, week):
+    """[start, end) of an NFL week as UTC datetimes. Mirrors
+    run_weekly.week_window: Tuesday after Labor Day starts Week 1, each week is
+    the 7 days from a Tuesday 00:00 Eastern (so MNF's 00:15 UTC Tuesday kickoff
+    stays in its own week)."""
+    from zoneinfo import ZoneInfo
+    eastern = ZoneInfo("America/New_York")
+    sept1 = datetime(int(season), 9, 1)
+    labor_day = sept1 + timedelta(days=(7 - sept1.weekday()) % 7)
+    start = labor_day + timedelta(days=1, weeks=int(week) - 1)
+    start_utc = start.replace(tzinfo=eastern).astimezone(timezone.utc)
+    end_utc = (start + timedelta(days=7)).replace(tzinfo=eastern).astimezone(timezone.utc)
+    return start_utc, end_utc
 
 
 def _parse_iso(ts):
@@ -293,11 +306,14 @@ def project_week_props(season, week, odds_list=None, injury_report=None,
                 odds_list = []
 
     now = datetime.now(timezone.utc)
-    horizon = now + timedelta(days=GAME_WINDOW_DAYS)
+    # Window = this NFL week (Tuesday to Tuesday, Eastern), NOT a rolling
+    # now+7d: run on Mon/Tue of Week 5 a rolling window pulled in Week 6's
+    # Thursday/Sunday games (BUF @ LV) and projected them off Week 5 data.
+    win_start, win_end = _week_window_utc(season, week)
 
     def _in_window(entry):
         dt = _parse_iso(entry.get("commenceTimeIso") or entry.get("commence_time"))
-        return dt is None or dt <= horizon
+        return dt is None or win_start <= dt < win_end
 
     odds_list = [g for g in (odds_list or []) if _in_window(g)]
 
