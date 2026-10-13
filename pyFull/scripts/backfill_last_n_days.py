@@ -31,7 +31,7 @@ SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.join(SCRIPTS_DIR, "..", "..", "data", "stats_cache", "nba")
 
 # Days at the START of the window (oldest) used for warm-up only — picks not evaluated
-BURN_IN_DAYS = 0  # MIN_GP=15 handles warm-up — count every pick that fires
+BURN_IN_DAYS = 0  # MIN_GP=10 handles warm-up — count every pick that fires
 
 # Minimum games a team must have played before we trust its stats
 MIN_GAMES = 25

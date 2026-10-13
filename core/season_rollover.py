@@ -9,8 +9,8 @@
 #   - backfill deliberately preserves accumulation
 # so the 2025-26 Kalman offsets (NYK +8.18, ATL -4.62) would have been applied
 # at full weight to the first 2026-27 pick, on rosters that no longer exist.
-# The MIN_GP=15 stats burn-in makes it worse rather than better: proj_score
-# returns None until both teams have 15 GP, so during burn-in no picks fire AND
+# The MIN_GP stats burn-in (10 GP for pyFull) makes it worse rather than better: proj_score
+# returns None until both teams have MIN_GP games, so during burn-in no picks fire AND
 # no Kalman updates happen — the stale offsets sit frozen, then land intact.
 #
 # This module is called explicitly from each model's run_daily with the RUN
