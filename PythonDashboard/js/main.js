@@ -246,23 +246,30 @@ let teamPicksBucketFilter = 'all';
 let teamPicksPage = 0;
 const TEAM_PICKS_PAGE_SIZE = 25;   // rows a page in the Team Picks browser
 
-// NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
-// Shared between the record banner segment buttons and downstream widgets.
-const PLAYOFF_CUTOFF = '20260414';
+// NBA playoff cutoff per season (play-in day 1; play-in + playoffs count as
+// playoffs), keyed by the season's start year. A single fixed date made every
+// pick of every later season a "playoff" pick. Keep in sync with
+// PLAYOFF_START in pyFull/scripts/sources/season_type.py. 2026-27 is still
+// provisional there too.
+const PLAYOFF_CUTOFFS = { 2025: '20260414', 2026: '20270414' };
 
-// Tab-aware playoff cutoff. The default '20260414' is the NBA play-in date;
-// WNBA's regular season runs May-Sept so every pick would fall after it and be
-// mislabeled "playoffs". Return a far-future date for WNBA so the whole season
-// counts as regular (no spurious playoff split). NBA/other tabs are unchanged.
-function playoffCutoff() {
-  return activeTab === 'wnba-full' ? '99999999' : PLAYOFF_CUTOFF;
+// Is this YYYYMMDD date in its season's playoffs? WNBA's regular season runs
+// May-Sept, so it never splits (every pick counts as regular season).
+function isPlayoffDate(date) {
+  if (activeTab === 'wnba-full') return false;
+  const d = String(date || '');
+  if (d.length < 8) return false;
+  const y = parseInt(d.slice(0, 4), 10), m = parseInt(d.slice(4, 6), 10);
+  const startYear = m >= 10 ? y : y - 1;
+  const cutoff = PLAYOFF_CUTOFFS[startYear] || `${startYear + 1}0414`;
+  return d >= cutoff;
 }
 
 function filterRunsBySegment(runs) {
   const seg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
   if (seg === 'total') return runs;
-  if (seg === 'regular') return runs.filter(r => (r.date || '') < playoffCutoff());
-  if (seg === 'playoffs') return runs.filter(r => (r.date || '') >= playoffCutoff());
+  if (seg === 'regular') return runs.filter(r => !isPlayoffDate(r.date));
+  if (seg === 'playoffs') return runs.filter(r => isPlayoffDate(r.date));
   return runs;
 }
 
@@ -940,7 +947,7 @@ function computeTeamPicks(runs) {
         date: g.startTimeUTC || r.date || '',
         dateDisplay,
         monthKey,
-        playoffs: (r.date || '') >= playoffCutoff(),
+        playoffs: isPlayoffDate(r.date),
         matchup: `${g.away} @ ${g.home}`,
         line: g.line,
         projMargin: g.margin,
@@ -1064,12 +1071,12 @@ function getModelBucket(modelSummary) {
 
 function renderRecordBanner(runs, modelSummary = null) {
   // --- Top banner: filterable by season segment (Total / Regular / Playoffs) ---
-  // Picks store run.date in YYYYMMDD form. Uses shared PLAYOFF_CUTOFF.
+  // Picks store run.date in YYYYMMDD form. Uses shared isPlayoffDate().
   const allPicks = getGradedPicks(runs);
   const segments = {
     total:    allPicks,
-    regular:  allPicks.filter(g => (g.date || '') < playoffCutoff()),
-    playoffs: allPicks.filter(g => (g.date || '') >= playoffCutoff()),
+    regular:  allPicks.filter(g => !isPlayoffDate(g.date)),
+    playoffs: allPicks.filter(g => isPlayoffDate(g.date)),
   };
   const activeSeg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
   const segLabels = { total: 'Elite Record', regular: 'Regular Season', playoffs: 'Playoffs' };
