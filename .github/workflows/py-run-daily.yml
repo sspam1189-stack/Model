@@ -2,6 +2,23 @@ name: Python Run Daily (Fullseason + NBA Props)
 
 on:
   workflow_dispatch:
+  schedule:
+    # 2026-27 season (activated 2026-10-19). Two runs a day: a morning pass
+    # once lineups/injury reports are out, and a late-afternoon pass before
+    # the first tip (earliest NBA tips are ~6:00 PM CT). GitHub cron is UTC and
+    # only fires on the default branch. :45 keeps us off the congested :00/:30
+    # marks (those get delayed/dropped first).
+    #   16:45 UTC = 11:45 AM CDT / 10:45 AM CST
+    #   22:45 UTC =  5:45 PM CDT /  4:45 PM CST
+    # The local Windows Task Scheduler jobs "Python NBA+Full Run Daily" and
+    # "Python NBA+Full Run Daily 11AM" (which dispatched this workflow via
+    # scripts/trigger-py-nba-picks.bat) were DISABLED the same day so the two
+    # schedules never double-trigger. To go back to local dispatch, drop this
+    # schedule block and run:
+    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily"
+    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily 11AM"
+    - cron: '45 16 * * *'
+    - cron: '45 22 * * *'
 
 
 permissions:
@@ -16,7 +33,12 @@ concurrency:
 
 jobs:
   nba-fullseason:
-    runs-on: windows-latest
+    # Self-hosted runner (same as the WNBA/MLB dailies): stats.nba.com refuses
+    # GitHub-hosted IPs (RemoteDisconnected/timeout from windows-latest), and
+    # both pyFull and pyNBAPROPS fetch from it. The 2026-07-23 switch to
+    # windows-latest happened in the offseason and was never exercised
+    # in-season. Moved back 2026-10-19.
+    runs-on: self-hosted
     defaults:
       run:
         shell: powershell
@@ -87,7 +109,8 @@ jobs:
 
   nba-props:
     needs: nba-fullseason
-    runs-on: windows-latest
+    # Self-hosted for the same stats.nba.com reason as nba-fullseason.
+    runs-on: self-hosted
     defaults:
       run:
         shell: powershell
@@ -117,6 +140,9 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python -m scripts.run_daily
 
       - name: Copy dashboard data
