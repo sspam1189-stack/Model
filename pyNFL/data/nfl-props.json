@@ -1,8 +1,8 @@
 {
   "season": 2026,
   "week": 6,
-  "generated": "2026-10-18T17:45:14",
-  "totalProjections": 34,
+  "generated": "2026-10-19T10:08:23",
+  "totalProjections": 8,
   "totalPicks": 223,
   "props": [
     {
@@ -4126,14 +4126,14 @@
       "edge": -6.7,
       "pCover": 0.997,
       "conf": "high",
-      "odds": -119,
-      "breakeven": 0.543,
+      "odds": -122,
+      "breakeven": 0.55,
       "season": 2026,
       "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
+      "commence": "2026-10-20T00:16:00.000Z",
       "live": true,
       "result": null,
-      "generatedAt": "2026-10-18T17:45:14"
+      "generatedAt": "2026-10-19T10:08:23"
     },
     {
       "player": "T.Allgeier",
@@ -4199,27 +4199,6 @@
       "generatedAt": "2026-10-18T17:45:14"
     },
     {
-      "player": "R.White",
-      "team": "WAS",
-      "opp": "SF",
-      "market": "rush_yds",
-      "proj": 26.4,
-      "std": 12.1,
-      "line": 47.5,
-      "pick": "UNDER",
-      "edge": -21.1,
-      "pCover": 0.922,
-      "conf": "high",
-      "odds": -114,
-      "breakeven": 0.533,
-      "season": 2026,
-      "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
-      "live": true,
-      "result": null,
-      "generatedAt": "2026-10-18T17:45:14"
-    },
-    {
       "player": "B.Tuten",
       "team": "JAX",
       "opp": "HOU",
@@ -4239,6 +4218,27 @@
       "live": true,
       "result": null,
       "generatedAt": "2026-10-17T00:56:06"
+    },
+    {
+      "player": "R.White",
+      "team": "WAS",
+      "opp": "SF",
+      "market": "rush_yds",
+      "proj": 26.4,
+      "std": 12.1,
+      "line": 46.5,
+      "pick": "UNDER",
+      "edge": -20.1,
+      "pCover": 0.914,
+      "conf": "high",
+      "odds": -113,
+      "breakeven": 0.531,
+      "season": 2026,
+      "week": 6,
+      "commence": "2026-10-20T00:16:00.000Z",
+      "live": true,
+      "result": null,
+      "generatedAt": "2026-10-19T10:08:23"
     },
     {
       "player": "J.Warren",
@@ -4547,11 +4547,11 @@
       "line": 13.5,
       "lean": "UNDER",
       "pCover": 0.997,
-      "odds": -119,
+      "odds": -122,
       "status": "pick",
       "season": 2026,
       "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
+      "commence": "2026-10-20T00:16:00.000Z",
       "game": "WAS @ SF"
     },
     {
@@ -4606,23 +4606,6 @@
       "game": "ARI @ LA"
     },
     {
-      "player": "R.White",
-      "team": "WAS",
-      "opp": "SF",
-      "market": "rush_yds",
-      "proj": 26.4,
-      "std": 12.1,
-      "line": 47.5,
-      "lean": "UNDER",
-      "pCover": 0.922,
-      "odds": -114,
-      "status": "pick",
-      "season": 2026,
-      "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
-      "game": "WAS @ SF"
-    },
-    {
       "player": "B.Tuten",
       "team": "JAX",
       "opp": "HOU",
@@ -4638,6 +4621,23 @@
       "week": 6,
       "commence": "2026-10-18T13:30:00.000Z",
       "game": "HOU @ JAX"
+    },
+    {
+      "player": "R.White",
+      "team": "WAS",
+      "opp": "SF",
+      "market": "rush_yds",
+      "proj": 26.4,
+      "std": 12.1,
+      "line": 46.5,
+      "lean": "UNDER",
+      "pCover": 0.914,
+      "odds": -113,
+      "status": "pick",
+      "season": 2026,
+      "week": 6,
+      "commence": "2026-10-20T00:16:00.000Z",
+      "game": "WAS @ SF"
     },
     {
       "player": "J.Warren",
@@ -5133,6 +5133,23 @@
       "game": "NO @ NYG"
     },
     {
+      "player": "C.McCaffrey",
+      "team": "SF",
+      "opp": "WAS",
+      "market": "rush_yds",
+      "proj": 74.4,
+      "std": 32.1,
+      "line": 59.5,
+      "lean": "OVER",
+      "pCover": 0.667,
+      "odds": -113,
+      "status": "below",
+      "season": 2026,
+      "week": 6,
+      "commence": "2026-10-20T00:16:00.000Z",
+      "game": "WAS @ SF"
+    },
+    {
       "player": "E.Wilson",
       "team": "SEA",
       "opp": "DEN",
@@ -5148,23 +5165,6 @@
       "week": 6,
       "commence": "2026-10-16T00:16:00.000Z",
       "game": "SEA @ DEN"
-    },
-    {
-      "player": "C.McCaffrey",
-      "team": "SF",
-      "opp": "WAS",
-      "market": "rush_yds",
-      "proj": 74.4,
-      "std": 32.1,
-      "line": 61.5,
-      "lean": "OVER",
-      "pCover": 0.646,
-      "odds": -111,
-      "status": "below",
-      "season": 2026,
-      "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
-      "game": "WAS @ SF"
     },
     {
       "player": "A.Kamara",
@@ -5253,6 +5253,23 @@
       "game": "PIT @ TB"
     },
     {
+      "player": "K.Black",
+      "team": "SF",
+      "opp": "WAS",
+      "market": "rush_yds",
+      "proj": 27.2,
+      "std": 10.9,
+      "line": 23.5,
+      "lean": "OVER",
+      "pCover": 0.626,
+      "odds": -113,
+      "status": "below",
+      "season": 2026,
+      "week": 6,
+      "commence": "2026-10-20T00:16:00.000Z",
+      "game": "WAS @ SF"
+    },
+    {
       "player": "D.Henry",
       "team": "BAL",
       "opp": "CLE",
@@ -5300,7 +5317,7 @@
       "status": "below",
       "season": 2026,
       "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
+      "commence": "2026-10-20T00:16:00.000Z",
       "game": "WAS @ SF"
     },
     {
@@ -5319,23 +5336,6 @@
       "week": 6,
       "commence": "2026-10-16T00:16:00.000Z",
       "game": "SEA @ DEN"
-    },
-    {
-      "player": "K.Black",
-      "team": "SF",
-      "opp": "WAS",
-      "market": "rush_yds",
-      "proj": 27.2,
-      "std": 10.9,
-      "line": 24.5,
-      "lean": "OVER",
-      "pCover": 0.593,
-      "odds": -110,
-      "status": "below",
-      "season": 2026,
-      "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
-      "game": "WAS @ SF"
     },
     {
       "player": "J.Dobbins",
@@ -6016,42 +6016,6 @@
       "game": "DAL @ GB"
     },
     {
-      "player": "J.Croskey-Merritt",
-      "team": "WAS",
-      "opp": "SF",
-      "market": "rush_yds",
-      "proj": 47.2,
-      "std": 34.3,
-      "line": null,
-      "lean": null,
-      "pCover": null,
-      "odds": null,
-      "status": "noline",
-      "season": 2026,
-      "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
-      "game": "WAS @ SF",
-      "injury": "out"
-    },
-    {
-      "player": "J.Croskey-Merritt",
-      "team": "WAS",
-      "opp": "SF",
-      "market": "rush_att",
-      "proj": 11.7,
-      "std": 4.4,
-      "line": null,
-      "lean": null,
-      "pCover": null,
-      "odds": null,
-      "status": "noline",
-      "season": 2026,
-      "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
-      "game": "WAS @ SF",
-      "injury": "out"
-    },
-    {
       "player": "M.Washington",
       "team": "LV",
       "opp": "BUF",
@@ -6105,6 +6069,42 @@
       "injury": "out"
     },
     {
+      "player": "J.Croskey-Merritt",
+      "team": "WAS",
+      "opp": "SF",
+      "market": "rush_yds",
+      "proj": 47.2,
+      "std": 34.3,
+      "line": null,
+      "lean": null,
+      "pCover": null,
+      "odds": null,
+      "status": "noline",
+      "season": 2026,
+      "week": 6,
+      "commence": "2026-10-20T00:16:00.000Z",
+      "game": "WAS @ SF",
+      "injury": "out"
+    },
+    {
+      "player": "J.Croskey-Merritt",
+      "team": "WAS",
+      "opp": "SF",
+      "market": "rush_att",
+      "proj": 11.7,
+      "std": 4.4,
+      "line": null,
+      "lean": null,
+      "pCover": null,
+      "odds": null,
+      "status": "noline",
+      "season": 2026,
+      "week": 6,
+      "commence": "2026-10-20T00:16:00.000Z",
+      "game": "WAS @ SF",
+      "injury": "out"
+    },
+    {
       "player": "K.Black",
       "team": "SF",
       "opp": "WAS",
@@ -6118,7 +6118,7 @@
       "status": "noline",
       "season": 2026,
       "week": 6,
-      "commence": "2026-10-20T00:15:00Z",
+      "commence": "2026-10-20T00:16:00.000Z",
       "game": "WAS @ SF"
     }
   ]
