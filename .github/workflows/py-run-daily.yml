@@ -14,12 +14,12 @@ on:
     # tip as early as ~12:00-2:30 PM CT, and weekday injury reports move):
     #   19:15 UTC =  2:15 PM CDT /  1:15 PM CST
     # The local Windows Task Scheduler jobs "Python NBA+Full Run Daily" (6 PM)
-    # and "Python NBA+Full Run Daily 11AM", which dispatched this workflow via
-    # scripts/trigger-py-nba-picks.bat, must stay DISABLED so the two schedules
-    # never double-trigger (the 6 PM one needs an elevated shell:
-    #   Disable-ScheduledTask -TaskName "Python NBA+Full Run Daily").
-    # To go back to local dispatch, drop this schedule block and run:
-    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily"
+    # and "Python NBA+Full Run Daily 11AM" used to dispatch this workflow via
+    # scripts/trigger-py-nba-picks.bat (gitignored). The 11AM job is disabled;
+    # the 6 PM job could not be (its task file is admin-owned), so the .bat
+    # was turned into a documented no-op instead (original in .bat.bak).
+    # To go back to local dispatch, drop this schedule block, restore the
+    # .bat from the .bak, and run:
     #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily 11AM"
     - cron: '45 16 * * *'
     - cron: '15 19 * * *'
