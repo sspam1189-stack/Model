@@ -1,30 +1,18 @@
 name: Python Run Daily (Fullseason + NBA Props)
 
 on:
+  # Dispatched 3x/day by the local Windows Task Scheduler job
+  # "Python NBA Run Daily 3x" via
+  # scripts/trigger-py-nba-picks.bat (gitignored; it runs
+  # `gh workflow run py-run-daily.yml`). Local time, so no DST drift:
+  #   10:45 AM CT  morning pass once injury reports are out
+  #    1:15 PM CT  midday refresh (weekend slates tip 12:00-2:30 PM CT)
+  #    4:45 PM CT  final pass before the earliest ~6:00 PM CT tips
+  # A native GitHub cron is intentionally omitted so it never double-triggers
+  # against that local task (same arrangement as the MLB daily). Switched from
+  # a native cron to local dispatch 2026-10-19. To pause:
+  #   Disable-ScheduledTask -TaskName "Python NBA Run Daily 3x"
   workflow_dispatch:
-  schedule:
-    # 2026-27 season (activated 2026-10-19). Two runs a day: a morning pass
-    # once lineups/injury reports are out, and a late-afternoon pass before
-    # the first tip (earliest NBA tips are ~6:00 PM CT). GitHub cron is UTC and
-    # only fires on the default branch. :45 keeps us off the congested :00/:30
-    # marks (those get delayed/dropped first).
-    #   16:45 UTC = 11:45 AM CDT / 10:45 AM CST
-    #   22:45 UTC =  5:45 PM CDT /  4:45 PM CST
-    # A midday pass refreshes lines/injuries between the two (weekend slates
-    # tip as early as ~12:00-2:30 PM CT, and weekday injury reports move):
-    #   19:15 UTC =  2:15 PM CDT /  1:15 PM CST
-    # The local Windows Task Scheduler jobs "Python NBA+Full Run Daily" (6 PM)
-    # and "Python NBA+Full Run Daily 11AM", which dispatched this workflow via
-    # scripts/trigger-py-nba-picks.bat, must stay DISABLED so the two schedules
-    # never double-trigger (the 6 PM one needs an elevated shell:
-    #   Disable-ScheduledTask -TaskName "Python NBA+Full Run Daily").
-    # To go back to local dispatch, drop this schedule block and run:
-    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily"
-    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily 11AM"
-    - cron: '45 16 * * *'
-    - cron: '15 19 * * *'
-    - cron: '45 22 * * *'
-
 
 permissions:
   contents: write
