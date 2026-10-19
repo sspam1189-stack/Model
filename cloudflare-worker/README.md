@@ -29,6 +29,15 @@ GitHub Actions workflows without exposing a PAT in client-side JS.
    (e.g. `https://pydashboard-workflow-proxy.<your-subdomain>.workers.dev`)
    and put it in `PythonDashboard/js/workflow-trigger.js` as `WORKER_URL`.
 
+## Deploying changes
+
+`.github/workflows/deploy-worker.yml` redeploys this worker on every push to
+`main` that touches `cloudflare-worker/`, and can be run by hand from the
+Actions tab. It needs the repo secret `CLOUDFLARE_API_TOKEN` (Cloudflare
+"Edit Cloudflare Workers" token). Cloudflare Workers Builds does NOT deploy this
+worker: it builds from the repo root, where `wrangler.jsonc` (worker `model`)
+takes precedence. `GH_TOKEN` / `ACCESS_KEY` persist across deploys.
+
 ## Routes
 
 | Method | Path                | Purpose                         |
