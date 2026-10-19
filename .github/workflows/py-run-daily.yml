@@ -10,11 +10,12 @@ on:
     # marks (those get delayed/dropped first).
     #   16:45 UTC = 11:45 AM CDT / 10:45 AM CST
     #   22:45 UTC =  5:45 PM CDT /  4:45 PM CST
-    # The local Windows Task Scheduler jobs "Python NBA+Full Run Daily" and
-    # "Python NBA+Full Run Daily 11AM" (which dispatched this workflow via
-    # scripts/trigger-py-nba-picks.bat) were DISABLED the same day so the two
-    # schedules never double-trigger. To go back to local dispatch, drop this
-    # schedule block and run:
+    # The local Windows Task Scheduler jobs "Python NBA+Full Run Daily" (6 PM)
+    # and "Python NBA+Full Run Daily 11AM", which dispatched this workflow via
+    # scripts/trigger-py-nba-picks.bat, must stay DISABLED so the two schedules
+    # never double-trigger (the 6 PM one needs an elevated shell:
+    #   Disable-ScheduledTask -TaskName "Python NBA+Full Run Daily").
+    # To go back to local dispatch, drop this schedule block and run:
     #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily"
     #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily 11AM"
     - cron: '45 16 * * *'
