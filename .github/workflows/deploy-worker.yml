@@ -24,9 +24,9 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: deploy-worker
-  cancel-in-progress: false
+# No concurrency group on purpose: a deploy is idempotent, and GitHub can strand
+# a run "queued" forever, which then blocks every later run in the same group
+# (run 39281466025 did exactly that on 2026-10-19; see also MLB #1506).
 
 jobs:
   deploy:
