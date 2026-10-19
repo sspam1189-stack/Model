@@ -263,13 +263,14 @@ Requires the `DISCORD_WEBHOOK_URL` environment variable.
 
 ### GitHub Actions
 
-A workflow is included at `.github/workflows/nba-picks.yml` that runs daily at 10:10 AM Central Time:
+The workflow at `.github/workflows/py-run-daily.yml` runs this pipeline and then `pyNBAPROPS` twice a day on the self-hosted runner (stats.nba.com refuses GitHub-hosted IPs):
 
 ```yaml
 on:
   schedule:
-    - cron: "10 16 * * *"   # 10:10 AM America/Chicago (UTC-6)
-  workflow_dispatch:          # Manual trigger
+    - cron: '45 16 * * *'   # 11:45 AM CDT / 10:45 AM CST
+    - cron: '45 22 * * *'   #  5:45 PM CDT /  4:45 PM CST
+  workflow_dispatch:        # Manual trigger
 ```
 
 Required GitHub Secrets:
