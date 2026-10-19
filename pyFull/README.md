@@ -263,15 +263,14 @@ Requires the `DISCORD_WEBHOOK_URL` environment variable.
 
 ### GitHub Actions
 
-The workflow at `.github/workflows/py-run-daily.yml` runs this pipeline and then `pyNBAPROPS` twice a day on the self-hosted runner (stats.nba.com refuses GitHub-hosted IPs):
+The workflow at `.github/workflows/py-run-daily.yml` runs this pipeline and then `pyNBAPROPS` on the self-hosted runner (stats.nba.com refuses GitHub-hosted IPs). It is `workflow_dispatch` only: a local Windows Task Scheduler job, "Python NBA Run Daily 3x", dispatches it three times a day via `scripts/trigger-py-nba-picks.bat` (gitignored):
 
-```yaml
-on:
-  schedule:
-    - cron: '45 16 * * *'   # 11:45 AM CDT / 10:45 AM CST
-    - cron: '45 22 * * *'   #  5:45 PM CDT /  4:45 PM CST
-  workflow_dispatch:        # Manual trigger
+```bat
+@echo off
+gh workflow run py-run-daily.yml --repo sspam1189-stack/Model
 ```
+
+Local time, so the 10:45 AM / 1:15 PM / 4:45 PM CT runs don't drift with DST. No native GitHub cron is set, so it can't double-trigger.
 
 Required GitHub Secrets:
 - `GMAIL_USER`
