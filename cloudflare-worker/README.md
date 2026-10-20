@@ -38,6 +38,13 @@ Actions tab. It needs the repo secret `CLOUDFLARE_API_TOKEN` (Cloudflare
 worker: it builds from the repo root, where `wrangler.jsonc` (worker `model`)
 takes precedence. `GH_TOKEN` / `ACCESS_KEY` persist across deploys.
 
+## Scheduled runs
+
+All model schedules (NBA, WNBA, NFL) live in `SCHEDULE` in `workflow-proxy.js`,
+driven by one Cloudflare cron trigger (`*/15 * * * *`, `wrangler.toml`). The
+workflows have no GitHub `schedule:` block: GitHub ran those hours late. To
+change a time, edit `SCHEDULE` (UTC, minute a multiple of 15) and push.
+
 ## Routes
 
 | Method | Path                | Purpose                         |

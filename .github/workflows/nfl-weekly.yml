@@ -1,7 +1,8 @@
 name: NFL Weekly Pipeline
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Cron schedule (enabled for the 2026 season — cron runs execute stage 'all').
+# Schedule (2026 season; scheduled runs execute stage 'all'). Dispatched by the
+# Cloudflare Worker -- see SCHEDULE in cloudflare-worker/workflow-proxy.js.
 # All times are UTC.  CT = UTC-5 (CST) / UTC-6 (CDT).
 #
 #   Wed 10:00 AM CT  =  15:00 UTC (CDT) / 16:00 UTC (CST)
@@ -14,19 +15,9 @@ name: NFL Weekly Pipeline
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
-  schedule:
-    # Mid-week fetch + project (Wed morning)
-    - cron: '0 15 * * 3'
-    # Pre-game refresh (Thu evening)
-    - cron: '0 23 * * 4'
-    # Pre-game refresh (Fri evening)
-    - cron: '0 23 * * 5'
-    # Sunday morning full pipeline
-    - cron: '0 15 * * 0'
-    # Post-SNF grade (Mon early AM UTC)
-    - cron: '30 4 * * 1'
-    # Post-MNF grade (Tue early AM UTC)
-    - cron: '30 4 * * 2'
+  # Scheduled runs are dispatched by the Cloudflare Worker (SCHEDULE in
+  # cloudflare-worker/workflow-proxy.js), not a GitHub `schedule:` block:
+  # GitHub fired those 2.5-5.5 hours late. Same UTC times as before.
   workflow_dispatch:
     inputs:
       stage:

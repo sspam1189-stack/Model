@@ -2,12 +2,9 @@ name: Python Run Daily WNBA (Fullseason + Props)
 
 on:
   workflow_dispatch:
-  schedule:
-    # 10:45 AM and 4:45 PM CT (CDT = UTC-5 during the WNBA season).
-    # GitHub cron is UTC and only fires on the default branch. :45 keeps us off
-    # the congested :00/:30 marks (those get delayed/dropped first).
-    - cron: '45 15 * * *'   # 15:45 UTC = 10:45 AM CT
-    - cron: '45 21 * * *'   # 21:45 UTC =  4:45 PM CT
+  # Scheduled runs are dispatched by the Cloudflare Worker (SCHEDULE in
+  # cloudflare-worker/workflow-proxy.js), not a GitHub `schedule:` block:
+  # GitHub fired those 2.5-5.5 hours late. Same UTC times as before.
 
 
 permissions:

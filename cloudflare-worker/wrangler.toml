@@ -5,3 +5,9 @@ compatibility_date = "2025-01-01"
 # Secrets (set via `wrangler secret put`):
 #   GH_TOKEN    - GitHub fine-grained PAT, repo sspam1189-stack/Model, Actions: R/W
 #   ACCESS_KEY  - shared passphrase users paste into the dashboard once
+
+# One cron trigger; the schedule itself is the SCHEDULE table in
+# workflow-proxy.js (UTC). Replaces the workflows' GitHub `on: schedule`
+# blocks, which GitHub ran hours late.
+[triggers]
+crons = ["*/15 * * * *"]

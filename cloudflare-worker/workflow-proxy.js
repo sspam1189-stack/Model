@@ -18,6 +18,45 @@ const WORKFLOWS = {
   nfl: "nfl-weekly.yml",
 };
 
+// Scheduled runs. These replaced the workflows' own `on: schedule` blocks on
+// 2026-10-20: GitHub fired those 2.5-5.5 HOURS late (a 5:45 PM CT NBA run
+// landed after tip-off), while Cloudflare cron triggers fire on the minute.
+// The worker has ONE cron trigger ("*/15 * * * *" in wrangler.toml -- the free
+// plan allows only a handful) and dispatches whatever in this table matches
+// the tick. Same 5-field syntax and UTC times the workflows used; each minute
+// must be a multiple of 15. Supported per field: "*", a number, or a comma list.
+const SCHEDULE = [
+  // NBA full season + props (py-run-daily.yml)
+  { cron: "45 16 * * *", wf: "python" },  // 11:45 AM CDT / 10:45 AM CST
+  { cron: "15 19 * * *", wf: "python" },  //  2:15 PM CDT /  1:15 PM CST
+  { cron: "45 22 * * *", wf: "python" },  //  5:45 PM CDT /  4:45 PM CST
+  // WNBA full season + props (wnba-run-daily.yml)
+  { cron: "45 15 * * *", wf: "wnba" },    // 10:45 AM CDT
+  { cron: "45 21 * * *", wf: "wnba" },    //  4:45 PM CDT
+  // NFL weekly pipeline, stage "all" (nfl-weekly.yml)
+  { cron: "0 15 * * 3", wf: "nfl" },      // Wed mid-week fetch + project
+  { cron: "0 23 * * 4", wf: "nfl" },      // Thu pre-game refresh
+  { cron: "0 23 * * 5", wf: "nfl" },      // Fri pre-game refresh
+  { cron: "0 15 * * 0", wf: "nfl" },      // Sun morning full pipeline
+  { cron: "30 4 * * 1", wf: "nfl" },      // post-SNF grade
+  { cron: "30 4 * * 2", wf: "nfl" },      // post-MNF grade
+];
+
+function cronFieldMatches(field, value) {
+  if (field === "*") return true;
+  return field.split(",").some(v => Number(v) === value);
+}
+
+// true when the 5-field UTC cron expression matches Date d (to the minute).
+function cronMatches(expr, d) {
+  const [min, hour, dom, mon, dow] = expr.trim().split(/\s+/);
+  return cronFieldMatches(min, d.getUTCMinutes())
+    && cronFieldMatches(hour, d.getUTCHours())
+    && cronFieldMatches(dom, d.getUTCDate())
+    && cronFieldMatches(mon, d.getUTCMonth() + 1)
+    && cronFieldMatches(dow, d.getUTCDay());
+}
+
 // A run older than this that is still queued/in_progress is treated as STALE
 // and no longer blocks a new dispatch. GitHub can strand a run permanently:
 // one parked by a `concurrency` group is never handed to a runner, so it
@@ -136,6 +175,20 @@ async function getStatus(env, key, sinceISO) {
 }
 
 export default {
+  // Cron trigger: dispatch every SCHEDULE entry that matches this tick.
+  async scheduled(controller, env, ctx) {
+    const tick = new Date(controller.scheduledTime);
+    const due = [...new Set(SCHEDULE.filter(s => cronMatches(s.cron, tick)).map(s => s.wf))];
+    for (const wf of due) {
+      ctx.waitUntil(
+        dispatchWorkflow(env, wf).then(async res => {
+          const body = await res.text();
+          console.log(`[cron ${tick.toISOString()}] ${wf}: HTTP ${res.status} ${body}`);
+        })
+      );
+    }
+  },
+
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders() });

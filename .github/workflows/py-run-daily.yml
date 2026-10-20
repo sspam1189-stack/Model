@@ -2,28 +2,9 @@ name: Python Run Daily (Fullseason + NBA Props)
 
 on:
   workflow_dispatch:
-  schedule:
-    # 2026-27 season (activated 2026-10-19). Two runs a day: a morning pass
-    # once lineups/injury reports are out, and a late-afternoon pass before
-    # the first tip (earliest NBA tips are ~6:00 PM CT). GitHub cron is UTC and
-    # only fires on the default branch. :45 keeps us off the congested :00/:30
-    # marks (those get delayed/dropped first).
-    #   16:45 UTC = 11:45 AM CDT / 10:45 AM CST
-    #   22:45 UTC =  5:45 PM CDT /  4:45 PM CST
-    # A midday pass refreshes lines/injuries between the two (weekend slates
-    # tip as early as ~12:00-2:30 PM CT, and weekday injury reports move):
-    #   19:15 UTC =  2:15 PM CDT /  1:15 PM CST
-    # The local Windows Task Scheduler jobs "Python NBA+Full Run Daily" (6 PM)
-    # and "Python NBA+Full Run Daily 11AM", which dispatched this workflow via
-    # scripts/trigger-py-nba-picks.bat, must stay DISABLED so the two schedules
-    # never double-trigger (the 6 PM one needs an elevated shell:
-    #   Disable-ScheduledTask -TaskName "Python NBA+Full Run Daily").
-    # To go back to local dispatch, drop this schedule block and run:
-    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily"
-    #   Enable-ScheduledTask -TaskName "Python NBA+Full Run Daily 11AM"
-    - cron: '45 16 * * *'
-    - cron: '15 19 * * *'
-    - cron: '45 22 * * *'
+  # Scheduled runs are dispatched by the Cloudflare Worker (SCHEDULE in
+  # cloudflare-worker/workflow-proxy.js), not a GitHub `schedule:` block:
+  # GitHub fired those 2.5-5.5 hours late. Same UTC times as before.
 
 
 permissions:
