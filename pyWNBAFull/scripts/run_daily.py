@@ -718,7 +718,7 @@ def main(subject_label="[PY]"):
             if not isinstance(g.get("homeScore"),(int,float)) or not isinstance(g.get("awayScore"),(int,float)): continue
             if not isinstance(g.get("hS"),(int,float)) or not isinstance(g.get("aS"),(int,float)): continue
             g["_kalmanDate"] = r["date"]; newly_graded.append(g)
-    batch_update(kalman_state, newly_graded)
+    batch_update(kalman_state, newly_graded, proj_includes_adj=True)
 
     # 3b. Self-tune weights (with recency weighting, matching backfill logic)
     def _recency_weight(days_ago):

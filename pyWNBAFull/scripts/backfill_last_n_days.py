@@ -261,7 +261,7 @@ def main():
 
             # 1-2. Kalman + self-tune
             if prev_graded:
-                batch_update(kalman_state, prev_graded)
+                batch_update(kalman_state, prev_graded, proj_includes_adj=True)
 
                 result = tune_weights(base_w, base_w_var, prev_graded)
                 base_w = result["W"]
