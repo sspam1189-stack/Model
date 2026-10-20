@@ -199,6 +199,15 @@ ENGINE_CONFIG = {
         "rockets":               "Houston Rockets",
     },
     "MIN_GP": 10,  # stats burn-in (was 15); 2025-26 replay: 2u band +31u with 10
+    # Share of the Kalman team offsets applied to projections (core/model_engine).
+    # 0 = the filter still tracks every team (kalmanAdj is saved on each game for
+    # a shadow check) but does not move picks. 2025-26 replay, 1,182 games:
+    #   scale   margin MAE   2u record   2u units
+    #   1.00    13.10        295-148     +120.2u
+    #   0.50    12.95        284-134     +124.2u
+    #   0.00    12.87        269-116     +128.5u   <- better in both halves
+    # Revisit mid-season with 2026-27 kalmanAdj data.
+    "KALMAN_SCALE": 0.0,
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }
