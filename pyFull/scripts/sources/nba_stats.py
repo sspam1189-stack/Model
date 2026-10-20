@@ -9,15 +9,30 @@ import datetime
 import math
 import requests
 
-NBA_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Referer": "https://www.nba.com/",
-    "Origin": "https://www.nba.com",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
-    "x-nba-stats-origin": "stats",
-    "x-nba-stats-token": "true",
-}
+# Use nba_api's bundled headers. stats.nba.com stalls then resets requests that
+# carry the old hand-rolled set (Chrome 120 UA + x-nba-stats-origin/token), which
+# failed every 2026-27 run from the runners ("Read timed out" / WinError 10054),
+# while pyWNBAFull's nba_api calls to the same host from the same VM succeed
+# (see pyWNBAFull/scripts/sources/nba_stats.py, 2026-07-01). nba_api keeps these
+# current with what nba.com's own site sends.
+try:
+    from nba_api.stats.library.http import STATS_HEADERS as _NBA_API_HEADERS
+    NBA_HEADERS = dict(_NBA_API_HEADERS)
+except Exception:
+    NBA_HEADERS = {
+        "Host": "stats.nba.com",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "Referer": "https://www.nba.com/",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache",
+        "Sec-Ch-Ua": '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Fetch-Dest": "empty",
+    }
 
 
 def current_season():
