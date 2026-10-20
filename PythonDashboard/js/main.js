@@ -207,17 +207,18 @@ let cache = {};
 let sourceMeta = {};
 let summaryCache = {};
 let summaryMeta = {};
-// Opens on WNBA (first league, in season) since 2026-09-29. MLB K's CSW .1
+// Opens on NBA Full Season (first league) since 2026-10-20; league order is
+// NBA, WNBA, NFL, MLB (index.html). MLB K's CSW .1
 // (VAR 1.20 / cap 26) is the live K model; CSW .1 Old and Whiff .1/Cap26 are
 // shadows, their tab buttons hidden (display:none in index.html) — still
 // run + publish. Keep this in sync with the tab marked .active in index.html.
-let activeTab = 'wnba-full';
+let activeTab = 'fullseason';
 let viewMode = 'today';
 let historyPage = 0;
 const DAYS_PER_PAGE = 7;
 
 // ─── Generic Season Filter (shared across ALL tabs) ───
-let seasonFilter = 'all';
+let seasonFilter = activeTab === 'fullseason' ? 'current' : 'all';  // same rule as the tab click handler
 // NBA Full Season opens on the current season ('current'), not on every season
 // blended: the daily rollover archives last season out of the live file, so the
 // two are different records. effectiveSeason() resolves it; the archived
@@ -579,7 +580,7 @@ document.querySelectorAll('.tab').forEach(tab => {
 });
 
 // mount the league that owns whichever tab starts active
-setLeague(leagueOf(document.querySelector('.tab.active')) || 'WNBA',
+setLeague(leagueOf(document.querySelector('.tab.active')) || 'NBA',
           { selectFirstTab: false });
 
 async function fetchData(key) {
