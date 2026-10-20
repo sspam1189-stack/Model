@@ -684,8 +684,39 @@ def main(subject_label="[PY]"):
         print(f"  [injury] Cache write failed (non-fatal): {_e}")
 
     if burn_in_msg:
+        # Still save tonight's slate so the dashboard shows the games (matchup,
+        # line, total, tip time) during burn-in. status SKIPPED keeps every
+        # downstream step (grading, Kalman, self-tune, records) away from them;
+        # burnIn on the GAME labels the card. The run itself must NOT carry
+        # burnIn, or the dashboard hides it.
+        games = []
+        for g in odds:
+            st = g.get("startTimeUTC")
+            if st:
+                try:
+                    from datetime import datetime as _dt
+                    if _dt.fromisoformat(st.replace("Z", "+00:00")).astimezone(_get_tz()).strftime("%Y%m%d") != date:
+                        continue
+                except Exception:
+                    pass
+            games.append({**g, "status": "SKIPPED", "burnIn": True,
+                          "note": "Stats burn-in: no picks until 20+ teams have 10 games",
+                          "sPick": "PASS", "oPick": "PASS"})
+        games.sort(key=lambda g: g.get("startTimeUTC") or "")
+        run = {"date": date, "dateDisplay": date_display, "burnIn": False,
+               "weightsUsed": dict(store.get("weights") or {}), "weightsNext": dict(store.get("weights") or {}),
+               "games": games, "summaryText": ""}
+        run["summaryText"] = compute_summary_text(store)
+        upsert_run(store, run)
         save_store(store)
-        print(f"[burn-in] {burn_in_msg} -- no picks until 20+ teams have 10 GP. Exiting cleanly.")
+        try:
+            import shutil
+            _here = os.path.dirname(os.path.abspath(__file__))
+            shutil.copy2(os.path.join(_here, "..", "data", "history.json"),
+                         os.path.join(_here, "..", "..", "PythonDashboard", "data", "fullseason.json"))
+        except Exception as e:
+            print(f"  [dashboard] sync failed: {e}")
+        print(f"[burn-in] {burn_in_msg} -- saved {len(games)} game(s) for the dashboard, no picks until 20+ teams have 10 GP.")
         return
 
     # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides).

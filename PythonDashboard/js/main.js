@@ -1287,7 +1287,7 @@ function renderGameCards(run) {
       const favTeam = projMargin >= 0 ? g.home : g.away;
       spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
     } else {
-      spreadHtml = `<div class="game-detail"><span class="label">Spread: ${isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
+      spreadHtml = `<div class="game-detail"><span class="label">Spread: ${g.burnIn ? 'BURN-IN (no picks yet)' : isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
     }
 
     let projHtml = '';
@@ -1663,7 +1663,7 @@ function renderHistoryDay(run) {
     return `<div class="game-card">
       <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
       <div class="game-detail">
-        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
+        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${g.burnIn ? 'BURN-IN' : isSkipped ? esc(g.status) : 'PASS'}</span>`}
         ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
       </div>
       ${isPick ? lrInfo(g) : ''}
@@ -2494,7 +2494,7 @@ function nflRenderHistoryWeek(run) {
     return `<div class="game-card">
       <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
       <div class="game-detail">
-        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
+        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${g.burnIn ? 'BURN-IN' : isSkipped ? esc(g.status) : 'PASS'}</span>`}
         ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
       </div>
       ${hasScore ? `<div class="game-detail"><span class="label">Final:</span> ${g.awayScore}-${g.homeScore}</div>` : ''}
