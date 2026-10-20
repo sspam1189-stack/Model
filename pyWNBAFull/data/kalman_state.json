@@ -22,7 +22,7 @@
     },
     "Las Vegas Aces": {
       "adj_mean": 1.8914174759874818,
-      "adj_var": 27.407429530295136,
+      "adj_var": 27.657429530295136,
       "innov_ewma": -4.017079171802439
     },
     "Los Angeles Sparks": {
@@ -61,14 +61,14 @@
       "innov_ewma": -5.167936384725488
     },
     "Golden State Valkyries": {
-      "adj_mean": 2.5440861115092983,
-      "adj_var": 21.899656798288806,
-      "innov_ewma": 2.6153501079297388
+      "adj_mean": 1.1128885800781445,
+      "adj_var": 20.34835020352441,
+      "innov_ewma": -4.390022429845666
     },
     "Atlanta Dream": {
-      "adj_mean": 3.0763516211540707,
-      "adj_var": 26.348726057139064,
-      "innov_ewma": -1.8034022620228827
+      "adj_mean": 4.798306994093054,
+      "adj_var": 23.99117833276044,
+      "innov_ewma": 4.917788529685122
     },
     "Washington Mystics": {
       "adj_mean": -0.1388537924997565,
@@ -77,8 +77,6 @@
     }
   },
   "processedGames": {
-    "20260919:Chicago Sky@Atlanta Dream": true,
-    "20260919:Seattle Storm@Golden State Valkyries": true,
     "20260920:New York Liberty@Toronto Tempo": true,
     "20260920:Washington Mystics@Indiana Fever": true,
     "20260920:Portland Fire@Los Angeles Sparks": true,
@@ -111,9 +109,10 @@
     "20261007:Las Vegas Aces@Golden State Valkyries": true,
     "20261009:Atlanta Dream@New York Liberty": true,
     "20261009:Golden State Valkyries@Las Vegas Aces": true,
-    "20261017:Atlanta Dream@Golden State Valkyries": true
+    "20261017:Atlanta Dream@Golden State Valkyries": true,
+    "20261019:Atlanta Dream@Golden State Valkyries": true
   },
-  "lastDriftDate": "20261019",
+  "lastDriftDate": "20261020",
   "meta": {
     "season": "2025-26",
     "created": "2026-07-16T15:06:03.518205"
