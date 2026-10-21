@@ -288,7 +288,7 @@ Use the included `run_daily.bat` file as the action in a Windows Task Scheduler 
 
 - **API rate limits** -- NBA.com and ESPN endpoints may rate-limit or change response formats. The bot includes multiple fallback strategies (e.g., three different MPG sources) and degrades gracefully when a source is unavailable.
 - **The Odds API quota** -- Free tier has limited monthly requests. The bot makes 1-2 API calls per daily run for live odds, plus additional calls for historical odds on already-started games.
-- **Minimum games played** -- Teams with fewer than 15 games played are excluded from projections (the `MIN_GP` threshold) to avoid small-sample projections.
+- **Minimum games played** -- Teams with fewer than 10 games played are excluded from projections (the `MIN_GP` threshold) to avoid small-sample projections.
 - **Stats are point-in-time for live runs only** -- When running live each day, stats reflect the current state. Backfill uses cached stats where available, but projections for past dates may use stats from the time of backfill, not the actual date.
 - **Model is spread-focused** -- The Kalman filter tracks margin drift, not total scoring. Totals picks use a separate clean projection formula that avoids double-counting offensive/defensive adjustments.
 - **Break-even at -110 juice is 52.4%** -- The model requires meaningful edge above this before firing a pick. Default spread threshold is P(cover) >= 57%.
