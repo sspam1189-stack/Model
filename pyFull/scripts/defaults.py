@@ -198,7 +198,7 @@ ENGINE_CONFIG = {
         "houston":               "Houston Rockets",
         "rockets":               "Houston Rockets",
     },
-    "MIN_GP": 10,  # stats burn-in (was 15); 2025-26 replay: 2u band +31u with 10
+    "MIN_GP": 10,  # stats burn-in (was 15)
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }
