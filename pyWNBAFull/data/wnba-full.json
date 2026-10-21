@@ -23100,7 +23100,7 @@
           "awayScore": 106.0,
           "homeScore": 69.0,
           "_kalmanDate": "20260920",
-          "_recencyWeight": 0.75
+          "_recencyWeight": 0.5
         },
         {
           "away": "Washington Mystics",
@@ -23155,7 +23155,7 @@
           "awayScore": 93.0,
           "homeScore": 77.0,
           "_kalmanDate": "20260920",
-          "_recencyWeight": 0.75
+          "_recencyWeight": 0.5
         },
         {
           "away": "Portland Fire",
@@ -23210,7 +23210,7 @@
           "awayScore": 84.0,
           "homeScore": 105.0,
           "_kalmanDate": "20260920",
-          "_recencyWeight": 0.75
+          "_recencyWeight": 0.5
         },
         {
           "away": "Seattle Storm",
@@ -23272,7 +23272,7 @@
           "awayScore": 77.0,
           "homeScore": 98.0,
           "_kalmanDate": "20260920",
-          "_recencyWeight": 0.75
+          "_recencyWeight": 0.5
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         72-45-0   (61.5%)   [graded 117]\n  Elite:       72-45-0   (61.5%)   [graded 117]\n\nFAV/DOG (Spread)\n  Favorites:   32-23-0   (58.2%)   [graded 55]\n  Underdogs:   40-22-0   (64.5%)   [graded 62]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
@@ -26498,17 +26498,124 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         80-47-0   (63.0%)   [graded 127]\n  Elite:       80-47-0   (63.0%)   [graded 127]\n\nFAV/DOG (Spread)\n  Favorites:   37-23-0   (61.7%)   [graded 60]\n  Underdogs:   43-24-0   (64.2%)   [graded 67]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "10/20/2026, 04:46:00 PM"
+    },
+    {
+      "date": "20261021",
+      "dateDisplay": "2026-10-21",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 1.172,
+        "wTO": 0.001,
+        "wORR": 5,
+        "wDEF": 1.421,
+        "constant": 0.071,
+        "paceAdj": 0.957,
+        "hca": 4.166666666666667,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0,
+        "probElite": 0.63
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 1.172,
+        "wTO": 0.001,
+        "wORR": 5,
+        "wDEF": 1.421,
+        "constant": 0.071,
+        "paceAdj": 0.957,
+        "hca": 4.166666666666667,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0,
+        "probElite": 0.63
+      },
+      "games": [
+        {
+          "away": "Golden State Valkyries",
+          "home": "Atlanta Dream",
+          "line": -3.5,
+          "total": 152.5,
+          "startTimeUTC": "2026-10-22T00:00:00.000+00:00",
+          "_book": "FanDuel",
+          "aS": 86.0,
+          "hS": 94.9,
+          "pT": 180.9,
+          "margin": 5.4,
+          "sDiff": 5.4,
+          "tDiff": 31.2,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.645,
+          "pAwayCover": 0.355,
+          "pOver": 0.98,
+          "pUnder": 0.02,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 210.0,
+          "marginStd": 14.5,
+          "_features": {
+            "dTS": 0.020749999999999824,
+            "dTO": -0.009437499999999988,
+            "dORR": -0.026281250000000034,
+            "dDEF": 0.862499999999983,
+            "avgPace": 92.73984374999999
+          },
+          "_marginFeatures": {
+            "dTS": 0.0184,
+            "dTO": 0.0084,
+            "dORR": -0.0233,
+            "dDEF": 0.7655,
+            "hca": 1.0,
+            "_baseline": 2.155,
+            "_pace": 0.8875
+          },
+          "kalmanAdj": {
+            "home": 4.798,
+            "away": 1.113,
+            "scale": 1.0
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "trends": {
+            "away": "ATS +/- 2.5 \u00b7 Over 42.3% \u00b7 Under 57.7% \u00b7 O/U +/- -3.8",
+            "home": "ATS +/- 1.0 \u00b7 Over 52.9% \u00b7 Under 47.1% \u00b7 O/U +/- 1.9"
+          }
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         80-47-0   (63.0%)   [graded 127]\n  Elite:       80-47-0   (63.0%)   [graded 127]\n\nFAV/DOG (Spread)\n  Favorites:   37-23-0   (61.7%)   [graded 60]\n  Underdogs:   43-24-0   (64.2%)   [graded 67]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "10/21/2026, 10:46:35 AM"
     }
   ],
   "weights": {
     "wOFF": 1,
-    "wTS": 1.14,
-    "wTO": 0.002,
-    "wORR": 4.998,
-    "wDEF": 1.412,
-    "constant": 0.057,
-    "paceAdj": 0.947,
-    "hca": 1.034,
+    "wTS": 1.172,
+    "wTO": 0.001,
+    "wORR": 5,
+    "wDEF": 1.421,
+    "constant": 0.071,
+    "paceAdj": 0.957,
+    "hca": 1.067,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -26523,12 +26630,12 @@
   },
   "residualVar": 160.3,
   "weightsVar": {
-    "wTS": 3.6906,
-    "wTO": 3.8895,
-    "wORR": 3.3732,
+    "wTS": 3.6899,
+    "wTO": 3.8893,
+    "wORR": 3.3719,
     "wDEF": 0.05,
     "hca": 0.2,
     "constant": 4.0
   },
-  "lastTuneDate": "20261020"
+  "lastTuneDate": "20261021"
 }
