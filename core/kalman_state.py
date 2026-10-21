@@ -175,15 +175,7 @@ def update_from_game(state, game, proj_margin, game_date=None, opts=None,
 
     actual_margin = home_score - away_score
     if proj_includes_adj:
-        # The projection carried scale x the offsets it was made with (see
-        # KALMAN_SCALE / kalmanAdj in core/model_engine.py). Compare the result
-        # against the FULL-offset prediction so the filter learns the same
-        # thing at any scale. scale 1 (or no kalmanAdj) -> proj_margin as-is.
-        ka = game.get("kalmanAdj") if isinstance(game.get("kalmanAdj"), dict) else None
-        if ka and _is_finite(ka.get("scale")) and _is_finite(ka.get("home")) and _is_finite(ka.get("away")):
-            predicted_margin = proj_margin + (1 - ka["scale"]) * (ka["home"] - ka["away"])
-        else:
-            predicted_margin = proj_margin
+        predicted_margin = proj_margin
     else:
         predicted_margin = proj_margin + h["adj_mean"] - a["adj_mean"]
     innovation = actual_margin - predicted_margin

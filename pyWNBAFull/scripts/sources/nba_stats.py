@@ -81,11 +81,7 @@ def _fetch_team_stats(date_to=None, date_from=None, last_n_games=0, location="",
         timeout=60,
     )
     if date_to:
-        # date_to is the GAME DAY; stop the day before. DateTo is inclusive, so
-        # 'through D' fetched on/after D includes D's own games -- backfills
-        # built that way predicted games from stats holding their results.
-        _d = datetime.datetime.strptime(str(date_to).replace("-", ""), "%Y%m%d").date() - datetime.timedelta(days=1)
-        kwargs["date_to_nullable"] = to_nba_date(_d.strftime("%Y%m%d"))
+        kwargs["date_to_nullable"] = to_nba_date(date_to)
     if date_from:
         kwargs["date_from_nullable"] = to_nba_date(date_from)
     if location:

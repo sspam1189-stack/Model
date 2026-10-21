@@ -533,27 +533,14 @@ def main(subject_label="[PY]"):
                 enhanced_stats = None
         except Exception:
             enhanced_stats = None
-    burn_in_msg = None
     if not enhanced_stats:
+        enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+        os.makedirs(_shared_cache_dir, exist_ok=True)
         try:
-            enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
-        except Exception as e:
-            # Season burn-in: nba_stats drops teams under 10 GP and raises when
-            # fewer than 20 remain, which is every day of the season's first
-            # ~3 weeks. That is expected, not a failure — exiting 1 here also
-            # skipped the nba-props job (needs: nba-fullseason). Keep going far
-            # enough to write today's injury cache (pyNBAPROPS reads it), then
-            # stop cleanly below. Every other error still fails the run.
-            if "stats incomplete" not in str(e):
-                raise
-            burn_in_msg = str(e)
-        if enhanced_stats:
-            os.makedirs(_shared_cache_dir, exist_ok=True)
-            try:
-                with open(_cache_path, "w", encoding="utf-8") as f:
-                    json.dump(enhanced_stats, f)
-            except Exception:
-                pass
+            with open(_cache_path, "w", encoding="utf-8") as f:
+                json.dump(enhanced_stats, f)
+        except Exception:
+            pass
     # FanDuel primary (no API key needed), The Odds API fallback
     odds = fetch_fanduel_nba_odds()
     if not odds:
@@ -617,12 +604,8 @@ def main(subject_label="[PY]"):
                 return pg
         return None
 
-    # TeamRankings trends are display-only (the engine never reads them), so a
-    # TeamRankings outage must not take the picks or the props job down.
-    try: ats = fetch_ats_trends()
-    except Exception as e: print(f"  Warning: ATS trends fetch failed: {e}"); ats = {}
-    try: ou = fetch_ou_trends()
-    except Exception as e: print(f"  Warning: O/U trends fetch failed: {e}"); ou = {}
+    ats = fetch_ats_trends()
+    ou = fetch_ou_trends()
     h2h_matchups = None
     # Always fetch fresh injuries, merge with cache for started/finished games
     injury_data = None
@@ -682,42 +665,6 @@ def main(subject_label="[PY]"):
               f" ({len(_locked_teams)} locked)")
     except Exception as _e:
         print(f"  [injury] Cache write failed (non-fatal): {_e}")
-
-    if burn_in_msg:
-        # Still save tonight's slate so the dashboard shows the games (matchup,
-        # line, total, tip time) during burn-in. status SKIPPED keeps every
-        # downstream step (grading, Kalman, self-tune, records) away from them;
-        # burnIn on the GAME labels the card. The run itself must NOT carry
-        # burnIn, or the dashboard hides it.
-        games = []
-        for g in odds:
-            st = g.get("startTimeUTC")
-            if st:
-                try:
-                    from datetime import datetime as _dt
-                    if _dt.fromisoformat(st.replace("Z", "+00:00")).astimezone(_get_tz()).strftime("%Y%m%d") != date:
-                        continue
-                except Exception:
-                    pass
-            games.append({**g, "status": "SKIPPED", "burnIn": True,
-                          "note": "Stats burn-in: no picks until 20+ teams have 10 games",
-                          "sPick": "PASS", "oPick": "PASS"})
-        games.sort(key=lambda g: g.get("startTimeUTC") or "")
-        run = {"date": date, "dateDisplay": date_display, "burnIn": False,
-               "weightsUsed": dict(store.get("weights") or {}), "weightsNext": dict(store.get("weights") or {}),
-               "games": games, "summaryText": ""}
-        run["summaryText"] = compute_summary_text(store)
-        upsert_run(store, run)
-        save_store(store)
-        try:
-            import shutil
-            _here = os.path.dirname(os.path.abspath(__file__))
-            shutil.copy2(os.path.join(_here, "..", "data", "history.json"),
-                         os.path.join(_here, "..", "..", "PythonDashboard", "data", "fullseason.json"))
-        except Exception as e:
-            print(f"  [dashboard] sync failed: {e}")
-        print(f"[burn-in] {burn_in_msg} -- saved {len(games)} game(s) for the dashboard, no picks until 20+ teams have 10 GP.")
-        return
 
     # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides).
     # Aliasing it to store["weights"] made those per-run overrides permanent —

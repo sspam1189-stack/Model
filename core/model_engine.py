@@ -408,26 +408,12 @@ def create_model_engine(
         home_kalman = None
         away_kalman = None
 
-        # KALMAN_SCALE: share of each team's Kalman offset applied to the
-        # projection (1 = full, 0 = tracked but not applied). The full offsets
-        # and the scale are saved on the result as kalmanAdj so the filter
-        # update can rebuild the full-offset prediction, and so a shadow
-        # "with Kalman" projection can be evaluated later.
-        kalman_scale = float(engine_config.get("KALMAN_SCALE", 1.0))
-        kalman_adj_full = None
         if kalman_state and kalman_state.get("teams"):
             teams_map = kalman_state["teams"]
             ht = teams_map.get(home_key)
-            home_kalman = {"mean": ht["adj_mean"] * kalman_scale,
-                           "var": ht["adj_var"] * kalman_scale ** 2} if ht else None
+            home_kalman = {"mean": ht["adj_mean"], "var": ht["adj_var"]} if ht else None
             at = teams_map.get(away_key)
-            away_kalman = {"mean": at["adj_mean"] * kalman_scale,
-                           "var": at["adj_var"] * kalman_scale ** 2} if at else None
-            kalman_adj_full = {
-                "home": round(ht["adj_mean"], 3) if ht else 0.0,
-                "away": round(at["adj_mean"], 3) if at else 0.0,
-                "scale": kalman_scale,
-            }
+            away_kalman = {"mean": at["adj_mean"], "var": at["adj_var"]} if at else None
 
         a_proj = proj_score(gg["away"], gg["home"], False, H, a, W, away_kalman, W_var, residual_var, team_hca)
         h_proj = proj_score(gg["home"], gg["away"], home_flag, H, a, W, home_kalman, W_var, residual_var, team_hca)
@@ -540,8 +526,6 @@ def create_model_engine(
             "_features": _features,
             "_marginFeatures": _margin_features,
         }
-        if kalman_adj_full is not None:
-            result["kalmanAdj"] = kalman_adj_full
 
         if enable_h2h:
             result.update({

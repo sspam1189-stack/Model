@@ -123,7 +123,7 @@ def _fetch_mpg_espn(espn_type=2):
 
     urls = [
         "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete?region=us&lang=en&contentorigin=espn&is498=true&type=team&limit=500&sort=general.mpg:desc",
-        f"https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/{int(_current_season()[:4]) + 1}/types/{espn_type}/leaders?limit=500",  # ESPN labels a season by its end year
+        f"https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/2026/types/{espn_type}/leaders?limit=500",
         "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/leaders?limit=500",
     ]
 

@@ -207,18 +207,17 @@ let cache = {};
 let sourceMeta = {};
 let summaryCache = {};
 let summaryMeta = {};
-// Opens on NBA Full Season (first league) since 2026-10-20; league order is
-// NBA, WNBA, NFL, MLB (index.html). MLB K's CSW .1
+// Opens on WNBA (first league, in season) since 2026-09-29. MLB K's CSW .1
 // (VAR 1.20 / cap 26) is the live K model; CSW .1 Old and Whiff .1/Cap26 are
 // shadows, their tab buttons hidden (display:none in index.html) — still
 // run + publish. Keep this in sync with the tab marked .active in index.html.
-let activeTab = 'fullseason';
+let activeTab = 'wnba-full';
 let viewMode = 'today';
 let historyPage = 0;
 const DAYS_PER_PAGE = 7;
 
 // ─── Generic Season Filter (shared across ALL tabs) ───
-let seasonFilter = activeTab === 'fullseason' ? 'current' : 'all';  // same rule as the tab click handler
+let seasonFilter = 'all';
 // NBA Full Season opens on the current season ('current'), not on every season
 // blended: the daily rollover archives last season out of the live file, so the
 // two are different records. effectiveSeason() resolves it; the archived
@@ -247,30 +246,23 @@ let teamPicksBucketFilter = 'all';
 let teamPicksPage = 0;
 const TEAM_PICKS_PAGE_SIZE = 25;   // rows a page in the Team Picks browser
 
-// NBA playoff cutoff per season (play-in day 1; play-in + playoffs count as
-// playoffs), keyed by the season's start year. A single fixed date made every
-// pick of every later season a "playoff" pick. Keep in sync with
-// PLAYOFF_START in pyFull/scripts/sources/season_type.py. 2026-27 is still
-// provisional there too.
-const PLAYOFF_CUTOFFS = { 2025: '20260414', 2026: '20270414' };
+// NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
+// Shared between the record banner segment buttons and downstream widgets.
+const PLAYOFF_CUTOFF = '20260414';
 
-// Is this YYYYMMDD date in its season's playoffs? WNBA's regular season runs
-// May-Sept, so it never splits (every pick counts as regular season).
-function isPlayoffDate(date) {
-  if (activeTab === 'wnba-full') return false;
-  const d = String(date || '');
-  if (d.length < 8) return false;
-  const y = parseInt(d.slice(0, 4), 10), m = parseInt(d.slice(4, 6), 10);
-  const startYear = m >= 10 ? y : y - 1;
-  const cutoff = PLAYOFF_CUTOFFS[startYear] || `${startYear + 1}0414`;
-  return d >= cutoff;
+// Tab-aware playoff cutoff. The default '20260414' is the NBA play-in date;
+// WNBA's regular season runs May-Sept so every pick would fall after it and be
+// mislabeled "playoffs". Return a far-future date for WNBA so the whole season
+// counts as regular (no spurious playoff split). NBA/other tabs are unchanged.
+function playoffCutoff() {
+  return activeTab === 'wnba-full' ? '99999999' : PLAYOFF_CUTOFF;
 }
 
 function filterRunsBySegment(runs) {
   const seg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
   if (seg === 'total') return runs;
-  if (seg === 'regular') return runs.filter(r => !isPlayoffDate(r.date));
-  if (seg === 'playoffs') return runs.filter(r => isPlayoffDate(r.date));
+  if (seg === 'regular') return runs.filter(r => (r.date || '') < playoffCutoff());
+  if (seg === 'playoffs') return runs.filter(r => (r.date || '') >= playoffCutoff());
   return runs;
 }
 
@@ -580,7 +572,7 @@ document.querySelectorAll('.tab').forEach(tab => {
 });
 
 // mount the league that owns whichever tab starts active
-setLeague(leagueOf(document.querySelector('.tab.active')) || 'NBA',
+setLeague(leagueOf(document.querySelector('.tab.active')) || 'WNBA',
           { selectFirstTab: false });
 
 async function fetchData(key) {
@@ -948,7 +940,7 @@ function computeTeamPicks(runs) {
         date: g.startTimeUTC || r.date || '',
         dateDisplay,
         monthKey,
-        playoffs: isPlayoffDate(r.date),
+        playoffs: (r.date || '') >= playoffCutoff(),
         matchup: `${g.away} @ ${g.home}`,
         line: g.line,
         projMargin: g.margin,
@@ -1072,12 +1064,12 @@ function getModelBucket(modelSummary) {
 
 function renderRecordBanner(runs, modelSummary = null) {
   // --- Top banner: filterable by season segment (Total / Regular / Playoffs) ---
-  // Picks store run.date in YYYYMMDD form. Uses shared isPlayoffDate().
+  // Picks store run.date in YYYYMMDD form. Uses shared PLAYOFF_CUTOFF.
   const allPicks = getGradedPicks(runs);
   const segments = {
     total:    allPicks,
-    regular:  allPicks.filter(g => !isPlayoffDate(g.date)),
-    playoffs: allPicks.filter(g => isPlayoffDate(g.date)),
+    regular:  allPicks.filter(g => (g.date || '') < playoffCutoff()),
+    playoffs: allPicks.filter(g => (g.date || '') >= playoffCutoff()),
   };
   const activeSeg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
   const segLabels = { total: 'Elite Record', regular: 'Regular Season', playoffs: 'Playoffs' };
@@ -1288,7 +1280,7 @@ function renderGameCards(run) {
       const favTeam = projMargin >= 0 ? g.home : g.away;
       spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
     } else {
-      spreadHtml = `<div class="game-detail"><span class="label">Spread: ${g.burnIn ? 'BURN-IN (no picks yet)' : isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
+      spreadHtml = `<div class="game-detail"><span class="label">Spread: ${isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
     }
 
     let projHtml = '';
@@ -1664,7 +1656,7 @@ function renderHistoryDay(run) {
     return `<div class="game-card">
       <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
       <div class="game-detail">
-        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${g.burnIn ? 'BURN-IN' : isSkipped ? esc(g.status) : 'PASS'}</span>`}
+        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
         ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
       </div>
       ${isPick ? lrInfo(g) : ''}
@@ -2495,7 +2487,7 @@ function nflRenderHistoryWeek(run) {
     return `<div class="game-card">
       <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
       <div class="game-detail">
-        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${g.burnIn ? 'BURN-IN' : isSkipped ? esc(g.status) : 'PASS'}</span>`}
+        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
         ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
       </div>
       ${hasScore ? `<div class="game-detail"><span class="label">Final:</span> ${g.awayScore}-${g.homeScore}</div>` : ''}

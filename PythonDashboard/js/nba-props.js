@@ -142,22 +142,13 @@
           el.appendChild(mbCard);
         }
 
-        // Playoffs (includes play-in tournament + playoffs), per season: a pick
-        // is a playoff pick when it falls on/after ITS season's play-in day 1
-        // (keyed by season start year; keep in sync with PLAYOFF_START in
-        // pyFull/scripts/sources/season_type.py). A single fixed date made every
-        // pick of later seasons a "playoff" pick. NBA-only: WNBA's season runs
-        // May-Sept, so skip this card entirely for the WNBA props tab.
-        const PLAYOFF_CUTOFFS = { 2025: '2026-04-14', 2026: '2027-04-14' };
-        const isPlayoffPick = d => {
-          const s = String(d || '');
-          if (s.length < 10) return false;
-          const y = parseInt(s.slice(0, 4), 10), m = parseInt(s.slice(5, 7), 10);
-          const startYear = m >= 10 ? y : y - 1;
-          return s >= (PLAYOFF_CUTOFFS[startYear] || `${startYear + 1}-04-14`);
-        };
+        // Playoffs (includes play-in tournament 4/14-4/17 + playoffs 4/18+).
+        // NBA-only: 2026-04-14 is the NBA play-in date. WNBA's season runs
+        // May-Sept, so every WNBA pick falls after it and would be mislabeled
+        // "playoffs" — skip this card entirely for the WNBA props tab.
+        const recentCutoff = '2026-04-14';
         const isWNBAProps = String(dataKey).startsWith('wnba');
-        const recentPicks = isWNBAProps ? [] : gradedPicks.filter(p => isPlayoffPick(p.date));
+        const recentPicks = isWNBAProps ? [] : gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;
           const rL = recentPicks.filter(p => p.result === 'LOSS').length;
@@ -167,7 +158,7 @@
           const rCard = document.createElement('div');
           rCard.className = 'card card-games';
           rCard.style.marginBottom = '16px';
-          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Playoffs (${recentPicks.reduce((m, p) => (p.date < m ? p.date : m), recentPicks[0].date)} \u2013 present)`}));
+          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Playoffs (${recentCutoff} \u2013 present)`}));
           const rWrap = document.createElement('div');
           rWrap.className = 'props-table-wrap';
           const rTbl = document.createElement('table');

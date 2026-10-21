@@ -124,7 +124,7 @@ def run_replay(kalman_opts=None):
         if date != prev_date:
             prev_date = date
             if prev_graded:
-                batch_update(kalman_state, prev_graded, kalman_opts, proj_includes_adj=True)
+                batch_update(kalman_state, prev_graded, kalman_opts)
                 res = tune_weights(base_w, base_w_var, prev_graded)
                 base_w = res["W"]; base_w_var = res["W_var"]
                 store["weights"] = res["W"]; store["weightsVar"] = res["W_var"]

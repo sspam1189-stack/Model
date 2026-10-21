@@ -24,7 +24,7 @@
 #   KALMAN gameNoise 218 (NBA 144), initialVar 20 / drift 0.25 loosened for the
 #                                    short ~44-game/15-team season so real teams
 #                                    aren't over-smoothed early.
-#   MIN_GP 5    (NBA 10)          — short season; trust teams after 5 games.
+#   MIN_GP 5    (NBA 15)          — short season; trust teams after 5 games.
 #
 # PROJECTION-ACCURACY / CALIBRATION CHECK (scripts/backtest_wnba.py, engine run
 # on real 2024+2025 finals at synthetic line=0, teams with >=5 GP, n=79):

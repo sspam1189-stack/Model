@@ -198,17 +198,7 @@ ENGINE_CONFIG = {
         "houston":               "Houston Rockets",
         "rockets":               "Houston Rockets",
     },
-    "MIN_GP": 10,  # stats burn-in (was 15). Leak-free 2025-26 replays: 10 vs 15 ~even; 10 just starts picks ~10 days sooner
-    # Share of the Kalman team offsets applied to projections (core/model_engine).
-    # 0 = the filter still tracks every team (kalmanAdj is saved on each game for
-    # a shadow check) but does not move picks. Leak-free 2025-26 replays (stats
-    # through D-1, MIN_GP 10, 1,167 games; error = actual - (hS - aS)):
-    #   Kalman            margin MAE   all picks ROI
-    #   on  (fixed)       11.98        -4.5%
-    #   on  (old bug)     11.91        -3.0%
-    #   off (scale 0)     11.78        -1.5%   <- best; Vegas line MAE 11.18
-    # Revisit mid-season with 2026-27 kalmanAdj data.
-    "KALMAN_SCALE": 0.0,
+    "MIN_GP": 15,
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }

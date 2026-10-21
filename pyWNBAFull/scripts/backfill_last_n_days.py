@@ -261,13 +261,11 @@ def main():
 
             # 1-2. Kalman + self-tune
             if prev_graded:
-                batch_update(kalman_state, prev_graded, proj_includes_adj=True)
+                batch_update(kalman_state, prev_graded)
 
                 result = tune_weights(base_w, base_w_var, prev_graded)
-                # Copy: base_w is mutated by the playoff overrides below and
-                # must not alias the dict persisted into store["weights"].
-                base_w = {**result["W"]}
-                base_w_var = {**result["W_var"]}
+                base_w = result["W"]
+                base_w_var = result["W_var"]
                 store["weights"] = result["W"]
                 store["weightsVar"] = result["W_var"]
 
