@@ -702,6 +702,14 @@ def main(subject_label="[PY]"):
             games.append({**g, "status": "SKIPPED", "burnIn": True,
                           "note": "Stats burn-in: no picks until 20+ teams have 10 games",
                           "sPick": "PASS", "oPick": "PASS"})
+        # FanDuel drops a game once it tips, so a later run would lose an early
+        # game (Celtics @ Pistons, 2 PM CT on 2026-10-20). Keep any game an
+        # earlier run today already saved.
+        _have = {(g.get("away"), g.get("home")) for g in games}
+        _prev = next((r for r in store.get("runs", []) if r.get("date") == date), None)
+        for g in (_prev or {}).get("games", []):
+            if (g.get("away"), g.get("home")) not in _have:
+                games.append(g)
         games.sort(key=lambda g: g.get("startTimeUTC") or "")
         run = {"date": date, "dateDisplay": date_display, "burnIn": False,
                "weightsUsed": dict(store.get("weights") or {}), "weightsNext": dict(store.get("weights") or {}),
