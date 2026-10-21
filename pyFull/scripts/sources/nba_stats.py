@@ -54,9 +54,34 @@ def to_nba_date(date_str):
     return date_str
 
 
+def _pregame_cutoff(game_day):
+    """Stats for game day D must stop at D-1. NBA.com's DateTo is inclusive, so
+    asking for 'through D' on or after D returns D's own games -- every backfill
+    built that way predicted games from stats that already held their results
+    (e.g. 2026-02-28 POR@CHA: 61 GP each instead of 60). Returns YYYYMMDD."""
+    s = str(game_day).replace("-", "")
+    d = datetime.datetime.strptime(s, "%Y%m%d").date() - datetime.timedelta(days=1)
+    return d.strftime("%Y%m%d")
+
+
+def _season_for(game_day):
+    """NBA season string for a game day (Oct starts a season), e.g. '2025-26'.
+    Backfills must ask for the game's season, not the season of the run date."""
+    s = str(game_day).replace("-", "")
+    y, m = int(s[:4]), int(s[4:6])
+    start = y if m >= 10 else y - 1
+    return f"{start}-{str(start + 1)[2:]}"
+
+
 def _fetch_team_stats(date_to=None, date_from=None, last_n_games=0, location="", season_type="Regular Season"):
-    """Core fetch -- direct request to stats.nba.com (mirrors jsNBA)."""
-    season = current_season()
+    """Core fetch -- direct request to stats.nba.com (mirrors jsNBA).
+
+    date_to is the GAME DAY being projected; the request stops the day before
+    (see _pregame_cutoff) so the result of that day's games is never included.
+    """
+    season = _season_for(date_to) if date_to else current_season()
+    if date_to:
+        date_to = _pregame_cutoff(date_to)
     params = {
         "MeasureType": "Advanced",
         "PerMode": "PerGame",
