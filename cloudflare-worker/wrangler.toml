@@ -7,7 +7,7 @@ compatibility_date = "2025-01-01"
 #   ACCESS_KEY  - shared passphrase users paste into the dashboard once
 
 # One cron trigger; the schedule itself is the SCHEDULE table in
-# workflow-proxy.js (UTC). Replaces the workflows' GitHub `on: schedule`
+# workflow-proxy.js (UTC unless an entry sets tz). Replaces the workflows' GitHub `on: schedule`
 # blocks, which GitHub ran hours late.
 [triggers]
 crons = ["*/15 * * * *"]

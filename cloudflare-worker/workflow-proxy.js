@@ -25,11 +25,13 @@ const WORKFLOWS = {
 // plan allows only a handful) and dispatches whatever in this table matches
 // the tick. Same 5-field syntax and UTC times the workflows used; each minute
 // must be a multiple of 15. Supported per field: "*", a number, or a comma list.
+// An entry with tz is matched against that time zone's wall clock instead of
+// UTC, so it keeps its local time across daylight-saving changes.
 const SCHEDULE = [
-  // NBA full season + props (py-run-daily.yml)
-  { cron: "45 16 * * *", wf: "python" },  // 11:45 AM CDT / 10:45 AM CST
-  { cron: "15 19 * * *", wf: "python" },  //  2:15 PM CDT /  1:15 PM CST
-  { cron: "45 22 * * *", wf: "python" },  //  5:45 PM CDT /  4:45 PM CST
+  // NBA full season + props (py-run-daily.yml), Central time year-round
+  { cron: "45 10 * * *", wf: "python", tz: "America/Chicago" },  // 10:45 AM CT
+  { cron: "15 13 * * *", wf: "python", tz: "America/Chicago" },  //  1:15 PM CT
+  { cron: "15 17 * * *", wf: "python", tz: "America/Chicago" },  //  5:15 PM CT
   // WNBA full season + props (wnba-run-daily.yml)
   { cron: "45 15 * * *", wf: "wnba" },    // 10:45 AM CDT
   { cron: "45 21 * * *", wf: "wnba" },    //  4:45 PM CDT
@@ -47,14 +49,32 @@ function cronFieldMatches(field, value) {
   return field.split(",").some(v => Number(v) === value);
 }
 
-// true when the 5-field UTC cron expression matches Date d (to the minute).
-function cronMatches(expr, d) {
+const WEEKDAY = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+// Wall-clock fields of Date d in time zone tz (UTC when tz is not given).
+function clockParts(d, tz) {
+  if (!tz) {
+    return { min: d.getUTCMinutes(), hour: d.getUTCHours(), dom: d.getUTCDate(),
+             mon: d.getUTCMonth() + 1, dow: d.getUTCDay() };
+  }
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+    timeZone: tz, hourCycle: "h23", weekday: "short",
+    year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric",
+  }).formatToParts(d).map(x => [x.type, x.value]));
+  return { min: Number(p.minute), hour: Number(p.hour), dom: Number(p.day),
+           mon: Number(p.month), dow: WEEKDAY[p.weekday] };
+}
+
+// true when the 5-field cron expression matches Date d (to the minute) on the
+// wall clock of tz (UTC when tz is not given).
+function cronMatches(expr, d, tz) {
   const [min, hour, dom, mon, dow] = expr.trim().split(/\s+/);
-  return cronFieldMatches(min, d.getUTCMinutes())
-    && cronFieldMatches(hour, d.getUTCHours())
-    && cronFieldMatches(dom, d.getUTCDate())
-    && cronFieldMatches(mon, d.getUTCMonth() + 1)
-    && cronFieldMatches(dow, d.getUTCDay());
+  const c = clockParts(d, tz);
+  return cronFieldMatches(min, c.min)
+    && cronFieldMatches(hour, c.hour)
+    && cronFieldMatches(dom, c.dom)
+    && cronFieldMatches(mon, c.mon)
+    && cronFieldMatches(dow, c.dow);
 }
 
 // A run older than this that is still queued/in_progress is treated as STALE
@@ -178,7 +198,7 @@ export default {
   // Cron trigger: dispatch every SCHEDULE entry that matches this tick.
   async scheduled(controller, env, ctx) {
     const tick = new Date(controller.scheduledTime);
-    const due = [...new Set(SCHEDULE.filter(s => cronMatches(s.cron, tick)).map(s => s.wf))];
+    const due = [...new Set(SCHEDULE.filter(s => cronMatches(s.cron, tick, s.tz)).map(s => s.wf))];
     for (const wf of due) {
       ctx.waitUntil(
         dispatchWorkflow(env, wf).then(async res => {
