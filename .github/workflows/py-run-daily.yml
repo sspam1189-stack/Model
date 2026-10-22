@@ -59,9 +59,23 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python run_daily.py
 
+      # Second NBA full-season model (Kalman off, recentWeight 0.35, home court
+      # free below 1.5). Same code and feeds, its own data. Runs after pyFull so
+      # it reads the stats cache pyFull just wrote; a failure here never blocks
+      # pyFull's commit or the props job.
+      - name: Run daily (NBA Full KalmanOff)
+        continue-on-error: true
+        working-directory: pyFullKalmanOff/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python run_daily.py
+
       - name: Copy dashboard data
         run: |
           Copy-Item pyFull/data/history.json PythonDashboard/data/fullseason.json -Force
+          Copy-Item pyFullKalmanOff/data/history.json PythonDashboard/data/fullseason-kalmanoff.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFull/data/nba-systems.json PythonDashboard/data/nba-systems.json -Force -ErrorAction SilentlyContinue
           # Archived seasons (season rollover moves last season out of history.json)
           # so the dashboard's season dropdown can still show them.
@@ -79,7 +93,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Scope to pyFull-owned paths so a parallel pyNBAPROPS push can't race us.
-          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json PythonDashboard/data/archive/ data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/
+          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json PythonDashboard/data/archive/ data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/ pyFullKalmanOff/data/ PythonDashboard/data/fullseason-kalmanoff.json data/run_inputs/nba-kalmanoff/
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Run daily Python Fullseason [skip ci]"
@@ -139,7 +153,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Scope to pyNBAPROPS-owned paths so a parallel pyFull push can't race us.
-          git add pyNBAPROPS/data/ PythonDashboard/data/nba-props.json data/player_cache/nba/ data/props_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/
+          git add pyNBAPROPS/data/ PythonDashboard/data/nba-props.json data/player_cache/nba/ data/props_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Run daily Python NBA Props [skip ci]"
