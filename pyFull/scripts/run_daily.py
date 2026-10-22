@@ -770,6 +770,15 @@ def _main(subject_label, date):
         except Exception as e:
             print(f"  [dashboard] sync failed: {e}")
         print(f"[burn-in] {burn_in_msg} -- saved {len(games)} game(s) for the dashboard, no picks until 20+ teams have 10 GP.")
+        # Situational systems need lines, results and the schedule, not the
+        # model's stats, so they run during burn-in too (they used to be
+        # skipped by this early return, leaving the tab frozen all October).
+        try:
+            if not _ri.replaying():
+                import build_nba_systems
+                build_nba_systems.build(date=date, store=store)
+        except Exception as e:
+            print(f"  [systems] build failed (non-fatal): {e}")
         return
 
     # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides).

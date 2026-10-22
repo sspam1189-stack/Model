@@ -73,9 +73,16 @@ def load_stats():
     return out
 
 
+def _season_start(d8):
+    y, m = int(d8[:4]), int(d8[4:6])
+    return y if m >= 10 else y - 1
+
+
 def stats_for(stats, d8):
-    """Latest cache strictly BEFORE d8 -- see trap 1 in the module docstring."""
-    keys = [k for k in stats if k < d8]
+    """Latest cache strictly BEFORE d8, from the SAME season -- see trap 1 in
+    the module docstring. Without the season check the first weeks of a new
+    season (no cache yet while stats burn in) read last season's final stats."""
+    keys = [k for k in stats if k < d8 and _season_start(k) == _season_start(d8)]
     return stats[max(keys)] if keys else None
 
 
