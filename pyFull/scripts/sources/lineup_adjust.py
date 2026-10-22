@@ -47,14 +47,15 @@ ABBREV_TO_NAME = {
 }
 
 
-def fetch_player_advanced(season_type="Regular Season"):
+def fetch_player_advanced(season_type="Regular Season", season=None, date_to=None):
     """
     Fetch per-player advanced stats from NBA.com.
     Returns: { player_name: { team, min, gp, offRtg, defRtg, netRtg, tsPct, tovPct, orbPct, pace } }
-    Always uses Regular Season for player advanced stats.
+    Always uses Regular Season for player advanced stats. season/date_to
+    (MM/DD/YYYY, inclusive) give a past point in time; live leaves both None.
     """
     effective_type = "Regular Season"
-    season = _current_season()
+    season = season or _current_season()
 
     # Use nba_api instead of raw requests (handles headers/cookies/retries)
     from nba_api.stats.endpoints import leaguedashplayerstats
@@ -65,6 +66,7 @@ def fetch_player_advanced(season_type="Regular Season"):
             season_type_all_star=effective_type,
             measure_type_detailed_defense="Advanced",
             per_mode_detailed="PerGame",
+            date_to_nullable=date_to or "",
             timeout=120,
         )
         df = endpoint.get_data_frames()[0]

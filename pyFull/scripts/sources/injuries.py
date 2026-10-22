@@ -77,11 +77,13 @@ def _today_espn():
 
 # -- Player MPG from NBA.com --
 
-def _fetch_mpg_leaguedash(season_type="Regular Season"):
-    """Fetch player MPG via nba_api (replaces raw stats.nba.com calls)."""
+def _fetch_mpg_leaguedash(season_type="Regular Season", season=None, date_to=None):
+    """Fetch player MPG via nba_api (replaces raw stats.nba.com calls).
+    season/date_to (MM/DD/YYYY, inclusive) give a past point in time; live
+    leaves both None (current season to date)."""
     from nba_api.stats.endpoints import leaguedashplayerstats
 
-    season = _current_season()
+    season = season or _current_season()
     print("  [injuries] Fetching leaguedashplayerstats via nba_api...")
 
     try:
@@ -90,6 +92,7 @@ def _fetch_mpg_leaguedash(season_type="Regular Season"):
             season_type_all_star=season_type,
             measure_type_detailed_defense="Base",
             per_mode_detailed="PerGame",
+            date_to_nullable=date_to or "",
             timeout=120,
         )
         df = endpoint.get_data_frames()[0]
@@ -197,10 +200,11 @@ ABBREV_TO_NAME = {
 }
 
 
-def fetch_player_mpg(season_type="Regular Season", espn_type=2):
+def fetch_player_mpg(season_type="Regular Season", espn_type=2, season=None, date_to=None):
     """
     Fetch player minutes per game. Tries NBA.com leaguedash first, then ESPN.
-    Always uses Regular Season for MPG.
+    Always uses Regular Season for MPG. With date_to (a past point in time)
+    there is no ESPN fallback: ESPN only serves the current season to date.
     """
     mpg_season_type = "Regular Season"
     mpg_espn_type = 2
@@ -209,7 +213,7 @@ def fetch_player_mpg(season_type="Regular Season", espn_type=2):
 
     # Attempt 1: leaguedashplayerstats
     try:
-        data = _fetch_mpg_leaguedash(mpg_season_type)
+        data = _fetch_mpg_leaguedash(mpg_season_type, season=season, date_to=date_to)
 
         for row in data["rows"]:
             name = row[data["iName"]]
@@ -228,6 +232,9 @@ def fetch_player_mpg(season_type="Regular Season", espn_type=2):
         print(f"  [injuries] leaguedash returned only {len(mpg_map)} players, trying fallback...")
     except Exception as e:
         print(f"  [injuries] leaguedash failed: {e}")
+
+    if date_to:
+        return mpg_map
 
     # Attempt 2: ESPN leaders
     try:
@@ -489,6 +496,18 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
         print(f"  [injuries] MPG fetch failed: {e}")
         player_mpg = {}
 
+    report = build_injury_report(game_availability, player_mpg)
+    result = {"report": report, "playerMPG": player_mpg}
+
+    # Cache the result
+    if report:
+        _save_injury_cache(date_key, result)
+
+    return result
+
+
+def build_injury_report(game_availability, player_mpg):
+    """Attach mpg + tier to each listed player (team -> [{player, status, reason, tier, mpg}])."""
     report = {}
 
     for team_name, players in game_availability.items():
@@ -515,13 +534,7 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
 
         report[team_name] = enriched
 
-    result = {"report": report, "playerMPG": player_mpg}
-
-    # Cache the result
-    if report:
-        _save_injury_cache(date_key, result)
-
-    return result
+    return report
 
 
 # -- Convenience exports --

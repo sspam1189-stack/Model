@@ -1,0 +1,76 @@
+name: NBA Fill Injury History (one-off)
+
+# Fills data/injury_cache/nba/<date>.json for past game days that have none
+# (2025-26: Oct 21 - Mar 18), built with live's own injury code as of each
+# date, so replay_season.py backfills with injuries the way live runs.
+# Self-hosted: stats.nba.com refuses GitHub-hosted IPs. Existing files are never
+# overwritten, and whatever was filled is committed even if the job stops early,
+# so it can simply be re-run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: "First date (YYYYMMDD)"
+        default: "20251021"
+      to:
+        description: "Last date (YYYYMMDD)"
+        default: "20260318"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fill-injury-history
+  cancel-in-progress: false
+
+jobs:
+  fill:
+    runs-on: self-hosted
+    timeout-minutes: 300
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - name: Clean up stale rebase
+        run: $ErrorActionPreference='SilentlyContinue'; git rebase --abort 2>&1 | Out-Null; exit 0
+
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+
+      - name: Pull latest
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
+
+      - name: Install dependencies
+        run: pip install -r pyFull/requirements.txt
+
+      - name: Fill injury history
+        working-directory: pyFull/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python fill_injury_history.py --from ${{ inputs.from }} --to ${{ inputs.to }}
+
+      - name: Commit & push
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/injury_cache/nba/
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { exit 0 }
+          git commit -m "Fill NBA injury history ${{ inputs.from }}-${{ inputs.to }} [skip ci]"
+          $tries = 0
+          while ($tries -lt 5) {
+            git pull --rebase --autostash origin main
+            git push
+            if ($LASTEXITCODE -eq 0) { exit 0 }
+            $tries++
+            Start-Sleep -Seconds 5
+          }
+          exit 1
