@@ -77703,7 +77703,7 @@
       "weekKey": "2026_W7",
       "season": 2026,
       "week": 7,
-      "date": "20261021",
+      "date": "20261022",
       "dateDisplay": "2026 Week 7",
       "burnIn": false,
       "weightsUsed": {
@@ -77860,28 +77860,28 @@
         {
           "home": "CAR",
           "away": "TB",
-          "line": -3.5,
+          "line": -2.5,
           "total": 44.5,
           "hS": 25.0,
-          "aS": 19.3,
-          "pT": 44.3,
+          "aS": 19.4,
+          "pT": 44.4,
           "projSpread": -5.6,
-          "margin": 2.1,
-          "sDiff": 2.1,
-          "tDiff": -0.2,
-          "sPick": "PASS",
-          "sConf": "low",
+          "margin": 3.1,
+          "sDiff": 3.1,
+          "tDiff": -0.1,
+          "sPick": "Carolina Panthers -2.5",
+          "sConf": "pick",
           "oPick": "PASS",
           "oConf": "low",
-          "confidenceTier": "low",
+          "confidenceTier": "pick",
           "pHomeCover": 0.521,
           "pAwayCover": 0.479,
           "pOver": 0.511,
           "pUnder": 0.489,
-          "pCover": null,
+          "pCover": 0.521,
           "pOU": null,
-          "pHomeCoverRaw": 0.557,
-          "pOverRaw": 0.495,
+          "pHomeCoverRaw": 0.583,
+          "pOverRaw": 0.498,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -77937,14 +77937,14 @@
         {
           "home": "ATL",
           "away": "SF",
-          "line": 3.5,
+          "line": 2.5,
           "total": 49.5,
           "hS": 21.5,
           "aS": 25.1,
           "pT": 46.6,
           "projSpread": 3.6,
-          "margin": -0.1,
-          "sDiff": 0.1,
+          "margin": -1.1,
+          "sDiff": 1.1,
           "tDiff": -2.9,
           "sPick": "PASS",
           "sConf": "low",
@@ -77957,7 +77957,7 @@
           "pUnder": 0.491,
           "pCover": null,
           "pOU": null,
-          "pHomeCoverRaw": 0.497,
+          "pHomeCoverRaw": 0.468,
           "pOverRaw": 0.428,
           "probCalibrated": true,
           "marginVar": 166.2,
@@ -78014,15 +78014,15 @@
         {
           "home": "BAL",
           "away": "CIN",
-          "line": -2.5,
-          "total": 50.5,
-          "hS": 25.8,
-          "aS": 22.6,
-          "pT": 48.4,
+          "line": -1.5,
+          "total": 48.5,
+          "hS": 26.0,
+          "aS": 22.8,
+          "pT": 48.8,
           "projSpread": -3.1,
-          "margin": 0.6,
-          "sDiff": 0.6,
-          "tDiff": -2.1,
+          "margin": 1.6,
+          "sDiff": 1.6,
+          "tDiff": 0.3,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -78030,12 +78030,12 @@
           "confidenceTier": "low",
           "pHomeCover": 0.521,
           "pAwayCover": 0.479,
-          "pOver": 0.509,
-          "pUnder": 0.491,
+          "pOver": 0.513,
+          "pUnder": 0.487,
           "pCover": null,
           "pOU": null,
-          "pHomeCoverRaw": 0.518,
-          "pOverRaw": 0.448,
+          "pHomeCoverRaw": 0.543,
+          "pOverRaw": 0.507,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -78091,16 +78091,16 @@
         {
           "home": "HOU",
           "away": "NYG",
-          "line": -9.5,
+          "line": -10.5,
           "total": 43.5,
           "hS": 26.6,
           "aS": 20.6,
           "pT": 47.3,
           "projSpread": -6.0,
-          "margin": -3.5,
-          "sDiff": 3.5,
+          "margin": -4.5,
+          "sDiff": 4.5,
           "tDiff": 3.8,
-          "sPick": "New York Giants +9.5",
+          "sPick": "New York Giants +10.5",
           "sConf": "pick",
           "oPick": "OVER",
           "oConf": "pick",
@@ -78110,8 +78110,8 @@
           "pOver": 0.519,
           "pUnder": 0.481,
           "pCover": 0.479,
-          "pOU": 0.549,
-          "pHomeCoverRaw": 0.407,
+          "pOU": 0.54,
+          "pHomeCoverRaw": 0.371,
           "pOverRaw": 0.593,
           "probCalibrated": true,
           "marginVar": 166.2,
@@ -78122,10 +78122,11 @@
           "injuryDeltaAway": 0.0,
           "backupQBHome": false,
           "backupQBAway": false,
-          "situationalPick": "day_mismatch_over",
+          "situationalPick": "day_mismatch_10_over",
           "situationalSpreadPick": null,
           "systemsFired": [
-            "day_mismatch_over"
+            "day_mismatch_over",
+            "day_mismatch_10_over"
           ],
           "systemsConflict": [],
           "systemsOverruled": [],
@@ -78172,13 +78173,13 @@
           "away": "MIA",
           "line": -4.5,
           "total": 39.5,
-          "hS": 25.2,
-          "aS": 18.8,
-          "pT": 44.1,
+          "hS": 25.6,
+          "aS": 19.2,
+          "pT": 44.9,
           "projSpread": -6.4,
           "margin": 1.9,
           "sDiff": 1.9,
-          "tDiff": 4.6,
+          "tDiff": 5.4,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -78191,7 +78192,7 @@
           "pCover": null,
           "pOU": null,
           "pHomeCoverRaw": 0.551,
-          "pOverRaw": 0.612,
+          "pOverRaw": 0.631,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -78251,11 +78252,11 @@
           "total": 37.5,
           "hS": 20.8,
           "aS": 21.6,
-          "pT": 42.5,
+          "pT": 42.4,
           "projSpread": 0.8,
           "margin": 0.7,
           "sDiff": 0.7,
-          "tDiff": 5.0,
+          "tDiff": 4.9,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -78268,7 +78269,7 @@
           "pCover": null,
           "pOU": null,
           "pHomeCoverRaw": 0.521,
-          "pOverRaw": 0.622,
+          "pOverRaw": 0.619,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -78401,16 +78402,16 @@
         {
           "home": "LV",
           "away": "LA",
-          "line": 4.5,
+          "line": 3.5,
           "total": 48.5,
           "hS": 25.0,
           "aS": 24.8,
           "pT": 49.7,
           "projSpread": -0.2,
-          "margin": 4.7,
-          "sDiff": 4.7,
+          "margin": 3.7,
+          "sDiff": 3.7,
           "tDiff": 1.2,
-          "sPick": "Las Vegas Raiders +4.5",
+          "sPick": "Las Vegas Raiders +3.5",
           "sConf": "pick",
           "oPick": "PASS",
           "oConf": "low",
@@ -78421,7 +78422,7 @@
           "pUnder": 0.481,
           "pCover": 0.521,
           "pOU": null,
-          "pHomeCoverRaw": 0.635,
+          "pHomeCoverRaw": 0.599,
           "pOverRaw": 0.53,
           "probCalibrated": true,
           "marginVar": 166.2,
@@ -78634,13 +78635,13 @@
           "away": "KC",
           "line": -2.5,
           "total": 42.5,
-          "hS": 21.4,
-          "aS": 22.2,
-          "pT": 43.5,
+          "hS": 21.2,
+          "aS": 22.0,
+          "pT": 43.2,
           "projSpread": 0.8,
           "margin": -3.3,
           "sDiff": 3.3,
-          "tDiff": 1.0,
+          "tDiff": 0.7,
           "sPick": "Kansas City Chiefs +2.5",
           "sConf": "pick",
           "oPick": "PASS",
@@ -78648,12 +78649,12 @@
           "confidenceTier": "pick",
           "pHomeCover": 0.521,
           "pAwayCover": 0.479,
-          "pOver": 0.518,
-          "pUnder": 0.482,
+          "pOver": 0.516,
+          "pUnder": 0.484,
           "pCover": 0.479,
           "pOU": null,
           "pHomeCoverRaw": 0.412,
-          "pOverRaw": 0.525,
+          "pOverRaw": 0.517,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -78713,11 +78714,11 @@
           "total": 44.5,
           "hS": 24.0,
           "aS": 27.4,
-          "pT": 51.3,
+          "pT": 51.4,
           "projSpread": 3.4,
           "margin": 1.1,
           "sDiff": 1.1,
-          "tDiff": 6.8,
+          "tDiff": 6.9,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "OVER",
@@ -78730,7 +78731,7 @@
           "pCover": null,
           "pOU": 0.523,
           "pHomeCoverRaw": 0.532,
-          "pOverRaw": 0.663,
+          "pOverRaw": 0.665,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -78788,13 +78789,13 @@
           "away": "NE",
           "line": -3.0,
           "total": 50.5,
-          "hS": 25.2,
+          "hS": 25.1,
           "aS": 22.2,
-          "pT": 47.4,
+          "pT": 47.3,
           "projSpread": -2.9,
           "margin": -0.1,
           "sDiff": 0.1,
-          "tDiff": -3.1,
+          "tDiff": -3.2,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -78807,7 +78808,7 @@
           "pCover": null,
           "pOU": null,
           "pHomeCoverRaw": 0.497,
-          "pOverRaw": 0.423,
+          "pOverRaw": 0.421,
           "probCalibrated": true,
           "marginVar": 166.2,
           "marginStd": 12.9,
@@ -78862,7 +78863,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   172-152-7  (53.1%)  +4.8u\n  TOTAL:    159-120-3  (57.0%)  +27.0u",
-      "ranAt": "10/21/2026, 10:02:01 AM"
+      "ranAt": "10/22/2026, 06:01:53 PM"
     }
   ],
   "meta": {
@@ -82593,14 +82594,14 @@
       {
         "away": "Tampa Bay Buccaneers",
         "home": "Carolina Panthers",
-        "line": -3.5,
+        "line": -2.5,
         "total": 44.5,
         "commenceTimeIso": "2026-10-25T17:01:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "CAR",
         "_awayAbbr": "TB",
         "_weatherAdj": {
-          "total_adj": 0.1,
+          "total_adj": 0.2,
           "spread_adj": 0.0,
           "is_dome": false,
           "weather_note": "clear"
@@ -82617,7 +82618,7 @@
       {
         "away": "San Francisco 49ers",
         "home": "Atlanta Falcons",
-        "line": 3.5,
+        "line": 2.5,
         "total": 49.5,
         "commenceTimeIso": "2026-10-25T17:01:00.000Z",
         "_book": "FanDuel",
@@ -82641,17 +82642,17 @@
       {
         "away": "Cincinnati Bengals",
         "home": "Baltimore Ravens",
-        "line": -2.5,
-        "total": 50.5,
+        "line": -1.5,
+        "total": 48.5,
         "commenceTimeIso": "2026-10-25T17:01:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "BAL",
         "_awayAbbr": "CIN",
         "_weatherAdj": {
-          "total_adj": 0.9,
+          "total_adj": 1.3,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 4.7mph"
+          "weather_note": "calm 2.5mph"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -82665,7 +82666,7 @@
       {
         "away": "New York Giants",
         "home": "Houston Texans",
-        "line": -9.5,
+        "line": -10.5,
         "total": 43.5,
         "commenceTimeIso": "2026-10-25T17:01:00.000Z",
         "_book": "FanDuel",
@@ -82696,10 +82697,10 @@
         "_homeAbbr": "NYJ",
         "_awayAbbr": "MIA",
         "_weatherAdj": {
-          "total_adj": 0.3,
+          "total_adj": 1.1,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "clear"
+          "weather_note": "calm 3.3mph"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -82720,10 +82721,10 @@
         "_homeAbbr": "TEN",
         "_awayAbbr": "CLE",
         "_weatherAdj": {
-          "total_adj": 1.5,
+          "total_adj": 1.4,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 1.7mph"
+          "weather_note": "calm 1.8mph"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -82761,7 +82762,7 @@
       {
         "away": "Los Angeles Rams",
         "home": "Las Vegas Raiders",
-        "line": 4.5,
+        "line": 3.5,
         "total": 48.5,
         "commenceTimeIso": "2026-10-25T20:26:00.000Z",
         "_book": "FanDuel",
@@ -82840,10 +82841,10 @@
         "_homeAbbr": "SEA",
         "_awayAbbr": "KC",
         "_weatherAdj": {
-          "total_adj": 0.9,
+          "total_adj": 0.6,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 4.7mph"
+          "weather_note": "clear"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -82864,10 +82865,10 @@
         "_homeAbbr": "PHI",
         "_awayAbbr": "DAL",
         "_weatherAdj": {
-          "total_adj": 0.9,
+          "total_adj": 1.0,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 4.5mph"
+          "weather_note": "calm 4.0mph"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -82888,7 +82889,7 @@
         "_homeAbbr": "CHI",
         "_awayAbbr": "NE",
         "_weatherAdj": {
-          "total_adj": 0.7,
+          "total_adj": 0.6,
           "spread_adj": 0.0,
           "is_dome": false,
           "weather_note": "clear"
@@ -82906,7 +82907,7 @@
         "away": "Carolina Panthers",
         "home": "Green Bay Packers",
         "line": -3.0,
-        "total": 45.5,
+        "total": 46.5,
         "commenceTimeIso": "2026-10-30T00:16:00.000Z",
         "_book": "FanDuel"
       },
@@ -82921,7 +82922,7 @@
       {
         "away": "Baltimore Ravens",
         "home": "Buffalo Bills",
-        "line": -2.5,
+        "line": -3.0,
         "total": 53.5,
         "commenceTimeIso": "2026-11-01T18:01:00.000Z",
         "_book": "FanDuel"
@@ -82945,7 +82946,7 @@
       {
         "away": "Los Angeles Chargers",
         "home": "Los Angeles Rams",
-        "line": -7.5,
+        "line": -7.0,
         "total": 45.5,
         "commenceTimeIso": "2026-11-01T21:06:00.000Z",
         "_book": "FanDuel"
@@ -82962,7 +82963,7 @@
         "away": "Minnesota Vikings",
         "home": "Detroit Lions",
         "line": -3.0,
-        "total": 48.5,
+        "total": 47.5,
         "commenceTimeIso": "2026-11-01T18:01:00.000Z",
         "_book": "FanDuel"
       },
@@ -82970,7 +82971,7 @@
         "away": "Atlanta Falcons",
         "home": "Tampa Bay Buccaneers",
         "line": -1.5,
-        "total": 44.5,
+        "total": 45.5,
         "commenceTimeIso": "2026-11-01T18:01:00.000Z",
         "_book": "FanDuel"
       },
@@ -83022,69 +83023,69 @@
         "BAL": 0.03642943940992744,
         "BUF": 0.07565744686431977,
         "CAR": 0.0385403466053206,
-        "CHI": 0.014998415364779315,
+        "CHI": 0.014998415364779314,
         "CIN": 0.02772789109266457,
         "CLE": -0.025448696847526837,
         "DAL": 0.03415199678966766,
         "DEN": -0.02429352257354519,
         "DET": 0.057232597983151605,
-        "GB": 0.0014087382184110914,
+        "GB": 0.0014087382184110918,
         "HOU": 0.012474650273166282,
         "IND": -0.022658458091493174,
         "JAX": 0.061756182818884835,
         "KC": 0.04850931421658972,
         "LA": 0.006832238928609319,
         "LAC": -0.08391891881853025,
-        "LV": 0.003104231862147879,
+        "LV": 0.0031042318621478764,
         "MIA": -0.033683138743783585,
         "MIN": -0.03382037921329665,
         "NE": 0.015724406805217774,
-        "NO": -0.023828692260887446,
-        "NYG": -0.02430463675671333,
-        "NYJ": -0.012829357046972972,
+        "NO": -0.02382869226088744,
+        "NYG": -0.024304636756713332,
+        "NYJ": -0.012829357046972974,
         "PHI": -0.05267817094225188,
         "PIT": -0.01813036101470458,
         "SEA": -0.026721179196356117,
         "SF": 0.08431579185750367,
         "TB": -0.0436189423876902,
         "TEN": -0.05424176401664804,
-        "WAS": -0.008551836989029626
+        "WAS": -0.008551836989029627
       },
       "def": {
         "ARI": 0.029396122947613453,
-        "ATL": -0.011157830904331919,
-        "BAL": -0.00874034098280217,
+        "ATL": -0.01115783090433192,
+        "BAL": -0.008740340982802172,
         "BUF": 0.04689499640610982,
-        "CAR": -0.0030149030380736386,
+        "CAR": -0.003014903038073639,
         "CHI": -0.015123251752786383,
-        "CIN": -0.0026879352549546718,
-        "CLE": -0.011315450548243547,
+        "CIN": -0.0026879352549546726,
+        "CLE": -0.011315450548243549,
         "DAL": 0.06537487668064508,
         "DEN": -0.019298877218184067,
-        "DET": 0.050529253775679774,
+        "DET": 0.05052925377567977,
         "GB": -0.014428466868882531,
         "HOU": -0.009631103150598468,
-        "IND": 0.018920129204906995,
+        "IND": 0.01892012920490699,
         "JAX": -0.011460492765270454,
-        "KC": -0.028626540077119213,
-        "LA": -0.019037790566319227,
-        "LAC": -0.01877610595640534,
-        "LV": 0.011204720335210113,
+        "KC": -0.028626540077119216,
+        "LA": -0.01903779056631923,
+        "LAC": -0.018776105956405338,
+        "LV": 0.011204720335210111,
         "MIA": 0.03580540804362087,
-        "MIN": -0.06689623419564629,
-        "NE": -0.004987995433829815,
+        "MIN": -0.0668962341956463,
+        "NE": -0.004987995433829819,
         "NO": 0.02995355295640721,
-        "NYG": 0.01648758713944633,
+        "NYG": 0.016487587139446327,
         "NYJ": -0.023145608576101998,
-        "PHI": 0.02651389704314962,
-        "PIT": -0.014408932262299511,
-        "SEA": -0.051078019726479455,
+        "PHI": 0.026513897043149624,
+        "PIT": -0.014408932262299513,
+        "SEA": -0.05107801972647946,
         "SF": -0.020315020371068936,
-        "TB": -0.028505226066098108,
+        "TB": -0.028505226066098115,
         "TEN": 0.02274293343882298,
-        "WAS": 0.028812647493491213
+        "WAS": 0.02881264749349121
       },
-      "intercept": -0.0025039222223223133,
+      "intercept": -0.0025039222223223107,
       "nObs": 186,
       "throughWeek": 6
     },
@@ -83094,6 +83095,62 @@
   "_injuries": {
     "report": {
       "Arizona Cardinals": [
+        {
+          "player": "Jeremiyah Love",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Love (ankle) worked on the side with trainers during the open portion of Thursday's practice, Tyler Drake of ArizonaSports.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Budda Baker",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "Baker, who sat out Wednesday's practice due to a groin injury as well as an illness, logged six tackles (four solo), including 1.0 sacks, and a pass defensed in the Cardinals' 18-16 win over the Rams on Sunday.",
+          "tier": "medium"
+        },
+        {
+          "player": "Carson Beck",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "Beck (back) was a limited participant at practice Wednesday, Darren Urban of the Cardinals' official site reports.",
+          "tier": "elite"
+        },
+        {
+          "player": "Garrett Williams",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Jedrick Wills Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Max Melton",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Walter Nolen III",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "Wydett Williams Jr.",
           "playerId": "",
@@ -83109,47 +83166,63 @@
           "position": "S",
           "description": "questionable",
           "tier": "medium"
-        },
-        {
-          "player": "Jeremiyah Love",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Head coach Mike LaFleur said Monday that Love (ankle) is expected to do some running Tuesday, Tyler Drake of ArizonaSports.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "James Conner",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Conner (foot) is close to practicing, but the Cardinals aren't expected to open his 21-day evaluation window this week, John Gambadoro of Arizona Sports 98.7 FM reports.",
-          "tier": "medium"
         }
       ],
       "Atlanta Falcons": [
         {
-          "player": "C.J. Henderson",
+          "player": "Brian Robinson Jr.",
           "playerId": "",
           "status": "questionable",
-          "position": "CB",
+          "position": "RB",
+          "description": "Robinson (hamstring) didn't practice Thursday, Marc Raimondi of ESPN.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Cameron Thomas",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
           "description": "questionable",
           "tier": "high"
+        },
+        {
+          "player": "Gervon Dexter Sr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
         },
         {
           "player": "Kendal Daniels",
           "playerId": "",
           "status": "questionable",
           "position": "LB",
-          "description": "The Falcons announced after Sunday's 31-23 loss to the Bears that Daniels (neck) was alert and had movement in all his extremities after being carted off the field in the third quarter and transported to Grady Memorial Hospital.",
+          "description": "questionable",
           "tier": "medium"
         },
         {
-          "player": "Billy Bowman Jr.",
+          "player": "Beaux Collins",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "The Falcons designated Collins (hip) to return from IR on Thursday, per the NFL's transaction log.",
+          "tier": "high"
+        },
+        {
+          "player": "A.J. Terrell Jr.",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "Terrell (groin) was a limited participant at the Falcons' practice Wednesday, Daniel Flick of The Atlanta Journal-Constitution reports.",
+          "tier": "high"
+        },
+        {
+          "player": "C.J. Henderson",
           "playerId": "",
           "status": "questionable",
           "position": "CB",
-          "description": "Bowman (hamstring) is doubtful to return to Sunday's game against Atlanta, William McFadden of the Falcons' official site reports.",
+          "description": "Henderson (groin) was a limited participant at the Falcons' practice Wednesday, Daniel Flick of The Atlanta Journal-Constitution reports.",
           "tier": "high"
         },
         {
@@ -83157,18 +83230,90 @@
           "playerId": "",
           "status": "questionable",
           "position": "LB",
-          "description": "Deablo (arm) has been ruled out for the remainder of Sunday's game against the Bears, William McFadden of the Falcons' official site reports.",
+          "description": "Deablo (arm) did not participate at the Falcons' practice Wednesday, Daniel Flick of The Atlanta Journal-Constitution reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Olamide Zaccheaus",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Zaccheaus (shoulder) was a limited participant at the Falcons' practice Wednesday, Daniel Flick of The Atlanta Journal-Constitution reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Za'Darius Smith",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Avieon Terrell",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Michael Jerrell",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Samson Ebukam",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
         }
       ],
       "Baltimore Ravens": [
         {
-          "player": "Andrew Vorhees",
+          "player": "Lamar Jackson",
           "playerId": "",
           "status": "questionable",
-          "position": "G",
+          "position": "QB",
+          "description": "Jackson (ankle) was a limited participant at Thursday's practice.",
+          "tier": "elite"
+        },
+        {
+          "player": "Cam Jurgens",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "Jurgens (concussion) was a full participant in Wednesday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "T.J. Tampa",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "The Ravens designated Tampa (toe/ankle) to return from injured reserve Wednesday.",
+          "tier": "high"
+        },
+        {
+          "player": "Tavius Robinson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
           "description": "questionable",
-          "tier": "low"
+          "tier": "medium"
+        },
+        {
+          "player": "Jaylinn Hawkins",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
         },
         {
           "player": "Broderick Washington Jr.",
@@ -83177,38 +83322,6 @@
           "position": "DT",
           "description": "questionable",
           "tier": "medium"
-        },
-        {
-          "player": "Cam Jurgens",
-          "playerId": "",
-          "status": "questionable",
-          "position": "C",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Matt Hibner",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Lamar Jackson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "QB",
-          "description": "questionable",
-          "tier": "elite"
-        },
-        {
-          "player": "Rashod Bateman",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Ravens head coach Jesse Minter said Monday that Bateman (shoulder) \"should be OK\" after exiting late in the second quarter of Sunday's 13-10 loss to the Browns, Jeff Zrebiec of The Athletic reports.",
-          "tier": "high"
         }
       ],
       "Buffalo Bills": [
@@ -83231,19 +83344,19 @@
       ],
       "Carolina Panthers": [
         {
-          "player": "Monroe Freeling",
+          "player": "Jaelan Phillips",
           "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "questionable",
+          "status": "doubtful",
+          "position": "LB",
+          "description": "Phillips (hamstring) did not participate in practice Thursday, Darin Gantt of the Panthers' official site reports.",
           "tier": "medium"
         },
         {
-          "player": "AJ Dillon",
+          "player": "Bam Martin-Scott",
           "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "questionable",
+          "status": "out",
+          "position": "LB",
+          "description": "The Panthers designated Martin-Scott (hamstring) to return from injured reserve Wednesday, Darin Gantt of the team's official site reports.",
           "tier": "medium"
         },
         {
@@ -83277,39 +83390,71 @@
           "playerId": "",
           "status": "out",
           "position": "S",
-          "description": "ir",
+          "description": "out",
+          "tier": "medium"
+        },
+        {
+          "player": "Case Keenum",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "inactive",
+          "tier": "elite"
+        },
+        {
+          "player": "Jayden Loving",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Nick McCloud",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Jordan McFadden",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Kyle Monangai",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "inactive",
           "tier": "medium"
         },
         {
           "player": "Jack Sanborn",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "LB",
-          "description": "Sanborn (concussion) was estimated as a nonparticipant on the Bears' official injury report Tuesday.",
+          "description": "Sanborn (concussion) is officially listed as out for Thursday's game versus the Patriots.",
           "tier": "medium"
         },
         {
-          "player": "Kyle Monangai",
+          "player": "Tyrique Stevenson Sr.",
           "playerId": "",
           "status": "questionable",
-          "position": "RB",
-          "description": "Monangai (thumb/toe) was listed as a non-participant in Tuesday's walk-through.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jonah Jackson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "G",
-          "description": "Jackson is dealing with a hip flexor, Jeremy Fowler of ESPN.com reports.",
-          "tier": "low"
+          "position": "CB",
+          "description": "Stevenson (hip) is questionable to play Thursday night versus the Patriots.",
+          "tier": "high"
         },
         {
           "player": "T.J. Edwards",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "LB",
-          "description": "Edwards (hamstring) was estimated as a non-participant on the Bears' official injury report Monday.",
+          "description": "Edwards (hamstring) is doubtful to play Thursday night versus the Patriots.",
           "tier": "medium"
         },
         {
@@ -83331,22 +83476,6 @@
           "tier": "medium"
         },
         {
-          "player": "Colbie Young",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Kyle Dugger",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
           "player": "Swayze Bozeman",
           "playerId": "",
           "status": "out",
@@ -83357,12 +83486,76 @@
       ],
       "Cleveland Browns": [
         {
+          "player": "Denzel Boston",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Boston (foot) remained limited at Thursday's practice.",
+          "tier": "high"
+        },
+        {
+          "player": "Dylan Sampson",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Sampson (knee) was a limited participant in Thursday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "KC Concepcion",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Concepcion (calf/quadriceps) was a limited participant in Thursday's practice.",
+          "tier": "high"
+        },
+        {
           "player": "Quinshon Judkins",
           "playerId": "",
           "status": "questionable",
           "position": "RB",
+          "description": "Judkins (ankle) remained a limited participant at Thursday's practice, Chris Easterling of the Akron Beacon Journal reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Quincy Williams",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
           "description": "questionable",
           "tier": "medium"
+        },
+        {
+          "player": "Carson Schwesinger",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Schwesinger (ankle) did not participate at practice Wednesday, Daniel Oyefusi of ESPN.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Elgton Jenkins",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Tytus Howard",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Derek Barnett",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
         },
         {
           "player": "Mason Graham",
@@ -83389,14 +83582,6 @@
           "tier": "low"
         },
         {
-          "player": "Justin Jefferson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Jefferson (hip) is questionable to return to Sunday's game against the Ravens.",
-          "tier": "medium"
-        },
-        {
           "player": "Grant Delpit",
           "playerId": "",
           "status": "questionable",
@@ -83411,22 +83596,22 @@
           "position": "DT",
           "description": "Davis (quadriceps) has been ruled out for Sunday's game against the Ravens.",
           "tier": "medium"
-        },
-        {
-          "player": "Dylan Sampson",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Sampson (knee) won't be activated from injured reserve ahead of Sunday's contest against the Ravens, Zac Jackson of The Athletic reports.",
-          "tier": "medium"
         }
       ],
       "Dallas Cowboys": [
         {
-          "player": "DeMarvion Overshown",
+          "player": "George Pickens",
           "playerId": "",
           "status": "questionable",
-          "position": "LB",
+          "position": "WR",
+          "description": "Pickens was a limited practice participant Thursday due to a shoulder injury, Tommy Yarrish of the Cowboys' official site reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Tyler Guyton",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
           "description": "questionable",
           "tier": "medium"
         },
@@ -83465,11 +83650,19 @@
       ],
       "Denver Broncos": [
         {
-          "player": "Pat Surtain II",
+          "player": "Jonah Coleman",
           "playerId": "",
-          "status": "doubtful",
-          "position": "CB",
-          "description": "doubtful",
+          "status": "out",
+          "position": "RB",
+          "description": "Coleman (ankle) was at practice for a second straight day Thursday, Zac Stevens of DNVR Sports reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jaylen Waddle",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Waddle (chest) was at practice Thursday after being limited Wednesday, Zac Stevens of TheDNVR.com reports.",
           "tier": "high"
         },
         {
@@ -83477,7 +83670,15 @@
           "playerId": "",
           "status": "doubtful",
           "position": "S",
-          "description": "doubtful",
+          "description": "Hufanga (ankle) did not participate in Wednesday's practice, Aric DiLalla of the Broncos' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jonah Elliss",
+          "playerId": "",
+          "status": "doubtful",
+          "position": "LB",
+          "description": "Elliss will likely be placed on injured reserve due to an ankle injury that he sustained during the Broncos' Week 6 win over the Rams, Jon Heath of USA Today reports.",
           "tier": "medium"
         },
         {
@@ -83485,19 +83686,27 @@
           "playerId": "",
           "status": "questionable",
           "position": "RB",
-          "description": "Badie (thumb) won't return to Thursday's game against Seattle, Zac Stevens of TheDNVR.com reports. He finished with one carry for six yards.",
+          "description": "Badie (thumb) did not participate in Wednesday's practice, Chris Tomasson of The Denver Gazette reports.",
           "tier": "medium"
         },
         {
-          "player": "Pat Bryant",
+          "player": "Pat Surtain II",
           "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Bryant (ankle) was placed on the Broncos' injured reserve Friday.",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Surtain (ankle) was a limited participant in Wednesday's practice.",
           "tier": "high"
         }
       ],
       "Detroit Lions": [
+        {
+          "player": "Brian Branch",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "The Lions listed Branch as a full participant on Wednesday's estimated practice report.",
+          "tier": "medium"
+        },
         {
           "player": "Kerby Joseph",
           "playerId": "",
@@ -83545,17 +83754,81 @@
           "position": "C",
           "description": "Mays (wrist) has been ruled out for Sunday's game against the Cardinals.",
           "tier": "medium"
-        },
-        {
-          "player": "Brian Branch",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Branch (Achilles) has been ruled out ahead of Sunday's game against the Cardinals.",
-          "tier": "medium"
         }
       ],
       "Green Bay Packers": [
+        {
+          "player": "Savion Williams",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Williams (ankle) was listed as limited at Thursday's practice, Rob Demovsky of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Bo Melton",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Melton (back) did not participate in practice Thursday, Weston Hodkiewicz of the Packers' official site reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Luke Musgrave",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "Packers head coach Matt Lafleur said Thursday it's \"tough to say\" whether Musgrave (neck) plays this season, Weston Hodkiewicz of the Packers' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Matthew Golden",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Golden (shoulder) was limited at Thursday's practice, Rob Demovsky of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Christian Watson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Watson (ankle) practiced in a limited fashion Thursday, Rob Demovsky of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Lukas Van Ness",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Zaire Franklin",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Brandon Cisse",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Cisse (shoulder) was a limited participant in Wednesday's walkthrough session, Matt Schneidman of The Athletic reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Anthony Campbell",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "Benjamin St-Juste",
           "playerId": "",
@@ -83603,17 +83876,65 @@
           "position": "WR",
           "description": "The Packers placed Moore (ankle) on injured reserve Saturday.",
           "tier": "high"
-        },
-        {
-          "player": "Jordon Riley",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "Riley (Achilles) had his 21-day practice window opened by the Packers on Wednesday, Mike Spofford of the team's official site reports.",
-          "tier": "medium"
         }
       ],
       "Houston Texans": [
+        {
+          "player": "Brevin Jordan",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Dalton Schultz",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Schultz (quadriceps) was a limited participant at Thursday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "David Montgomery",
+          "playerId": "",
+          "status": "doubtful",
+          "position": "RB",
+          "description": "Montgomery (groin) isn't practicing Thursday, Aaron Wilson of KPRC 2 Houston reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Azeez Al-Shaair",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Al-Shaair (knee) did not participate in Wednesday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jalen Pitre",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "Pitre (shoulder) did not participate at the Texans' practice Wednesday, Aaron Wilson of KPRC 2 Houston reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Henry To'oTo'o",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Blake Fisher",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "Jake Hummel",
           "playerId": "",
@@ -83623,36 +83944,12 @@
           "tier": "medium"
         },
         {
-          "player": "Jalen Pitre",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "S",
-          "description": "doubtful",
-          "tier": "medium"
-        },
-        {
-          "player": "David Montgomery",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
           "player": "Tank Dell",
           "playerId": "",
           "status": "out",
           "position": "WR",
           "description": "Texans head coach DeMeco Ryans said Monday that Dell (knee) is on track to return from injured reserve to make his season debut in Week 7 versus the Giants, Aaron Wilson of KPRC 2 Houston reports.",
           "tier": "high"
-        },
-        {
-          "player": "Reed Blankenship",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "Blankenship (concussion) has been ruled out for the remainder of Sunday's game against the Jaguars in London.",
-          "tier": "medium"
         }
       ],
       "Indianapolis Colts": [
@@ -83661,11 +83958,11 @@
           "playerId": "",
           "status": "questionable",
           "position": "TE",
-          "description": "questionable",
+          "description": "Warren (groin) did not practice Thursday.",
           "tier": "medium"
         },
         {
-          "player": "Jaylon Carlies",
+          "player": "CJ Allen",
           "playerId": "",
           "status": "questionable",
           "position": "LB",
@@ -83677,6 +83974,14 @@
           "playerId": "",
           "status": "questionable",
           "position": "WR",
+          "description": "Dulin (hamstring) was a limited participant at the Colts' practice Wednesday.",
+          "tier": "high"
+        },
+        {
+          "player": "Justin Walley",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
           "description": "questionable",
           "tier": "high"
         },
@@ -83711,14 +84016,6 @@
           "position": "WR",
           "description": "Gould won't return to Sunday's game against the Titans after being diagnosed with a concussion, Mike Chappell of Fox 59 News Indianapolis reports.",
           "tier": "high"
-        },
-        {
-          "player": "Arden Key",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "The Colts placed Key (hamstring) on injured reserve Saturday.",
-          "tier": "high"
         }
       ],
       "Jacksonville Jaguars": [
@@ -83745,23 +84042,15 @@
           "position": "S",
           "description": "Johnson (ankle) didn't return to second half of Sunday's 34-31 loss to the Texans, Brent Martineau of CBS 47 Jacksonville reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Anton Harrison",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "Harrison is slated to undergo arthroscopic surgery on his right knee next week and could be out for 3-to-5 weeks or 3-to-4 months, depending on what surgeons find while performing the procedure, Michael DiRocco and Ian Rapoport of ESPN report.",
-          "tier": "medium"
         }
       ],
       "Kansas City Chiefs": [
         {
-          "player": "Cooper McDonald",
+          "player": "Travis Kelce",
           "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "The Chiefs designated McDonald (knee) to return from injured reserve Tuesday, Charles Goldman of AtoZSports.com reports.",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Kelce (ankle) was listed as a limited participant in Thursday's practice.",
           "tier": "medium"
         },
         {
@@ -83769,15 +84058,31 @@
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "questionable",
+          "description": "Rice (hamstring/knee) did not practice Thursday.",
           "tier": "high"
         },
         {
           "player": "Josh Simmons",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "OT",
+          "description": "The Chiefs placed Simmons (lower back) on injured reserve Thursday.",
+          "tier": "medium"
+        },
+        {
+          "player": "L'Jarius Sneed",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
           "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Cooper McDonald",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "The Chiefs designated McDonald (knee) to return from injured reserve Tuesday, Charles Goldman of AtoZSports.com reports.",
           "tier": "medium"
         },
         {
@@ -83799,11 +84104,19 @@
       ],
       "Las Vegas Raiders": [
         {
-          "player": "Tonka Hemingway",
+          "player": "Brock Bowers",
           "playerId": "",
           "status": "questionable",
-          "position": "DT",
-          "description": "questionable",
+          "position": "TE",
+          "description": "Bowers (hamstring/calf) was in uniform and warming up ahead of Thursday's practice, Sam Warren of The Athletic reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Mike Washington Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Washington (foot/back) wasn't on the field for the media-access portion of Thursday's practice, Sam Warren of The Athletic reports.",
           "tier": "medium"
         },
         {
@@ -83811,7 +84124,15 @@
           "playerId": "",
           "status": "out",
           "position": "TE",
-          "description": "Runyon (lower body) has been ruled out ahead of Sunday's game against the Bills, Sam Warren of The Athletic reports.",
+          "description": "Runyon (foot) was a full participant in practice Wednesday.",
+          "tier": "medium"
+        },
+        {
+          "player": "Quay Walker",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Walker (chest) was a limited participant at practice Wednesday.",
           "tier": "medium"
         },
         {
@@ -83819,11 +84140,43 @@
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "Thornton (hamstring) won't be activated from injured reserve for Sunday's game against the Bills,  Sam Warren of The Athletic reports.",
+          "description": "Thornton (hamstring) was a full participant at practice Wednesday.",
           "tier": "high"
+        },
+        {
+          "player": "Kolton Miller",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Folorunso Fatukasi",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Tonka Hemingway",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
         }
       ],
       "Los Angeles Chargers": [
+        {
+          "player": "Brenen Thompson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Thompson (quadriceps) was active but didn't play any snaps Sunday in the Chargers' 22-6 loss to the Chiefs.",
+          "tier": "high"
+        },
         {
           "player": "Rodney Shelley",
           "playerId": "",
@@ -83907,6 +84260,46 @@
       ],
       "Los Angeles Rams": [
         {
+          "player": "Puka Nacua",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Nacua suffered a calf injury during Thursday's practice and went down as a limited participant, Adam Grosbard of The Orange County Register reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Keir Thomas II",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Trent McDuffie",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "McDuffie (groin) did not participate in Wednesday's practice, Adam Grosbard of The Orange County Register reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Nate Landman",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Landman (concussion) did not participate in Wednesday's practice, Adam Grosbard of The Orange County Register reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Kobie Turner",
+          "playerId": "",
+          "status": "out",
+          "position": "DE",
+          "description": "The Rams placed Turner (groin) on injured reserve Wednesday.",
+          "tier": "high"
+        },
+        {
           "player": "Poona Ford",
           "playerId": "",
           "status": "out",
@@ -83931,28 +84324,12 @@
           "tier": "high"
         },
         {
-          "player": "Trent McDuffie",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
           "player": "Blake Grupe",
           "playerId": "",
           "status": "out",
           "position": "PK",
           "description": "Rams head coach Sean McVay announced Monday that Grupe will miss the remainder of the season after sustaining a torn ACL in Sunday's 18-16 loss to the Cardinals, Greg Beacham of the Associated Press reports.",
           "tier": "low"
-        },
-        {
-          "player": "Kobie Turner",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "Rams head coach Sean McVay said Monday that Turner is expected to go on injured reserve after sustaining a groin strain in Sunday's 18-16 loss to the Cardinals, Nate Atkins of The Athletic reports.",
-          "tier": "high"
         },
         {
           "player": "Myles Garrett",
@@ -83965,20 +84342,52 @@
       ],
       "Miami Dolphins": [
         {
-          "player": "Jonah Savaiinaea",
+          "player": "Jaylen Wright",
           "playerId": "",
           "status": "questionable",
-          "position": "G",
-          "description": "Savaiinaea (ankle) was a limited participant at the Dolphins' practice Monday, C. Isaiah Smalls II of the Miami Herald reports.",
-          "tier": "low"
+          "position": "RB",
+          "description": "Wright (foot) remained limited at Thursday's practice, Marce Louis-Jacques of ESPN.com reports.",
+          "tier": "medium"
         },
         {
           "player": "Caleb Douglas",
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Dolphins head coach Jeff Hafley said that Douglas (ankle) will be a limited participant in Monday's informal practice, David Furones of the South Florida Sun Sentinel reports.",
+          "description": "Douglas (ankle) was a limited participant in Thursday's practice, Marcel Louis-Jacques of ESPN.com reports.",
           "tier": "high"
+        },
+        {
+          "player": "Willie Gay Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Kyle Louis",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "The Dolphins opened the 21-day practice window for Louis (knee) on Wednesday, Marcel Louis-Jacques of ESPN.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Will Kacmarek",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Kacmarek (hamstring) was a limited participant at the Dolphins' practice Wednesday, David Furones of the South Florida Sun Sentinel reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Tucker Addington",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LS",
+          "description": "questionable",
+          "tier": "low"
         },
         {
           "player": "Reese Taylor",
@@ -83989,45 +84398,29 @@
           "tier": "high"
         },
         {
-          "player": "Justin Joly",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
           "player": "Robert Beal Jr.",
           "playerId": "",
           "status": "questionable",
           "position": "DE",
           "description": "questionable",
           "tier": "high"
-        },
-        {
-          "player": "JuJu Brents",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Brents exited in the fourth quarter of Sunday's game against the Bengals due to a stinger and is questionable to return.",
-          "tier": "high"
-        },
-        {
-          "player": "Michael Taaffe",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "Taaffe (chest) is questionable to return to Sunday's game against the Bengals.",
-          "tier": "medium"
         }
       ],
       "Minnesota Vikings": [
+        {
+          "player": "T.J. Hockenson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Hockenson (concussion) Adam Grosbard of The Orange County Register Thursday.",
+          "tier": "medium"
+        },
         {
           "player": "Jordan Mason",
           "playerId": "",
           "status": "out",
           "position": "RB",
-          "description": "The Vikings designated Mason (thumb) for return from injured reserve Monday.",
+          "description": "Mason (thumb) practiced fully Thursday.",
           "tier": "medium"
         },
         {
@@ -84036,30 +84429,6 @@
           "status": "questionable",
           "position": "OT",
           "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Charles Demmings",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Jordan Addison",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "T.J. Hockenson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "The Vikings downgraded Hockenson to out for Sunday's game against the Saints due to a concussion.",
           "tier": "medium"
         },
         {
@@ -84081,11 +84450,19 @@
       ],
       "New England Patriots": [
         {
-          "player": "Marcus Bryant",
+          "player": "Behren Morton",
           "playerId": "",
           "status": "out",
-          "position": "OT",
-          "description": "Bryant (ankle) was a full participant at the Patriots' practice Tuesday.",
+          "position": "QB",
+          "description": "inactive",
+          "tier": "elite"
+        },
+        {
+          "player": "Joshua Farmer",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -84093,56 +84470,56 @@
           "playerId": "",
           "status": "questionable",
           "position": "OT",
-          "description": "Moses (ankle) was a limited participant at the Patriots' practice Tuesday.",
+          "description": "Moses (foot) is questionable to play Thursday versus the Bears.",
           "tier": "medium"
         },
         {
-          "player": "Alijah Vera-Tucker",
+          "player": "Channing Canada",
           "playerId": "",
-          "status": "doubtful",
-          "position": "G",
-          "description": "Coach Mike Vrabel said Tuesday that Vera-Tucker (hamstring) is unlikely to be available for Thursday's game at Chicago, Mike Reiss of ESPN.com reports.",
-          "tier": "low"
-        },
-        {
-          "player": "Ben Brown",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "C",
-          "description": "Coach Mike Vrabel said Tuesday that Brown (knee) probably won't be available for Thursday's game against the Bears, Mike Reiss of ESPN.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Carlton Davis III",
-          "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "CB",
-          "description": "Davis (neck) was a limited participant in Tuesday's practice.",
-          "tier": "high"
-        },
-        {
-          "player": "A.J. Brown",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Brown (ankle) was listed as a limited participant on Tuesday's practice report.",
+          "description": "Canada (hamstring) has been ruled out for Thursday's game against the Bears.",
           "tier": "high"
         },
         {
           "player": "Karon Prunty",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "CB",
-          "description": "questionable",
+          "description": "Prunty (hamstring) has been ruled out for Thursday's game against Chicago.",
           "tier": "high"
         },
         {
-          "player": "Channing Canada",
+          "player": "Ben Brown",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
+          "position": "C",
+          "description": "Brown (knee) has been ruled out for Thursday's game against the Bears.",
+          "tier": "medium"
+        },
+        {
+          "player": "Alijah Vera-Tucker",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "Vera-Tucker (hamstring) has been ruled out for Thursday night's game against the Bears.",
+          "tier": "low"
+        },
+        {
+          "player": "Carlton Davis III",
+          "playerId": "",
+          "status": "out",
           "position": "CB",
-          "description": "questionable",
+          "description": "Davis (neck) has been ruled out ahead of Thursday night's game against the Bears.",
           "tier": "high"
+        },
+        {
+          "player": "Marcus Bryant",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "Bryant (ankle) was a full participant at the Patriots' practice Tuesday.",
+          "tier": "medium"
         },
         {
           "player": "Romeo Doubs",
@@ -84155,19 +84532,11 @@
       ],
       "New Orleans Saints": [
         {
-          "player": "Jordyn Tyson",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Tyson (hamstring), per GM Mickey Loomis, is \"getting closer\" but will not practice this week, Ross Jackson of WWL Louisiana reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Nathan Shepherd",
+          "player": "Alvin Kamara",
           "playerId": "",
           "status": "questionable",
-          "position": "DT",
-          "description": "questionable",
+          "position": "RB",
+          "description": "Kamara (back) practiced in a limited capacity Thursday, Katherine Terrell of ESPN.com reports.",
           "tier": "medium"
         },
         {
@@ -84175,8 +84544,16 @@
           "playerId": "",
           "status": "questionable",
           "position": "LB",
-          "description": "questionable",
+          "description": "Elliss (calf) was a limited participant at practice Wednesday.",
           "tier": "medium"
+        },
+        {
+          "player": "Jordyn Tyson",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Saints general manager Mickey Loomis said Tuesday that Tyson (hamstring) is \"getting closer\" but won't practice this week, Ross Jackson of WWL Louisiana reports.",
+          "tier": "high"
         },
         {
           "player": "Anfernee Jennings",
@@ -84193,27 +84570,83 @@
           "position": "G",
           "description": "Ruiz (knee) made the trip to Paris ahead of the Saints' game against the Steelers in Week 7, Nick Underhill of NewOrleans.Football reports.",
           "tier": "low"
-        },
-        {
-          "player": "Kool-Aid McKinstry",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Saints head coach Kellen Moore stated McKinstry (illness) exited Sunday's 34-27 win over the Giants due to a migraine, Jeff Nowak of The Big 870 New Orleans reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Quincy Riley",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Riley sustained a neck injury in the Saints' 34-27 win over the Giants on Sunday, Ross Jackson of WWL Louisiana reports.",
-          "tier": "high"
         }
       ],
       "New York Giants": [
         {
           "player": "Jermaine Eluemunor",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Chris Manhertz",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Greg Newsome II",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Newsome (concussion) did not participate at practice Wednesday, Dan Salomone of the Giants' official site reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Jevon Holland",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "Holland (concussion) did not participate at practice Wednesday, Dan Salomone of the Giants' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Tremaine Edmunds",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Edmunds (shoulder) did not participate at practice Wednesday, Dan Salomone of the Giants' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Theo Johnson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Johnson (neck) was a limited participant at practice Wednesday, Dan Salomone of the Giants' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Paulson Adebo",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "The Giants designated Adebo (knee) to return from injured reserve Wednesday, Dan Duggan of The Athletic reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Charlie Jones",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Andrew Thomas",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Marcus Mbow",
           "playerId": "",
           "status": "questionable",
           "position": "OT",
@@ -84235,71 +84668,15 @@
           "position": "CB",
           "description": "questionable",
           "tier": "high"
-        },
-        {
-          "player": "Theo Johnson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Tremaine Edmunds",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Edmuns (shoulder) suffered an injury on the final Saints' offensive play of Sunday's game, Dan Duggan of The Athletic reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Darnell Mooney",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Mooney (neck) is questionable to return to Sunday's game against the Saints, Ross Jackson of WWL Louisiana reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Greg Newsome II",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Newsome (concussion) has been ruled out for the remainder of Sunday's game against the Saints, Jordan Raanan of ESPN.com reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Braxton Berrios",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Berrios (foot) underwent successful surgery Friday to repair a Lisfranc injury, Jordan Raanan of ESPN.com reports.",
-          "tier": "high"
         }
       ],
       "New York Jets": [
         {
-          "player": "Joseph Ossai",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Dylan Parham",
-          "playerId": "",
-          "status": "questionable",
-          "position": "G",
-          "description": "questionable",
-          "tier": "low"
-        },
-        {
           "player": "Adonai Mitchell",
           "playerId": "",
-          "status": "doubtful",
+          "status": "questionable",
           "position": "WR",
-          "description": "doubtful",
+          "description": "Mitchell (finger) was a limited participant in Thursday's practice.",
           "tier": "high"
         },
         {
@@ -84307,19 +84684,139 @@
           "playerId": "",
           "status": "questionable",
           "position": "RB",
+          "description": "Hall (quadriceps) was a limited participant at Thursday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "Max Mitchell",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
           "description": "questionable",
           "tier": "medium"
         },
         {
           "player": "Kiko Mauigoa",
           "playerId": "",
-          "status": "questionable",
+          "status": "doubtful",
           "position": "LB",
-          "description": "Mauigoa (thigh) is questionable to return to Sunday's game against the Jets.",
+          "description": "Mauigoa (thigh) didn't practice Wednesday, and the Jets are viewing him as week-to-week, Rich Cimini of ESPN.com reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Dylan Parham",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "Parham (knee) was a limited participant in Wednesday's practice.",
+          "tier": "low"
+        },
+        {
+          "player": "Kene Nwangwu",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Nwangwu (knee) did not participate in Wednesday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "Joseph Ossai",
+          "playerId": "",
+          "status": "doubtful",
+          "position": "DE",
+          "description": "Ossai (ankle) was listed as a non-participant in Wednesday's practice.",
+          "tier": "high"
+        },
+        {
+          "player": "T'Vondre Sweat",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Will McDonald IV",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "questionable",
+          "tier": "high"
         }
       ],
       "Philadelphia Eagles": [
+        {
+          "player": "Moro Ojomo",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Tyler Steen",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
+        },
+        {
+          "player": "Dontayvion Wicks",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Drew Kendall",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Jonathan Greenard",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Willie Lampkin",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Dallas Goedert",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "Goedert was not seen during the media-access portion of Thursday's practice, Jimmy Kempski of the Philly Voice reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "DeVonta Smith",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Smith wasn't spotted at Thursday's practice, Jimmy Kempski of PhillyVoice.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Saquon Barkley",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Barkley (hamstring) was in uniform for Thursday's practice, Dave Zangaro of NBC Sports Philadelphia reports.",
+          "tier": "medium"
+        },
         {
           "player": "AJ Epenesa",
           "playerId": "",
@@ -84333,14 +84830,6 @@
           "playerId": "",
           "status": "questionable",
           "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Saquon Barkley",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
           "description": "questionable",
           "tier": "medium"
         },
@@ -84375,81 +84864,105 @@
           "position": "OT",
           "description": "out",
           "tier": "medium"
-        },
-        {
-          "player": "Jakorian Bennett",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "Bennett (knee) won't come off injured reserve this weekend and has been ruled out for Sunday's Week 6 battle against Carolina.",
-          "tier": "high"
-        },
-        {
-          "player": "Landon Dickerson",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "Dickerson (knee) has been downgraded to out for Sunday's game against the Panthers.",
-          "tier": "low"
-        },
-        {
-          "player": "Eli Stowers",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "The Eagles have downgraded Stowers (quadriceps) to out for Sunday's game against the Panthers.",
-          "tier": "medium"
-        },
-        {
-          "player": "Grant Calcaterra",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "The Eagles downgraded Calcaterra (back) to out Saturday for Sunday's game against the Panthers.",
-          "tier": "medium"
         }
       ],
       "Pittsburgh Steelers": [
         {
           "player": "Ben Skowronek",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "WR",
-          "description": "questionable",
+          "description": "The Steelers have ruled Skowronek (calf) out for Sunday's matchup against the Saints, Mike DeFabo of The Athletic reports.",
           "tier": "high"
+        },
+        {
+          "player": "T.J. Watt",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Watt (calf) was added to the Steelers' injury report as a limited participant Thursday, Mike DeFabo of The Athletic reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Rico Dowdle",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Dowdle (knee) was listed as a limited participant on Thursday's injury report, Alan Saunders of SteelersNow.com reports.",
+          "tier": "medium"
         },
         {
           "player": "Brandin Echols",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "CB",
-          "description": "Echols (hamstring) won't return to Sunday's game against Tampa Bay, Mike DeFabo of The Athletic reports.",
+          "description": "out",
           "tier": "high"
         },
         {
-          "player": "Roman Wilson",
+          "player": "Sebastian Joseph-Day",
           "playerId": "",
           "status": "out",
-          "position": "WR",
-          "description": "Wilson (finger) was placed on injured reserve Saturday, Ray Fittipaldo of the Pittsburgh Post-Gazette reports.",
-          "tier": "high"
+          "position": "DT",
+          "description": "ir",
+          "tier": "medium"
         },
         {
           "player": "DeShon Elliott",
           "playerId": "",
           "status": "out",
           "position": "S",
-          "description": "Elliott (knee) has been ruled out ahead of Sunday's game against the Buccaneers, Adam Caplan of SiriusXM NFL Radio reports.",
+          "description": "Elliott (knee) was a full participant in Wednesday's practice, Teresa Varley of the Steelers' official site reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Alex Highsmith",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Jalen Ramsey",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Ramsey tallied 10 tackles (nine solo), including 2.0 sacks, during the Steelers' 26-19 overtime win over the Buccaneers on Sunday.",
+          "tier": "high"
         }
       ],
       "San Francisco 49ers": [
         {
-          "player": "Upton Stout",
+          "player": "Christian Kirk",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Kirk (calf) was a full practice participant Thursday, Nick Wagoner of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Mike Evans",
           "playerId": "",
           "status": "questionable",
-          "position": "CB",
-          "description": "Head coach Kyle Shanahan said that Stout's removal from Monday's 23-17 win over the Commanders was due to an AC sprain in his shoulder, David Lombardi of SFStandard.com reports.",
+          "position": "WR",
+          "description": "Evans (ribs/Achilles) didn't practice Thursday, Nick Wagoner of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Jaden Dugger",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Dugger (knee) was estimated to be a limited participant in Wednesday's walkthrough, Harrison Rich of the San Francisco Chronicle reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Mykel Williams",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Williams (knee) was estimated to be a nonparticipant in Wednesday's walkthrough practice, Harrison Rich of the San Francisco Chronicle reports.",
           "tier": "high"
         },
         {
@@ -84457,7 +84970,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "S",
-          "description": "questionable",
+          "description": "Sigle (ankle) was estimated to be a nonparticipant in Wednesday's walkthrough practice, Harrison Rich of the San Francisco Chronicle reports.",
           "tier": "medium"
         },
         {
@@ -84465,15 +84978,39 @@
           "playerId": "",
           "status": "questionable",
           "position": "DE",
-          "description": "questionable",
+          "description": "Bosa (calf) was not expected to practice Wednesday, reports Nick Wagoner of ESPN.com.",
           "tier": "high"
+        },
+        {
+          "player": "Ashtyn Davis",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Siran Neal",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
         },
         {
           "player": "Deebo Samuel Sr.",
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "out",
+          "description": "Samuel (hamstring) is not expected to practice Wednesday, Cam Inman of Bay Area News Group reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Upton Stout",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Head coach Kyle Shanahan said that Stout's removal from Monday's 23-17 win over the Commanders was due to an AC sprain in his shoulder, David Lombardi of SFStandard.com reports.",
           "tier": "high"
         },
         {
@@ -84485,33 +85022,65 @@
           "tier": "medium"
         },
         {
-          "player": "Mike Evans",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Head coach Kyle Shanahan said after Monday's 23-17 win over the Commanders that Evans' early exit was due to right Achilles tendinitis, but he doesn't believe the wideout will require further testing or imaging, Nick Wagoner of ESPN.com reports. \"I hope he recovers throughout the week, but you don't think it's a long-term thing, but right now it ended up costing him two quarters and hopefully he'll be able to play [Sunday in Atlanta],\" Shanahan said.",
-          "tier": "high"
-        },
-        {
           "player": "Luke Gifford",
           "playerId": "",
           "status": "questionable",
           "position": "LB",
           "description": "Gifford (groin) is questionable to return to Monday's game against the Commanders, Nick Wagoner of ESPN.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Christian Kirk",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "The 49ers downgraded Kirk (calf) to out for Monday's game against the Commanders, Matt Maiocco of NBC Sports Bay Area reports.",
-          "tier": "high"
         }
       ],
       "Seattle Seahawks": [
         {
-          "player": "Chazz Surratt",
+          "player": "Elijah Arroyo",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "Arroyo (shoulder) was placed on injured reserve Thursday, and Adam Schefter of ESPN reports that Arroyo will miss the remainder of the season.",
+          "tier": "medium"
+        },
+        {
+          "player": "Zach Charbonnet",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "The Seahawks activated Charbonnet (knee) from the reserve/PUP list Thursday, John Boyle of the team's official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Drake Thomas",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Thomas (ankle) did not participate in Wednesday's practice, Corbin K. Smith of EmeraldCitySpectrum.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Drew Lock",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "Lock (elbow) was a limited participant in Wednesday's practice, Corbin K. Smith of EmeraldCitySpectrum.com reports.",
+          "tier": "elite"
+        },
+        {
+          "player": "Rashid Shaheed",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Shaheed (hip) was limited in Wednesday's practice, Corbin K. Smith of EmeraldCitySpectrum.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Beau Stephens",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
+        },
+        {
+          "player": "Connor O'Toole",
           "playerId": "",
           "status": "questionable",
           "position": "LB",
@@ -84519,7 +85088,15 @@
           "tier": "medium"
         },
         {
-          "player": "Drake Thomas",
+          "player": "Tyrice Knight",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Chazz Surratt",
           "playerId": "",
           "status": "questionable",
           "position": "LB",
@@ -84535,22 +85112,6 @@
           "tier": "low"
         },
         {
-          "player": "Elijah Arroyo",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Head coach Mike Macdonald confirmed with reporters Monday that Arroyo will miss \"significant time\" due to a shoulder injury that he picked up during Thursday's 17-14 overtime loss to the Broncos, John Boyle of the Seahawks' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Zach Charbonnet",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Head coach Mike Macdonald said Monday that Charbonnet (knee) is slated for a \"full week of work\" and has a \"good chance\" to play Sunday night against the Chiefs, Gregg Bell of The Tacoma News Tribune reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Jadarian Price",
           "playerId": "",
           "status": "out",
@@ -84561,19 +85122,11 @@
       ],
       "Tampa Bay Buccaneers": [
         {
-          "player": "Antoine Winfield Jr.",
+          "player": "Christian Rozeboom",
           "playerId": "",
-          "status": "doubtful",
-          "position": "S",
-          "description": "doubtful",
-          "tier": "medium"
-        },
-        {
-          "player": "Sean Tucker",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "questionable",
+          "status": "out",
+          "position": "LB",
+          "description": "ir",
           "tier": "medium"
         },
         {
@@ -84581,33 +85134,73 @@
           "playerId": "",
           "status": "questionable",
           "position": "QB",
-          "description": "questionable",
+          "description": "Mayfield (right thumb) practiced fully Thursday.",
           "tier": "elite"
         },
         {
-          "player": "Benjamin Morrison",
+          "player": "Emeka Egbuka",
           "playerId": "",
           "status": "questionable",
-          "position": "CB",
-          "description": "questionable",
+          "position": "WR",
+          "description": "Egbuka (concussion/foot) was deemed a non-participant at Thursday's practice, Scott Smith of the Buccaneers' official site reports.",
           "tier": "high"
         },
         {
-          "player": "David Sills V",
+          "player": "Bucky Irving",
           "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Sills (hamstring) is listed as questionable for Sunday's game against the Steelers.",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Irving (illness) was a limited participant in Thursday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "Zyon McCollum",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "McCollum (illness) did not participate at practice Wednesday.",
           "tier": "high"
+        },
+        {
+          "player": "Antoine Winfield Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "Winfield (ribs) was a limited participant at practice Wednesday.",
+          "tier": "medium"
+        },
+        {
+          "player": "Luke Goedeke",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
         }
       ],
       "Tennessee Titans": [
+        {
+          "player": "Calvin Ridley",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Ridley (hip) didn't practice Thursday.",
+          "tier": "high"
+        },
+        {
+          "player": "Dorian Mausi",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "The Titans opened Mausi's 21-day practice window Wednesday, Jim Wyatt of the team's official website reports.",
+          "tier": "medium"
+        },
         {
           "player": "Kevin Winston Jr.",
           "playerId": "",
           "status": "questionable",
           "position": "S",
-          "description": "questionable",
+          "description": "Winston (quadriceps) was a limited participant in Wednesday's practice, Jim Wyatt of the Titans' official site reports.",
           "tier": "medium"
         },
         {
@@ -84620,6 +85213,14 @@
         }
       ],
       "Washington Commanders": [
+        {
+          "player": "Jaylin Lane",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Lane underwent surgery Oct. 9 to repair his fractured and dislocated ankle, and he is expected to be cleared for activities before OTAs, Tashan Reed of The Washington Post reports.",
+          "tier": "high"
+        },
         {
           "player": "Terry McLaurin",
           "playerId": "",
