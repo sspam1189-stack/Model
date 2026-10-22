@@ -80,6 +80,8 @@ class RecordedError(Exception):
 def capture(key, fn, *args, **kwargs):
     if _replay is not None:
         inputs = _replay["inputs"]
+        if key not in inputs and callable(_replay.get("provider")):
+            inputs[key] = _replay["provider"](key)
         if key not in inputs:
             raise KeyError(f"[replay] input '{key}' was not recorded for this run")
         rec = inputs[key]
