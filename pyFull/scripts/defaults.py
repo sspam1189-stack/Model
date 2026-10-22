@@ -44,7 +44,12 @@ DEFAULT_W = {
     # recentWeight: how much to weight last-10-games vs full season.
     #   0.0 = pure season averages, 1.0 = pure last 10 games.
     #   0.35 = research-backed starting point for NBA recent form.
-    "recentWeight": 0.87,
+    #   Was 0.87 until 2026-10-22. Clean 2025-26 backfill (Kalman off):
+    #   0.35 cut margin error 11.80 -> 11.61 and the overreaction (actual
+    #   margin per projected point 0.86 -> 0.93); last-10 alone is the
+    #   least accurate input. NOTE: run_daily reads this from the weights
+    #   stored in history.json, so change it there too.
+    "recentWeight": 0.35,
 
     # locationWeight: how much to adjust toward home/away splits.
     #   0.0 = ignore splits, 1.0 = full location-specific stats.
@@ -199,12 +204,19 @@ ENGINE_CONFIG = {
         "rockets":               "Houston Rockets",
     },
     "MIN_GP": 10,  # stats burn-in (was 15)
+    # Share of the Kalman team offsets applied to projections. 0 = the filter
+    # still tracks every team (kalmanAdj saved on each game) but projections
+    # don't use it. Clean 2025-26 backfill through run_daily: margin error
+    # 12.17 -> 11.80 with it off, and with it on actual margins ran at only
+    # 0.69x the projected margin (the model overreacted).
+    "KALMAN_SCALE": 0.0,
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }
 
 # --- Self-tune HCA clamps (used by core/self_tune.py) -------------------------
-HCA_CLAMP_LO  = 1.5
+HCA_CLAMP_LO  = 0.0   # was 1.5: the tuner sat on that floor all of 2025-26 and the
+                      # model overrated home teams by 0.8 pts; free, it settles ~1.1
 HCA_CLAMP_HI  = 3.5
 HCA_VAR_FLOOR = 0.2
 
