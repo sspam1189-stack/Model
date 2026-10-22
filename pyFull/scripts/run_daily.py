@@ -37,6 +37,7 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from season_rollover import roll_if_new_season
+import run_inputs as _ri
 
 
 # ---- Constants ----
@@ -187,12 +188,10 @@ def _get_tz():
         return pytz.timezone(TIMEZONE)
 
 def today_central_yyyymmdd():
-    tz = _get_tz()
-    return datetime.now(tz).strftime("%Y%m%d")
+    return _ri.now().astimezone(_get_tz()).strftime("%Y%m%d")
 
 def yyyymmdd_from_central_offset(days_back=0):
-    tz = _get_tz()
-    now = datetime.now(tz)
+    now = _ri.now().astimezone(_get_tz())
     target = now.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days_back)
     return target.strftime("%Y%m%d")
 
@@ -241,6 +240,28 @@ def grade_result(g, type_):
 
 # ---- Store: Grade a Past Date ----
 
+def _fetch_scoreboard_compact(yyyymmdd):
+    """ESPN scoreboard cut down to the fields this pipeline reads (start time,
+    status, teams, scores), so recorded run inputs stay small."""
+    sb = fetch_scoreboard(yyyymmdd)
+    if not sb:
+        return sb
+    events = []
+    for ev in sb.get("events", []):
+        comps = []
+        for comp in (ev.get("competitions") or [])[:1]:
+            st = ((comp.get("status") or {}).get("type") or {})
+            comps.append({
+                "date": comp.get("date"),
+                "status": {"type": {k: st.get(k) for k in ("name", "completed", "state")}},
+                "competitors": [{"homeAway": c.get("homeAway"), "score": c.get("score"),
+                                 "team": {"displayName": (c.get("team") or {}).get("displayName")}}
+                                for c in comp.get("competitors", [])],
+            })
+        events.append({"date": ev.get("date"), "competitions": comps})
+    return {"day": sb.get("day"), "events": events}
+
+
 def grade_date_in_store(store, yyyymmdd):
     run = next((r for r in store.get("runs", []) if r["date"] == yyyymmdd), None)
     if not run: return
@@ -248,7 +269,7 @@ def grade_date_in_store(store, yyyymmdd):
         g.get("status") not in ("MISSING_ODDS", "SKIPPED") and not isinstance(g.get("homeScore"), (int, float))
         for g in run.get("games", []))
     if not needs_grading: return
-    try: sb = fetch_scoreboard(yyyymmdd)
+    try: sb = _ri.capture(f"scoreboard:{yyyymmdd}", _fetch_scoreboard_compact, yyyymmdd)
     except Exception: return
     if not sb: return
     finals = extract_final_scores(sb)
@@ -490,7 +511,22 @@ def build_game_prob_table(games):
 # ---- Main Pipeline ----
 
 def main(subject_label="[PY]"):
+    # Every outside input goes through _ri.capture and is saved with the run
+    # (data/run_inputs/nba/<date>/), so replay_season.py can re-run this exact
+    # code on the exact same inputs. Saved even when the run fails: a failed
+    # run's grading still changed history.json, and the replay must match it.
+    if not _ri.replaying():
+        _ri.start()
     date = today_central_yyyymmdd()
+    try:
+        _main(subject_label, date)
+    except Exception as e:
+        _ri.save(date, status="error", error=str(e))
+        raise
+    _ri.save(date)
+
+
+def _main(subject_label, date):
     date_display = to_display_date(date)
 
     # New season -> brand new Kalman + brand new run history. Must run BEFORE
@@ -500,6 +536,7 @@ def main(subject_label="[PY]"):
 
     store = load_store()
     defaults = load_defaults()
+    _ri.note("stateIn", {k: store.get(k) for k in ("weights", "weightsVar", "lastTuneDate", "residualVar")})
 
     print(f"\n== NBA Picks (Full Season) Pipeline - {date_display} ==\n")
 
@@ -519,53 +556,61 @@ def main(subject_label="[PY]"):
     espn_type = get_espn_season_type(date)
     print(f"[1/7] Fetching stats, odds, trends, injuries, player data... [{season_type}]")
     # Try shared stats cache first, then fetch via nba_api
-    enhanced_stats = None
     _scripts_dir = os.path.dirname(os.path.abspath(__file__))
     _shared_cache_dir = os.path.join(_scripts_dir, "..", "..", "data", "stats_cache", "nba")
     _cache_path = os.path.join(_shared_cache_dir, f"{date}.json")
-    if os.path.exists(_cache_path):
-        try:
-            with open(_cache_path, "r", encoding="utf-8") as f:
-                enhanced_stats = json.load(f)
-            if enhanced_stats.get("season") and len(enhanced_stats["season"]) >= 20:
-                print(f"  [nba_stats] Using cached stats ({len(enhanced_stats['season'])} teams)")
-            else:
-                enhanced_stats = None
-        except Exception:
-            enhanced_stats = None
-    burn_in_msg = None
-    if not enhanced_stats:
-        try:
-            enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
-        except Exception as e:
-            # Season burn-in: nba_stats drops teams under 10 GP and raises when
-            # fewer than 20 remain, which is every day of the season's first
-            # ~3 weeks. That is expected, not a failure — exiting 1 here also
-            # skipped the nba-props job (needs: nba-fullseason). Keep going far
-            # enough to write today's injury cache (pyNBAPROPS reads it), then
-            # stop cleanly below. Every other error still fails the run.
-            if "stats incomplete" not in str(e):
-                raise
-            burn_in_msg = str(e)
-        if enhanced_stats:
-            os.makedirs(_shared_cache_dir, exist_ok=True)
+
+    def _load_stats():
+        enhanced_stats = None
+        if os.path.exists(_cache_path):
             try:
-                with open(_cache_path, "w", encoding="utf-8") as f:
-                    json.dump(enhanced_stats, f)
+                with open(_cache_path, "r", encoding="utf-8") as f:
+                    enhanced_stats = json.load(f)
+                if enhanced_stats.get("season") and len(enhanced_stats["season"]) >= 20:
+                    print(f"  [nba_stats] Using cached stats ({len(enhanced_stats['season'])} teams)")
+                else:
+                    enhanced_stats = None
             except Exception:
-                pass
+                enhanced_stats = None
+        burn_in_msg = None
+        if not enhanced_stats:
+            try:
+                enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+            except Exception as e:
+                # Season burn-in: nba_stats drops teams under 10 GP and raises when
+                # fewer than 20 remain, which is every day of the season's first
+                # ~3 weeks. That is expected, not a failure — exiting 1 here also
+                # skipped the nba-props job (needs: nba-fullseason). Keep going far
+                # enough to write today's injury cache (pyNBAPROPS reads it), then
+                # stop cleanly below. Every other error still fails the run.
+                if "stats incomplete" not in str(e):
+                    raise
+                burn_in_msg = str(e)
+            if enhanced_stats:
+                os.makedirs(_shared_cache_dir, exist_ok=True)
+                try:
+                    with open(_cache_path, "w", encoding="utf-8") as f:
+                        json.dump(enhanced_stats, f)
+                except Exception:
+                    pass
+        return [enhanced_stats, burn_in_msg]
+
+    enhanced_stats, burn_in_msg = _ri.capture("stats", _load_stats)
     # FanDuel primary (no API key needed), The Odds API fallback
-    odds = fetch_fanduel_nba_odds()
-    if not odds:
-        try:
-            odds = fetch_todays_odds()
-        except Exception as e:
-            print(f"  [odds] Odds API fallback failed: {e}")
-            odds = []
+    def _get_odds():
+        odds = fetch_fanduel_nba_odds()
+        if not odds:
+            try:
+                odds = fetch_todays_odds()
+            except Exception as e:
+                print(f"  [odds] Odds API fallback failed: {e}")
+                odds = []
+        return odds
+    odds = _ri.capture("odds", _get_odds)
 
     # Detect started/finished games via ESPN scoreboard
     try:
-        _espn_sb = fetch_scoreboard(date)
+        _espn_sb = _ri.capture("scoreboard_today", _fetch_scoreboard_compact, date)
     except Exception:
         _espn_sb = None
     _espn_statuses = {}
@@ -619,9 +664,9 @@ def main(subject_label="[PY]"):
 
     # TeamRankings trends are display-only (the engine never reads them), so a
     # TeamRankings outage must not take the picks or the props job down.
-    try: ats = fetch_ats_trends()
+    try: ats = _ri.capture("ats_trends", fetch_ats_trends)
     except Exception as e: print(f"  Warning: ATS trends fetch failed: {e}"); ats = {}
-    try: ou = fetch_ou_trends()
+    try: ou = _ri.capture("ou_trends", fetch_ou_trends)
     except Exception as e: print(f"  Warning: O/U trends fetch failed: {e}"); ou = {}
     h2h_matchups = None
     # Always fetch fresh injuries, merge with cache for started/finished games
@@ -630,24 +675,24 @@ def main(subject_label="[PY]"):
     _scripts = os.path.dirname(os.path.abspath(__file__))
     _inj_cache_dir = os.path.join(_scripts, "..", "..", "data", "injury_cache", "nba")
     _inj_cache = os.path.join(_inj_cache_dir, f"{date}.json")
-    _old_inj_report = {}
-    if os.path.exists(_inj_cache):
-        try:
-            with open(_inj_cache, "r", encoding="utf-8") as _f:
-                _old = json.load(_f)
-            _old_inj_report = (_old.get("injuryData") or {}).get("report", {})
-        except Exception:
-            pass
-    import time as _time
-    _time.sleep(5)
-    try: injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
+    def _read_old_inj_report():
+        if os.path.exists(_inj_cache):
+            try:
+                with open(_inj_cache, "r", encoding="utf-8") as _f:
+                    _old = json.load(_f)
+                return (_old.get("injuryData") or {}).get("report", {})
+            except Exception:
+                pass
+        return {}
+    _old_inj_report = _ri.capture("injury_cache_today", _read_old_inj_report)
+    _ri.sleep(5)
+    try: injury_data = _ri.capture("injury_data", fetch_injury_data, None, season_type=season_type, espn_type=espn_type)
     except Exception as e: print(f"  Warning: Injury fetch failed: {e}"); injury_data = {"report":{},"playerMPG":{}}
     if player_advanced is None:
-        import time as _time
-        _time.sleep(5)
-        try: player_advanced = fetch_player_advanced(season_type=season_type)
+        _ri.sleep(5)
+        try: player_advanced = _ri.capture("player_advanced", fetch_player_advanced, season_type=season_type)
         except Exception as e: print(f"  Warning: Player advanced fetch failed: {e}"); player_advanced = {}
-    try: b2b_teams = detect_b2b()
+    try: b2b_teams = _ri.capture("b2b_teams", detect_b2b)
     except Exception: b2b_teams = set()
     # H2H disabled (h2hWeight=0) — skip fetch entirely
     h2h_matchups = None
@@ -741,8 +786,8 @@ def main(subject_label="[PY]"):
     # 3. Lineup-adjusted stats + B2B rest + Kalman state
     print("[2/7] Applying lineup adjustments + B2B rest + Kalman filter...")
     # Load recent injury caches for returning-star detection
-    recent_injury_dates = {}
-    try:
+    def _read_recent_injury_caches():
+        out = {}
         inj_cache_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data", "injury_cache", "nba")
         if os.path.isdir(inj_cache_dir):
             cache_files = sorted(
@@ -754,15 +799,19 @@ def main(subject_label="[PY]"):
                     cached = json.load(fh)
                 report = cached.get("report") or (cached.get("injuryData") or {}).get("report") or {}
                 if report:
-                    recent_injury_dates[f.replace(".json", "")] = report
-            print(f"  [lineup] Loaded {len(recent_injury_dates)} recent injury caches for returning-star detection")
+                    out[f.replace(".json", "")] = report
+        return out
+    recent_injury_dates = {}
+    try:
+        recent_injury_dates = _ri.capture("recent_injury_caches", _read_recent_injury_caches)
+        print(f"  [lineup] Loaded {len(recent_injury_dates)} recent injury caches for returning-star detection")
     except Exception:
         pass
 
     # Fetch out-for-season players from ESPN league-wide injuries page
     ofs_players = set()
     try:
-        ofs_players = fetch_out_for_season(injury_data.get("report", {}))
+        ofs_players = _ri.capture("out_for_season", fetch_out_for_season, injury_data.get("report", {}))
     except Exception:
         pass
 
@@ -1003,9 +1052,11 @@ def main(subject_label="[PY]"):
     # which is what keeps the live path and the backtest on one code path.
     # Non-fatal by design: the systems tab is an experiment and must never be
     # able to take the picks pipeline down with it.
+    # Not replayed: it keeps its own logs and never feeds back into the picks.
     try:
-        import build_nba_systems
-        build_nba_systems.build(date=date, store=store)
+        if not _ri.replaying():
+            import build_nba_systems
+            build_nba_systems.build(date=date, store=store)
     except Exception as e:
         print(f"  [systems] build failed (non-fatal): {e}")
 

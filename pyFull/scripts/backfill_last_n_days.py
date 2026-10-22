@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# NOTE: this is the OLD backfill. It has its own copy of the daily steps (no
+# injury/lineup adjustments, tunes on yesterday's games only, stored lines), so
+# it does NOT reproduce live picks. For a backfill that is exactly live, use
+# replay_season.py, which re-runs run_daily on the inputs each live run saved.
 # scripts/backfill_last_n_days.py
 
 import json
