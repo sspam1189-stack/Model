@@ -139,6 +139,12 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
+  'fullseason-dnet': {
+    name: 'NBA Full dNET',
+    local: 'data/fullseason-dnet.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullDNET/data/history.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
   ncaa: {
     name: 'pyNCAA',
     local: 'data/ncaa.json',
@@ -696,14 +702,14 @@ function confBadge(conf) {
 // calcUnits (flat, model ATS accuracy) and is NOT restated by the tier.
 function eliteStakeCut() {
   if (activeTab === 'wnba-full') return 0.72;
-  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko') return 0.65;
+  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet') return 0.65;
   return null;
 }
 // Fire floor: min P(cover) for a pick to fire (bet), from each model's probHigh.
 // Used as the lower bound of the 1u stake tier label.
 function fireThreshold() {
   if (activeTab === 'wnba-full') return 0.62;
-  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko') return 0.58;
+  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet') return 0.58;
   return null;
 }
 function stakeUnits(pCover) {
@@ -1169,7 +1175,7 @@ function renderTodayPicks(run, runs) {
 
   // Include UNDER picks as official picks if they match any filter criteria (fullseason only)
   let underItems = '';
-  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko') {
+  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet') {
     const todayUnders = (run.games || []).filter(g => {
       if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') return false;
       if (!g.oPick || g.oPick !== 'UNDER') return false;
