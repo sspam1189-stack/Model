@@ -145,9 +145,12 @@ def _stats(d):
     c = _json(os.path.join(DATA, "stats_cache", "nba", f"{d}.json"))
     if not c or not c.get("season"):
         return [None, f"stats incomplete: no saved stats for {d}"]
-    season = {k: v for k, v in c["season"].items() if v.get("GP", 0) >= 10}
+    sys.path.insert(0, HERE)
+    from defaults import ENGINE_CONFIG
+    min_gp = ENGINE_CONFIG.get("MIN_GP", 10)   # as run_daily passes to nba_stats
+    season = {k: v for k, v in c["season"].items() if v.get("GP", 0) >= min_gp}
     if len(season) < 20:
-        return [None, f"stats incomplete: only {len(season)} teams with >= 10 GP"]
+        return [None, f"stats incomplete: only {len(season)} teams with >= {min_gp} GP"]
     return [{"season": season, "last10": c.get("last10"), "home": c.get("home"), "away": c.get("away")}, None]
 
 

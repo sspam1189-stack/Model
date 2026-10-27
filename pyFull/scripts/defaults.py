@@ -198,7 +198,12 @@ ENGINE_CONFIG = {
         "houston":               "Houston Rockets",
         "rockets":               "Houston Rockets",
     },
-    "MIN_GP": 10,  # stats burn-in (was 15)
+    # Two-stage burn-in (2026-10-27). Projections start once 20+ teams have
+    # MIN_GP games, so Kalman and self-tune learn from then; OFFICIAL picks wait
+    # until 20+ teams have PICKS_MIN_GP games. In between every game is
+    # projected and graded but marked burnIn, with no picks.
+    "MIN_GP": 5,
+    "PICKS_MIN_GP": 10,
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }

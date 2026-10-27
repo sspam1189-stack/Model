@@ -290,7 +290,7 @@ def _load_cached_enhanced(date_to=None):
     return None
 
 
-def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
+def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season", min_gp=10):
     """
     Returns { "season": ..., "last10": ..., "home": ..., "away": ... }
     all keyed by full team name.
@@ -304,7 +304,7 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     cached = _load_cached_enhanced(date_to)
     if cached is not None:
         season = cached.get("season") or {}
-        season = {k: v for k, v in season.items() if v.get("GP", 0) >= 10}
+        season = {k: v for k, v in season.items() if v.get("GP", 0) >= min_gp}
         if len(season) >= 20:
             return {
                 "season": season,
@@ -382,8 +382,8 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         print(f"  [nba_stats] Away fetch failed ({e}) -- skipping")
         away = None
 
-    # Filter season stats for min games (10 — blended stats use regular GP).
-    season = {k: v for k, v in season.items() if v.get("GP", 0) >= 10}
+    # Filter season stats for min games (min_gp — blended stats use regular GP).
+    season = {k: v for k, v in season.items() if v.get("GP", 0) >= min_gp}
     count = len(season)
     print(f"  [nba_stats] Enhanced: {count} teams (season), {len(last10) if last10 else 0} (L10), {len(home) if home else 0} (home), {len(away) if away else 0} (away)")
 

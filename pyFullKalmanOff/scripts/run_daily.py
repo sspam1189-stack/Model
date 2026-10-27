@@ -27,7 +27,7 @@ from sources.lineup_adjust import fetch_player_advanced, adjust_team_stats
 from sources.rest_detect import detect_b2b, apply_b2b_adjustment
 from sources.h2h_matchup import fetch_h2h_matchups
 from sources.season_type import get_season_type, get_espn_season_type, is_playoffs, PLAYOFF_START
-from defaults import stake_units_for, MIN_FIRE_PCOVER
+from defaults import stake_units_for, MIN_FIRE_PCOVER, ENGINE_CONFIG
 from model_engine import load_defaults, get_avgs, analyze_game
 from store import load_store, save_store, upsert_run
 from self_tune import tune_weights, compute_residual_var
@@ -575,7 +575,8 @@ def _main(subject_label, date):
         burn_in_msg = None
         if not enhanced_stats:
             try:
-                enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+                enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type,
+                                                          min_gp=ENGINE_CONFIG.get("MIN_GP", 10))
             except Exception as e:
                 # Season burn-in: nba_stats drops teams under 10 GP and raises when
                 # fewer than 20 remain, which is every day of the season's first
@@ -745,7 +746,7 @@ def _main(subject_label, date):
                 except Exception:
                     pass
             games.append({**g, "status": "SKIPPED", "burnIn": True,
-                          "note": "Stats burn-in: no picks until 20+ teams have 10 games",
+                          "note": "Stats burn-in: no projections until 20+ teams have 5 games, no picks until 10",
                           "sPick": "PASS", "oPick": "PASS"})
         # FanDuel drops a game once it tips, so a later run would lose an early
         # game (Celtics @ Pistons, 2 PM CT on 2026-10-20). Keep any game an
@@ -769,7 +770,7 @@ def _main(subject_label, date):
                          os.path.join(_here, "..", "..", "PythonDashboard", "data", "fullseason-kalmanoff.json"))
         except Exception as e:
             print(f"  [dashboard] sync failed: {e}")
-        print(f"[burn-in] {burn_in_msg} -- saved {len(games)} game(s) for the dashboard, no picks until 20+ teams have 10 GP.")
+        print(f"[burn-in] {burn_in_msg} -- saved {len(games)} game(s) for the dashboard, projections start when 20+ teams have 5 GP, picks at 10.")
         return
 
     # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides).
@@ -928,6 +929,18 @@ def _main(subject_label, date):
             base_w["probHigh"] = MIN_FIRE_PCOVER
             print(f"[fire floor] probHigh {_ph} -> {MIN_FIRE_PCOVER} (2u band only)")
 
+    # --- Official-pick burn-in (stage 2) ---
+    # Stats are good enough to project once 20+ teams have MIN_GP games, and
+    # Kalman / self-tune learn from those graded projections. Picks are not
+    # official until 20+ teams have PICKS_MIN_GP games: until then nothing
+    # fires (probHigh > 1 on this run's copy) and every game is marked burnIn.
+    _picks_gp = ENGINE_CONFIG.get("PICKS_MIN_GP", 0)
+    _n_ready = sum(1 for _v in (enhanced_stats.get("season") or {}).values() if _v.get("GP", 0) >= _picks_gp)
+    picks_burn_in = _n_ready < 20
+    if picks_burn_in:
+        base_w["probHigh"] = 1.01
+        print(f"[burn-in] projecting only: {_n_ready} teams have {_picks_gp}+ GP (need 20) -- no official picks")
+
     # --- Per-team HCA in playoffs only ---
     # Some teams (CLE, BOS) have near-zero personal home advantage; others (NYK)
     # have well above league average. League-average HCA (~3.0 in playoffs)
@@ -1037,6 +1050,9 @@ def _main(subject_label, date):
 
     # Sort games by start time
     games.sort(key=lambda g: g.get("startTimeUTC") or "")
+    if picks_burn_in:
+        for g in games:
+            g["burnIn"] = True
 
     # 6-7. Save
     print("[4/7] Saving...")
