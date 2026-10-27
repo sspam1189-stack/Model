@@ -968,6 +968,10 @@ def _main(subject_label, date):
             print(f"[playoff] Per-team HCA computed for {len(team_hca)} teams "
                   f"(league_hca={base_w.get('hca', 1.8):.2f})")
 
+    from core.calibration import edge_shrink
+    base_w["edgeShrink"] = edge_shrink(store.get("runs", []))
+    print(f"[calib] edge shrink {base_w['edgeShrink']:.3f} (calibrated P(cover) shown as pCal; picks use raw)")
+
     apply_daily_drift(kalman_state, date)
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var

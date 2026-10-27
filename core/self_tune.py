@@ -13,6 +13,7 @@ import re
 _DEFAULT_W = {}
 _DEFAULT_W_VAR = {}
 _TUNE_KEYS = None
+_WDEF_MAX = 5
 _BAYES_HYPER = {"marginNoise": 144, "minWeightVar": 0.05, "maxWeightVar": 10, "residualVar": 100}
 
 HCA_CLAMP_LO = 1.5
@@ -26,8 +27,9 @@ def _configure(defaults_module):
     _DEFAULT_W = getattr(defaults_module, "DEFAULT_W", {})
     _DEFAULT_W_VAR = getattr(defaults_module, "DEFAULT_W_VAR", {})
     _BAYES_HYPER = getattr(defaults_module, "BAYES_HYPER", _BAYES_HYPER)
-    global _TUNE_KEYS
+    global _TUNE_KEYS, _WDEF_MAX
     _TUNE_KEYS = getattr(defaults_module, "TUNE_KEYS", None)
+    _WDEF_MAX = getattr(defaults_module, "WDEF_MAX", 5)
 
 
 # -- Helpers -------------------------------------------------------------------
@@ -153,7 +155,7 @@ def tune_weights(current_w, current_w_var, completed_rows):
     W["wTS"] = _clamp(W["wTS"], 0, 5)
     W["wTO"] = _clamp(W["wTO"], 0, 5)
     W["wORR"] = _clamp(W["wORR"], 0, 5)
-    W["wDEF"] = _clamp(W["wDEF"], 0, 5)
+    W["wDEF"] = _clamp(W["wDEF"], 0, _WDEF_MAX)
     W["hca"] = _clamp(W["hca"], HCA_CLAMP_LO, HCA_CLAMP_HI)
 
     if n_bayes > 0:

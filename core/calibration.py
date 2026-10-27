@@ -113,3 +113,27 @@ def build_calibration_html(calib_rows):
 
     html += '</table>'
     return html
+
+
+def edge_shrink(runs, min_games=150, prior=0.25):
+    """How much of the model's projected edge over the line actually shows up.
+
+    OLS slope of (actual cover margin) on (projected margin vs the line) over
+    graded games, clipped to [0, 1]; the prior until min_games are graded.
+    2025-26 clean backfill: ~0.12-0.25, i.e. the raw P(cover) is far too
+    confident. Used only for the displayed calibrated P(cover) (pCal); picks
+    still fire on the raw probability.
+    """
+    seen = {}
+    for run in runs or []:
+        for g in run.get("games") or []:
+            if all(isinstance(g.get(k), (int, float)) for k in ("margin", "homeScore", "awayScore", "line")):
+                seen[(run.get("date"), g.get("away"), g.get("home"))] = (
+                    g["margin"], g["homeScore"] - g["awayScore"] + g["line"])
+    if len(seen) < min_games:
+        return prior
+    xs, ys = zip(*seen.values())
+    mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+    vx = sum((x - mx) ** 2 for x in xs)
+    b = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / vx if vx else 0.0
+    return max(0.0, min(1.0, b))

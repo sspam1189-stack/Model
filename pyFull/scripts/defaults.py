@@ -139,6 +139,11 @@ BAYES_HYPER = {
 # Weights self-tune fits: only the ones the projection uses (TS/TO/ORR were
 # dropped from the projection on 2026-04-03 but were still being fitted).
 TUNE_KEYS = ["wDEF", "hca"]
+# Cap on the net-rating weight (wNET, stored as wDEF). Uncapped it tuned to
+# ~1.12, stretching every margin ~12% and making the model overreact; capped
+# at 1.0 (2025-26 clean backfill) margin error 11.86 -> 11.77 (Full Season)
+# and 11.55 -> 11.54 (KalmanOff), actual-per-projected 0.73 -> 0.77 / 0.94 -> 1.04.
+WDEF_MAX = 1.0
 
 ENGINE_CONFIG = {
     "TEAM_NAME_ALIASES": {

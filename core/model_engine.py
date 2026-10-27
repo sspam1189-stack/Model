@@ -478,6 +478,9 @@ def create_model_engine(
 
         p_home_cover = normal_cdf(margin / margin_std)
         p_away_cover = 1 - p_home_cover
+        # Calibrated P(cover) of the stronger side, for display only.
+        p_cal = (normal_cdf(abs(margin) * W["edgeShrink"] / margin_std)
+                 if W.get("edgeShrink") is not None else None)
 
         total_var = margin_var * total_var_multiplier
         total_std = math.sqrt(max(total_var, 1))
@@ -552,6 +555,7 @@ def create_model_engine(
             "pUnder": _jround(p_under * 1000) / 1000,
             "pCover": _jround(p_cover * 1000) / 1000 if p_cover else None,
             "pOU": _jround(p_ou * 1000) / 1000 if p_ou else None,
+            "pCal": _jround(p_cal * 1000) / 1000 if p_cal is not None else None,
             "marginVar": _jround(margin_var * 10) / 10,
             "marginStd": _jround(margin_std * 10) / 10,
 
