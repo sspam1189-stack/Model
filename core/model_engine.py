@@ -177,6 +177,12 @@ def create_model_engine(
 
     aliases = engine_config.get("TEAM_NAME_ALIASES", {})
     min_games = engine_config.get("MIN_GP", 15)
+    # MARGIN_FORMULA "dnet": one tuned weight (W["wDEF"], read as wNET) on the
+    # net-rating difference, each team's score centred on the league-average
+    # offence. Default "def" = the 2026-04-03 formula (wOFF*OFF + wDEF*opp DEF
+    # vs league). Margins: "def" -> (OFFh-OFFa) + wDEF*(DEFa-DEFh);
+    # "dnet" -> wNET*(NETh-NETa); identical when both weights are 1.
+    use_dnet = engine_config.get("MARGIN_FORMULA", "def") == "dnet"
     use_safe_fuzzy = engine_config.get("USE_SAFE_FUZZY", False)
     use_collapse_abbr = engine_config.get("USE_COLLAPSE_ABBR", False)
 
@@ -226,6 +232,7 @@ def create_model_engine(
             "to": sum(x["TO"] for x in teams) / n,
             "orr": sum(x["ORR"] for x in teams) / n,
             "def": sum(x["DEF"] for x in teams) / n,
+            "off": sum(x["OFF"] for x in teams) / n,
         }
 
     def normal_cdf(x):
@@ -257,11 +264,19 @@ def create_model_engine(
 
         t_off = t["OFF"]
 
-        base = (
-            _r4(W.get("wOFF", 1) * t_off)
-            + _r4(W["wDEF"] * (o["DEF"] - a["def"]))
-            + W["constant"]
-        )
+        if use_dnet:
+            d_net = 0.5 * ((t_off - t["DEF"]) - (o["OFF"] - o["DEF"]))
+            base = (
+                _r4(a.get("off", t_off))
+                + _r4(W["wDEF"] * d_net)
+                + W["constant"]
+            )
+        else:
+            base = (
+                _r4(W.get("wOFF", 1) * t_off)
+                + _r4(W["wDEF"] * (o["DEF"] - a["def"]))
+                + W["constant"]
+            )
 
         pace = _r4((((t["PACE"] + o["PACE"]) / 2) * W["paceAdj"]) / 100)
         if enable_team_hca and team_hca:
@@ -282,7 +297,7 @@ def create_model_engine(
             variance += kalman_adj["var"]
 
         if W_var:
-            d_def = o["DEF"] - a["def"]
+            d_def = (0.5 * ((t_off - t["DEF"]) - (o["OFF"] - o["DEF"]))) if use_dnet else (o["DEF"] - a["def"])
 
             weight_var = (
                 (d_def * pace) ** 2 * (W_var.get("wDEF", 0))
@@ -316,9 +331,12 @@ def create_model_engine(
             "dTS":  _r4((home_stats["TS"] - away_stats["TS"]) * pace),
             "dTO":  _r4(-(home_stats["TO"] - away_stats["TO"]) * pace),
             "dORR": _r4((home_stats["ORR"] - away_stats["ORR"]) * pace),
-            "dDEF": _r4((away_stats["DEF"] - home_stats["DEF"]) * pace),
+            # dDEF is the feature W["wDEF"] multiplies; under dnet that is the
+            # net-rating difference and there is no separate offence baseline.
+            "dDEF": _r4((((home_stats["OFF"] - home_stats["DEF"]) - (away_stats["OFF"] - away_stats["DEF"])) if use_dnet
+                         else (away_stats["DEF"] - home_stats["DEF"])) * pace),
             "hca":  0.0 if neutral else 1.0,
-            "_baseline": _r4((home_stats["OFF"] - away_stats["OFF"]) * pace),
+            "_baseline": 0.0 if use_dnet else _r4((home_stats["OFF"] - away_stats["OFF"]) * pace),
             "_pace": pace,
         }
 

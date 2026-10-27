@@ -12,6 +12,7 @@ import re
 # -- Configurable module-level variables (set by sport-specific wrapper) ------
 _DEFAULT_W = {}
 _DEFAULT_W_VAR = {}
+_TUNE_KEYS = None
 _BAYES_HYPER = {"marginNoise": 144, "minWeightVar": 0.05, "maxWeightVar": 10, "residualVar": 100}
 
 HCA_CLAMP_LO = 1.5
@@ -25,6 +26,8 @@ def _configure(defaults_module):
     _DEFAULT_W = getattr(defaults_module, "DEFAULT_W", {})
     _DEFAULT_W_VAR = getattr(defaults_module, "DEFAULT_W_VAR", {})
     _BAYES_HYPER = getattr(defaults_module, "BAYES_HYPER", _BAYES_HYPER)
+    global _TUNE_KEYS
+    _TUNE_KEYS = getattr(defaults_module, "TUNE_KEYS", None)
 
 
 # -- Helpers -------------------------------------------------------------------
@@ -103,7 +106,10 @@ def tune_weights(current_w, current_w_var, completed_rows):
     # SIGNAL 1: Bayesian weight update
     # ==================================================================
 
-    WEIGHT_KEYS = ["wTS", "wTO", "wORR", "wDEF", "hca"]
+    # TUNE_KEYS (sport defaults) limits the fit to the weights the projection
+    # actually uses; default keeps every key (WNBA/NCAA unchanged).
+    _ALL = {"wTS": "dTS", "wTO": "dTO", "wORR": "dORR", "wDEF": "dDEF", "hca": "hca"}
+    WEIGHT_KEYS = list(_TUNE_KEYS) if _TUNE_KEYS else ["wTS", "wTO", "wORR", "wDEF", "hca"]
     n_bayes = 0
 
     for r in completed_rows:
@@ -116,7 +122,7 @@ def tune_weights(current_w, current_w_var, completed_rows):
         if not mf:
             continue
 
-        x = [mf["dTS"], mf["dTO"], mf["dORR"], mf.get("dDEF", 0), mf["hca"]]
+        x = [mf.get(_ALL[k], 0) for k in WEIGHT_KEYS]
 
         baseline = mf.get("_baseline", 0)
         prediction = baseline

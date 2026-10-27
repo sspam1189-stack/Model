@@ -32,7 +32,9 @@ DEFAULT_W = {
     "wTS":  1,          # true shooting % delta weight
     "wTO":  1,          # turnover % delta weight
     "wORR": 1,          # offensive rebound rate delta weight
-    "wDEF": 0.4,        # defensive rating delta weight
+    # Since 2026-10-27 (MARGIN_FORMULA "dnet") this weights the whole
+    # net-rating difference (wNET); was 0.4 on opponent DEF vs league.
+    "wDEF": 1.0,
     "constant": 0,      # additive constant to base projection
     "paceAdj": 1,       # pace multiplier (1.0 = neutral)
     "hca": 1.5,         # home court advantage (points)
@@ -143,6 +145,10 @@ BAYES_HYPER = {
 }
 
 # --- Core engine config (used by core/model_engine.py) -------------------------
+# Weights self-tune fits: only the ones the projection uses (TS/TO/ORR were
+# dropped from the projection on 2026-04-03 but were still being fitted).
+TUNE_KEYS = ["wDEF", "hca"]
+
 ENGINE_CONFIG = {
     "TEAM_NAME_ALIASES": {
         "la lakers":             "Los Angeles Lakers",
@@ -217,6 +223,11 @@ ENGINE_CONFIG = {
     # projected and graded but marked burnIn, with no picks.
     "MIN_GP": 5,
     "PICKS_MIN_GP": 10,
+    # Projection margin = wNET x (home net rating - away net rating) x pace + HCA
+    # (one tuned weight; offence and defence count equally). Clean 2025-26
+    # backfill: same accuracy as the Apr 3 formula, better record in both
+    # models (Full Season -6.7u -> +15.9u, KalmanOff -1.1u -> +13.6u).
+    "MARGIN_FORMULA": "dnet",
     # NBA Full KalmanOff: the Kalman filter still tracks every team (kalmanAdj
     # is saved on each game) but projections don't use it.
     "KALMAN_SCALE": 0.0,
