@@ -6,6 +6,10 @@ name: NBA Projection Preview (no commit)
 
 on:
   workflow_dispatch:
+    inputs:
+      date:
+        description: "Past day YYYYMMDD (blank = today, live)"
+        default: ""
 
 permissions:
   contents: read
@@ -31,4 +35,7 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
-        run: python pyFull/scripts/preview_today.py
+        run: |
+          if ("${{ inputs.date }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} }
+          else { python pyFull/scripts/preview_today.py }
+          exit $LASTEXITCODE

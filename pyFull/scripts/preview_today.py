@@ -7,9 +7,17 @@
 # projections side by side. Nothing in the real repo is written. Early-season
 # numbers rest on a handful of games per team: a preview, not picks.
 #
+# --date YYYYMMDD previews a past day instead: stats through the day before
+# are fetched from NBA.com, and that day's last pre-tip run is replayed
+# (replay_season.py) with the lines/injuries pyFull recorded live then.
+#
 # Usage (repo root or anywhere; needs stats.nba.com, so the self-hosted runner):
 #   python pyFull/scripts/preview_today.py
+#   python pyFull/scripts/preview_today.py --date 20261026
 
+import argparse
+import glob
+import gzip
 import json
 import os
 import re
@@ -23,9 +31,17 @@ REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff"),
           ("pyFullDNET", "NBA Full dNET")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
+INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet"}
 
 
-def run_model(model):
+def fetch_stats(date):
+    """Team stats through the day before date, every team (no GP filter)."""
+    sys.path.insert(0, HERE)
+    from sources.nba_stats import fetch_nba_stats_enhanced
+    return fetch_nba_stats_enhanced(date, min_gp=0)
+
+
+def _setup(model):
     root = tempfile.mkdtemp(prefix=f"preview-{model}-")
     shutil.copytree(os.path.join(REPO, "core"), os.path.join(root, "core"), ignore=SKIP)
     shutil.copytree(os.path.join(REPO, model), os.path.join(root, model), ignore=SKIP)
@@ -40,6 +56,46 @@ def run_model(model):
     s = re.sub(r'"MIN_GP": \d+', '"MIN_GP": 1', s)
     s = re.sub(r'"PICKS_MIN_GP": \d+', '"PICKS_MIN_GP": 0', s)
     open(d, "w", encoding="utf-8").write(s)
+    return root
+
+
+def replay_model(model, date, stats):
+    """Replay date's last pre-tip run with stats through the day before."""
+    root = _setup(model)
+    for sub in ("odds_cache", "stats_cache"):
+        os.makedirs(os.path.join(root, "data", sub, "nba"), exist_ok=True)
+    src = os.path.join(REPO, "data", "odds_cache", "nba", date + ".json")
+    if os.path.exists(src):
+        shutil.copy(src, os.path.join(root, "data", "odds_cache", "nba"))
+    with open(os.path.join(root, "data", "stats_cache", "nba", date + ".json"), "w", encoding="utf-8") as f:
+        json.dump(stats, f)
+    # pyFull's recorded live inputs for the day (same lines for all three
+    # models), with the stats the burn-in kept out of them.
+    dst = os.path.join(root, "data", "run_inputs", INPUTS_DIR[model], date)
+    os.makedirs(dst, exist_ok=True)
+    for p in glob.glob(os.path.join(REPO, "data", "run_inputs", "nba", date, "*.json.gz")):
+        with gzip.open(p, "rt", encoding="utf-8") as f:
+            snap = json.load(f)
+        snap["inputs"]["stats"] = {"v": [stats, None]}
+        with gzip.open(os.path.join(dst, os.path.basename(p)), "wt", encoding="utf-8") as f:
+            json.dump(snap, f)
+    out = os.path.join(root, "out.json")
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GMAIL")}
+    env["PYFULL_BACKFILL_REPO"] = root
+    p = subprocess.run([sys.executable, "replay_season.py", "--from", date, "--to", date, "--out", out],
+                       cwd=os.path.join(root, model, "scripts"), env=env,
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    print(f"--- {model} replay exit {p.returncode}; last lines:")
+    print("\n".join((p.stdout + p.stderr).strip().splitlines()[-15:]))
+    try:
+        runs = json.load(open(out, encoding="utf-8"))["runs"]
+        return next((r for r in runs if r["date"] == date), None)
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def run_model(model):
+    root = _setup(model)
     env = {k: v for k, v in os.environ.items() if not k.startswith("GMAIL")}
     p = subprocess.run([sys.executable, "run_daily.py"], cwd=os.path.join(root, model, "scripts"),
                        env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
@@ -53,7 +109,15 @@ def run_model(model):
 
 
 def main():
-    out = {m: run_model(m) for m, _ in MODELS}
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--date", help="past day YYYYMMDD (default: today, live)")
+    a = ap.parse_args()
+    if a.date:
+        stats = fetch_stats(a.date)
+        print(f"stats through the day before {a.date}: {len(stats['season'])} teams")
+        out = {m: replay_model(m, a.date, stats) for m, _ in MODELS}
+    else:
+        out = {m: run_model(m) for m, _ in MODELS}
     date = next((r["date"] for r in out.values() if r), "?")
     lines = [f"## NBA projections preview {date} (burn-in lowered: MIN_GP 1, picks at 0 GP)", ""]
     hdr = "| Game | Line (home) |" + "".join(f" {n} |" for _, n in MODELS)
