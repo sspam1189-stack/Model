@@ -44,7 +44,11 @@ DEFAULT_W = {
     # recentWeight: how much to weight last-10-games vs full season.
     #   0.0 = pure season averages, 1.0 = pure last 10 games.
     #   0.35 = research-backed starting point for NBA recent form.
-    "recentWeight": 0.87,
+    #   0.87 from 2026-04-03 (chosen on a backfill whose stats included each
+    #   game's own result -- weighting last-10 more weighted that leak more);
+    #   back to 0.35 on 2026-10-27. run_daily reads the value stored in
+    #   history.json, so change it there too.
+    "recentWeight": 0.35,
 
     # locationWeight: how much to adjust toward home/away splits.
     #   0.0 = ignore splits, 1.0 = full location-specific stats.
