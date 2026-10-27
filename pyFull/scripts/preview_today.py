@@ -108,6 +108,22 @@ def run_model(model):
         shutil.rmtree(root, ignore_errors=True)
 
 
+def final_scores(date):
+    """{(away, home): (away_score, home_score)} for finished games."""
+    sys.path.insert(0, HERE)
+    from sources.espn_scoreboard import fetch_scoreboard
+    out = {}
+    for ev in fetch_scoreboard(date).get("events", []):
+        comp = (ev.get("competitions") or [{}])[0]
+        if not ((comp.get("status") or {}).get("type") or {}).get("completed"):
+            continue
+        t = {c.get("homeAway"): ((c.get("team") or {}).get("displayName"), int(c.get("score") or 0))
+             for c in comp.get("competitors", [])}
+        if "away" in t and "home" in t:
+            out[(t["away"][0], t["home"][0])] = (t["away"][1], t["home"][1])
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", help="past day YYYYMMDD (default: today, live)")
@@ -119,9 +135,11 @@ def main():
     else:
         out = {m: run_model(m) for m, _ in MODELS}
     date = next((r["date"] for r in out.values() if r), "?")
+    finals = final_scores(date) if a.date else {}
     lines = [f"## NBA projections preview {date} (burn-in lowered: MIN_GP 1, picks at 0 GP)", ""]
-    hdr = "| Game | Line (home) |" + "".join(f" {n} |" for _, n in MODELS)
-    lines += [hdr, "|---|---|" + "---|" * len(MODELS)]
+    hdr = "| Game | Line (home) |" + (" Final |" if finals else "") + "".join(f" {n} |" for _, n in MODELS)
+    lines += [hdr, "|---|---|" + ("---|" if finals else "") + "---|" * len(MODELS)]
+    record = {m: [0, 0, 0] for m, _ in MODELS}
     keys = []
     for r in out.values():
         for g in (r or {}).get("games", []):
@@ -140,8 +158,23 @@ def main():
             p = max(g.get("pHomeCover") or 0, g.get("pAwayCover") or 0)
             team = home if side_home else away
             fire = " **65%+**" if p >= 0.65 else ""
-            row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.0%}{fire}")
-        lines.append(f"| {away} @ {home} | {line if line is not None else '-'} | " + " | ".join(row) + " |")
+            res = ""
+            fs = finals.get((away, home))
+            if fs and line is not None:
+                cover = fs[1] - fs[0] + line           # home side vs the line
+                res = " PUSH" if cover == 0 else (" W" if (cover > 0) == side_home else " L")
+                if p >= 0.65:
+                    record[m][{" W": 0, " L": 1, " PUSH": 2}[res]] += 1
+            row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.0%}{fire}{res}")
+        fcol = ""
+        if finals:
+            fs = finals.get((away, home))
+            fcol = f" {fs[0]}-{fs[1]} (home {fs[1] - fs[0]:+d}) |" if fs else " not final |"
+        lines.append(f"| {away} @ {home} | {line if line is not None else '-'} |{fcol} " + " | ".join(row) + " |")
+    if finals:
+        lines += ["", "65%+ plays: " + ", ".join(
+            f"{n} {w}-{l}" + (f"-{pu}" if pu else "") + f" ({w - 1.1 * l:+.1f}u)"
+            for (m, n) in MODELS for w, l, pu in [record[m]])]
     text = "\n".join(lines)
     print("\n" + text)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
