@@ -83,7 +83,10 @@ ELITE_STAKE_UNITS = 2
 # has to clear. Applied per run in run_daily (a copy, like the playoff floor), so
 # the self-tuned probHigh in history.json is untouched and backfills keep
 # replaying the full 0.58 book. Set to None to restore the tuned threshold.
-MIN_FIRE_PCOVER = ELITE_STAKE_CUT
+# 2026-10-27: back to the pre-playoff rule -- picks fire at the self-tuned
+# probHigh (0.58) as 1u, 2u at ELITE_STAKE_CUT (0.65). The 65% floor above was
+# chosen on the leaky 2025-26 backfill. Playoffs still floor probHigh at 0.65.
+MIN_FIRE_PCOVER = None
 
 
 def stake_units_for(p_cover):
