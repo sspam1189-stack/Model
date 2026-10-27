@@ -1,13 +1,13 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-10-26T22:16:34Z",
- "date": "20261026",
- "dateDisplay": "2026-10-26",
+ "generated": "2026-10-27T15:46:03Z",
+ "date": "20261027",
+ "dateDisplay": "2026-10-27",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
  "bar_roi": 0.1,
- "games_today": 9,
+ "games_today": 4,
  "ml_conversion": {
   "a": 0.0,
   "b": 0.12983578423978293,
@@ -185,28 +185,7 @@
    "status": "shadow"
   }
  ],
- "today": [
-  {
-   "date": "20261026",
-   "system": "pickem_under",
-   "tier": "candidate",
-   "market": "total",
-   "side": "UNDER",
-   "label": "Pick'em (|spread| <= 2) -> UNDER",
-   "play": "UNDER 237.5",
-   "team": "Utah Jazz",
-   "game": "Memphis Grizzlies @ Utah Jazz",
-   "away": "Memphis Grizzlies",
-   "home": "Utah Jazz",
-   "line": 237.5,
-   "spread": 1.5,
-   "total": 237.5,
-   "price": -115,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-10-27T01:10:00.000+00:00"
-  }
- ],
+ "today": [],
  "records": {
   "elite_dog_ml": {
    "live": {
@@ -28271,6 +28250,22 @@
    "profit": 0.0,
    "book_profit": 0.0,
    "startTimeUTC": "2026-10-27T01:10:00.000+00:00"
+  },
+  {
+   "date": "20261027",
+   "system": null,
+   "tier": null,
+   "market": null,
+   "play": "NO PLAY",
+   "game": null,
+   "away": null,
+   "home": null,
+   "no_play": true,
+   "note": "slate had games, no system fired",
+   "status": "shadow",
+   "result": "no_play",
+   "profit": 0.0,
+   "book_profit": 0.0
   }
  ],
  "totals": {
