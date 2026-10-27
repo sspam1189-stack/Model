@@ -1,0 +1,34 @@
+name: NBA Projection Preview (no commit)
+
+# Runs all three NBA full-season models on today's live stats and lines with
+# the burn-in lowered, in a throwaway copy, and prints the projections side by
+# side (job summary + log). Writes nothing to the repo.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: self-hosted
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+
+      - name: Install dependencies
+        run: pip install -r pyFull/requirements.txt
+
+      - name: Preview projections
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python pyFull/scripts/preview_today.py
