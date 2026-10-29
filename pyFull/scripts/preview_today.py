@@ -139,7 +139,7 @@ def main():
     lines = [f"## NBA projections preview {date} (burn-in lowered: MIN_GP 1, picks at 0 GP)", ""]
     hdr = "| Game | Line (home) |" + (" Final |" if finals else "") + "".join(f" {n} |" for _, n in MODELS)
     lines += [hdr, "|---|---|" + ("---|" if finals else "") + "---|" * len(MODELS)]
-    record = {m: [0, 0, 0] for m, _ in MODELS}
+    record = {m: [0, 0, 0, 0.0] for m, _ in MODELS}
     keys = []
     for r in out.values():
         for g in (r or {}).get("games", []):
@@ -157,14 +157,21 @@ def main():
             side_home = (g.get("pHomeCover") or 0) >= (g.get("pAwayCover") or 0)
             p = max(g.get("pHomeCover") or 0, g.get("pAwayCover") or 0)
             team = home if side_home else away
-            fire = " **65%+**" if p >= 0.65 else ""
+            # Fired or not, and the stake, come from the engine itself (sPick /
+            # stakeUnits: P(cover) >= probHigh, 2u at the elite cut), never from
+            # the rounded percentage printed here.
+            fired = g.get("sPick") not in (None, "PASS")
+            units = (g.get("stakeUnits") or 1) if fired else 0
+            fire = f" **PLAY {units}u**" if fired else " (no play)"
             res = ""
             fs = finals.get((away, home))
             if fs and line is not None:
                 cover = fs[1] - fs[0] + line           # home side vs the line
                 res = " PUSH" if cover == 0 else (" W" if (cover > 0) == side_home else " L")
-                if p >= 0.65:
-                    record[m][{" W": 0, " L": 1, " PUSH": 2}[res]] += 1
+                if fired:
+                    r = record[m]
+                    r[{" W": 0, " L": 1, " PUSH": 2}[res]] += 1
+                    r[3] += units if res == " W" else (-1.1 * units if res == " L" else 0)
             row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.1%}{fire}{res}")
         fcol = ""
         if finals:
@@ -172,9 +179,9 @@ def main():
             fcol = f" {fs[0]}-{fs[1]} (home {fs[1] - fs[0]:+d}) |" if fs else " not final |"
         lines.append(f"| {away} @ {home} | {line if line is not None else '-'} |{fcol} " + " | ".join(row) + " |")
     if finals:
-        lines += ["", "65%+ plays: " + ", ".join(
-            f"{n} {w}-{l}" + (f"-{pu}" if pu else "") + f" ({w - 1.1 * l:+.1f}u)"
-            for (m, n) in MODELS for w, l, pu in [record[m]])]
+        lines += ["", "Plays (engine-fired, 1u/2u): " + ", ".join(
+            f"{n} {w}-{l}" + (f"-{pu}" if pu else "") + f" ({u:+.1f}u)"
+            for (m, n) in MODELS for w, l, pu, u in [record[m]])]
     text = "\n".join(lines)
     print("\n" + text)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
