@@ -165,7 +165,7 @@ def main():
                 res = " PUSH" if cover == 0 else (" W" if (cover > 0) == side_home else " L")
                 if p >= 0.65:
                     record[m][{" W": 0, " L": 1, " PUSH": 2}[res]] += 1
-            row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.0%}{fire}{res}")
+            row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.1%}{fire}{res}")
         fcol = ""
         if finals:
             fs = finals.get((away, home))
