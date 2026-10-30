@@ -1,13 +1,8 @@
 # NBA Full KalmanOff -- a second NBA full-season model, identical to pyFull
-# except three settings (2026-10-22), chosen on the clean 2025-26 backfill
-# through run_daily (replay_season.py):
-#   KALMAN_SCALE 0.0      (pyFull 1.0)   Kalman offsets not applied
-#   recentWeight 0.35     (pyFull 0.87)  less weight on last-10 form
-#   HCA_CLAMP_LO 0.0      (pyFull 1.5)   home court free to tune below 1.5
-#                    margin err  home bias  reg season       full season
-#   pyFull             12.17      +0.80    176-164 -4.4u    188-176 -5.6u
-#   KalmanOff          11.62      +0.10     95-82 +4.8u     107-91 +6.9u
-#   Vegas line         11.19      +0.38
+# except one setting: KALMAN_SCALE 0.0 (pyFull 1.0) -- Kalman offsets not applied.
+# (Until 2026-10-30 its home-court floor was 0.0 vs pyFull 1.5; set back to 1.5
+# so the live comparison isolates Kalman. Clean 2025-26 backfill, picks from
+# Nov 10, 58%+ 1u / 65%+ 2u: home floor 0.0 266-266 -26.8u; 1.5 272-256 -4.3u.)
 # Own data (pyFullKalmanOff/data), recorded inputs (data/run_inputs/
 # nba-kalmanoff) and dashboard feed (PythonDashboard/data/
 # fullseason-kalmanoff.json). Shares the stats/odds/injury caches.
@@ -228,7 +223,7 @@ ENGINE_CONFIG = {
 }
 
 # --- Self-tune HCA clamps (used by core/self_tune.py) -------------------------
-HCA_CLAMP_LO  = 0.0
+HCA_CLAMP_LO  = 1.5
 HCA_CLAMP_HI  = 3.5
 HCA_VAR_FLOOR = 0.2
 

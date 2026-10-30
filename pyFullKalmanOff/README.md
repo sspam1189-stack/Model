@@ -9,7 +9,7 @@ KalmanOff)", right after pyFull).
 |---|---|---|
 | `KALMAN_SCALE` (share of Kalman team offsets in projections) | 1.0 | **0.0** |
 | `recentWeight` (last-10 form vs season) | 0.87 | **0.35** |
-| `HCA_CLAMP_LO` (lowest home court the tuner may set) | 1.5 | **0.0** |
+| `HCA_CLAMP_LO` (lowest home court the tuner may set) | 1.5 | 1.5 (was **0.0** until 2026-10-30) |
 
 Chosen on the clean 2025-26 backfill through `run_daily` (`replay_season.py`:
 cached stats, lines and injuries, one run per date):
