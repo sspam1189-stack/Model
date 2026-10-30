@@ -250,6 +250,7 @@ let nflHistoryWeekFilter = 'all';
 let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
 let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
 let expandedTrendKey = null; // week/window row expanded to reveal its picks
+let teamPicksDayFilter = ''; // YYYYMMDD day filtering the Team Picks browser; '' = any day
 let teamPicksMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Picks browser
 let teamPicksSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Picks browser
 let teamPicksLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Picks browser
@@ -349,6 +350,15 @@ function toggleTrendRow(key) {
 
 function setTeamPicksMonthFilter(month) {
   teamPicksMonthFilter = month;
+  teamPicksDayFilter = '';
+  teamPicksPage = 0;
+  render();
+}
+
+// Day picker value is YYYY-MM-DD ('' when cleared); a day overrides the month.
+function setTeamPicksDayFilter(val) {
+  teamPicksDayFilter = (val || '').replace(/-/g, '');
+  if (teamPicksDayFilter) teamPicksMonthFilter = 'all';
   teamPicksPage = 0;
   render();
 }
@@ -960,10 +970,12 @@ function computeTeamPicks(runs) {
         date: g.startTimeUTC || r.date || '',
         dateDisplay,
         monthKey,
+        dayKey: r.date || null,
         playoffs: isPlayoffDate(r.date),
         matchup: `${g.away} @ ${g.home}`,
         line: g.line,
         projMargin: g.margin,
+        projScore: (Number.isFinite(g.aS) && Number.isFinite(g.hS)) ? `${fmtNum(g.aS, 1)}-${fmtNum(g.hS, 1)}` : null,
         final: hasScore ? `${g.awayScore}-${g.homeScore}` : null,
       };
 
@@ -1505,6 +1517,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   // Filtered by month/side/location — the pool the bucket tabs count against.
   const pool = allPicks.filter(p =>
     (activeMonth === 'all' || p.monthKey === activeMonth) &&
+    (!teamPicksDayFilter || p.dayKey === teamPicksDayFilter) &&
     (activeSide === 'all' || p.side === activeSide) &&
     (activeLocation === 'all' || p.location === activeLocation)
   );
@@ -1520,6 +1533,12 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
     [...months].reverse().map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
   const monthSelect = `<select onchange="setTeamPicksMonthFilter(this.value)" style="${selectStyle}">${monthOpts}</select>`;
+  const isoDay = d => d ? `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}` : '';
+  const dayKeys = runs.filter(r => !r.burnIn && r.date && (r.games || []).length).map(r => r.date).sort();
+  const dayInput = `<input type="date" aria-label="Filter by day" value="${isoDay(teamPicksDayFilter)}"
+    min="${isoDay(dayKeys[0])}" max="${isoDay(dayKeys[dayKeys.length - 1])}"
+    onchange="setTeamPicksDayFilter(this.value)" style="${selectStyle};color-scheme:dark">` +
+    (teamPicksDayFilter ? `<button onclick="setTeamPicksDayFilter('')" style="${selectStyle}">Clear day</button>` : '');
   const sideSelect = `<select onchange="setTeamPicksSideFilter(this.value)" style="${selectStyle}">
     <option value="all" ${activeSide === 'all' ? 'selected' : ''}>All (Fav/Dog)</option>
     <option value="fav" ${activeSide === 'fav' ? 'selected' : ''}>Favorites Only</option>
@@ -1540,7 +1559,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const bucketTabs = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
     ${tabBtn('all', 'All')}${tabBtn('pick', 'Picks')}${tabBtn('pass', 'Passes')}
   </div>`;
-  const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${teamSelect}${monthSelect}${sideSelect}${locationSelect}</div>`;
+  const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${teamSelect}${monthSelect}${dayInput}${sideSelect}${locationSelect}</div>`;
 
   // Realized units for a fired pick (WNBA staked 1u/2u, NBA flat 1u). Passes are
   // hypothetical — no stake, no units, excluded from the record.
@@ -1603,12 +1622,13 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
       <td>${pickCell}</td>
       <td class="center">${fmtNum(p.line, 1)}</td>
       <td class="center">${fmtNum(p.projMargin, 1)}</td>
+      <td class="center" style="white-space:nowrap">${p.projScore ? esc(p.projScore) : '—'}</td>
       <td class="center">${fmtProb(p.pCover)}</td>
       <td class="center">${resultCell}</td>
       <td class="center">${unitsCell}</td>
       <td class="center">${p.final ? esc(p.final) : '—'}</td>
     </tr>`;
-  }).join('') : `<tr><td colspan="10" class="no-picks">No games match these filters for this team.</td></tr>`;
+  }).join('') : `<tr><td colspan="11" class="no-picks">No games match these filters for this team.</td></tr>`;
 
   // Shown above the table always (so the count is visible even on one page)
   // and again below it when there is more than one page to walk.
@@ -1638,7 +1658,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
       ${filterRow}
       ${pkPager}
       <table class="data">
-        <thead><tr><th>Date</th><th class="center">Bkt</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Units</th><th class="center">Final</th></tr></thead>
+        <thead><tr><th>Date</th><th class="center">Bkt</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">Proj Score</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Units</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
       ${pkTotal > TEAM_PICKS_PAGE_SIZE ? pkPager : ''}
