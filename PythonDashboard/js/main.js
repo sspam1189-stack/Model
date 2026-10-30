@@ -974,8 +974,8 @@ function computeTeamPicks(runs) {
         playoffs: isPlayoffDate(r.date),
         matchup: `${g.away} @ ${g.home}`,
         line: g.line,
-        // Projected home margin (home score - away score), not the edge vs the line.
-        projMargin: (Number.isFinite(g.aS) && Number.isFinite(g.hS)) ? Math.round((g.hS - g.aS) * 10) / 10 : null,
+        // Home edge vs the line: projected home margin + line (+ H2H), the engine's margin.
+        projMargin: g.margin,
         projScore: (Number.isFinite(g.aS) && Number.isFinite(g.hS)) ? `${fmtNum(g.aS, 1)}-${fmtNum(g.hS, 1)}` : null,
         final: hasScore ? `${g.awayScore}-${g.homeScore}` : null,
       };
