@@ -151,12 +151,6 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
-  ncaa: {
-    name: 'pyNCAA',
-    local: 'data/ncaa.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNCAA/data/history.json',
-    repo: 'https://github.com/sspam1189-stack/Model'
-  },
   nfl: {
     name: 'pyNFL',
     local: 'data/nfl.json',
@@ -1704,7 +1698,7 @@ function renderHistoryDay(run) {
 
 function updateLastRunInfo() {
   const labels = {
-    fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
+    fullseason: 'Full Season', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
     'mlb-props': "MLB K's CSW .1", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26 (shadow)",
     'mlb-props-cv125c25': "MLB K's CSW .1 Old (shadow)",

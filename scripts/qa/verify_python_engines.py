@@ -71,7 +71,6 @@ def _build_inputs():
 
 def test_python_engines():
     full = _load_module("py_full_engine", os.path.join("pyFull", "scripts", "model_engine.py"))
-    ncaa = _load_module("py_ncaa_engine", os.path.join("pyNCAA", "scripts", "model_engine.py"))
 
     H, g, kalman, h2h = _build_inputs()
 
@@ -79,18 +78,11 @@ def test_python_engines():
     W_full = full.load_defaults()["DEFAULT_W"]
     W_var_full = full.load_defaults()["DEFAULT_W_VAR"]
 
-    avgs_ncaa = ncaa.get_avgs(H)
-    W_ncaa = ncaa.load_defaults()["DEFAULT_W"]
-    W_var_ncaa = ncaa.load_defaults()["DEFAULT_W_VAR"]
-
     res_full = full.analyze_game(g, H, avgs_full, W_full, None, kalman, W_var_full, 100, h2h)
-    res_ncaa = ncaa.analyze_game(g, H, avgs_ncaa, W_ncaa, None, kalman, W_var_ncaa, 130)
 
     assert res_full is not None, "Fullseason analyze_game returned None"
-    assert res_ncaa is not None, "NCAA analyze_game returned None"
 
     assert res_full.get("oPick") == "OVER", "Fullseason should emit total pick"
-    assert res_ncaa.get("oPick") == "PASS", "NCAA totals should be disabled"
 
     assert res_full.get("h2hAdj", 0) != 0, "Fullseason should include H2H adjustment"
 
