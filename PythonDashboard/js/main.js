@@ -1580,9 +1580,23 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const recordHtml = (gw + gl + gp > 0)
     ? `<span class="win-text">${gw}W</span>–<span class="loss-text">${gl}L</span>–${gp}P · <span class="${pctClass(gpct)}">${fmtPct(gpct)}</span> · <span class="${unitClass(gunits)}">${fmtUnits(gunits)}</span>`
     : 'No graded picks';
+
+  // Every graded projection (fired picks + passes graded on the model's lean
+  // side), flat 1u at -110. Hypothetical: not part of the official record.
+  const gradedAll = pool.filter(p => !p.pending && p.result);
+  const aw = gradedAll.filter(p => p.result === 'WIN').length;
+  const al = gradedAll.filter(p => p.result === 'LOSS').length;
+  const ap = gradedAll.filter(p => p.result === 'PUSH').length;
+  const apct = winPct(aw, al);
+  const aunits = aw - 1.1 * al;
+  const allHtml = (aw + al + ap > 0)
+    ? `<span class="win-text">${aw}W</span>–<span class="loss-text">${al}L</span>–${ap}P · <span class="${pctClass(apct)}">${fmtPct(apct)}</span> · <span class="${unitClass(aunits)}">${fmtUnits(aunits)}</span>`
+    : 'No graded projections';
+  const teamLabel = activeTeam === ALL_TEAMS ? 'All Teams' : esc(teamAlias(activeTeam));
   const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
     <span>Team Picks</span>
-    <span style="font-size:0.85rem;font-weight:700">${activeTeam === ALL_TEAMS ? 'All Teams' : esc(teamAlias(activeTeam))}: ${recordHtml}</span>
+    <span style="font-size:0.85rem;font-weight:700">${teamLabel} picks: ${recordHtml}</span>
+    <span style="font-size:0.85rem;font-weight:700">All projections (1u, lean side): ${allHtml}</span>
   </div>`;
 
   const bktBadge = b => {
