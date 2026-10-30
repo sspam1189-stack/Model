@@ -36,6 +36,10 @@ MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
               "pyFullKalmanEarly": "nba-kalmanearly"}
+# Consensus records: every listed model fired the same side, at the smallest stake.
+AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
+         ("all", "All 4 agree", [m for m, _ in MODELS])]
+TRACKED = MODELS + [(k, n) for k, n, _ in AGREE]
 
 
 def fetch_stats(date):
@@ -164,7 +168,8 @@ def table(date, runs, finals, total):
     lines = [f"## {date}", ""]
     hdr = "| Game | Line (home) |" + (" Final |" if finals else "") + "".join(f" {n} |" for _, n in MODELS)
     lines += [hdr, "|---|---|" + ("---|" if finals else "") + "---|" * len(MODELS)]
-    day = {m: [0, 0, 0, 0.0] for m, _ in MODELS + [("all", "")]}
+    day = {m: [0, 0, 0, 0.0] for m, _ in TRACKED}
+    agree_plays = {k: [] for k, _, _ in AGREE}
     keys = []
     for r in runs.values():
         for g in (r or {}).get("games", []):
@@ -188,7 +193,7 @@ def table(date, runs, finals, total):
             # the rounded percentage printed here.
             fired = g.get("sPick") not in (None, "PASS")
             units = (g.get("stakeUnits") or 1) if fired else 0
-            picks.append((side_home, units) if fired else None)
+            picks.append((side_home, units, f"{team} {_line(line, side_home)}") if fired else None)
             res = ""
             if fs and line is not None:
                 cover = fs[1] - fs[0] + line           # home side vs the line
@@ -197,22 +202,39 @@ def table(date, runs, finals, total):
                     _add(day[m], res, units)
             fire = f" **PLAY {units}u**" if fired else " (no play)"
             row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.1%}{fire}{res}")
-        # every model fired the same side: smallest stake
-        if fs and line is not None and all(picks) and len({sh for sh, _ in picks}) == 1:
-            cover = fs[1] - fs[0] + line
-            sh = picks[0][0]
-            res = " PUSH" if cover == 0 else (" W" if (cover > 0) == sh else " L")
-            _add(day["all"], res, min(u for _, u in picks))
+        # consensus groups: every model in the group fired the same side, smallest stake
+        by_model = dict(zip([m for m, _ in MODELS], picks))
+        for k, _, members in AGREE:
+            ps = [by_model.get(m) for m in members]
+            if not all(ps) or len({p[0] for p in ps}) != 1:
+                continue
+            units = min(p[1] for p in ps)
+            res = ""
+            if fs and line is not None:
+                cover = fs[1] - fs[0] + line
+                res = " PUSH" if cover == 0 else (" W" if (cover > 0) == ps[0][0] else " L")
+                _add(day[k], res, units)
+            agree_plays[k].append(f"{ps[0][2]} {units}u{res}")
         fcol = ""
         if finals:
             fcol = f" {fs[0]}-{fs[1]} (home {fs[1] - fs[0]:+d}) |" if fs else " not final |"
         lines.append(f"| {away} @ {home} | {line if line is not None else '-'} |{fcol} " + " | ".join(row) + " |")
+    lines.append("")
+    for k, n, _ in AGREE:
+        lines.append(f"{n}: " + (", ".join(agree_plays[k]) or "none"))
     if finals:
         lines += ["", "Plays (engine-fired, 1u/2u): " + ", ".join(
-            _rec(n, day[m]) for m, n in MODELS + [("all", "All agree")])]
+            _rec(n, day[m]) for m, n in TRACKED)]
     for k, r in day.items():
         total[k] = [x + y for x, y in zip(total[k], r)]
     return lines
+
+
+def _line(line, side_home):
+    if line is None:
+        return ""
+    v = line if side_home else -line
+    return f"{v:+g}" if v else "PK"
 
 
 def _add(r, res, units):
@@ -288,14 +310,14 @@ def main():
         runs = {m: run_model(m) for m, _ in MODELS}
         d = next((r["date"] for r in runs.values() if r), "?")
         dates, out, finals = [d], {d: runs}, {d: {}}
-    total = {m: [0, 0, 0, 0.0] for m, _ in MODELS + [("all", "")]}
+    total = {m: [0, 0, 0, 0.0] for m, _ in TRACKED}
     lines = [f"# NBA projections preview {dates[0]}" + (f"-{dates[-1]}" if len(dates) > 1 else "")
              + " (burn-in lowered: MIN_GP 1, picks at 0 GP)", ""]
     for d in dates:
         lines += table(d, out[d], finals[d], total) + [""]
     if len(dates) > 1:
         lines += ["## Total", "", "Plays (engine-fired, 1u/2u): " + ", ".join(
-            _rec(n, total[m]) for m, n in MODELS + [("all", "All agree")])]
+            _rec(n, total[m]) for m, n in TRACKED)]
     text = "\n".join(lines)
     print("\n" + text)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
