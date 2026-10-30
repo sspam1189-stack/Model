@@ -1582,13 +1582,21 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     : 'No graded picks';
 
   // Every graded projection (fired picks + passes graded on the model's lean
-  // side), flat 1u at -110. Hypothetical: not part of the official record.
-  const gradedAll = pool.filter(p => !p.pending && p.result);
+  // side) under the fire rule: counts only when P(cover) clears the model's
+  // fire floor (NBA 58%) and the line is under the engine's spread cap, staked
+  // 1u, or 2u at the elite cut (NBA 65%). Tabs without a floor count every
+  // projection at 1u. Hypothetical: not part of the official record.
+  const floor = fireThreshold();
+  const cap = (floor != null && activeTab !== 'wnba-full') ? 18 : null;   // core/engines/fullseason.py abs_line_cap
+  const qualifies = p => floor == null || (p.pCover != null && p.pCover >= floor &&
+    (cap == null || !Number.isFinite(p.line) || Math.abs(p.line) < cap));
+  const allStake = p => floor == null ? 1 : stakeUnits(p.pCover);
+  const gradedAll = pool.filter(p => !p.pending && p.result && qualifies(p));
   const aw = gradedAll.filter(p => p.result === 'WIN').length;
   const al = gradedAll.filter(p => p.result === 'LOSS').length;
   const ap = gradedAll.filter(p => p.result === 'PUSH').length;
   const apct = winPct(aw, al);
-  const aunits = aw - 1.1 * al;
+  const aunits = gradedAll.reduce((u, p) => u + (p.result === 'WIN' ? allStake(p) : p.result === 'LOSS' ? -1.1 * allStake(p) : 0), 0);
   const allHtml = (aw + al + ap > 0)
     ? `<span class="win-text">${aw}W</span>–<span class="loss-text">${al}L</span>–${ap}P · <span class="${pctClass(apct)}">${fmtPct(apct)}</span> · <span class="${unitClass(aunits)}">${fmtUnits(aunits)}</span>`
     : 'No graded projections';
@@ -1596,7 +1604,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
     <span>Team Picks</span>
     <span style="font-size:0.85rem;font-weight:700">${teamLabel} picks: ${recordHtml}</span>
-    <span style="font-size:0.85rem;font-weight:700">All projections (1u, lean side): ${allHtml}</span>
+    <span style="font-size:0.85rem;font-weight:700">All projections (${floor != null ? `P≥${Math.round(floor * 100)}% 1u, ${Math.round((eliteStakeCut() || 1) * 100)}%+ 2u` : '1u'}, lean side): ${allHtml}</span>
   </div>`;
 
   const bktBadge = b => {
