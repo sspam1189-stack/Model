@@ -563,6 +563,8 @@ def create_model_engine(
             "pUnder": _jround(p_under * 1000) / 1000,
             "pCover": _jround(p_cover * 1000) / 1000 if p_cover else None,
             "pOU": _jround(p_ou * 1000) / 1000 if p_ou else None,
+            # games played by the less-experienced team when projected
+            "minGP": min((H.get(home_key) or {}).get("GP", 0), (H.get(away_key) or {}).get("GP", 0)),
             "pCal": _jround(p_cal * 1000) / 1000 if p_cal is not None else None,
             "marginVar": _jround(margin_var * 10) / 10,
             "marginStd": _jround(margin_std * 10) / 10,
