@@ -211,9 +211,8 @@ ENGINE_CONFIG = {
     # projected and graded but marked burnIn, with no picks.
     "MIN_GP": 1,
     "PICKS_MIN_GP": 10,
-    # 2026-10-30: project from game 1 so self-tune learns from every game;
-    # tuned weights only drive projections once official picks start.
-    "TUNE_APPLY_AT_PICKS": True,
+    # 2026-10-30: project from game 1; self-tune learns from and applies to
+    # every projection from game 1 (official picks still from PICKS_MIN_GP).
     # Kalman unchanged: learns and applies from 5 GP, as before.
     "LEARN_MIN_GP": 5,
     "KALMAN_APPLY_MIN_GP": 5,
