@@ -1582,15 +1582,8 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     : 'No graded picks';
 
   // Every graded projection (fired picks + passes graded on the model's lean
-  // side) under the fire rule: counts only when P(cover) clears the model's
-  // fire floor (NBA 58%) and the line is under the engine's spread cap, flat 1u
-  // at -110. Tabs without a floor count every projection. Hypothetical: not
-  // part of the official record.
-  const floor = fireThreshold();
-  const cap = (floor != null && activeTab !== 'wnba-full') ? 18 : null;   // core/engines/fullseason.py abs_line_cap
-  const qualifies = p => floor == null || (p.pCover != null && p.pCover >= floor &&
-    (cap == null || !Number.isFinite(p.line) || Math.abs(p.line) < cap));
-  const gradedAll = pool.filter(p => !p.pending && p.result && qualifies(p));
+  // side), flat 1u at -110. Hypothetical: not part of the official record.
+  const gradedAll = pool.filter(p => !p.pending && p.result);
   const aw = gradedAll.filter(p => p.result === 'WIN').length;
   const al = gradedAll.filter(p => p.result === 'LOSS').length;
   const ap = gradedAll.filter(p => p.result === 'PUSH').length;
@@ -1603,7 +1596,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
     <span>Team Picks</span>
     <span style="font-size:0.85rem;font-weight:700">${teamLabel} picks: ${recordHtml}</span>
-    <span style="font-size:0.85rem;font-weight:700">All projections (${floor != null ? `P≥${Math.round(floor * 100)}%, ` : ''}flat 1u, lean side): ${allHtml}</span>
+    <span style="font-size:0.85rem;font-weight:700">All projections (flat 1u, lean side): ${allHtml}</span>
   </div>`;
 
   const bktBadge = b => {
