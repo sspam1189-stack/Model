@@ -99,10 +99,6 @@ ELITE_STAKE_UNITS = 2
 # chosen on the leaky 2025-26 backfill. Playoffs still floor probHigh at 0.65.
 MIN_FIRE_PCOVER = None
 
-# 2026-10-30: the fire line is fixed at probHigh 0.58 (1u) / ELITE_STAKE_CUT
-# 0.65 (2u). Self-tune never moves probHigh for this model.
-LOCK_PROB_HIGH = True
-
 
 def stake_units_for(p_cover):
     """Recommended stake (units) for a fired spread pick given its P(cover)."""

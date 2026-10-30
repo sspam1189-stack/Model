@@ -212,75 +212,8 @@ def tune_weights(current_w, current_w_var, completed_rows):
               f" wRushDef={W['wRushDef']} (v={W_var['wRushDef']:.3f})"
               f" hfa={W['hfa']} (v={W_var['hfa']:.3f})")
 
-    # ==================================================================
-    # SIGNAL 2: Profitability -> probability threshold tuning
-    # ==================================================================
-
-    spr_w = 0
-    spr_l = 0
-    ou_ew = 0
-    ou_el = 0
-
-    for r in completed_rows:
-        if not _is_finite(r.get("homeScore")) or not _is_finite(r.get("awayScore")):
-            continue
-
-        if r.get("sPick") and r["sPick"] != "PASS" and r.get("sConf") == "high":
-            res = r.get("sResult") or _grade_spread(r)
-            if res == "WIN":
-                spr_w += 1
-            elif res == "LOSS":
-                spr_l += 1
-
-        if r.get("oPick") and r["oPick"] != "PASS" and r.get("oConf") == "elite":
-            res = r.get("oResult") or _grade_total(r)
-            if res == "WIN":
-                ou_ew += 1
-            elif res == "LOSS":
-                ou_el += 1
-
-    MIN_SAMPLE = 10
-    thresh_step = 0.008
-
-    if spr_w + spr_l >= MIN_SAMPLE:
-        spr_pct = spr_w / (spr_w + spr_l)
-        if spr_pct > 0.58:
-            W["probHigh"] = _r3(max(0.52, W["probHigh"] - thresh_step * 0.67))
-            print(f"  [self_tune] Spread ATS {spr_pct*100:.0f}% ({spr_w}-{spr_l}) > 58% -> probHigh down {W['probHigh']}")
-        elif spr_pct < 0.52:
-            W["probHigh"] = _r3(min(0.65, W["probHigh"] + thresh_step))
-            print(f"  [self_tune] Spread ATS {spr_pct*100:.0f}% ({spr_w}-{spr_l}) < 52% -> probHigh up {W['probHigh']}")
-        else:
-            print(f"  [self_tune] Spread ATS {spr_pct*100:.0f}% ({spr_w}-{spr_l}) -- probHigh holds at {W['probHigh']}")
-    else:
-        print(f"  [self_tune] Spread: only {spr_w + spr_l} graded picks (need {MIN_SAMPLE}) -- probHigh unchanged")
-
-    if ou_ew + ou_el >= MIN_SAMPLE:
-        pct = ou_ew / (ou_ew + ou_el)
-        if pct > 0.58:
-            W["probOUElite"] = _r3(max(0.59, W["probOUElite"] - thresh_step * 0.67))
-            print(f"  [self_tune] Total ELITE {pct*100:.0f}% ({ou_ew}-{ou_el}) > 58% -> probOUElite down {W['probOUElite']}")
-        elif pct < 0.52:
-            W["probOUElite"] = _r3(min(0.80, W["probOUElite"] + thresh_step))
-            print(f"  [self_tune] Total ELITE {pct*100:.0f}% ({ou_ew}-{ou_el}) < 52% -> probOUElite up {W['probOUElite']}")
-        else:
-            print(f"  [self_tune] Total ELITE {pct*100:.0f}% ({ou_ew}-{ou_el}) -- probOUElite holds at {W['probOUElite']}")
-    else:
-        print(f"  [self_tune] Total ELITE: only {ou_ew + ou_el} graded picks (need {MIN_SAMPLE}) -- probOUElite unchanged")
-
-    # Legacy thresholds sync
-    if spr_w + spr_l >= MIN_SAMPLE:
-        spr_pct = spr_w / (spr_w + spr_l)
-        if spr_pct > 0.58:
-            W["sprHigh"] = _r3(max(2.5, W["sprHigh"] - 0.1))
-        elif spr_pct < 0.52:
-            W["sprHigh"] = _r3(min(8, W["sprHigh"] + 0.15))
-    if ou_ew + ou_el >= MIN_SAMPLE:
-        ou_pct = ou_ew / (ou_ew + ou_el)
-        if ou_pct > 0.58:
-            W["ouHigh"] = _r3(max(3, W["ouHigh"] - 0.1))
-        elif ou_pct < 0.52:
-            W["ouHigh"] = _r3(min(10, W["ouHigh"] + 0.15))
+    # Thresholds (probHigh, probOUElite, sprHigh, ouHigh) are fixed settings
+    # and are never tuned here: self-tune fits weights only.
 
     # ==================================================================
     # SIGNAL 3: Constant (gradient descent on total prediction error)
