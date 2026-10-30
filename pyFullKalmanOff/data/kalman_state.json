@@ -1,10 +1,186 @@
 {
-  "teams": {},
-  "processedGames": {},
-  "lastDriftDate": null,
+  "teams": {
+    "Atlanta Hawks": {
+      "adj_mean": -0.11272591491485107,
+      "adj_var": 10.61441001531138
+    },
+    "Boston Celtics": {
+      "adj_mean": 0.4748136901570261,
+      "adj_var": 12.275558681695983
+    },
+    "Brooklyn Nets": {
+      "adj_mean": -1.5020183316068463,
+      "adj_var": 12.282894555989378
+    },
+    "Charlotte Hornets": {
+      "adj_mean": -0.8284409625076474,
+      "adj_var": 11.387921507441071
+    },
+    "Chicago Bulls": {
+      "adj_mean": 1.1654188678698367,
+      "adj_var": 11.394280546570704
+    },
+    "Cleveland Cavaliers": {
+      "adj_mean": 2.244920965654516,
+      "adj_var": 11.371324788811283
+    },
+    "Dallas Mavericks": {
+      "adj_mean": 2.039257694079838,
+      "adj_var": 11.39335732412028
+    },
+    "Denver Nuggets": {
+      "adj_mean": 2.095631751859856,
+      "adj_var": 12.267048164043873
+    },
+    "Detroit Pistons": {
+      "adj_mean": -2.7998188770962598,
+      "adj_var": 11.387859353702705
+    },
+    "Golden State Warriors": {
+      "adj_mean": 1.8209593833155098,
+      "adj_var": 11.401706456593983
+    },
+    "Houston Rockets": {
+      "adj_mean": 1.0523502035088066,
+      "adj_var": 11.387967856733312
+    },
+    "Indiana Pacers": {
+      "adj_mean": -2.7710019622525763,
+      "adj_var": 11.393411190889317
+    },
+    "LA Clippers": {
+      "adj_mean": -1.4368082673882112,
+      "adj_var": 12.28526163016142
+    },
+    "Los Angeles Lakers": {
+      "adj_mean": -1.037132692897705,
+      "adj_var": 11.399829383676225
+    },
+    "Memphis Grizzlies": {
+      "adj_mean": 1.2012115435006478,
+      "adj_var": 11.393365522133294
+    },
+    "Miami Heat": {
+      "adj_mean": 1.4657978757837018,
+      "adj_var": 11.387921893754891
+    },
+    "Milwaukee Bucks": {
+      "adj_mean": -4.942815672212445,
+      "adj_var": 11.395362805542767
+    },
+    "Minnesota Timberwolves": {
+      "adj_mean": 0.21585930624369898,
+      "adj_var": 11.39436554908856
+    },
+    "New Orleans Pelicans": {
+      "adj_mean": -4.070613227463597,
+      "adj_var": 11.395264280119815
+    },
+    "New York Knicks": {
+      "adj_mean": 2.055746710332689,
+      "adj_var": 11.38796072304105
+    },
+    "Oklahoma City Thunder": {
+      "adj_mean": 0.31309129269320746,
+      "adj_var": 12.267859601627727
+    },
+    "Orlando Magic": {
+      "adj_mean": -1.589345000087278,
+      "adj_var": 12.282947547486998
+    },
+    "Philadelphia 76ers": {
+      "adj_mean": 2.235269059605864,
+      "adj_var": 12.26793256334087
+    },
+    "Phoenix Suns": {
+      "adj_mean": 1.29249112737545,
+      "adj_var": 13.312891628145866
+    },
+    "Portland Trail Blazers": {
+      "adj_mean": -4.838309858272457,
+      "adj_var": 12.269186771749325
+    },
+    "Sacramento Kings": {
+      "adj_mean": 0.6488854107484872,
+      "adj_var": 11.387967248135599
+    },
+    "San Antonio Spurs": {
+      "adj_mean": 5.900574522681437,
+      "adj_var": 11.387921893754891
+    },
+    "Toronto Raptors": {
+      "adj_mean": 0.8014305615846034,
+      "adj_var": 12.282947547486998
+    },
+    "Utah Jazz": {
+      "adj_mean": 1.429938127176028,
+      "adj_var": 11.387921893754891
+    },
+    "Washington Wizards": {
+      "adj_mean": -1.8704228192612569,
+      "adj_var": 11.393365522133294
+    }
+  },
+  "processedGames": {
+    "20261023:Chicago Bulls@Milwaukee Bucks": true,
+    "20261023:New York Knicks@Boston Celtics": true,
+    "20261023:Toronto Raptors@Washington Wizards": true,
+    "20261023:Dallas Mavericks@Indiana Pacers": true,
+    "20261023:Minnesota Timberwolves@Orlando Magic": true,
+    "20261023:Atlanta Hawks@Charlotte Hornets": true,
+    "20261023:Detroit Pistons@Miami Heat": true,
+    "20261023:Houston Rockets@San Antonio Spurs": true,
+    "20261023:New Orleans Pelicans@Utah Jazz": true,
+    "20261023:Memphis Grizzlies@Golden State Warriors": true,
+    "20261023:LA Clippers@Los Angeles Lakers": true,
+    "20261023:Portland Trail Blazers@Sacramento Kings": true,
+    "20261024:Miami Heat@Charlotte Hornets": true,
+    "20261024:Brooklyn Nets@Cleveland Cavaliers": true,
+    "20261024:Milwaukee Bucks@Philadelphia 76ers": true,
+    "20261024:Washington Wizards@Chicago Bulls": true,
+    "20261024:San Antonio Spurs@Dallas Mavericks": true,
+    "20261024:Houston Rockets@Atlanta Hawks": true,
+    "20261024:New Orleans Pelicans@Denver Nuggets": true,
+    "20261024:Golden State Warriors@Phoenix Suns": true,
+    "20261025:Los Angeles Lakers@Utah Jazz": true,
+    "20261025:Indiana Pacers@Brooklyn Nets": true,
+    "20261025:Toronto Raptors@Minnesota Timberwolves": true,
+    "20261025:LA Clippers@Oklahoma City Thunder": true,
+    "20261025:Orlando Magic@New York Knicks": true,
+    "20261025:Detroit Pistons@Philadelphia 76ers": true,
+    "20261025:Memphis Grizzlies@Sacramento Kings": true,
+    "20261026:Minnesota Timberwolves@Cleveland Cavaliers": true,
+    "20261026:Washington Wizards@Charlotte Hornets": true,
+    "20261026:Chicago Bulls@Boston Celtics": true,
+    "20261026:Dallas Mavericks@Miami Heat": true,
+    "20261026:Indiana Pacers@Milwaukee Bucks": true,
+    "20261026:Phoenix Suns@Oklahoma City Thunder": true,
+    "20261026:Atlanta Hawks@Houston Rockets": true,
+    "20261026:Memphis Grizzlies@Utah Jazz": true,
+    "20261026:Golden State Warriors@Denver Nuggets": true,
+    "20261027:Brooklyn Nets@Boston Celtics": true,
+    "20261027:Sacramento Kings@San Antonio Spurs": true,
+    "20261027:Detroit Pistons@New York Knicks": true,
+    "20261027:Portland Trail Blazers@Los Angeles Lakers": true,
+    "20261028:Philadelphia 76ers@Indiana Pacers": true,
+    "20261028:Washington Wizards@Cleveland Cavaliers": true,
+    "20261028:Charlotte Hornets@Detroit Pistons": true,
+    "20261028:Miami Heat@Atlanta Hawks": true,
+    "20261028:Orlando Magic@Toronto Raptors": true,
+    "20261028:Denver Nuggets@New Orleans Pelicans": true,
+    "20261028:New York Knicks@Chicago Bulls": true,
+    "20261028:Golden State Warriors@Minnesota Timberwolves": true,
+    "20261028:Houston Rockets@Milwaukee Bucks": true,
+    "20261028:San Antonio Spurs@Utah Jazz": true,
+    "20261028:Oklahoma City Thunder@Dallas Mavericks": true,
+    "20261028:Los Angeles Lakers@LA Clippers": true,
+    "20261029:Sacramento Kings@New Orleans Pelicans": true,
+    "20261029:Cleveland Cavaliers@Atlanta Hawks": true,
+    "20261029:Memphis Grizzlies@Portland Trail Blazers": true
+  },
+  "lastDriftDate": "20261030",
   "meta": {
     "season": "2026-27",
-    "created": null,
-    "rolledFrom": true
+    "created": "2026-10-30T10:46:46.451620"
   }
 }
