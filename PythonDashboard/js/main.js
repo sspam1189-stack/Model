@@ -1593,7 +1593,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     ? `<span class="win-text">${aw}W</span>–<span class="loss-text">${al}L</span>–${ap}P · <span class="${pctClass(apct)}">${fmtPct(apct)}</span> · <span class="${unitClass(aunits)}">${fmtUnits(aunits)}</span>`
     : 'No graded projections';
   const teamLabel = activeTeam === ALL_TEAMS ? 'All Teams' : esc(teamAlias(activeTeam));
-  const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+  const titleHtml = `<div class="card-title" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
     <span>Team Picks</span>
     <span style="font-size:0.85rem;font-weight:700">${teamLabel} picks: ${recordHtml}</span>
     <span style="font-size:0.85rem;font-weight:700">All projections (flat 1u, lean side): ${allHtml}</span>
