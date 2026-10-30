@@ -10,6 +10,9 @@ on:
       date:
         description: "Past day YYYYMMDD (blank = today, live)"
         default: ""
+      to:
+        description: "Optional last day YYYYMMDD: replay date..to in order (walk-forward)"
+        default: ""
 
 permissions:
   contents: read
@@ -36,6 +39,7 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
         run: |
-          if ("${{ inputs.date }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} }
+          if ("${{ inputs.date }}" -and "${{ inputs.to }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} }
+          elseif ("${{ inputs.date }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} }
           else { python pyFull/scripts/preview_today.py }
           exit $LASTEXITCODE
