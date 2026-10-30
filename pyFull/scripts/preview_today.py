@@ -225,10 +225,44 @@ def _rec(name, r):
     return f"{name} {w}-{l}" + (f"-{pu}" if pu else "") + f" ({u:+.1f}u)"
 
 
+def seed_history(model, runs, dates):
+    """Write the walk-forward days into the model's live history.json as
+    burn-in runs (projected and graded, no official picks), replacing the
+    placeholder runs for those dates, so live self-tune / Kalman learn from
+    them like every other graded game."""
+    path = os.path.join(REPO, model, "data", "history.json")
+    raw = open(path, encoding="utf-8", newline="").read()
+    store = json.loads(raw)
+    by_date = {r["date"]: r for r in store.get("runs", [])}
+    n = 0
+    for d in dates:
+        r = runs.get(d)
+        if not r:
+            continue
+        for g in r.get("games", []):
+            g["burnIn"] = True
+            g["sPick"], g["sConf"], g["pCover"] = "PASS", "low", None
+            g["oPick"], g["oConf"], g["pOU"] = "PASS", "low", None
+            g.pop("stakeUnits", None)
+            g["note"] = "Seeded 2026-10-30 from the walk-forward preview (stats through the day before)"
+        r["burnIn"] = False
+        by_date[d] = r
+        n += len(r.get("games", []))
+    store["runs"] = [by_date[k] for k in sorted(by_date)]
+    out = json.dumps(store, indent=2)
+    if "\r\n" in raw:
+        out = out.replace("\n", "\r\n")
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        f.write(out + ("\r\n" if raw.endswith("\r\n") else "\n" if raw.endswith("\n") else ""))
+    print(f"[seed] {model}: {n} games over {len(dates)} day(s) -> {os.path.relpath(path, REPO)}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", help="past day YYYYMMDD (default: today, live)")
     ap.add_argument("--to", help="with --date: replay --date..--to in order (walk-forward)")
+    ap.add_argument("--seed", action="store_true",
+                    help="with --date/--to: write the replayed days into each model's live history.json")
     a = ap.parse_args()
     if a.date:
         import datetime as dt
@@ -245,6 +279,9 @@ def main():
             except Exception as e:
                 print(f"scoreboard {d} failed: {e}")
         per = {m: replay_model(m, dates, stats, boards) for m, _ in MODELS}
+        if a.seed:
+            for m, _ in MODELS:
+                seed_history(m, per[m], dates)
         out = {d: {m: per[m].get(d) for m, _ in MODELS} for d in dates}
         finals = {d: final_scores(boards.get(d)) for d in dates}
     else:
