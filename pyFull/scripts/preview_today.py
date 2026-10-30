@@ -61,8 +61,7 @@ def _setup(model):
     # real MIN_GP), as live -- the preview lowers MIN_GP to project earlier,
     # which must not let a model apply Kalman before it really would.
     real = re.search(r'"MIN_GP": (\d+)', s)
-    # Same for learning: Kalman, self-tune and residual variance only learn
-    # from games projected at or after the real MIN_GP.
+    # Same for Kalman learning (self-tune learns from every game).
     if real and "KALMAN_APPLY_MIN_GP" not in s:
         s = s.replace('"PICKS_MIN_GP"', f'"KALMAN_APPLY_MIN_GP": {real.group(1)},\n    "PICKS_MIN_GP"', 1)
     if real:

@@ -845,11 +845,11 @@ def _main(subject_label, date):
     if not (kalman_state.get("teams") and len(kalman_state["teams"]) > 0):
         kalman_state = initialize_kalman(stats)
 
-    # LEARN_MIN_GP (unset = learn from every projected game): Kalman,
-    # self-tune and the residual variance only learn from games where both
-    # teams had at least this many games when projected. The preview sets it
-    # to a model's real MIN_GP so a lowered preview burn-in learns no earlier
-    # than live would.
+    # LEARN_MIN_GP (unset = learn from every projected game): Kalman only
+    # learns from games where both teams had at least this many games when
+    # projected. The preview sets it to a model's real MIN_GP so a lowered
+    # preview burn-in starts Kalman no earlier than live would. Self-tune
+    # always learns from every graded game.
     _learn_gp = ENGINE_CONFIG.get("LEARN_MIN_GP") or 0
     _learnable = lambda g: (g.get("minGP") if isinstance(g.get("minGP"), (int, float)) else 99) >= _learn_gp
 
@@ -889,7 +889,6 @@ def _main(subject_label, date):
             if g.get("status") in ("MISSING_ODDS", "SKIPPED"): continue
             if not isinstance(g.get("homeScore"), (int, float)) or not isinstance(g.get("awayScore"), (int, float)): continue
             if not g.get("_features"): continue
-            if not _learnable(g): continue
             g["_recencyWeight"] = _recency_weight(days_ago)
             recent_graded.append(g)
     if recent_graded and store.get("lastTuneDate") != date:
@@ -974,9 +973,7 @@ def _main(subject_label, date):
     print(f"[calib] edge shrink {base_w['edgeShrink']:.3f} (calibrated P(cover) shown as pCal; picks use raw)")
 
     apply_daily_drift(kalman_state, date)
-    dynamic_residual_var = compute_residual_var(
-        [{**r, "games": [g for g in r.get("games", []) if _learnable(g)]} for r in store.get("runs", [])]
-        if _learn_gp else store.get("runs", []))
+    dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
     # 4. Analyze each game — filter to only games on the run date
