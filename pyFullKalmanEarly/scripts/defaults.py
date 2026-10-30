@@ -1,12 +1,12 @@
 # NBA Full KalmanEarly -- a fourth NBA full-season model (2026-10-30), identical
-# to pyFull except when Kalman learns and when it counts:
+# to pyFull except that it projects -- and Kalman learns and counts -- from game 1:
 #   MIN_GP 1                 project from game 1, so Kalman learns from every game
-#   KALMAN_APPLY_MIN_GP 10   Kalman offsets only count once both teams have 10 GP
+#   Kalman offsets count from game 1 too (2026-10-30; briefly applied from 10 GP)
 #   PICKS_MIN_GP 10          official picks still start at 10 (as pyFull)
 # Clean 2025-26 backfill (picks from Nov 10, 58%+ 1u / 65%+ 2u):
 #                 margin err   plays
 #   pyFull          11.84     321-305 -23.4u
-#   KalmanEarly     11.85     308-298 -32.0u
+#   KalmanEarly     11.84     312-299 -26.4u   (apply from 10 GP: 11.85, 308-298 -32.0u)
 # Own data (pyFullKalmanEarly/data), recorded inputs (data/run_inputs/
 # nba-kalmanearly) and dashboard feed (PythonDashboard/data/fullseason-kalmanearly.json).
 # scripts/defaults.py
@@ -222,7 +222,6 @@ ENGINE_CONFIG = {
     # projected and graded but marked burnIn, with no picks.
     "MIN_GP": 1,
     "PICKS_MIN_GP": 10,
-    "KALMAN_APPLY_MIN_GP": 10,
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }
