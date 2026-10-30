@@ -14,6 +14,7 @@ _DEFAULT_W = {}
 _DEFAULT_W_VAR = {}
 _TUNE_KEYS = None
 _WDEF_MAX = 5
+_LOCK_PROB_HIGH = False
 _BAYES_HYPER = {"marginNoise": 144, "minWeightVar": 0.05, "maxWeightVar": 10, "residualVar": 100}
 
 HCA_CLAMP_LO = 1.5
@@ -30,6 +31,8 @@ def _configure(defaults_module):
     global _TUNE_KEYS, _WDEF_MAX
     _TUNE_KEYS = getattr(defaults_module, "TUNE_KEYS", None)
     _WDEF_MAX = getattr(defaults_module, "WDEF_MAX", 5)
+    global _LOCK_PROB_HIGH
+    _LOCK_PROB_HIGH = getattr(defaults_module, "LOCK_PROB_HIGH", False)
 
 
 # -- Helpers -------------------------------------------------------------------
@@ -196,7 +199,9 @@ def tune_weights(current_w, current_w_var, completed_rows):
     MIN_SAMPLE = 10
     thresh_step = 0.008
 
-    if spr_w + spr_l >= MIN_SAMPLE:
+    if _LOCK_PROB_HIGH:
+        print(f"  [self_tune] probHigh locked at {W['probHigh']} (LOCK_PROB_HIGH)")
+    elif spr_w + spr_l >= MIN_SAMPLE:
         spr_pct = spr_w / (spr_w + spr_l)
         if spr_pct > 0.58:
             W["probHigh"] = _r3(max(0.52, W["probHigh"] - thresh_step * 0.67))
@@ -223,7 +228,7 @@ def tune_weights(current_w, current_w_var, completed_rows):
         print(f"  [self_tune] Total ELITE: only {ou_ew + ou_el} graded picks (need {MIN_SAMPLE}) -- probOUElite unchanged")
 
     # Legacy thresholds sync
-    if spr_w + spr_l >= MIN_SAMPLE:
+    if spr_w + spr_l >= MIN_SAMPLE and not _LOCK_PROB_HIGH:
         spr_pct = spr_w / (spr_w + spr_l)
         if spr_pct > 0.58:
             W["sprHigh"] = _r3(max(2.5, W["sprHigh"] - 0.1))
