@@ -644,8 +644,10 @@ def main(subject_label="[PY]"):
     # H2H disabled (h2hWeight=0) — skip fetch entirely
     h2h_matchups = None
 
-    base_w = store.get("weights") or defaults["DEFAULT_W"]
-    base_w_var = store.get("weightsVar") or defaults["DEFAULT_W_VAR"]
+    # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides),
+    # which must stay local to this run and never reach store["weights"].
+    base_w = dict(store.get("weights") or defaults["DEFAULT_W"])
+    base_w_var = dict(store.get("weightsVar") or defaults["DEFAULT_W_VAR"])
 
     # (NBA had a hardcoded Orlando-Magic L10 blowout-scrub override here; removed
     # for WNBA — team-specific and dated.)
@@ -747,7 +749,7 @@ def main(subject_label="[PY]"):
             recent_graded.append(g)
     if recent_graded and store.get("lastTuneDate") != date:
         tuned = tune_weights(base_w, base_w_var, recent_graded)
-        base_w, base_w_var = tuned["W"], tuned["W_var"]
+        base_w, base_w_var = dict(tuned["W"]), dict(tuned["W_var"])
         store["weights"], store["weightsVar"], store["lastTuneDate"] = tuned["W"], tuned["W_var"], date
         print(f"[3b] Weights tuned on {len(recent_graded)} graded games from last {TUNE_WINDOW} days")
     elif store.get("lastTuneDate") == date:
