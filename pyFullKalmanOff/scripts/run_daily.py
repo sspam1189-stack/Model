@@ -946,6 +946,13 @@ def _main(subject_label, date):
     _picks_gp = ENGINE_CONFIG.get("PICKS_MIN_GP", 0)
     _n_ready = sum(1 for _v in (enhanced_stats.get("season") or {}).values() if _v.get("GP", 0) >= _picks_gp)
     picks_burn_in = _n_ready < 20
+    if picks_burn_in and ENGINE_CONFIG.get("TUNE_APPLY_AT_PICKS"):
+        # Self-tune keeps learning from every graded game (weights saved in
+        # history.json), but its weights only drive projections once official
+        # picks start; until then this run projects with the starting weights.
+        base_w = dict(defaults["DEFAULT_W"])
+        base_w_var = dict(defaults["DEFAULT_W_VAR"])
+        print("[burn-in] projecting with starting weights -- tuned weights apply when official picks start")
     if picks_burn_in:
         base_w["probHigh"] = 1.01
         print(f"[burn-in] projecting only: {_n_ready} teams have {_picks_gp}+ GP (need 20) -- no official picks")

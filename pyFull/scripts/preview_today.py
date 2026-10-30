@@ -64,7 +64,7 @@ def _setup(model):
     # Same for Kalman learning (self-tune learns from every game).
     if real and "KALMAN_APPLY_MIN_GP" not in s:
         s = s.replace('"PICKS_MIN_GP"', f'"KALMAN_APPLY_MIN_GP": {real.group(1)},\n    "PICKS_MIN_GP"', 1)
-    if real:
+    if real and "LEARN_MIN_GP" not in s:
         s = s.replace('"PICKS_MIN_GP"', f'"LEARN_MIN_GP": {real.group(1)},\n    "PICKS_MIN_GP"', 1)
     s = re.sub(r'"MIN_GP": \d+', '"MIN_GP": 1', s)
     s = re.sub(r'"PICKS_MIN_GP": \d+', '"PICKS_MIN_GP": 0', s)

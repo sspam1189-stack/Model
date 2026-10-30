@@ -222,6 +222,9 @@ ENGINE_CONFIG = {
     # projected and graded but marked burnIn, with no picks.
     "MIN_GP": 1,
     "PICKS_MIN_GP": 10,
+    # 2026-10-30: project from game 1 so self-tune learns from every game;
+    # tuned weights only drive projections once official picks start.
+    "TUNE_APPLY_AT_PICKS": True,
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }

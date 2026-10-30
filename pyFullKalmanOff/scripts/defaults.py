@@ -213,8 +213,11 @@ ENGINE_CONFIG = {
     # MIN_GP games, so Kalman and self-tune learn from then; OFFICIAL picks wait
     # until 20+ teams have PICKS_MIN_GP games. In between every game is
     # projected and graded but marked burnIn, with no picks.
-    "MIN_GP": 5,
+    "MIN_GP": 1,
     "PICKS_MIN_GP": 10,
+    # 2026-10-30: project from game 1 so self-tune learns from every game;
+    # tuned weights only drive projections once official picks start.
+    "TUNE_APPLY_AT_PICKS": True,
     # NBA Full KalmanOff: the Kalman filter still tracks every team (kalmanAdj
     # is saved on each game) but projections don't use it.
     "KALMAN_SCALE": 0.0,
