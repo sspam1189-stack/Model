@@ -432,6 +432,14 @@ def create_model_engine(
         # update can rebuild the full-offset prediction, and so a shadow
         # "with Kalman" projection can be evaluated later.
         kalman_scale = float(engine_config.get("KALMAN_SCALE", 1.0))
+        # KALMAN_APPLY_MIN_GP: the filter learns from every graded game, but its
+        # offsets only count once both teams have this many games (unset =
+        # always applied, the previous behaviour).
+        _apply_gp = engine_config.get("KALMAN_APPLY_MIN_GP")
+        if _apply_gp:
+            _gp = min((H.get(home_key) or {}).get("GP", 0), (H.get(away_key) or {}).get("GP", 0))
+            if _gp < _apply_gp:
+                kalman_scale = 0.0
         kalman_adj_full = None
         if kalman_state and kalman_state.get("teams"):
             teams_map = kalman_state["teams"]

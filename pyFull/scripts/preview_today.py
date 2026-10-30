@@ -29,9 +29,10 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff"),
-          ("pyFullDNET", "NBA Full dNET")]
+          ("pyFullDNET", "NBA Full dNET"), ("pyFullKalmanEarly", "NBA Full KalmanEarly")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
-INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet"}
+INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
+              "pyFullKalmanEarly": "nba-kalmanearly"}
 
 
 def fetch_stats(date):

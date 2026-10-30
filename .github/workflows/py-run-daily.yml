@@ -83,11 +83,23 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python run_daily.py
 
+      # Fourth NBA full-season model: pyFull with Kalman learning from game 1
+      # and applied from 10 GP. Same code and feeds, its own data.
+      - name: Run daily (NBA Full KalmanEarly)
+        continue-on-error: true
+        working-directory: pyFullKalmanEarly/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python run_daily.py
+
       - name: Copy dashboard data
         run: |
           Copy-Item pyFull/data/history.json PythonDashboard/data/fullseason.json -Force
           Copy-Item pyFullKalmanOff/data/history.json PythonDashboard/data/fullseason-kalmanoff.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFullDNET/data/history.json PythonDashboard/data/fullseason-dnet.json -Force -ErrorAction SilentlyContinue
+          Copy-Item pyFullKalmanEarly/data/history.json PythonDashboard/data/fullseason-kalmanearly.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFull/data/nba-systems.json PythonDashboard/data/nba-systems.json -Force -ErrorAction SilentlyContinue
           # Archived seasons (season rollover moves last season out of history.json)
           # so the dashboard's season dropdown can still show them.
@@ -105,7 +117,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Scope to pyFull-owned paths so a parallel pyNBAPROPS push can't race us.
-          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json PythonDashboard/data/archive/ data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/ pyFullKalmanOff/data/ PythonDashboard/data/fullseason-kalmanoff.json data/run_inputs/nba-kalmanoff/ pyFullDNET/data/ PythonDashboard/data/fullseason-dnet.json data/run_inputs/nba-dnet/
+          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json PythonDashboard/data/archive/ data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/ pyFullKalmanOff/data/ PythonDashboard/data/fullseason-kalmanoff.json data/run_inputs/nba-kalmanoff/ pyFullDNET/data/ PythonDashboard/data/fullseason-dnet.json data/run_inputs/nba-dnet/ pyFullKalmanEarly/data/ PythonDashboard/data/fullseason-kalmanearly.json data/run_inputs/nba-kalmanearly/
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Run daily Python Fullseason [skip ci]"
