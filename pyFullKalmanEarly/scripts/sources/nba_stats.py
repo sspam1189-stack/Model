@@ -236,8 +236,9 @@ def _blend_playoff_stats(reg_season, playoff_stats):
 
 # -- Public: enhanced stats (season + last10 + home + away) --
 
-def _load_cached_enhanced(date_to=None):
-    """Load enhanced stats from data/stats_cache/nba/<date>.json (or latest)."""
+def _load_cached_enhanced(date_to=None, exact_only=False):
+    """Load enhanced stats from data/stats_cache/nba/<date>.json (or, unless
+    exact_only, the latest of the previous 3 days)."""
     import os
     import json as _json
     here = os.path.dirname(os.path.abspath(__file__))
@@ -249,6 +250,8 @@ def _load_cached_enhanced(date_to=None):
         candidate = os.path.join(cache_dir, str(date_to).replace("-", "") + ".json")
         if os.path.isfile(candidate):
             target = candidate
+    if not target and exact_only:
+        return None
     if not target:
         # Fall back to the most recent cache file from the last few days of the
         # SAME season. Unbounded, this served the 2025-26 final stats (82 GP)
@@ -284,6 +287,7 @@ def _load_cached_enhanced(date_to=None):
         season = data.get("season") or {}
         if len(season) >= 20:
             print(f"  [nba_stats] Using cached stats from {os.path.basename(target)} ({len(season)} teams)")
+            data["_file"] = os.path.basename(target)
             return data
     except Exception as e:
         print(f"  [nba_stats] Cache load failed ({e})")
@@ -300,18 +304,44 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season", min_gp=
 
     print(f"  [nba_stats] Fetching enhanced stats (season + last10 + home + away) [{season_type}]...")
 
-    # Check shared stats cache first -- stats.nba.com is often blocked from runners
-    cached = _load_cached_enhanced(date_to)
-    if cached is not None:
+    def _from_cache(cached):
         season = cached.get("season") or {}
         season = {k: v for k, v in season.items() if v.get("GP", 0) >= min_gp}
-        if len(season) >= 20:
-            return {
-                "season": season,
-                "last10": cached.get("last10"),
-                "home": cached.get("home"),
-                "away": cached.get("away"),
-            }
+        if len(season) < 20:
+            return None
+        return {
+            "season": season,
+            "last10": cached.get("last10"),
+            "home": cached.get("home"),
+            "away": cached.get("away"),
+        }
+
+    # This date's own cache file, if one was already fetched.
+    cached = _load_cached_enhanced(date_to, exact_only=True)
+    out = _from_cache(cached) if cached is not None else None
+    if out:
+        return out
+
+    # Fetch from NBA.com. Only if that fails (stats.nba.com is often blocked
+    # from runners) fall back to the newest cache of the previous 3 days.
+    # 2026-10-31: the fallback used to run before the fetch, so every day
+    # after the first reused yesterday's file and never fetched at all.
+    # Fallback stats carry "_fallbackFrom" so run_daily does not save them as
+    # this date's cache and the next run retries NBA.com.
+    try:
+        return _fetch_enhanced_live(date_to, season_type, min_gp)
+    except Exception as e:
+        cached = _load_cached_enhanced(date_to)
+        out = _from_cache(cached) if cached is not None else None
+        if not out:
+            raise
+        print(f"  [nba_stats] NBA.com fetch failed ({e}) -- using recent cached stats")
+        out["_fallbackFrom"] = cached.get("_file")
+        return out
+
+
+def _fetch_enhanced_live(date_to, season_type, min_gp):
+    in_playoffs = season_type == "Playoffs"
 
     # Stats source by mode:
     #   Regular season → fetch Regular Season only.

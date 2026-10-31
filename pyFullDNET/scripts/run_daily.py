@@ -587,7 +587,9 @@ def _main(subject_label, date):
                 if "stats incomplete" not in str(e):
                     raise
                 burn_in_msg = str(e)
-            if enhanced_stats:
+            # Recent-day fallback stats (NBA.com unreachable) are not saved as
+            # today's cache, so the next run fetches again.
+            if enhanced_stats and not enhanced_stats.get("_fallbackFrom"):
                 os.makedirs(_shared_cache_dir, exist_ok=True)
                 try:
                     with open(_cache_path, "w", encoding="utf-8") as f:
