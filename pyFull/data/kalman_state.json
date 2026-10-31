@@ -2,127 +2,133 @@
   "teams": {
     "Atlanta Hawks": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Boston Celtics": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Brooklyn Nets": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Charlotte Hornets": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": -0.32727272727272677,
+      "adj_var": 14.695454545454545
     },
     "Chicago Bulls": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Cleveland Cavaliers": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Dallas Mavericks": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": 1.0727272727272725,
+      "adj_var": 14.695454545454545
     },
     "Denver Nuggets": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Detroit Pistons": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Golden State Warriors": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": 1.9909090909090903,
+      "adj_var": 14.695454545454545
     },
     "Houston Rockets": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": -1.0727272727272725,
+      "adj_var": 14.695454545454545
     },
     "Indiana Pacers": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": -1.9636363636363632,
+      "adj_var": 14.695454545454545
     },
     "LA Clippers": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Los Angeles Lakers": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": -1.9909090909090903,
+      "adj_var": 14.695454545454545
     },
     "Memphis Grizzlies": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Miami Heat": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": 1.9636363636363632,
+      "adj_var": 14.695454545454545
     },
     "Milwaukee Bucks": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Minnesota Timberwolves": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "New Orleans Pelicans": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "New York Knicks": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": -0.672727272727272,
+      "adj_var": 14.695454545454545
     },
     "Oklahoma City Thunder": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Orlando Magic": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Philadelphia 76ers": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": 0.672727272727272,
+      "adj_var": 14.695454545454545
     },
     "Phoenix Suns": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Portland Trail Blazers": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Sacramento Kings": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "San Antonio Spurs": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Toronto Raptors": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Utah Jazz": {
       "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_var": 16.15
     },
     "Washington Wizards": {
-      "adj_mean": 0,
-      "adj_var": 16.0
+      "adj_mean": 0.32727272727272677,
+      "adj_var": 14.695454545454545
     }
   },
-  "processedGames": {},
-  "lastDriftDate": "20261030",
+  "processedGames": {
+    "20261030:Charlotte Hornets@Washington Wizards": true,
+    "20261030:New York Knicks@Philadelphia 76ers": true,
+    "20261030:Indiana Pacers@Miami Heat": true,
+    "20261030:Houston Rockets@Dallas Mavericks": true,
+    "20261030:Los Angeles Lakers@Golden State Warriors": true
+  },
+  "lastDriftDate": "20261031",
   "meta": {
     "season": "2026-27",
     "created": "2026-10-30T10:46:20.485348"
