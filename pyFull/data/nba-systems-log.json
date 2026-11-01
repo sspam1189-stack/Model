@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-10-31T22:16:05Z",
+ "generated": "2026-11-01T16:46:18Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -28017,9 +28017,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": 0.9091,
    "startTimeUTC": "2026-10-31T22:10:00.000+00:00"
   },
   {
@@ -28038,9 +28038,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": 0.9091,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
   },
   {
@@ -28059,9 +28059,9 @@
    "book_price": 440,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
   },
   {
@@ -28080,9 +28080,9 @@
    "book_price": -105,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9524,
+   "book_profit": 0.9524,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
   },
   {
@@ -28101,10 +28101,31 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "card",
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
+   "startTimeUTC": "2026-10-31T19:10:00.000+00:00"
+  },
+  {
+   "date": "20261101",
+   "system": "home_dog_5_over",
+   "tier": "candidate",
+   "market": "total",
+   "side": "OVER",
+   "play": "OVER 222.5",
+   "team": "Orlando Magic",
+   "game": "Boston Celtics @ Orlando Magic",
+   "away": "Boston Celtics",
+   "home": "Orlando Magic",
+   "line": 222.5,
+   "price": -106,
+   "book_price": -106,
+   "stake": 1.0,
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-10-31T19:10:00.000+00:00"
+   "startTimeUTC": "2026-11-01T20:40:00.000+00:00"
   }
  ]
 }

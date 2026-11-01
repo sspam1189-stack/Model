@@ -1,13 +1,13 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-10-31T22:16:05Z",
- "date": "20261031",
- "dateDisplay": "2026-10-31",
+ "generated": "2026-11-01T16:46:18Z",
+ "date": "20261101",
+ "dateDisplay": "2026-11-01",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
  "bar_roi": 0.1,
- "games_today": 7,
+ "games_today": 4,
  "ml_conversion": {
   "a": 0.0,
   "b": 0.12983578423978293,
@@ -187,104 +187,24 @@
  ],
  "today": [
   {
-   "date": "20261031",
+   "date": "20261101",
    "system": "home_dog_5_over",
    "tier": "candidate",
    "market": "total",
    "side": "OVER",
    "label": "Home dog of +5 or more -> OVER",
-   "play": "OVER 232.5",
-   "team": "Utah Jazz",
-   "game": "Portland Trail Blazers @ Utah Jazz",
-   "away": "Portland Trail Blazers",
-   "home": "Utah Jazz",
-   "line": 232.5,
-   "spread": 7.5,
-   "total": 232.5,
-   "price": -110,
+   "play": "OVER 222.5",
+   "team": "Orlando Magic",
+   "game": "Boston Celtics @ Orlando Magic",
+   "away": "Boston Celtics",
+   "home": "Orlando Magic",
+   "line": 222.5,
+   "spread": 6.5,
+   "total": 222.5,
+   "price": -106,
    "book_price": null,
    "status": "card",
-   "startTimeUTC": "2026-10-31T19:10:00.000+00:00"
-  },
-  {
-   "date": "20261031",
-   "system": "pickem_under",
-   "tier": "candidate",
-   "market": "total",
-   "side": "UNDER",
-   "label": "Pick'em (|spread| <= 2) -> UNDER",
-   "play": "UNDER 212.5",
-   "team": "Charlotte Hornets",
-   "game": "Philadelphia 76ers @ Charlotte Hornets",
-   "away": "Philadelphia 76ers",
-   "home": "Charlotte Hornets",
-   "line": 212.5,
-   "spread": 1.5,
-   "total": 212.5,
-   "price": -115,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-10-31T22:10:00.000+00:00"
-  },
-  {
-   "date": "20261031",
-   "system": "blowout_dog_ats",
-   "tier": "candidate",
-   "market": "spread",
-   "side": "TEAM",
-   "label": "Dog off a 15+ point win -> ATS",
-   "play": "Minnesota Timberwolves +12.5",
-   "team": "Minnesota Timberwolves",
-   "game": "Minnesota Timberwolves @ San Antonio Spurs",
-   "away": "Minnesota Timberwolves",
-   "home": "San Antonio Spurs",
-   "line": 12.5,
-   "spread": 12.5,
-   "total": 228.5,
-   "price": -115,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
-  },
-  {
-   "date": "20261031",
-   "system": "blowout_dog_ml",
-   "tier": "candidate",
-   "market": "h2h",
-   "side": "TEAM",
-   "label": "Dog off a 15+ point win -> ML",
-   "play": "Minnesota Timberwolves ML",
-   "team": "Minnesota Timberwolves",
-   "game": "Minnesota Timberwolves @ San Antonio Spurs",
-   "away": "Minnesota Timberwolves",
-   "home": "San Antonio Spurs",
-   "line": 12.5,
-   "spread": 12.5,
-   "total": 228.5,
-   "price": 434,
-   "book_price": 420,
-   "status": "card",
-   "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
-  },
-  {
-   "date": "20261031",
-   "system": "home_dog_5_over",
-   "tier": "candidate",
-   "market": "total",
-   "side": "OVER",
-   "label": "Home dog of +5 or more -> OVER",
-   "play": "OVER 235.5",
-   "team": "Milwaukee Bucks",
-   "game": "Cleveland Cavaliers @ Milwaukee Bucks",
-   "away": "Cleveland Cavaliers",
-   "home": "Milwaukee Bucks",
-   "line": 235.5,
-   "spread": 9.5,
-   "total": 235.5,
-   "price": -110,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-01T20:40:00.000+00:00"
   }
  ],
  "records": {
@@ -407,15 +327,15 @@
   "blowout_dog_ml": {
    "live": {
     "w": 1,
-    "l": 0,
+    "l": 1,
     "p": 0,
-    "pending": 1,
-    "units": 2.09,
-    "book_units": 1.88,
-    "book_n": 1,
-    "n": 1,
-    "pct": 1.0,
-    "roi": 2.09
+    "pending": 0,
+    "units": 1.09,
+    "book_units": 0.88,
+    "book_n": 2,
+    "n": 2,
+    "pct": 0.5,
+    "roi": 0.5449999999999999
    },
    "shadow": {
     "w": 0,
@@ -431,15 +351,15 @@
    },
    "card": {
     "w": 1,
-    "l": 0,
+    "l": 1,
     "p": 0,
-    "pending": 1,
-    "units": 2.09,
-    "book_units": 1.88,
-    "book_n": 1,
-    "n": 1,
-    "pct": 1.0,
-    "roi": 2.09
+    "pending": 0,
+    "units": 1.09,
+    "book_units": 0.88,
+    "book_n": 2,
+    "n": 2,
+    "pct": 0.5,
+    "roi": 0.5449999999999999
    },
    "seeded": {
     "w": 80,
@@ -524,16 +444,16 @@
   },
   "pickem_under": {
    "live": {
-    "w": 9,
+    "w": 10,
     "l": 3,
     "p": 0,
-    "pending": 2,
-    "units": 5.125,
-    "book_units": 5.125,
-    "book_n": 12,
-    "n": 12,
-    "pct": 0.75,
-    "roi": 0.4270666666666667
+    "pending": 1,
+    "units": 6.034,
+    "book_units": 6.034,
+    "book_n": 13,
+    "n": 13,
+    "pct": 0.7692307692307693,
+    "roi": 0.46414615384615393
    },
    "shadow": {
     "w": 0,
@@ -548,16 +468,16 @@
     "roi": null
    },
    "card": {
-    "w": 9,
+    "w": 10,
     "l": 3,
     "p": 0,
-    "pending": 2,
-    "units": 5.125,
-    "book_units": 5.125,
-    "book_n": 12,
-    "n": 12,
-    "pct": 0.75,
-    "roi": 0.4270666666666667
+    "pending": 1,
+    "units": 6.034,
+    "book_units": 6.034,
+    "book_n": 13,
+    "n": 13,
+    "pct": 0.7692307692307693,
+    "roi": 0.46414615384615393
    },
    "seeded": {
     "w": 87,
@@ -584,16 +504,16 @@
   },
   "blowout_dog_ats": {
    "live": {
-    "w": 1,
+    "w": 2,
     "l": 0,
     "p": 0,
-    "pending": 1,
-    "units": 0.909,
-    "book_units": 0.909,
-    "book_n": 1,
-    "n": 1,
+    "pending": 0,
+    "units": 1.861,
+    "book_units": 1.861,
+    "book_n": 2,
+    "n": 2,
     "pct": 1.0,
-    "roi": 0.9091
+    "roi": 0.93075
    },
    "shadow": {
     "w": 0,
@@ -608,16 +528,16 @@
     "roi": null
    },
    "card": {
-    "w": 1,
+    "w": 2,
     "l": 0,
     "p": 0,
-    "pending": 1,
-    "units": 0.909,
-    "book_units": 0.909,
-    "book_n": 1,
-    "n": 1,
+    "pending": 0,
+    "units": 1.861,
+    "book_units": 1.861,
+    "book_n": 2,
+    "n": 2,
     "pct": 1.0,
-    "roi": 0.9091
+    "roi": 0.93075
    },
    "seeded": {
     "w": 105,
@@ -644,16 +564,16 @@
   },
   "home_dog_5_over": {
    "live": {
-    "w": 6,
-    "l": 8,
+    "w": 7,
+    "l": 9,
     "p": 0,
-    "pending": 2,
-    "units": -2.43,
-    "book_units": -2.43,
-    "book_n": 14,
-    "n": 14,
-    "pct": 0.42857142857142855,
-    "roi": -0.1735857142857143
+    "pending": 1,
+    "units": -2.521,
+    "book_units": -2.521,
+    "book_n": 16,
+    "n": 16,
+    "pct": 0.4375,
+    "roi": -0.15756875
    },
    "shadow": {
     "w": 0,
@@ -668,16 +588,16 @@
     "roi": null
    },
    "card": {
-    "w": 6,
-    "l": 8,
+    "w": 7,
+    "l": 9,
     "p": 0,
-    "pending": 2,
-    "units": -2.43,
-    "book_units": -2.43,
-    "book_n": 14,
-    "n": 14,
-    "pct": 0.42857142857142855,
-    "roi": -0.1735857142857143
+    "pending": 1,
+    "units": -2.521,
+    "book_units": -2.521,
+    "book_n": 16,
+    "n": 16,
+    "pct": 0.4375,
+    "roi": -0.15756875
    },
    "seeded": {
     "w": 166,
@@ -28699,9 +28619,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": 0.9091,
    "startTimeUTC": "2026-10-31T22:10:00.000+00:00"
   },
   {
@@ -28720,9 +28640,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": 0.9091,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
   },
   {
@@ -28741,9 +28661,9 @@
    "book_price": 440,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
   },
   {
@@ -28762,9 +28682,9 @@
    "book_price": -105,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9524,
+   "book_profit": 0.9524,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
   },
   {
@@ -28783,36 +28703,57 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "card",
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
+   "startTimeUTC": "2026-10-31T19:10:00.000+00:00"
+  },
+  {
+   "date": "20261101",
+   "system": "home_dog_5_over",
+   "tier": "candidate",
+   "market": "total",
+   "side": "OVER",
+   "play": "OVER 222.5",
+   "team": "Orlando Magic",
+   "game": "Boston Celtics @ Orlando Magic",
+   "away": "Boston Celtics",
+   "home": "Orlando Magic",
+   "line": 222.5,
+   "price": -106,
+   "book_price": -106,
+   "stake": 1.0,
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-10-31T19:10:00.000+00:00"
+   "startTimeUTC": "2026-11-01T20:40:00.000+00:00"
   }
  ],
  "totals": {
   "live": {
-   "w": 18,
-   "l": 11,
+   "w": 21,
+   "l": 13,
    "p": 0,
-   "pending": 6,
-   "units": 7.544,
-   "book_units": 7.284,
-   "book_n": 29,
-   "n": 29,
-   "pct": 0.6206896551724138,
-   "roi": 0.2601275862068965
+   "pending": 2,
+   "units": 8.314,
+   "book_units": 8.054,
+   "book_n": 34,
+   "n": 34,
+   "pct": 0.6176470588235294,
+   "roi": 0.24453823529411767
   },
   "card": {
-   "w": 18,
-   "l": 11,
+   "w": 21,
+   "l": 13,
    "p": 0,
-   "pending": 6,
-   "units": 7.544,
-   "book_units": 7.284,
-   "book_n": 29,
-   "n": 29,
-   "pct": 0.6206896551724138,
-   "roi": 0.2601275862068965
+   "pending": 2,
+   "units": 8.314,
+   "book_units": 8.054,
+   "book_n": 34,
+   "n": 34,
+   "pct": 0.6176470588235294,
+   "roi": 0.24453823529411767
   },
   "shadow": {
    "w": 0,
@@ -28827,16 +28768,16 @@
    "roi": null
   },
   "candidate": {
-   "w": 18,
-   "l": 11,
+   "w": 21,
+   "l": 13,
    "p": 0,
-   "pending": 6,
-   "units": 7.544,
-   "book_units": 7.284,
-   "book_n": 29,
-   "n": 29,
-   "pct": 0.6206896551724138,
-   "roi": 0.2601275862068965
+   "pending": 2,
+   "units": 8.314,
+   "book_units": 8.054,
+   "book_n": 34,
+   "n": 34,
+   "pct": 0.6176470588235294,
+   "roi": 0.24453823529411767
   }
  },
  "notes": [
