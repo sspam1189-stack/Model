@@ -5,7 +5,8 @@
 # input served from the data live itself reads and saves:
 #
 #   - the inputs a live run recorded that day (data/run_inputs/nba/<date>/,
-#     see run_inputs.py): the last run that started before the first tip;
+#     see run_inputs.py): the last run that started before the first tip,
+#     with each game's line taken from the last run before that game's tip;
 #   - otherwise the repo's saved data for that date, in the shape live reads
 #     it: stats_cache (through the day before), odds_cache (falling back to
 #     the archived line), ESPN scoreboards (tip times, finals for grading,
@@ -231,7 +232,33 @@ def recorded_snapshot(d):
         best = snap
     snap = best or _gz(paths[0])
     snap["source"] = "recorded " + snap["startedAt"][11:19]
+    _pregame_lines(snap, paths, {(a, h): s for a, h, s in _slate(d) if s})
     return snap
+
+
+def _pregame_lines(snap, paths, tips):
+    """Each game's line from the last recorded run that started before that
+    game's own tip (the snapshot above is fixed at the day's first tip, so a
+    2 PM tip would otherwise freeze the lines of the 7 PM games)."""
+    def _start(o):
+        t = tips.get((o.get("away"), o.get("home"))) or o.get("startTimeUTC")
+        return dt.datetime.fromisoformat(t.replace("Z", "+00:00")) if t else None
+    latest = {}
+    for p in paths:
+        s = _gz(p)
+        started = dt.datetime.fromisoformat(s["startedAt"])
+        for o in ((s.get("inputs") or {}).get("odds") or {}).get("v") or []:
+            if not isinstance(o, dict):
+                continue
+            tip = _start(o)
+            if tip is None or started < tip:
+                latest[(o.get("away"), o.get("home"))] = o
+    odds = ((snap.get("inputs") or {}).get("odds") or {}).get("v")
+    if isinstance(odds, list):
+        snap["inputs"]["odds"]["v"] = [latest.get((o.get("away"), o.get("home")), o)
+                                       if isinstance(o, dict) else o for o in odds]
+
+
 
 
 # -- driver --------------------------------------------------------------------
