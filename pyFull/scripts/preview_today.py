@@ -31,14 +31,14 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
+# dNET (pyFullDNET) still runs live but is hidden from the preview (2026-11-02).
 MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff"),
-          ("pyFullKalmanEarly", "NBA Full KalmanEarly"), ("pyFullDNET", "NBA Full dNET")]
+          ("pyFullKalmanEarly", "NBA Full KalmanEarly")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
               "pyFullKalmanEarly": "nba-kalmanearly"}
 # Consensus records: every listed model fired the same side, at the smallest stake.
-AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
-         ("all", "All 4 agree", [m for m, _ in MODELS])]
+AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"])]
 TRACKED = MODELS + [(k, n) for k, n, _ in AGREE]
 
 
