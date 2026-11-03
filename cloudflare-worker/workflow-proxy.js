@@ -29,6 +29,7 @@ const WORKFLOWS = {
 // UTC, so it keeps its local time across daylight-saving changes.
 const SCHEDULE = [
   // NBA full season + props (py-run-daily.yml), Central time year-round
+  { cron: "0 9 * * *", wf: "python", tz: "America/Chicago" },    //  9:00 AM CT
   { cron: "45 10 * * *", wf: "python", tz: "America/Chicago" },  // 10:45 AM CT
   { cron: "15 13 * * *", wf: "python", tz: "America/Chicago" },  //  1:15 PM CT
   { cron: "15 17 * * *", wf: "python", tz: "America/Chicago" },  //  5:15 PM CT
