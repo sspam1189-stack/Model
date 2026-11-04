@@ -54,8 +54,11 @@ MIN_MINUTES = 15
 
 MARKET_THRESHOLDS = {
     "points":        {"high": 0.65},
-    "rebounds":      {"high": 0.600},
-    "assists":       {"high": 0.575},
+    # 2026-11-04 (user): rebounds 0.600 -> 0.620 (its 60-62% band was the only
+    # losing one in 2025-26, 22-19 -2.0u); assists UNDER 0.575 -> 0.600, OVER
+    # stays 0.575. An "over"/"under" key overrides "high" for that direction.
+    "rebounds":      {"high": 0.620},
+    "assists":       {"high": 0.575, "under": 0.600},
     "threes":        {"high": 0.600},
     "pts_rebs_asts": {"high": 0.65},
     "steals":        {"high": 0.65},

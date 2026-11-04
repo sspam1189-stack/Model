@@ -816,8 +816,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp, low_data_std=Fal
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.65})
         direction = "OVER" if p_over > p_under else "UNDER"
 
-        # Single uniform threshold — no directional hacks
-        thresh = mkt_thresh["high"]
+        # Per-market threshold; an "over"/"under" key overrides it for that side.
+        thresh = mkt_thresh.get(direction.lower(), mkt_thresh["high"])
         if best_p >= thresh:
 
             # Don't promote to high-conf if the std was computed from
