@@ -80170,7 +80170,7 @@
       "weekKey": "2026_W9",
       "season": 2026,
       "week": 9,
-      "date": "20261103",
+      "date": "20261104",
       "dateDisplay": "2026 Week 9",
       "burnIn": false,
       "weightsUsed": {
@@ -80251,27 +80251,27 @@
           "home": "ATL",
           "away": "CIN",
           "line": 3.0,
-          "total": 51.5,
-          "hS": 22.4,
-          "aS": 24.2,
+          "total": 52.5,
+          "hS": 22.5,
+          "aS": 24.1,
           "pT": 46.6,
-          "projSpread": 1.7,
-          "margin": 1.3,
-          "sDiff": 1.3,
-          "tDiff": -4.9,
+          "projSpread": 1.6,
+          "margin": 1.4,
+          "sDiff": 1.4,
+          "tDiff": -5.9,
           "sPick": "PASS",
           "sConf": "low",
-          "oPick": "PASS",
-          "oConf": "low",
+          "oPick": "UNDER",
+          "oConf": "pick",
           "confidenceTier": "low",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.496,
-          "pUnder": 0.504,
+          "pOver": 0.494,
+          "pUnder": 0.506,
           "pCover": null,
-          "pOU": null,
-          "pHomeCoverRaw": 0.538,
-          "pOverRaw": 0.381,
+          "pOU": 0.506,
+          "pHomeCoverRaw": 0.541,
+          "pOverRaw": 0.358,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80287,8 +80287,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -4.2,
-          "_v2RawTotal": 43.28,
+          "_v2RawMargin": -4.13,
+          "_v2RawTotal": 43.23,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.1877,
@@ -80329,13 +80329,13 @@
           "away": "DEN",
           "line": 3.0,
           "total": 43.5,
-          "hS": 23.6,
-          "aS": 22.2,
-          "pT": 45.9,
-          "projSpread": -1.4,
-          "margin": 4.4,
-          "sDiff": 4.4,
-          "tDiff": 2.4,
+          "hS": 24.0,
+          "aS": 22.4,
+          "pT": 46.5,
+          "projSpread": -1.6,
+          "margin": 4.6,
+          "sDiff": 4.6,
+          "tDiff": 3.0,
           "sPick": "Carolina Panthers +3.0",
           "sConf": "pick",
           "oPick": "PASS",
@@ -80343,12 +80343,12 @@
           "confidenceTier": "pick",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.524,
-          "pUnder": 0.476,
+          "pOver": 0.525,
+          "pUnder": 0.475,
           "pCover": 0.519,
           "pOU": null,
-          "pHomeCoverRaw": 0.616,
-          "pOverRaw": 0.559,
+          "pHomeCoverRaw": 0.632,
+          "pOverRaw": 0.574,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80364,8 +80364,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -0.92,
-          "_v2RawTotal": 41.74,
+          "_v2RawMargin": -0.75,
+          "_v2RawTotal": 41.69,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": 0.019200000000000002,
@@ -80442,7 +80442,7 @@
           "systemsOverruled": [],
           "engine": "v2",
           "_v2RawMargin": -3.29,
-          "_v2RawTotal": 48.9,
+          "_v2RawTotal": 48.85,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.3847,
@@ -80481,14 +80481,14 @@
         {
           "home": "NO",
           "away": "CLE",
-          "line": -2.5,
+          "line": -3.0,
           "total": 43.5,
           "hS": 22.9,
           "aS": 22.4,
           "pT": 45.3,
           "projSpread": -0.5,
-          "margin": -2.0,
-          "sDiff": 2.0,
+          "margin": -2.5,
+          "sDiff": 2.5,
           "tDiff": 1.8,
           "sPick": "PASS",
           "sConf": "low",
@@ -80501,7 +80501,7 @@
           "pUnder": 0.478,
           "pCover": null,
           "pOU": null,
-          "pHomeCoverRaw": 0.446,
+          "pHomeCoverRaw": 0.433,
           "pOverRaw": 0.545,
           "probCalibrated": true,
           "marginVar": 167.4,
@@ -80518,8 +80518,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -1.91,
-          "_v2RawTotal": 37.89,
+          "_v2RawMargin": -1.92,
+          "_v2RawTotal": 37.84,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": 0.0687,
@@ -80559,27 +80559,27 @@
           "home": "BAL",
           "away": "JAX",
           "line": 9.5,
-          "total": 42.5,
-          "hS": 21.0,
-          "aS": 25.0,
-          "pT": 46.0,
-          "projSpread": 4.0,
-          "margin": 5.5,
-          "sDiff": 5.5,
-          "tDiff": 3.5,
+          "total": 40.5,
+          "hS": 19.0,
+          "aS": 25.8,
+          "pT": 44.8,
+          "projSpread": 6.8,
+          "margin": 2.7,
+          "sDiff": 2.7,
+          "tDiff": 4.3,
           "sPick": "Baltimore Ravens +9.5",
           "sConf": "pick",
           "oPick": "PASS",
           "oConf": "low",
-          "confidenceTier": "pick",
+          "confidenceTier": "low",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.525,
-          "pUnder": 0.475,
+          "pOver": 0.53,
+          "pUnder": 0.47,
           "pCover": 0.529,
           "pOU": null,
-          "pHomeCoverRaw": 0.656,
-          "pOverRaw": 0.586,
+          "pHomeCoverRaw": 0.572,
+          "pOverRaw": 0.605,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80587,7 +80587,7 @@
           "injuryNote": null,
           "injuryDeltaHome": 0.0,
           "injuryDeltaAway": 0.0,
-          "backupQBHome": false,
+          "backupQBHome": true,
           "backupQBAway": false,
           "situationalPick": null,
           "situationalSpreadPick": "home_dog_7_10",
@@ -80597,8 +80597,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -6.7,
-          "_v2RawTotal": 40.29,
+          "_v2RawMargin": -9.69,
+          "_v2RawTotal": 40.24,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": 0.0892,
@@ -80638,14 +80638,14 @@
           "home": "KC",
           "away": "NYJ",
           "line": -9.5,
-          "total": 46.5,
-          "hS": 27.1,
-          "aS": 22.0,
-          "pT": 49.1,
-          "projSpread": -5.1,
-          "margin": -4.4,
-          "sDiff": 4.4,
-          "tDiff": 2.6,
+          "total": 47.5,
+          "hS": 27.4,
+          "aS": 22.4,
+          "pT": 49.7,
+          "projSpread": -5.0,
+          "margin": -4.5,
+          "sDiff": 4.5,
+          "tDiff": 2.2,
           "sPick": "New York Jets +9.5",
           "sConf": "pick",
           "oPick": "OVER",
@@ -80653,12 +80653,12 @@
           "confidenceTier": "pick",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.525,
-          "pUnder": 0.475,
+          "pOver": 0.524,
+          "pUnder": 0.476,
           "pCover": 0.481,
           "pOU": 0.549,
-          "pHomeCoverRaw": 0.384,
-          "pOverRaw": 0.564,
+          "pHomeCoverRaw": 0.371,
+          "pOverRaw": 0.554,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80676,8 +80676,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": 3.07,
-          "_v2RawTotal": 55.9,
+          "_v2RawMargin": 2.92,
+          "_v2RawTotal": 55.86,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.0682,
@@ -80718,13 +80718,13 @@
           "away": "DET",
           "line": 7.0,
           "total": 50.5,
-          "hS": 23.3,
-          "aS": 25.9,
-          "pT": 49.2,
+          "hS": 23.4,
+          "aS": 26.0,
+          "pT": 49.4,
           "projSpread": 2.6,
           "margin": 4.4,
           "sDiff": 4.4,
-          "tDiff": -1.3,
+          "tDiff": -1.1,
           "sPick": "Miami Dolphins +7.0",
           "sConf": "pick",
           "oPick": "OVER",
@@ -80737,7 +80737,7 @@
           "pCover": 0.529,
           "pOU": 0.549,
           "pHomeCoverRaw": 0.616,
-          "pOverRaw": 0.468,
+          "pOverRaw": 0.473,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80756,8 +80756,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -5.19,
-          "_v2RawTotal": 59.85,
+          "_v2RawMargin": -5.21,
+          "_v2RawTotal": 59.8,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.1891,
@@ -80798,26 +80798,26 @@
           "away": "NYG",
           "line": 3.0,
           "total": 39.5,
-          "hS": 21.8,
-          "aS": 24.4,
-          "pT": 46.3,
-          "projSpread": 2.6,
-          "margin": 0.4,
-          "sDiff": 0.4,
-          "tDiff": 6.8,
+          "hS": 21.3,
+          "aS": 23.8,
+          "pT": 45.1,
+          "projSpread": 2.5,
+          "margin": 0.5,
+          "sDiff": 0.5,
+          "tDiff": 5.6,
           "sPick": "PASS",
           "sConf": "low",
-          "oPick": "OVER",
-          "oConf": "pick",
+          "oPick": "PASS",
+          "oConf": "low",
           "confidenceTier": "low",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.536,
-          "pUnder": 0.464,
+          "pOver": 0.533,
+          "pUnder": 0.467,
           "pCover": null,
-          "pOU": 0.536,
-          "pHomeCoverRaw": 0.512,
-          "pOverRaw": 0.662,
+          "pOU": null,
+          "pHomeCoverRaw": 0.515,
+          "pOverRaw": 0.635,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80833,8 +80833,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -5.22,
-          "_v2RawTotal": 43.19,
+          "_v2RawMargin": -5.15,
+          "_v2RawTotal": 43.14,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.12719999999999998,
@@ -80876,11 +80876,11 @@
           "line": 4.5,
           "total": 40.5,
           "hS": 20.0,
-          "aS": 22.5,
+          "aS": 22.6,
           "pT": 42.5,
-          "projSpread": 2.5,
-          "margin": 2.0,
-          "sDiff": 2.0,
+          "projSpread": 2.6,
+          "margin": 1.9,
+          "sDiff": 1.9,
           "tDiff": 2.0,
           "sPick": "PASS",
           "sConf": "low",
@@ -80893,7 +80893,7 @@
           "pUnder": 0.478,
           "pCover": null,
           "pOU": null,
-          "pHomeCoverRaw": 0.554,
+          "pHomeCoverRaw": 0.551,
           "pOverRaw": 0.549,
           "probCalibrated": true,
           "marginVar": 167.4,
@@ -80910,8 +80910,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -5.12,
-          "_v2RawTotal": 26.81,
+          "_v2RawMargin": -5.2,
+          "_v2RawTotal": 26.76,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.41059999999999997,
@@ -80951,14 +80951,14 @@
           "home": "SF",
           "away": "LV",
           "line": -9.5,
-          "total": 51.5,
+          "total": 52.5,
           "hS": 29.2,
-          "aS": 20.4,
-          "pT": 49.6,
+          "aS": 20.2,
+          "pT": 49.4,
           "projSpread": -8.9,
           "margin": -0.6,
           "sDiff": 0.6,
-          "tDiff": -1.9,
+          "tDiff": -3.1,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "OVER",
@@ -80966,12 +80966,12 @@
           "confidenceTier": "low",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.507,
-          "pUnder": 0.493,
+          "pOver": 0.506,
+          "pUnder": 0.494,
           "pCover": null,
           "pOU": 0.549,
           "pHomeCoverRaw": 0.482,
-          "pOverRaw": 0.453,
+          "pOverRaw": 0.424,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -80989,8 +80989,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": 7.15,
-          "_v2RawTotal": 57.1,
+          "_v2RawMargin": 7.08,
+          "_v2RawTotal": 57.05,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.054800000000000015,
@@ -81031,13 +81031,13 @@
           "away": "LA",
           "line": 5.5,
           "total": 47.5,
-          "hS": 21.1,
-          "aS": 24.1,
-          "pT": 45.2,
+          "hS": 20.4,
+          "aS": 23.4,
+          "pT": 43.9,
           "projSpread": 3.0,
           "margin": 2.5,
           "sDiff": 2.5,
-          "tDiff": -2.3,
+          "tDiff": -3.6,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -81045,12 +81045,12 @@
           "confidenceTier": "low",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.506,
-          "pUnder": 0.494,
+          "pOver": 0.503,
+          "pUnder": 0.497,
           "pCover": null,
           "pOU": null,
           "pHomeCoverRaw": 0.567,
-          "pOverRaw": 0.443,
+          "pOverRaw": 0.412,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -81066,8 +81066,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -5.59,
-          "_v2RawTotal": 38.62,
+          "_v2RawMargin": -5.64,
+          "_v2RawTotal": 38.57,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": 0.1134,
@@ -81106,15 +81106,15 @@
         {
           "home": "NE",
           "away": "GB",
-          "line": -2.5,
+          "line": -3.0,
           "total": 46.5,
-          "hS": 24.8,
-          "aS": 22.8,
-          "pT": 47.6,
-          "projSpread": -2.1,
-          "margin": -0.4,
-          "sDiff": 0.4,
-          "tDiff": 1.1,
+          "hS": 24.0,
+          "aS": 22.0,
+          "pT": 46.0,
+          "projSpread": -2.0,
+          "margin": -1.0,
+          "sDiff": 1.0,
+          "tDiff": -0.5,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -81122,12 +81122,12 @@
           "confidenceTier": "low",
           "pHomeCover": 0.519,
           "pAwayCover": 0.481,
-          "pOver": 0.521,
-          "pUnder": 0.479,
+          "pOver": 0.512,
+          "pUnder": 0.488,
           "pCover": null,
           "pOU": null,
-          "pHomeCoverRaw": 0.488,
-          "pOverRaw": 0.527,
+          "pHomeCoverRaw": 0.471,
+          "pOverRaw": 0.488,
           "probCalibrated": true,
           "marginVar": 167.4,
           "marginStd": 12.9,
@@ -81143,8 +81143,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -0.17,
-          "_v2RawTotal": 46.33,
+          "_v2RawMargin": -0.25,
+          "_v2RawTotal": 46.28,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": 0.3044,
@@ -81185,12 +81185,12 @@
           "away": "BUF",
           "line": 3.0,
           "total": 46.5,
-          "hS": 22.7,
+          "hS": 22.8,
           "aS": 22.0,
           "pT": 44.7,
-          "projSpread": -0.7,
-          "margin": 3.7,
-          "sDiff": 3.7,
+          "projSpread": -0.8,
+          "margin": 3.8,
+          "sDiff": 3.8,
           "tDiff": -1.8,
           "sPick": "Minnesota Vikings +3.0",
           "sConf": "pick",
@@ -81203,7 +81203,7 @@
           "pUnder": 0.493,
           "pCover": 0.519,
           "pOU": null,
-          "pHomeCoverRaw": 0.598,
+          "pHomeCoverRaw": 0.601,
           "pOverRaw": 0.455,
           "probCalibrated": true,
           "marginVar": 167.4,
@@ -81220,8 +81220,8 @@
           "systemsConflict": [],
           "systemsOverruled": [],
           "engine": "v2",
-          "_v2RawMargin": -1.68,
-          "_v2RawTotal": 35.79,
+          "_v2RawMargin": -1.6,
+          "_v2RawTotal": 35.74,
           "_v2MarginSource": "ratings",
           "_marginFeatures": {
             "dPassOff": -0.124,
@@ -81256,10 +81256,169 @@
             -0.030799999999999994
           ],
           "commenceTimeIso": "2026-11-10T01:16:00.000Z"
+        },
+        {
+          "home": "SEA",
+          "away": "ARI",
+          "line": -11.5,
+          "total": 41.5,
+          "hS": 26.1,
+          "aS": 19.3,
+          "pT": 45.4,
+          "projSpread": -6.8,
+          "margin": -4.7,
+          "sDiff": 4.7,
+          "tDiff": 3.9,
+          "sPick": "Arizona Cardinals +11.5",
+          "sConf": "pick",
+          "oPick": "OVER",
+          "oConf": "pick",
+          "confidenceTier": "pick",
+          "pHomeCover": 0.519,
+          "pAwayCover": 0.481,
+          "pOver": 0.529,
+          "pUnder": 0.471,
+          "pCover": 0.481,
+          "pOU": 0.54,
+          "pHomeCoverRaw": 0.366,
+          "pOverRaw": 0.595,
+          "probCalibrated": true,
+          "marginVar": 167.4,
+          "marginStd": 12.9,
+          "residualVar": 167.4,
+          "injuryNote": null,
+          "injuryDeltaHome": 0.0,
+          "injuryDeltaAway": 0.0,
+          "backupQBHome": false,
+          "backupQBAway": false,
+          "situationalPick": "day_mismatch_10_over",
+          "situationalSpreadPick": null,
+          "systemsFired": [
+            "day_mismatch_over",
+            "day_mismatch_10_over"
+          ],
+          "systemsConflict": [],
+          "systemsOverruled": [],
+          "engine": "v2",
+          "_v2RawMargin": 4.83,
+          "_v2RawTotal": 40.39,
+          "_v2MarginSource": "ratings",
+          "_marginFeatures": {
+            "dPassOff": -0.194,
+            "dRushOff": -0.07450000000000001,
+            "dPassDef": -0.040900000000000006,
+            "dRushDef": -0.0229,
+            "dPace": 2.5999999999999943,
+            "dRZ": -0.056999999999999995,
+            "hca": 1.0,
+            "injHome": 0.0,
+            "injAway": 0.0,
+            "_baseline": -0.16615000000000002
+          },
+          "_features": [
+            -0.194,
+            -0.07450000000000001,
+            -0.040900000000000006,
+            -0.0229,
+            2.5999999999999943,
+            -0.056999999999999995,
+            1.0,
+            -3.0156,
+            0.0,
+            -0.010200000000000042,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.001488,
+            0.00943884,
+            -0.6980999999999985,
+            -0.03260000000000002
+          ],
+          "commenceTimeIso": "2026-11-08T21:26:00.000Z"
+        },
+        {
+          "home": "CHI",
+          "away": "TB",
+          "line": -6.5,
+          "total": 47.5,
+          "hS": 22.6,
+          "aS": 20.0,
+          "pT": 42.6,
+          "projSpread": -2.5,
+          "margin": -4.0,
+          "sDiff": 4.0,
+          "tDiff": -4.9,
+          "sPick": "Tampa Bay Buccaneers +6.5",
+          "sConf": "pick",
+          "oPick": "UNDER",
+          "oConf": "pick",
+          "confidenceTier": "pick",
+          "pHomeCover": 0.519,
+          "pAwayCover": 0.481,
+          "pOver": 0.496,
+          "pUnder": 0.504,
+          "pCover": 0.481,
+          "pOU": 0.529,
+          "pHomeCoverRaw": 0.394,
+          "pOverRaw": 0.381,
+          "probCalibrated": true,
+          "marginVar": 167.4,
+          "marginStd": 12.9,
+          "residualVar": 167.4,
+          "injuryNote": null,
+          "injuryDeltaHome": 0.0,
+          "injuryDeltaAway": 0.0,
+          "backupQBHome": false,
+          "backupQBAway": false,
+          "situationalPick": "snf_under",
+          "situationalSpreadPick": null,
+          "systemsFired": [
+            "snf_under"
+          ],
+          "systemsConflict": [],
+          "systemsOverruled": [],
+          "engine": "v2",
+          "_v2RawMargin": 0.31,
+          "_v2RawTotal": 29.09,
+          "_v2MarginSource": "ratings",
+          "_marginFeatures": {
+            "dPassOff": 0.40990000000000004,
+            "dRushOff": 0.0742,
+            "dPassDef": 0.22649999999999998,
+            "dRushDef": -0.1084,
+            "dPace": 3.0999999999999943,
+            "dRZ": 0.01050000000000001,
+            "hca": 1.0,
+            "injHome": 0.0,
+            "injAway": 0.0,
+            "_baseline": 0.30110000000000003
+          },
+          "_features": [
+            0.40990000000000004,
+            0.0742,
+            0.22649999999999998,
+            -0.1084,
+            3.0999999999999943,
+            0.01050000000000001,
+            1.0,
+            10.208400000000001,
+            0.0,
+            0.07549999999999996,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.034668580000000004,
+            -0.00024745,
+            1.5007099999999973,
+            0.11759999999999998
+          ],
+          "commenceTimeIso": "2026-11-09T01:21:00.000Z"
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   174-156-7  (52.7%)  +2.4u\n  TOTAL:    166-120-3  (58.0%)  +34.0u",
-      "ranAt": "11/02/2026, 10:31:54 PM"
+      "ranAt": "11/04/2026, 09:01:43 AM"
     }
   ],
   "meta": {
@@ -81495,39 +81654,39 @@
         "GP": 7
       },
       "CHI": {
-        "off_pass_epa": 0.1108,
-        "off_rush_epa": -0.048,
-        "def_pass_epa": 0.0439,
-        "def_rush_epa": -0.0631,
-        "success_rate_off": 0.4376,
-        "success_rate_def": 0.4086,
-        "cpoe": 5.0041,
-        "adot": 6.95,
+        "off_pass_epa": 0.1193,
+        "off_rush_epa": 0.0035,
+        "def_pass_epa": -0.0077,
+        "def_rush_epa": -0.0804,
+        "success_rate_off": 0.4458,
+        "success_rate_def": 0.3792,
+        "cpoe": 4.5701,
+        "adot": 7.45,
         "pressure_rate_allowed": null,
         "pressure_rate_generated": null,
-        "rz_td_pct_def": 0.2233,
-        "third_down_off": 0.4229,
-        "third_down_def": 0.2572,
-        "rz_td_pct_off": 0.147,
-        "pace": 71.0,
-        "turnover_adj_efficiency": 0.1331,
-        "games_played": 7,
-        "total_plays": 497,
-        "passOffEPA": 0.1108,
-        "rushOffEPA": -0.048,
-        "passDefEPA": 0.0439,
-        "rushDefEPA": -0.0631,
-        "rzTDOff": 0.147,
-        "rzTDDef": 0.2233,
-        "passRate": 0.5297,
-        "rushRate": 0.4703,
-        "successRateOff": 0.4376,
-        "successRateDef": 0.4086,
-        "thirdDownOff": 0.4229,
-        "thirdDownDef": 0.2572,
+        "rz_td_pct_def": 0.18,
+        "third_down_off": 0.4322,
+        "third_down_def": 0.2194,
+        "rz_td_pct_off": 0.1718,
+        "pace": 70.8,
+        "turnover_adj_efficiency": 0.1505,
+        "games_played": 8,
+        "total_plays": 566,
+        "passOffEPA": 0.1193,
+        "rushOffEPA": 0.0035,
+        "passDefEPA": -0.0077,
+        "rushDefEPA": -0.0804,
+        "rzTDOff": 0.1718,
+        "rzTDDef": 0.18,
+        "passRate": 0.5252,
+        "rushRate": 0.4748,
+        "successRateOff": 0.4458,
+        "successRateDef": 0.3792,
+        "thirdDownOff": 0.4322,
+        "thirdDownDef": 0.2194,
         "pressureRateOff": 0.0,
         "pressureRateDef": 0.0,
-        "GP": 7
+        "GP": 8
       },
       "CIN": {
         "off_pass_epa": 0.2784,
@@ -82265,39 +82424,39 @@
         "GP": 8
       },
       "SEA": {
-        "off_pass_epa": 0.0375,
-        "off_rush_epa": -0.1407,
-        "def_pass_epa": -0.143,
-        "def_rush_epa": -0.1028,
-        "success_rate_off": 0.4169,
-        "success_rate_def": 0.3437,
-        "cpoe": 1.4197,
-        "adot": 7.05,
+        "off_pass_epa": -0.008,
+        "off_rush_epa": -0.1413,
+        "def_pass_epa": -0.0786,
+        "def_rush_epa": -0.0224,
+        "success_rate_off": 0.3918,
+        "success_rate_def": 0.3759,
+        "cpoe": -2.6469,
+        "adot": 6.9,
         "pressure_rate_allowed": null,
         "pressure_rate_generated": null,
-        "rz_td_pct_def": 0.3322,
-        "third_down_off": 0.4318,
-        "third_down_def": 0.3182,
-        "rz_td_pct_off": 0.1753,
-        "pace": 63.4,
-        "turnover_adj_efficiency": 0.113,
-        "games_played": 7,
-        "total_plays": 444,
-        "passOffEPA": 0.0375,
-        "rushOffEPA": -0.1407,
-        "passDefEPA": -0.143,
-        "rushDefEPA": -0.1028,
-        "rzTDOff": 0.1753,
-        "rzTDDef": 0.3322,
-        "passRate": 0.5413,
-        "rushRate": 0.4587,
-        "successRateOff": 0.4169,
-        "successRateDef": 0.3437,
-        "thirdDownOff": 0.4318,
-        "thirdDownDef": 0.3182,
+        "rz_td_pct_def": 0.3022,
+        "third_down_off": 0.3722,
+        "third_down_def": 0.3524,
+        "rz_td_pct_off": 0.1511,
+        "pace": 62.6,
+        "turnover_adj_efficiency": 0.0789,
+        "games_played": 8,
+        "total_plays": 501,
+        "passOffEPA": -0.008,
+        "rushOffEPA": -0.1413,
+        "passDefEPA": -0.0786,
+        "rushDefEPA": -0.0224,
+        "rzTDOff": 0.1511,
+        "rzTDDef": 0.3022,
+        "passRate": 0.5644,
+        "rushRate": 0.4356,
+        "successRateOff": 0.3918,
+        "successRateDef": 0.3759,
+        "thirdDownOff": 0.3722,
+        "thirdDownDef": 0.3524,
         "pressureRateOff": 0.0,
         "pressureRateDef": 0.0,
-        "GP": 7
+        "GP": 8
       },
       "SF": {
         "off_pass_epa": 0.1674,
@@ -82649,11 +82808,11 @@
         "role": "passer",
         "player_name": "S.Darnold",
         "team": "SEA",
-        "epa_per_play": -0.051100000739097595,
-        "epa_per_dropback": -0.051100000739097595,
-        "cpoe": 0.5479000210762024,
-        "snap_count": 190,
-        "total_dropbacks": 190,
+        "epa_per_play": -0.07119999825954437,
+        "epa_per_dropback": -0.07119999825954437,
+        "cpoe": -2.4528000354766846,
+        "snap_count": 228,
+        "total_dropbacks": 228,
         "pressure_rate_contribution": null,
         "target_share": null
       },
@@ -82901,11 +83060,11 @@
         "role": "passer",
         "player_name": "C.Williams",
         "team": "CHI",
-        "epa_per_play": 0.272599995136261,
-        "epa_per_dropback": 0.272599995136261,
-        "cpoe": 9.005999565124512,
-        "snap_count": 136,
-        "total_dropbacks": 136,
+        "epa_per_play": 0.2483000010251999,
+        "epa_per_dropback": 0.2483000010251999,
+        "cpoe": 7.601900100708008,
+        "snap_count": 171,
+        "total_dropbacks": 171,
         "pressure_rate_contribution": null,
         "target_share": null
       },
@@ -83081,12 +83240,12 @@
         "role": "receiver",
         "player_name": "K.Raymond",
         "team": "CHI",
-        "epa_per_play": 0.475600004196167,
+        "epa_per_play": 0.42480000853538513,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 31,
-        "total_targets": 31,
-        "target_share": 0.1384,
+        "snap_count": 34,
+        "total_targets": 34,
+        "target_share": 0.1318,
         "pressure_rate_contribution": null
       },
       "00-0032951": {
@@ -83213,12 +83372,12 @@
         "role": "receiver",
         "player_name": "C.Kupp",
         "team": "SEA",
-        "epa_per_play": 0.3492000102996826,
+        "epa_per_play": 0.2667999863624573,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 27,
-        "total_targets": 27,
-        "target_share": 0.125,
+        "snap_count": 30,
+        "total_targets": 30,
+        "target_share": 0.1195,
         "pressure_rate_contribution": null
       },
       "00-0033921": {
@@ -83441,12 +83600,12 @@
         "role": "receiver",
         "player_name": "D.Swift",
         "team": "CHI",
-        "epa_per_play": 0.15649999678134918,
+        "epa_per_play": 0.14180000126361847,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 25,
-        "total_targets": 25,
-        "target_share": 0.1116,
+        "snap_count": 28,
+        "total_targets": 28,
+        "target_share": 0.1085,
         "pressure_rate_contribution": null
       },
       "00-0036309": {
@@ -83770,7 +83929,7 @@
         "cpoe": null,
         "snap_count": 31,
         "total_targets": 31,
-        "target_share": 0.1435,
+        "target_share": 0.1235,
         "pressure_rate_contribution": null
       },
       "00-0037614": {
@@ -83969,12 +84128,12 @@
         "role": "receiver",
         "player_name": "J.Smith-Njigba",
         "team": "SEA",
-        "epa_per_play": 0.7508000135421753,
+        "epa_per_play": 0.7249000072479248,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 78,
-        "total_targets": 78,
-        "target_share": 0.3611,
+        "snap_count": 89,
+        "total_targets": 89,
+        "target_share": 0.3546,
         "pressure_rate_contribution": null
       },
       "00-0038544": {
@@ -84305,12 +84464,12 @@
         "role": "receiver",
         "player_name": "A.Barner",
         "team": "SEA",
-        "epa_per_play": -0.2651999890804291,
+        "epa_per_play": -0.40470001101493835,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 29,
-        "total_targets": 29,
-        "target_share": 0.1343,
+        "snap_count": 34,
+        "total_targets": 34,
+        "target_share": 0.1355,
         "pressure_rate_contribution": null
       },
       "00-0039794": {
@@ -84413,12 +84572,12 @@
         "role": "receiver",
         "player_name": "R.Odunze",
         "team": "CHI",
-        "epa_per_play": 0.4332999885082245,
+        "epa_per_play": 0.5202000141143799,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 38,
-        "total_targets": 38,
-        "target_share": 0.1696,
+        "snap_count": 44,
+        "total_targets": 44,
+        "target_share": 0.1705,
         "pressure_rate_contribution": null
       },
       "00-0040024": {
@@ -84461,12 +84620,12 @@
         "role": "receiver",
         "player_name": "C.Loveland",
         "team": "CHI",
-        "epa_per_play": -0.04089999943971634,
+        "epa_per_play": -0.056699998676776886,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 42,
-        "total_targets": 42,
-        "target_share": 0.1875,
+        "snap_count": 51,
+        "total_targets": 51,
+        "target_share": 0.1977,
         "pressure_rate_contribution": null
       },
       "00-0040128": {
@@ -84629,12 +84788,12 @@
         "role": "receiver",
         "player_name": "L.Burden",
         "team": "CHI",
-        "epa_per_play": 0.3052999973297119,
+        "epa_per_play": 0.30660000443458557,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 47,
-        "total_targets": 47,
-        "target_share": 0.2098,
+        "snap_count": 56,
+        "total_targets": 56,
+        "target_share": 0.2171,
         "pressure_rate_contribution": null
       },
       "00-0040736": {
@@ -85109,11 +85268,11 @@
         "role": "rusher",
         "player_name": "R.Johnson",
         "team": "CHI",
-        "epa_per_play": -0.27250000834465027,
+        "epa_per_play": -0.18610000610351562,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 24,
-        "total_carries": 24,
+        "snap_count": 29,
+        "total_carries": 29,
         "target_share": null,
         "pressure_rate_contribution": null
       },
@@ -85133,11 +85292,11 @@
         "role": "rusher",
         "player_name": "G.Holani",
         "team": "SEA",
-        "epa_per_play": -0.3515999913215637,
+        "epa_per_play": -0.35100001096725464,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 36,
-        "total_carries": 36,
+        "snap_count": 37,
+        "total_carries": 37,
         "target_share": null,
         "pressure_rate_contribution": null
       },
@@ -85409,11 +85568,11 @@
         "role": "rusher",
         "player_name": "J.Price",
         "team": "SEA",
-        "epa_per_play": -0.4449000060558319,
+        "epa_per_play": -0.38609999418258667,
         "epa_per_dropback": null,
         "cpoe": null,
-        "snap_count": 28,
-        "total_carries": 28,
+        "snap_count": 38,
+        "total_carries": 38,
         "target_share": null,
         "pressure_rate_contribution": null
       }
@@ -85423,7 +85582,7 @@
         "away": "Cincinnati Bengals",
         "home": "Atlanta Falcons",
         "line": 3.0,
-        "total": 51.5,
+        "total": 52.5,
         "commenceTimeIso": "2026-11-08T14:30:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "ATL",
@@ -85453,10 +85612,10 @@
         "_homeAbbr": "CAR",
         "_awayAbbr": "DEN",
         "_weatherAdj": {
-          "total_adj": 0.7,
+          "total_adj": 1.3,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "clear"
+          "weather_note": "calm 2.3mph"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -85494,7 +85653,7 @@
       {
         "away": "Cleveland Browns",
         "home": "New Orleans Saints",
-        "line": -2.5,
+        "line": -3.0,
         "total": 43.5,
         "commenceTimeIso": "2026-11-08T18:01:00.000Z",
         "_book": "FanDuel",
@@ -85519,16 +85678,16 @@
         "away": "Jacksonville Jaguars",
         "home": "Baltimore Ravens",
         "line": 9.5,
-        "total": 42.5,
+        "total": 40.5,
         "commenceTimeIso": "2026-11-06T01:16:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "BAL",
         "_awayAbbr": "JAX",
         "_weatherAdj": {
-          "total_adj": 1.1,
+          "total_adj": -2.5,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 3.4mph"
+          "weather_note": "calm 1.7mph, heavy rain/snow 5.8mm"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -85543,16 +85702,16 @@
         "away": "New York Jets",
         "home": "Kansas City Chiefs",
         "line": -9.5,
-        "total": 46.5,
+        "total": 47.5,
         "commenceTimeIso": "2026-11-08T18:01:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "KC",
         "_awayAbbr": "NYJ",
         "_weatherAdj": {
-          "total_adj": 0.4,
+          "total_adj": 1.0,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "clear"
+          "weather_note": "calm 3.8mph"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -85573,7 +85732,7 @@
         "_homeAbbr": "MIA",
         "_awayAbbr": "DET",
         "_weatherAdj": {
-          "total_adj": -0.5,
+          "total_adj": -0.3,
           "spread_adj": 0.0,
           "is_dome": false,
           "weather_note": "clear"
@@ -85597,7 +85756,7 @@
         "_homeAbbr": "PHI",
         "_awayAbbr": "NYG",
         "_weatherAdj": {
-          "total_adj": 0.7,
+          "total_adj": -0.5,
           "spread_adj": 0.0,
           "is_dome": false,
           "weather_note": "clear"
@@ -85639,13 +85798,13 @@
         "away": "Las Vegas Raiders",
         "home": "San Francisco 49ers",
         "line": -9.5,
-        "total": 51.5,
+        "total": 52.5,
         "commenceTimeIso": "2026-11-08T21:06:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "SF",
         "_awayAbbr": "LV",
         "_weatherAdj": {
-          "total_adj": 0.6,
+          "total_adj": 0.4,
           "spread_adj": 0.0,
           "is_dome": false,
           "weather_note": "clear"
@@ -85669,7 +85828,7 @@
         "_homeAbbr": "WAS",
         "_awayAbbr": "LA",
         "_weatherAdj": {
-          "total_adj": 0.8,
+          "total_adj": -0.5,
           "spread_adj": 0.0,
           "is_dome": false,
           "weather_note": "clear"
@@ -85686,17 +85845,65 @@
       {
         "away": "Green Bay Packers",
         "home": "New England Patriots",
-        "line": -2.5,
+        "line": -3.0,
         "total": 46.5,
         "commenceTimeIso": "2026-11-08T21:26:00.000Z",
         "_book": "FanDuel",
         "_homeAbbr": "NE",
         "_awayAbbr": "GB",
         "_weatherAdj": {
-          "total_adj": 1.3,
+          "total_adj": -0.3,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 2.3mph"
+          "weather_note": "clear"
+        },
+        "_restAdj": {
+          "home_rest_adj": 0.0,
+          "away_rest_adj": 0.0,
+          "home_days_rest": null,
+          "away_days_rest": null,
+          "travel_adj": 0.0,
+          "rest_note": "standard rest"
+        }
+      },
+      {
+        "away": "Arizona Cardinals",
+        "home": "Seattle Seahawks",
+        "line": -11.5,
+        "total": 41.5,
+        "commenceTimeIso": "2026-11-08T21:26:00.000Z",
+        "_book": "FanDuel",
+        "_homeAbbr": "SEA",
+        "_awayAbbr": "ARI",
+        "_weatherAdj": {
+          "total_adj": 0.5,
+          "spread_adj": 0.0,
+          "is_dome": false,
+          "weather_note": "clear"
+        },
+        "_restAdj": {
+          "home_rest_adj": 0.0,
+          "away_rest_adj": 0.0,
+          "home_days_rest": null,
+          "away_days_rest": null,
+          "travel_adj": 0.0,
+          "rest_note": "standard rest"
+        }
+      },
+      {
+        "away": "Tampa Bay Buccaneers",
+        "home": "Chicago Bears",
+        "line": -6.5,
+        "total": 47.5,
+        "commenceTimeIso": "2026-11-09T01:21:00.000Z",
+        "_book": "FanDuel",
+        "_homeAbbr": "CHI",
+        "_awayAbbr": "TB",
+        "_weatherAdj": {
+          "total_adj": 0.5,
+          "spread_adj": 0.0,
+          "is_dome": false,
+          "weather_note": "clear"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -85730,79 +85937,183 @@
           "travel_adj": 0.0,
           "rest_note": "standard rest"
         }
+      },
+      {
+        "away": "Washington Commanders",
+        "home": "New York Giants",
+        "line": -1.5,
+        "total": 45.5,
+        "commenceTimeIso": "2026-11-13T01:16:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Minnesota Vikings",
+        "home": "Green Bay Packers",
+        "line": -2.5,
+        "total": 41.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Kansas City Chiefs",
+        "home": "Atlanta Falcons",
+        "line": 3.5,
+        "total": 46.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Houston Texans",
+        "home": "Cleveland Browns",
+        "line": 3.5,
+        "total": 39.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Miami Dolphins",
+        "home": "Indianapolis Colts",
+        "line": -1.5,
+        "total": 42.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Jacksonville Jaguars",
+        "home": "Tennessee Titans",
+        "line": 9.5,
+        "total": 44.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Buffalo Bills",
+        "home": "New York Jets",
+        "line": 7.5,
+        "total": 51.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "San Francisco 49ers",
+        "home": "Dallas Cowboys",
+        "line": 4.5,
+        "total": 54.5,
+        "commenceTimeIso": "2026-11-15T21:26:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Pittsburgh Steelers",
+        "home": "Cincinnati Bengals",
+        "line": -3.5,
+        "total": 47.5,
+        "commenceTimeIso": "2026-11-16T01:21:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Los Angeles Rams",
+        "home": "Arizona Cardinals",
+        "line": 7.5,
+        "total": 47.5,
+        "commenceTimeIso": "2026-11-15T21:06:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Carolina Panthers",
+        "home": "New Orleans Saints",
+        "line": 1.5,
+        "total": 46.5,
+        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Los Angeles Chargers",
+        "home": "Baltimore Ravens",
+        "line": 2.5,
+        "total": 37.5,
+        "commenceTimeIso": "2026-11-17T01:21:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Seattle Seahawks",
+        "home": "Las Vegas Raiders",
+        "line": 5.5,
+        "total": 45.5,
+        "commenceTimeIso": "2026-11-15T21:06:00.000Z",
+        "_book": "FanDuel"
       }
     ],
     "power_ratings": {
       "off": {
-        "ARI": -0.015168214278805695,
-        "ATL": -0.039424490038978154,
-        "BAL": -0.0035370612656955183,
-        "BUF": 0.0717451463959402,
-        "CAR": 0.01361404088928156,
-        "CHI": 0.022713584564724155,
-        "CIN": 0.0522317642175709,
-        "CLE": -0.03069639086197172,
-        "DAL": 0.04273526761571515,
-        "DEN": -0.0037363790126931024,
-        "DET": 0.04759063381428001,
-        "GB": 0.002827720201998154,
-        "HOU": 0.008837175807392593,
-        "IND": -0.05063071190847568,
-        "JAX": 0.06481306596154213,
-        "KC": 0.047807589279740714,
-        "LA": 0.011619492197105872,
-        "LAC": -0.10406960045132778,
-        "LV": 0.006374781022503945,
-        "MIA": -0.020487363211723623,
-        "MIN": -0.043348522720957364,
-        "NE": 0.028691422515268596,
-        "NO": -0.01890539992635416,
-        "NYG": -0.008904387174748677,
-        "NYJ": 0.011295864393408418,
-        "PHI": -0.06253073866839469,
-        "PIT": -0.0031365086260137912,
-        "SEA": -0.01615784028244503,
-        "SF": 0.08173618672087003,
-        "TB": -0.03616061673290737,
-        "TEN": -0.04743228812598899,
-        "WAS": -0.010307222286572578
+        "ARI": -0.01599047924041192,
+        "ATL": -0.03900971979479137,
+        "BAL": -0.003575542645756501,
+        "BUF": 0.07164112750068125,
+        "CAR": 0.014127446856746839,
+        "CHI": 0.033963186470545345,
+        "CIN": 0.05216677655709604,
+        "CLE": -0.03068262624230696,
+        "DAL": 0.04267721610673415,
+        "DEN": -0.0046217000152228675,
+        "DET": 0.04765429109477886,
+        "GB": 0.0033417768694663755,
+        "HOU": 0.00875196305279323,
+        "IND": -0.05072587622085304,
+        "JAX": 0.06475106010163376,
+        "KC": 0.04694343353368853,
+        "LA": 0.011426775413068108,
+        "LAC": -0.10493571425636347,
+        "LV": 0.006264907319320719,
+        "MIA": -0.020539516245652704,
+        "MIN": -0.04291602408599504,
+        "NE": 0.02843396020198751,
+        "NO": -0.018898473195199297,
+        "NYG": -0.00904304634068119,
+        "NYJ": 0.011702008324606989,
+        "PHI": -0.06220162172460967,
+        "PIT": -0.0031489799386934672,
+        "SEA": -0.023942349462527834,
+        "SF": 0.08092318126713567,
+        "TB": -0.036072332875070945,
+        "TEN": -0.047443208903535844,
+        "WAS": -0.011021899432609897
       },
       "def": {
-        "ARI": 0.03141738930308234,
-        "ATL": -0.020130839499771243,
-        "BAL": 0.006263076728019172,
-        "BUF": 0.014875532990504897,
-        "CAR": 0.016314806977364402,
-        "CHI": -0.0036473074267247296,
-        "CIN": 0.00153384631022984,
-        "CLE": -0.0033854438960973865,
-        "DAL": 0.0649519718923759,
-        "DEN": -0.016847966905919904,
-        "DET": 0.043012471673718786,
-        "GB": -0.029832086751211444,
-        "HOU": 0.004178964603606314,
-        "IND": 0.02259538361637113,
-        "JAX": -0.03964861773162774,
-        "KC": -0.008504404419244964,
-        "LA": -0.04755466507803895,
-        "LAC": -0.025059242130096783,
-        "LV": 0.030926242819844893,
-        "MIA": 0.05041043795624136,
-        "MIN": -0.07105241811331484,
-        "NE": -0.0011294024819283471,
-        "NO": 0.038318331659162416,
-        "NYG": 0.009125034517584998,
-        "NYJ": 0.005978252787502004,
-        "PHI": 0.040001636570100675,
-        "PIT": -0.0223340712561179,
-        "SEA": -0.058422213150922185,
-        "SF": -0.017479342019776297,
-        "TB": -0.0706107141504572,
-        "TEN": 0.03677712670129602,
-        "WAS": 0.01895822792753319
+        "ARI": 0.031891705585784566,
+        "ATL": -0.020888914139463782,
+        "BAL": 0.0061386686740435015,
+        "BUF": 0.014852962710793357,
+        "CAR": 0.01545932758124344,
+        "CHI": -0.011416189380969837,
+        "CIN": 0.0014340264894117526,
+        "CLE": -0.0035525833208095805,
+        "DAL": 0.0648814614150399,
+        "DEN": -0.01628508351673576,
+        "DET": 0.042846786597825884,
+        "GB": -0.03067916102033275,
+        "HOU": 0.0041003710721759954,
+        "IND": 0.022551961383633787,
+        "JAX": -0.03969712548074436,
+        "KC": -0.007986253958958349,
+        "LA": -0.0474839365495778,
+        "LAC": -0.024536126714922918,
+        "LV": 0.030914383007847483,
+        "MIA": 0.05037519937363961,
+        "MIN": -0.07185507148456596,
+        "NE": -0.0014442769476601452,
+        "NO": 0.03817237055253966,
+        "NYG": 0.009125447399164887,
+        "NYJ": 0.005225602944351585,
+        "PHI": 0.03932680405999332,
+        "PIT": -0.022459455829316195,
+        "SEA": -0.04715982524903623,
+        "SF": -0.016998931805115067,
+        "TB": -0.07082682593839083,
+        "TEN": 0.03664026299282948,
+        "WAS": 0.01933241954628276
       },
-      "intercept": 0.00023288508087707745,
-      "nObs": 240,
+      "intercept": 0.0005000133972764175,
+      "nObs": 242,
       "throughWeek": 8
     },
     "pbp_loaded": true,
@@ -85812,12 +86123,44 @@
     "report": {
       "Arizona Cardinals": [
         {
+          "player": "James Conner",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Cardinals head coach Mike LaFleur said Tuesday that Conner (foot) won't return from IR this week, Darren Urban of the team's official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jeremiyah Love",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Arizona placed Love (ankle) on injured reserve Tuesday, Darren Urban of the Cardinals' official site reports.",
+          "tier": "medium"
+        },
+        {
           "player": "Kendrick Bourne",
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "Bourne suffered a fractured right tibia during Sunday's overtime win at Dallas that won't require surgery but will sideline him for three months, ending his 2026 season, Adam Schefter of ESPN reports.",
+          "description": "Arizona placed Bourne (tibia) on injured reserve Tuesday, Darren Urban of the Cardinals' official site reports.",
           "tier": "high"
+        },
+        {
+          "player": "Walter Nolen III",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Jon Gaines II",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
         },
         {
           "player": "Bam Knight",
@@ -85826,30 +86169,6 @@
           "position": "RB",
           "description": "Head coach Mike LaFleur revealed Monday that Knight is in the concussion protocol following Sunday's overtime win in Dallas, Josh Weinfuss of ESPN.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Jeremiyah Love",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Head coach Mike LaFleur said Monday that Love suffered a \"new\" ankle injury during Sunday's overtime win at Dallas, and that he'll have an update on the running back later this week, Josh Weinfuss of ESPN.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Walter Nolen III",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "Jon Gaines II",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "out",
-          "tier": "low"
         },
         {
           "player": "Michael Wilson",
@@ -85870,11 +86189,43 @@
       ],
       "Atlanta Falcons": [
         {
+          "player": "Yasir Abdullah",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "The Falcons designated Abdullah (hamstring) for return to practice from their injured reserve list Tuesday, per the NFL's transaction log.",
+          "tier": "medium"
+        },
+        {
           "player": "Samson Ebukam",
           "playerId": "",
           "status": "out",
           "position": "DE",
-          "description": "Ebukam (hamstring) has been ruled out for Atlanta's Week 9 matchup versus the Bengals, William McFadden of the team's official site reports.",
+          "description": "Ebukam (hamstring) was placed on injured reserve by the Falcons on Tuesday, Tori McElhaney of the team's official website reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Brian Robinson Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Divine Deablo",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Billy Bowman Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
           "tier": "high"
         },
         {
@@ -85882,32 +86233,8 @@
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "Coach Kevin Stefanski noted Monday that  Branch (hamstring) won't play Sunday against the Bengals, William McFadden of the Falcons' official site reports.",
+          "description": "Coach Kevin Stefanski noted Monday that Branch (hamstring) won't play Sunday against the Bengals, William McFadden of the Falcons' official site reports.",
           "tier": "high"
-        },
-        {
-          "player": "Brian Robinson Jr.",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "Billy Bowman Jr.",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "out",
-          "tier": "high"
-        },
-        {
-          "player": "Divine Deablo",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "out",
-          "tier": "medium"
         },
         {
           "player": "Cameron Williams",
@@ -85936,44 +86263,28 @@
       ],
       "Baltimore Ravens": [
         {
-          "player": "Jaylinn Hawkins",
+          "player": "Tyler Huntley",
           "playerId": "",
           "status": "out",
-          "position": "S",
-          "description": "Hawkins (knee) was estimated as a non-participant on Monday's practice reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Roquan Smith",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Smith (foot) was estimated as a limited participant on Monday's practice report.",
-          "tier": "medium"
+          "position": "QB",
+          "description": "Huntley (toe) has reportedly sustained a season-ending turf toe injury, Adam Schefter of ESPN reports.",
+          "tier": "elite"
         },
         {
           "player": "Tyler Loop",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "PK",
-          "description": "Loop (groin) was estimated as DNP on Monday's injury report.",
+          "description": "The Ravens placed Loop (groin) on injured reserve Tuesday.",
           "tier": "low"
         },
         {
-          "player": "Justice Hill",
+          "player": "Jaylinn Hawkins",
           "playerId": "",
           "status": "questionable",
-          "position": "RB",
-          "description": "Hill (groin) was estimated as a limited participant on Monday's practice report.",
+          "position": "S",
+          "description": "Hawkins (knee) was estimated as a non-participant on Monday's practice reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Joe Fagnano",
-          "playerId": "",
-          "status": "questionable",
-          "position": "QB",
-          "description": "Fagnano was limited at Monday's walkthrough due to an ankle injury.",
-          "tier": "elite"
         },
         {
           "player": "Roger Rosengarten",
@@ -85998,55 +86309,31 @@
           "position": "DT",
           "description": "questionable",
           "tier": "medium"
-        },
-        {
-          "player": "Trey Hendrickson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Tyler Huntley",
-          "playerId": "",
-          "status": "questionable",
-          "position": "QB",
-          "description": "Head coach Jesse Minter said Monday that Huntley (toe) \"probably\" won't play Thursday versus the Jaguars, and the Ravens then will \"see how it goes from a long-term standpoint.\"",
-          "tier": "elite"
-        },
-        {
-          "player": "Olaivavega Ioane",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "out",
-          "tier": "low"
-        },
-        {
-          "player": "Lamar Jackson",
-          "playerId": "",
-          "status": "out",
-          "position": "QB",
-          "description": "Ravens head coach Jesse Minter said after Sunday's 36-10 loss to the Bills that Jackson will undergo surgery to address his right thumb injury and will be placed on injured reserve,  Brian Wacker of The Baltimore Sun reports.",
-          "tier": "elite"
         }
       ],
       "Buffalo Bills": [
         {
-          "player": "Spencer Brown",
+          "player": "Greg Gaines",
           "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "out",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
           "tier": "medium"
         },
         {
-          "player": "Greg Gaines",
+          "player": "Dee Alford",
           "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "out",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Spencer Brown",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
           "tier": "medium"
         },
         {
@@ -86064,17 +86351,49 @@
           "position": "WR",
           "description": "Palmer (hamstring) has been ruled out for the rest of Sunday's game against the Ravens.",
           "tier": "high"
-        },
-        {
-          "player": "Dee Alford",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "Alford (ankle) is inactive for Sunday's game against Baltimore.",
-          "tier": "high"
         }
       ],
       "Carolina Panthers": [
+        {
+          "player": "Brady Christensen",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "Christensen (hamstring) was designated to return from injured reserve Tuesday.",
+          "tier": "low"
+        },
+        {
+          "player": "Jonathon Brooks",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Brooks (core) was seen working off to the side during the Panthers' unofficial practice Tuesday, Joe Person of The Athletic reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Torricelli Simpkins III",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
+        },
+        {
+          "player": "Damien Lewis",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
+        },
+        {
+          "player": "Bobby Brown III",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "Will Lee III",
           "playerId": "",
@@ -86086,9 +86405,9 @@
         {
           "player": "Jaelan Phillips",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "LB",
-          "description": "Phillips (hamstring) is considered day-to-day, Joe Person of The Athletic reported Monday.",
+          "description": "Panthers head coach Dave Canales said Monday that Phillips (hamstring) is trending in the right direction and considered day-to-day heading into Sunday's game against the Broncos, Joe Person of The Athletic reports.",
           "tier": "medium"
         },
         {
@@ -86098,14 +86417,6 @@
           "position": "WR",
           "description": "Panthers head coach Dave Canales said Monday that Legette (knee) will \"potentially\" be designated for return from injured reserve this week, Joe Person of The Athletic reports.",
           "tier": "high"
-        },
-        {
-          "player": "Jonathon Brooks",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Panthers head coach Dave Canales said Monday that Brooks (core) will \"potentially\" be designated for return from injured reserve this week, Joe Person of The Athletic reports.",
-          "tier": "medium"
         },
         {
           "player": "Corey Bullock",
@@ -86122,120 +86433,40 @@
           "position": "CB",
           "description": "Evans (triceps) was placed on injured reserve by the Panthers on Thursday, Darin Gantt of the team's official website reports.",
           "tier": "high"
-        },
-        {
-          "player": "Bobby Brown III",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "Brown (hand) is inactive for Thursday night's matchup against the Packers, Darin Gantt of the Panthers' official website reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Haynes King",
-          "playerId": "",
-          "status": "out",
-          "position": "QB",
-          "description": "King (coach's decision) is inactive but operating as the Panthers' emergency No. 3 quarterback against the Packers on Thursday night, Darin Gantt of the team's official website reports.",
-          "tier": "elite"
-        },
-        {
-          "player": "Ja'Tavion Sanders",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Sanders (coach's decision) is inactive for Thursday night's matchup with Green Bay, Darin Gantt of the team's official website reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "AJ Dillon",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Dillon (coach's decision) is inactive for Thursday night's contest against the Packers, Darin Gantt of the team's official website reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Torricelli Simpkins III",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "Simpkins (ankle) has been ruled out for Thursday's game against the Packers.",
-          "tier": "low"
-        },
-        {
-          "player": "Damien Lewis",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "Lewis (knee) has been ruled out for Thursday's game against the Packers.",
-          "tier": "low"
         }
       ],
       "Chicago Bears": [
         {
-          "player": "Grady Jarrett",
+          "player": "Kyle Monangai",
           "playerId": "",
-          "status": "doubtful",
-          "position": "DE",
-          "description": "doubtful",
-          "tier": "high"
+          "status": "questionable",
+          "position": "RB",
+          "description": "questionable",
+          "tier": "medium"
         },
         {
           "player": "Kentavius Street",
           "playerId": "",
           "status": "questionable",
           "position": "DT",
-          "description": "questionable",
+          "description": "Street (knee) will not return to Monday night's game against the Seahawks.",
           "tier": "medium"
+        },
+        {
+          "player": "Grady Jarrett",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Jarrett (groin) is doubtful to return to Monday night's game against the Seahawks.",
+          "tier": "high"
         },
         {
           "player": "Malik Muhammad II",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "CB",
           "description": "Muhammad (toe) is inactive for Monday's game against the Seahawks.",
           "tier": "high"
-        },
-        {
-          "player": "Case Keenum",
-          "playerId": "",
-          "status": "out",
-          "position": "QB",
-          "description": "Keenum (coach's decision) is inactive but will operate as the Bears' emergency third quarterback for Monday night's matchup against the Seahawks.",
-          "tier": "elite"
-        },
-        {
-          "player": "Jordan van den Berg",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "inactive",
-          "tier": "medium"
-        },
-        {
-          "player": "Jayden Loving",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "inactive",
-          "tier": "medium"
-        },
-        {
-          "player": "Jordan McFadden",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "inactive",
-          "tier": "low"
-        },
-        {
-          "player": "Kyle Monangai",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "inactive",
-          "tier": "medium"
         },
         {
           "player": "Coby Bryant",
@@ -86244,39 +86475,31 @@
           "position": "S",
           "description": "Coach Ben Johnson said Wednesday that Bryant (knee) will start running again in the \"near future,\" Courtney Cronin of ESPN.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Cole Kmet",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "The Bears placed Kmet (knee) on injured reserve Friday.",
-          "tier": "medium"
         }
       ],
       "Cincinnati Bengals": [
+        {
+          "player": "Cashius Howell",
+          "playerId": "",
+          "status": "out",
+          "position": "DE",
+          "description": "Howell (wrist) was placed on injured reserve by the Bengals on Tuesday.",
+          "tier": "high"
+        },
+        {
+          "player": "Kyle Dugger",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "DJ Turner II",
           "playerId": "",
           "status": "questionable",
           "position": "CB",
           "description": "Turner (ankle) is considered day-to-day, NFL reporter Jordan Schultz reported Monday.",
-          "tier": "high"
-        },
-        {
-          "player": "Kyle Dugger",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "Cashius Howell",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Howell (wrist) has been ruled out for the rest of Sunday's game against the Titans.",
           "tier": "high"
         },
         {
@@ -86304,7 +86527,41 @@
           "tier": "medium"
         }
       ],
+      "Cleveland Browns": [
+        {
+          "player": "Deshaun Watson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "questionable",
+          "tier": "elite"
+        }
+      ],
       "Dallas Cowboys": [
+        {
+          "player": "Dee Winters",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Luke Schoonmaker",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "KaVontae Turpin",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "questionable",
+          "tier": "high"
+        },
         {
           "player": "P.J. Locke",
           "playerId": "",
@@ -86338,30 +86595,6 @@
           "tier": "medium"
         },
         {
-          "player": "Dee Winters",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "Luke Schoonmaker",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "KaVontae Turpin",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "out",
-          "tier": "high"
-        },
-        {
           "player": "Jonathan Bullard",
           "playerId": "",
           "status": "out",
@@ -86382,9 +86615,9 @@
         {
           "player": "Talanoa Hufanga",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "S",
-          "description": "out",
+          "description": "questionable",
           "tier": "medium"
         },
         {
@@ -86414,6 +86647,22 @@
       ],
       "Detroit Lions": [
         {
+          "player": "Jimmy Rolder",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "Rolder (hamstring) was placed on injured reserve Tuesday.",
+          "tier": "medium"
+        },
+        {
+          "player": "Kerby Joseph",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "Lions head coach Dan Campbell said Tuesday that Joseph (knee) will not play in Week 9 against the Dolphins but is expected to see scout-team reps, Nolan Bianchi of The Detroit News reports.",
+          "tier": "medium"
+        },
+        {
           "player": "D.J. Reed",
           "playerId": "",
           "status": "questionable",
@@ -86430,19 +86679,11 @@
           "tier": "medium"
         },
         {
-          "player": "Jimmy Rolder",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Rolder will miss the remainder of the season due to a hamstring injury, Nolan Bianchi of The Detroit News reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Cade Mays",
           "playerId": "",
           "status": "questionable",
           "position": "C",
-          "description": "Mays sustained a low ankle sprain during Detroit's win over the Vikings on Sunday, Jeremy Fowler of ESPN reports.",
+          "description": "Mays sustained a low-ankle sprain during Detroit's win over the Vikings on Sunday, Jeremy Fowler of ESPN reports.",
           "tier": "medium"
         },
         {
@@ -86470,14 +86711,6 @@
           "tier": "medium"
         },
         {
-          "player": "Kerby Joseph",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Joseph (knee) has been ruled out for Sunday's game against the Vikings.",
-          "tier": "medium"
-        },
-        {
           "player": "Isiah Pacheco",
           "playerId": "",
           "status": "out",
@@ -86487,6 +86720,30 @@
         }
       ],
       "Green Bay Packers": [
+        {
+          "player": "Sean Rhyan",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
+        },
+        {
+          "player": "Zaire Franklin",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Travis Glover",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "Christian Watson",
           "playerId": "",
@@ -86502,54 +86759,6 @@
           "position": "DE",
           "description": "Head coach Matt LaFleur said Monday that the Packers' \"intention\" is for Parsons (knee) to resume practicing in Week 9, Weston Hodkiewicz of the team's official site reports. \"It's gonna be a process trying to get him back,\" LaFleur said. \"We're hopeful he'll be able to get out there sometime this week.\"",
           "tier": "high"
-        },
-        {
-          "player": "Kaleb Johnson",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Johnson (coach's decision) is inactive for Thursday's game against the Panthers, Mike Spofford of the team's official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jonnu Smith",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Smith (coach's decision) is inactive for Thursday's game against the Panthers Mike Spofford of the team's official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Sean Rhyan",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "inactive",
-          "tier": "low"
-        },
-        {
-          "player": "Travis Glover",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "inactive",
-          "tier": "medium"
-        },
-        {
-          "player": "Donovan Jennings",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "inactive",
-          "tier": "low"
-        },
-        {
-          "player": "Zaire Franklin",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "inactive",
-          "tier": "medium"
         }
       ],
       "Houston Texans": [
@@ -86598,37 +86807,85 @@
         {
           "player": "Justin Walley",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "CB",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
           "player": "Anthony Gould",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "WR",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
           "player": "Bryce Boettcher",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "LB",
-          "description": "out",
+          "description": "questionable",
           "tier": "medium"
-        },
-        {
-          "player": "Cam Taylor-Britt",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "The Colts placed Taylor-Britt on injured reserve Tuesday due to a groin injury, Nathan Brown of The Indianapolis Star reports.",
-          "tier": "high"
         }
       ],
       "Jacksonville Jaguars": [
+        {
+          "player": "Travon Walker",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Walker (ribs) was a limited participant at practice Tuesday.",
+          "tier": "high"
+        },
+        {
+          "player": "Eric Murray",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "The Jaguars placed Murray (elbow) on their injured reserve list Tuesday.",
+          "tier": "medium"
+        },
+        {
+          "player": "DaVon Hamilton",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "The Jaguars placed Hamilton (knee) on their injured reserve list Tuesday.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jakobi Meyers",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Meyers (hamstring/ankle) was listed as a limited participant in Tuesday's practice.",
+          "tier": "high"
+        },
+        {
+          "player": "Chris Rodriguez Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Rodriguez (hand) was listed as a limited participant in Tuesday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "Bhayshul Tuten",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "The Jaguars listed Tuten (ankle/foot) as a non-participant in Tuesday's practice.",
+          "tier": "medium"
+        },
+        {
+          "player": "Antonio Johnson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "questionable",
+          "tier": "medium"
+        },
         {
           "player": "Branson Combs",
           "playerId": "",
@@ -86646,62 +86903,6 @@
           "tier": "high"
         },
         {
-          "player": "Jakobi Meyers",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Meyers was listed as limited on Monday's estimated injury report due to hamstring and ankle issues.",
-          "tier": "high"
-        },
-        {
-          "player": "Chris Rodriguez Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Rodriguez was listed as limited on Monday's practice estimate due to a hand injury.",
-          "tier": "medium"
-        },
-        {
-          "player": "Bhayshul Tuten",
-          "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Tuten was a non-participant at Monday's walkthrough due to ankle and foot injuries.",
-          "tier": "medium"
-        },
-        {
-          "player": "Eric Murray",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Murray will miss the remainder of the season due to an elbow injury, Demetrius Harvey of The Florida Times-Union reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "DaVon Hamilton",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "Jaguars coach Liam Coen confirmed Monday that Hamilton will miss the remainder of the season after suffering a torn quadriceps in Sunday's win over the Colts, Ryan O'Halloran of The Florida Times-Union reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Antonio Johnson",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "Travon Walker",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Walker (ribs) is questionable to return to Sunday's game against the Colts.",
-          "tier": "high"
-        },
-        {
           "player": "Ezra Cleveland",
           "playerId": "",
           "status": "questionable",
@@ -86714,9 +86915,9 @@
         {
           "player": "Mansoor Delane",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "CB",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
@@ -86772,9 +86973,41 @@
       ],
       "Los Angeles Chargers": [
         {
+          "player": "Rodney Shelley",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Donte Jackson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Deane Leonard",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "questionable",
+          "tier": "high"
+        },
+        {
+          "player": "Kayode Awosika",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "questionable",
+          "tier": "low"
+        },
+        {
           "player": "Brenen Thompson",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "WR",
           "description": "Thompson (quadriceps/hamstring) is not expected to practice this week, Noah Furtado of The Athletic reports.",
           "tier": "high"
@@ -86784,40 +87017,8 @@
           "playerId": "",
           "status": "out",
           "position": "TE",
-          "description": "Coach Jim Harbaugh said Monday that the Chargers will likely open the return window for Njoku (fibula) this week, Alex Insdorf of BoltBeat.com reports.",
+          "description": "Coach Jim Harbaugh said Monday that the Chargers likely will open the 21-day window for Njoku (fibula) this week, Alex Insdorf of BoltBeat.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Deane Leonard",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "out",
-          "tier": "high"
-        },
-        {
-          "player": "Kayode Awosika",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "out",
-          "tier": "low"
-        },
-        {
-          "player": "Rodney Shelley",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "Shelley (ankle) is inactive for Sunday's game against the Rams.",
-          "tier": "high"
-        },
-        {
-          "player": "Donte Jackson",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "Jackson (hamstring) is inactive for Sunday's game against the Rams.",
-          "tier": "high"
         },
         {
           "player": "Derwin James Jr.",
@@ -86840,10 +87041,26 @@
         {
           "player": "Dean Connors",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "RB",
-          "description": "Connors suffered a broken hand in Sunday's 24-9 win over the Rams.",
+          "description": "Connors (hand) was placed on IR on Tuesday, Blaine Grisak of SI.com reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Colby Parkinson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "TE",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Joe Cardona",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LS",
+          "description": "questionable",
+          "tier": "low"
         },
         {
           "player": "Grant Stuard",
@@ -86878,22 +87095,6 @@
           "tier": "high"
         },
         {
-          "player": "Colby Parkinson",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
-          "player": "Joe Cardona",
-          "playerId": "",
-          "status": "out",
-          "position": "LS",
-          "description": "out",
-          "tier": "low"
-        },
-        {
           "player": "Trent McDuffie",
           "playerId": "",
           "status": "questionable",
@@ -86922,9 +87123,9 @@
         {
           "player": "Kadyn Proctor",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "OT",
-          "description": "out",
+          "description": "questionable",
           "tier": "medium"
         },
         {
@@ -86942,7 +87143,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "OT",
-          "description": "questionable",
+          "description": "Coach Kevin O'Connell said Tuesday that Darrisaw is nursing a shoulder issue, Alec Lewis of The Athletic reports.",
           "tier": "medium"
         },
         {
@@ -86950,7 +87151,7 @@
           "playerId": "",
           "status": "questionable",
           "position": "QB",
-          "description": "Murray (hamstring), who is dealing with a sore hamstring, is undergoing a full evaluation to determine the extent of the issue, Alec Lewis of The Athletic reports.",
+          "description": "Head coach Kevin O'Connell said Monday that Murray has a sore hamstring and will undergo a full evaluation as the Vikings look to determine the extent of the issue, Alec Lewis of The Athletic reports.",
           "tier": "elite"
         },
         {
@@ -86964,27 +87165,11 @@
       ],
       "New England Patriots": [
         {
-          "player": "TreVeyon Henderson",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "out",
-          "tier": "medium"
-        },
-        {
           "player": "Mack Hollins",
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "Hollins (calf), who is eligible to be activated from IR this week, per Doug Kyed of the Boston Herald, could return to practice this week, Evan Lazar of the Patriots' official site reports.",
-          "tier": "high"
-        },
-        {
-          "player": "A.J. Brown",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "When asked whether Brown (ankle/knee) might practice at some point this week, coach Mike Vrabel said Monday \"We'll see,\" Doug Kyed of the Boston Herald reports.",
+          "description": "Hollins (calf) is slated to return to practice Wednesday, Ian Rapoport of NFL Network reports.",
           "tier": "high"
         },
         {
@@ -86992,8 +87177,24 @@
           "playerId": "",
           "status": "questionable",
           "position": "TE",
-          "description": "Henry (foot) has been ruled out for the rest of Sunday's game in Miami.",
+          "description": "Patriots head coach Mike Vrabel said Monday that he had no update on Henry's (foot) status heading into Sunday's game against the Packers, Karen Guregian of MassLive.com reports. \"I don't have any expectations yet,\" Vrabel said of Henry. \"It's kind of how he responds here. He wasn't able to finish the [Week 8] game. So we'll see where he is, and I know Hunter will do everything he can to get back to help us.\"",
           "tier": "medium"
+        },
+        {
+          "player": "TreVeyon Henderson",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "A.J. Brown",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "When asked whether Brown (ankle/knee) might practice at some point this week, coach Mike Vrabel said Monday, \"We'll see,\" Doug Kyed of the Boston Herald reports.",
+          "tier": "high"
         },
         {
           "player": "Gabe Jacas",
@@ -87001,14 +87202,6 @@
           "status": "questionable",
           "position": "LB",
           "description": "Jacas (knee) is questionable to return to Sunday's contest against Miami, Doug Kyed of the Boston Herald reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Marcus Bryant",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "Bryant (ankle) has been ruled out for Sunday's game against the Dolphins, Mike Kadlick of CLNSMedia.com reports.",
           "tier": "medium"
         }
       ],
@@ -87064,6 +87257,14 @@
       ],
       "New York Giants": [
         {
+          "player": "Greg Newsome II",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Newsome (concussion) agreed Tuesday with the Giants on a three-year $46 million extension that includes $32 million guaranteed, Adam Schefter of ESPN reports.",
+          "tier": "high"
+        },
+        {
           "player": "Theo Johnson",
           "playerId": "",
           "status": "questionable",
@@ -87096,14 +87297,6 @@
           "tier": "medium"
         },
         {
-          "player": "Greg Newsome II",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
           "player": "Jevon Holland",
           "playerId": "",
           "status": "questionable",
@@ -87126,29 +87319,29 @@
           "playerId": "",
           "status": "out",
           "position": "OT",
-          "description": "out",
+          "description": "The Jets placed Mitchell (concussion) on their injured reserve list Tuesday, Amanda Vogt of the team's official site reports.",
           "tier": "medium"
         },
         {
           "player": "Joseph Ossai",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "DE",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
           "player": "David Bailey",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "LB",
-          "description": "out",
+          "description": "questionable",
           "tier": "medium"
         },
         {
           "player": "Breece Hall",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "RB",
           "description": "Hall (quadriceps) is considered \"good to go\" and is expected to return to action in next Sunday's game against the Chiefs, Ian Rapoport of NFL Network reports.",
           "tier": "medium"
@@ -87166,41 +87359,41 @@
         {
           "player": "Dontayvion Wicks",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "WR",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
           "player": "DeVonta Smith",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "WR",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
           "player": "Jonathan Jones",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "CB",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
           "player": "Jihaad Campbell",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "LB",
-          "description": "out",
+          "description": "questionable",
           "tier": "medium"
         },
         {
           "player": "Britain Covey",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "WR",
-          "description": "out",
+          "description": "questionable",
           "tier": "high"
         },
         {
@@ -87210,38 +87403,22 @@
           "position": "CB",
           "description": "Carter (abdomen) is questionable to return to Sunday night's contest against the Commanders.",
           "tier": "high"
-        },
-        {
-          "player": "Jakorian Bennett",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "Bennett (knee) has been ruled out for Sunday's game against the Commanders.",
-          "tier": "high"
-        },
-        {
-          "player": "Dameon Pierce",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "The Eagles placed Pierce (undisclosed) on injured reserve Wednesday",
-          "tier": "medium"
         }
       ],
       "Pittsburgh Steelers": [
-        {
-          "player": "Ben Skowronek",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "out",
-          "tier": "high"
-        },
         {
           "player": "Doneiko Slaughter",
           "playerId": "",
           "status": "out",
           "position": "CB",
+          "description": "out",
+          "tier": "high"
+        },
+        {
+          "player": "Ben Skowronek",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
           "description": "out",
           "tier": "high"
         },
@@ -87272,19 +87449,19 @@
       ],
       "San Francisco 49ers": [
         {
+          "player": "Brandon Aiyuk",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Aiyuk, who who is currently is on the 49ers' Reserve/Left Squad list, has turned in paperwork to be reinstated, Adam Schefter of ESPN reports.",
+          "tier": "high"
+        },
+        {
           "player": "De'Zhaun Stribling",
           "playerId": "",
           "status": "out",
           "position": "WR",
           "description": "Stribling (ankle) was spotted Monday walking without crutches or a brace on his lower leg, Matt Barrows of The Athletic reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Brandon Aiyuk",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Aiyuk is close to hiring new representation and is expected to file for reinstatement to the NFL in the near future, according to NFL reporter Jordan Schultz.",
           "tier": "high"
         },
         {
@@ -87362,17 +87539,41 @@
       ],
       "Seattle Seahawks": [
         {
+          "player": "Rashid Shaheed",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Seahawks head coach Mike Macdonald said Tuesday that Shaheed (knee) has a chance to play Sunday against the Cardinals, Brady Henderson of ESPN.com reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Velus Jones Jr.",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
+          "player": "Charles Cross",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "questionable",
+          "tier": "medium"
+        },
+        {
           "player": "Leonard Williams",
           "playerId": "",
           "status": "questionable",
           "position": "DT",
-          "description": "Williams (shoulder) has a stinger and is questionable to return to Monday's game against the Bears.",
+          "description": "Williams sustained a stinger during Monday's game against the Bears and is questionable to return.",
           "tier": "medium"
         },
         {
           "player": "Brandon Pili",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "DT",
           "description": "Pili (back) is inactive for Monday night's game against the Bears, John Boyle of the Seahawks' official site reports.",
           "tier": "medium"
@@ -87380,7 +87581,7 @@
         {
           "player": "Uchenna Nwosu",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "LB",
           "description": "Nwosu (ankle) is inactive for Monday's clash with the Bears, John Boyle of the Seahawks' official site reports.",
           "tier": "medium"
@@ -87388,45 +87589,21 @@
         {
           "player": "Drew Lock",
           "playerId": "",
-          "status": "out",
+          "status": "questionable",
           "position": "QB",
-          "description": "Lock (coach's decision) is inactive for Monday's matchup with the Bears, John Boyle of the Seahawks' official site reports.",
+          "description": "Lock (coach's decision/elbow) is inactive for Monday's matchup with the Bears but serving as the team's emergency quarterback, John Boyle of the Seahawks' official site reports.",
           "tier": "elite"
-        },
-        {
-          "player": "Rashid Shaheed",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "inactive",
-          "tier": "high"
-        },
-        {
-          "player": "Beau Stephens",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "inactive",
-          "tier": "low"
-        },
-        {
-          "player": "Velus Jones Jr.",
-          "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "inactive",
-          "tier": "medium"
-        },
-        {
-          "player": "Charles Cross",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "inactive",
-          "tier": "medium"
         }
       ],
       "Tampa Bay Buccaneers": [
+        {
+          "player": "Emeka Egbuka",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "questionable",
+          "tier": "high"
+        },
         {
           "player": "Yaya Diaby",
           "playerId": "",
@@ -87434,14 +87611,6 @@
           "position": "LB",
           "description": "Head coach Todd Bowles said that Diaby (knee) has been diagnosed with an MCL sprain and won't be available for Sunday's game against the Bears, Scott Smith of the Buccaneers' official site reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Emeka Egbuka",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "out",
-          "tier": "high"
         },
         {
           "player": "Josh Hayes",
@@ -87536,19 +87705,11 @@
       ],
       "Washington Commanders": [
         {
-          "player": "Jeremy McNichols",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "RB",
-          "description": "McNichols is getting additional opinions on the foot injury that he suffered Sunday against the Eagles, but there's an expectation that he'll miss multiple months, Tashan Reed of The Washington Post reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Daron Payne",
           "playerId": "",
           "status": "out",
           "position": "DT",
-          "description": "out",
+          "description": "Payne (foot) was placed on injured reserve by the Commanders on Tuesday, Tashan Reed of The Washington Post reports.",
           "tier": "medium"
         },
         {
@@ -87556,7 +87717,15 @@
           "playerId": "",
           "status": "out",
           "position": "DT",
-          "description": "out",
+          "description": "Kinlaw (knee) was placed on injured reserve by the Commanders on Tuesday.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jeremy McNichols",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "The Commanders placed McNichols (foot) on injured reserve Tuesday.",
           "tier": "medium"
         },
         {
@@ -87601,6 +87770,7 @@
       "Carolina Panthers": 0,
       "Chicago Bears": 0,
       "Cincinnati Bengals": 0,
+      "Cleveland Browns": 0,
       "Dallas Cowboys": 0,
       "Denver Broncos": 0,
       "Detroit Lions": 0,
