@@ -449,7 +449,8 @@ function nbasLogTable(d) {
       <td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(e.play || '')}</td>
       <td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasPrice(e.price))} ${bp}</td>
       <td style="padding:3px 6px"><span style="color:${c};font-size:11px">${esc(e.system || '')}</span>
-        ${e.status === 'card' ? `<span style="color:${NBAS_GREEN};font-size:10px;font-weight:600"> CARD</span>` : ''}</td>
+        ${e.status === 'card' ? `<span style="color:${NBAS_GREEN};font-size:10px;font-weight:600"> CARD</span>`
+          : `<span style="color:${NBAS_DIM};font-size:10px"> SHADOW</span>`}</td>
       <td class="center">${res}</td>
       <td class="center">${prof}</td></tr>`;
   }).join('');
