@@ -196,7 +196,8 @@ def grade(blob, finals, dry_run=False):
         if e.get("result") != "pending" or e.get("no_play"):
             continue
         key = (e["date"], e["away"], e["home"])
-        fin = finals.get(key)
+        fin = finals.get(key) or _finals_by_nickname(finals).get(
+            (e["date"], _nick(e["away"]), _nick(e["home"])))
         if not fin:
             continue
         a_s, h_s = fin
@@ -211,6 +212,16 @@ def grade(blob, finals, dry_run=False):
     if graded and not dry_run:
         save(blob)
     return graded
+
+
+def _nick(team):
+    """Team nickname ("LA Clippers" / "Los Angeles Clippers" -> "clippers"):
+    the odds feed and ESPN spell some city names differently."""
+    return (team or "").split()[-1].lower()
+
+
+def _finals_by_nickname(finals):
+    return {(d, _nick(a), _nick(h)): v for (d, a, h), v in finals.items()}
 
 
 def _settle(e, away_score, home_score):
