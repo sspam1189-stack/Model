@@ -276,7 +276,9 @@ SYSTEMS = [
         "test": _blowout_dog,
     },
     {
-        "id": "home_dog_5_over", "tier": "candidate", "status": CARD, "market": "total", "side": "OVER",
+        # 2026-11-04, user decision: paused (CARD -> SHADOW) after a 9-11
+        # (-2.7u) start; still logged and graded, no longer on the card.
+        "id": "home_dog_5_over", "tier": "candidate", "status": SHADOW, "market": "total", "side": "OVER",
         "label": "Home dog of +5 or more -> OVER",
         "name": (
             "Home dog over"),
