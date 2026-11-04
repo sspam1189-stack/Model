@@ -38,8 +38,10 @@ SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cach
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
               "pyFullKalmanEarly": "nba-kalmanearly"}
 # Consensus records: every listed model fired the same side, at the smallest stake.
-AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"])]
-TRACKED = MODELS + [(k, n) for k, n, _ in AGREE]
+# Optional 4th field: every member must be at least this stake (2 = all at 2u).
+AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
+         ("fsko2", "Full Season + KalmanOff both 2u", ["pyFull", "pyFullKalmanOff"], 2)]
+TRACKED = MODELS + [(a[0], a[1]) for a in AGREE]
 
 
 def fetch_stats(date):
@@ -169,7 +171,7 @@ def table(date, runs, finals, total):
     hdr = "| Game | Line (home) |" + (" Final |" if finals else "") + "".join(f" {n} |" for _, n in MODELS)
     lines += [hdr, "|---|---|" + ("---|" if finals else "") + "---|" * len(MODELS)]
     day = {m: [0, 0, 0, 0.0] for m, _ in TRACKED}
-    agree_plays = {k: [] for k, _, _ in AGREE}
+    agree_plays = {a[0]: [] for a in AGREE}
     keys = []
     for r in runs.values():
         for g in (r or {}).get("games", []):
@@ -204,9 +206,11 @@ def table(date, runs, finals, total):
             row.append(f"{g['aS']:.1f}-{g['hS']:.1f} (home {g['hS'] - g['aS']:+.1f}) -> {team} {p:.1%}{fire}{res}")
         # consensus groups: every model in the group fired the same side, smallest stake
         by_model = dict(zip([m for m, _ in MODELS], picks))
-        for k, _, members in AGREE:
+        for k, _, members, *rest in AGREE:
             ps = [by_model.get(m) for m in members]
             if not all(ps) or len({p[0] for p in ps}) != 1:
+                continue
+            if rest and min(p[1] for p in ps) < rest[0]:
                 continue
             units = min(p[1] for p in ps)
             res = ""
@@ -220,7 +224,7 @@ def table(date, runs, finals, total):
             fcol = f" {fs[0]}-{fs[1]} (home {fs[1] - fs[0]:+d}) |" if fs else " not final |"
         lines.append(f"| {away} @ {home} | {line if line is not None else '-'} |{fcol} " + " | ".join(row) + " |")
     lines.append("")
-    for k, n, _ in AGREE:
+    for k, n, *_ in AGREE:
         lines.append(f"{n}: " + (", ".join(agree_plays[k]) or "none"))
     if finals:
         lines += ["", "Plays (engine-fired, 1u/2u): " + ", ".join(
