@@ -1,7 +1,7 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-11-04T16:46:25Z",
+ "generated": "2026-11-04T17:19:49Z",
  "date": "20261104",
  "dateDisplay": "2026-11-04",
  "registry_frozen": "2026-09-02",
@@ -161,7 +161,7 @@
     "h2": 17.0,
     "priced": "real -110"
    },
-   "status": "card"
+   "status": "shadow"
   },
   {
    "id": "model_over_60",
@@ -282,7 +282,7 @@
    "spread": 11.5,
    "total": 234.5,
    "price": 386,
-   "book_price": 400,
+   "book_price": 430,
    "status": "card",
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00"
   },
@@ -301,9 +301,9 @@
    "line": 234.5,
    "spread": 11.5,
    "total": 234.5,
-   "price": -115,
+   "price": -110,
    "book_price": null,
-   "status": "card",
+   "status": "shadow",
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00"
   }
  ],
@@ -544,16 +544,16 @@
   },
   "pickem_under": {
    "live": {
-    "w": 10,
+    "w": 11,
     "l": 3,
     "p": 0,
-    "pending": 1,
-    "units": 6.034,
-    "book_units": 6.034,
-    "book_n": 13,
-    "n": 13,
-    "pct": 0.7692307692307693,
-    "roi": 0.46414615384615393
+    "pending": 0,
+    "units": 6.927,
+    "book_units": 6.927,
+    "book_n": 14,
+    "n": 14,
+    "pct": 0.7857142857142857,
+    "roi": 0.4947714285714286
    },
    "shadow": {
     "w": 0,
@@ -568,16 +568,16 @@
     "roi": null
    },
    "card": {
-    "w": 10,
+    "w": 11,
     "l": 3,
     "p": 0,
-    "pending": 1,
-    "units": 6.034,
-    "book_units": 6.034,
-    "book_n": 13,
-    "n": 13,
-    "pct": 0.7692307692307693,
-    "roi": 0.46414615384615393
+    "pending": 0,
+    "units": 6.927,
+    "book_units": 6.927,
+    "book_n": 14,
+    "n": 14,
+    "pct": 0.7857142857142857,
+    "roi": 0.4947714285714286
    },
    "seeded": {
     "w": 87,
@@ -679,7 +679,7 @@
     "w": 0,
     "l": 0,
     "p": 0,
-    "pending": 0,
+    "pending": 1,
     "units": 0.0,
     "book_units": 0.0,
     "book_n": 0,
@@ -691,7 +691,7 @@
     "w": 9,
     "l": 11,
     "p": 0,
-    "pending": 1,
+    "pending": 0,
     "units": -2.686,
     "book_units": -2.686,
     "book_n": 20,
@@ -28530,9 +28530,9 @@
    "book_price": -112,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8929,
+   "book_profit": 0.8929,
    "startTimeUTC": "2026-10-29T02:40:00.000+00:00"
   },
   {
@@ -29201,7 +29201,7 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "card",
+   "status": "shadow",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
@@ -29210,34 +29210,34 @@
  ],
  "totals": {
   "live": {
-   "w": 29,
+   "w": 30,
    "l": 18,
    "p": 0,
-   "pending": 7,
-   "units": 12.325,
-   "book_units": 11.665,
-   "book_n": 47,
-   "n": 47,
-   "pct": 0.6170212765957447,
-   "roi": 0.2622382978723405
+   "pending": 6,
+   "units": 13.218,
+   "book_units": 12.558,
+   "book_n": 48,
+   "n": 48,
+   "pct": 0.625,
+   "roi": 0.27537708333333344
   },
   "card": {
-   "w": 29,
+   "w": 30,
    "l": 17,
    "p": 0,
-   "pending": 7,
-   "units": 13.325,
-   "book_units": 12.665,
-   "book_n": 46,
-   "n": 46,
-   "pct": 0.6304347826086957,
-   "roi": 0.28967826086956533
+   "pending": 5,
+   "units": 14.218,
+   "book_units": 13.558,
+   "book_n": 47,
+   "n": 47,
+   "pct": 0.6382978723404256,
+   "roi": 0.3025127659574469
   },
   "shadow": {
    "w": 0,
    "l": 1,
    "p": 0,
-   "pending": 0,
+   "pending": 1,
    "units": -1.0,
    "book_units": -1.0,
    "book_n": 1,
@@ -29246,16 +29246,16 @@
    "roi": -1.0
   },
   "candidate": {
-   "w": 29,
+   "w": 30,
    "l": 17,
    "p": 0,
-   "pending": 7,
-   "units": 13.325,
-   "book_units": 12.665,
-   "book_n": 46,
-   "n": 46,
-   "pct": 0.6304347826086957,
-   "roi": 0.28967826086956533
+   "pending": 6,
+   "units": 14.218,
+   "book_units": 13.558,
+   "book_n": 47,
+   "n": 47,
+   "pct": 0.6382978723404256,
+   "roi": 0.3025127659574469
   }
  },
  "notes": [
