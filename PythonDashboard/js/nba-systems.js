@@ -424,7 +424,10 @@ function nbasLogTable(d) {
     const n = w + l + p;
     return { w, l, p, u, pend, n, roi: n ? u / n : null };
   };
-  const liveSum = sum(rows.filter(e => !e.backfilled));
+  // Shadow plays are graded but never bet: they carry no P/L and stay out of
+  // the live total (their W-L is shown on its own).
+  const liveSum = sum(rows.filter(e => !e.backfilled && e.status === 'card'));
+  const shadowSum = sum(rows.filter(e => !e.backfilled && e.status !== 'card'));
   const seedSum = sum(rows.filter(e => e.backfilled));
 
   const totalPages = Math.max(1, Math.ceil(rows.length / NBAS_PAGE));
@@ -437,12 +440,14 @@ function nbasLogTable(d) {
       : e.result === 'LOSS' ? `<span class="loss-text">LOSS</span>`
         : e.result === 'PUSH' ? 'PUSH'
           : `<span style="color:${NBAS_DIM}">pending</span>`;
-    const prof = (e.result === 'WIN' || e.result === 'LOSS')
+    const prof = e.status !== 'card' && !e.backfilled
+      ? `<span style="color:${NBAS_DIM}" title="shadow play: graded, never bet">—</span>`
+      : (e.result === 'WIN' || e.result === 'LOSS')
       ? `<span class="${nbasUClass(e.profit)}">${nbasUnits(e.profit)}</span>` : '—';
     const bp = (e.book_price !== null && e.book_price !== undefined
       && e.market === 'h2h' && e.book_price !== e.price)
       ? `<span style="color:${NBAS_DIM}" title="real book price">(${esc(nbasPrice(e.book_price))})</span>` : '';
-    return `<tr style="border-top:1px solid #161b22${e.backfilled ? ';opacity:.6' : ''}">
+    return `<tr style="border-top:1px solid #161b22${e.backfilled || e.status !== 'card' ? ';opacity:.6' : ''}">
       <td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasDate(e.date))}
         ${e.backfilled ? `<span style="font-size:10px;color:${NBAS_AMBER}" title="replayed 2025-26 backtest, held out of the live record">seed</span>` : ''}</td>
       <td style="padding:3px 6px">${esc(e.game || '')}</td>
@@ -475,6 +480,9 @@ function nbasLogTable(d) {
           <span class="${nbasUClass(liveSum.u)}">${nbasUnits(liveSum.u)}</span>
           ${liveSum.roi !== null ? '· ROI ' + nbasPct(liveSum.roi) : ''}
           ${liveSum.pend ? `<span style="color:${NBAS_DIM}"> · ${liveSum.pend} pending</span>` : ''}</span>
+        ${shadowSum.n || shadowSum.pend ? `<span style="color:${NBAS_DIM};margin-left:14px">Shadow (not bet):
+          ${shadowSum.w}-${shadowSum.l}${shadowSum.p ? '-' + shadowSum.p : ''}
+          ${shadowSum.pend ? ' · ' + shadowSum.pend + ' pending' : ''}</span>` : ''}
         ${seedSum.n ? `<span style="color:${NBAS_DIM};margin-left:14px">Seeded 2025-26 (in-sample, not live):
           ${seedSum.w}-${seedSum.l}${seedSum.p ? '-' + seedSum.p : ''} ${nbasUnits(seedSum.u)}
           · ROI ${nbasPct(seedSum.roi)}</span>` : ''}
