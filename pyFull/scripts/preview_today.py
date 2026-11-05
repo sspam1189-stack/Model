@@ -42,6 +42,8 @@ INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET":
 AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
          ("fsko2", "Full Season + KalmanOff both 2u", ["pyFull", "pyFullKalmanOff"], 2)]
 TRACKED = MODELS + [(a[0], a[1]) for a in AGREE]
+# --dashboard: first day of the season's replay-graded record.
+SEASON_START = "20261023"
 
 
 def fetch_stats(date):
@@ -283,13 +285,99 @@ def seed_history(model, runs, dates):
     print(f"[seed] {model}: {n} games over {len(dates)} day(s) -> {os.path.relpath(path, REPO)}")
 
 
+def dashboard_games(runs, finals):
+    """One replayed day for the dashboard: each model's lean, P(cover), stake
+    (0 = no play) and ATS result -- the same engine fields table() grades."""
+    keys = []
+    for r in runs.values():
+        for g in (r or {}).get("games", []):
+            if (g["away"], g["home"]) not in keys:
+                keys.append((g["away"], g["home"]))
+    out = []
+    for away, home in keys:
+        fs = finals.get((away, home))
+        row = {"away": away, "home": home, "line": None, "start": None,
+               "final": list(fs) if fs else None, "models": {}}
+        for m, _ in MODELS:
+            g = next((x for x in (runs.get(m) or {}).get("games", [])
+                      if (x["away"], x["home"]) == (away, home)), None)
+            if not g or g.get("hS") is None:
+                continue
+            line = g.get("line")
+            if line is not None:
+                row["line"] = line
+            row["start"] = row["start"] or g.get("startTimeUTC")
+            side_home = (g.get("pHomeCover") or 0) >= (g.get("pAwayCover") or 0)
+            fired = g.get("sPick") not in (None, "PASS")
+            res = None
+            if fs and line is not None:
+                cover = fs[1] - fs[0] + line
+                res = "P" if cover == 0 else ("W" if (cover > 0) == side_home else "L")
+            row["models"][m] = {
+                "aS": round(g["aS"], 1), "hS": round(g["hS"], 1), "line": line,
+                "side": "home" if side_home else "away",
+                "p": round(max(g.get("pHomeCover") or 0, g.get("pAwayCover") or 0), 4),
+                "units": (g.get("stakeUnits") or 1) if fired else 0,
+                "result": res,
+            }
+        out.append(row)
+    return out
+
+
+def build_dashboard(path, since, force=False):
+    """Replay-graded record for the dashboard's NBA Preview tab: the season
+    walk-forward replay (since..yesterday, CT), exactly what --date/--to prints.
+    Today's games come from the daily-run files in the browser. Skips the
+    replay when the feed already covers yesterday with every game final."""
+    import datetime as dt
+    from zoneinfo import ZoneInfo
+    now = dt.datetime.now(ZoneInfo("America/Chicago"))
+    yday = (now.date() - dt.timedelta(days=1)).strftime("%Y%m%d")
+    if since > yday:
+        print("[dashboard] season has not started -- nothing to replay")
+        return
+    try:
+        old = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        old = None
+    if not force and old and old.get("through") == yday and old.get("since") == since \
+            and all(g.get("final") for d in old.get("days", []) if d["date"] == yday for g in d["games"]):
+        print(f"[dashboard] feed already covers {yday}, all final -- skipping replay")
+        return
+    dates = list(_days(since, yday))
+    stats = {d: fetch_stats(d) for d in dates}
+    first = dt.date(int(dates[0][:4]), int(dates[0][4:6]), int(dates[0][6:])) - dt.timedelta(days=1)
+    boards = {}
+    for d in [first.strftime("%Y%m%d")] + dates:
+        try:
+            boards[d] = scoreboard(d)
+        except Exception as e:
+            print(f"scoreboard {d} failed: {e}")
+    per = {m: replay_model(m, dates, stats, boards) for m, _ in MODELS}
+    feed = {
+        "generated": now.isoformat(timespec="seconds"), "since": since, "through": yday,
+        "days": [{"date": d, "games": dashboard_games({m: per[m].get(d) for m, _ in MODELS},
+                                                      final_scores(boards.get(d)))} for d in dates],
+    }
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(feed, f, separators=(",", ":"))
+    print(f"[dashboard] replayed {dates[0]}..{yday}: {sum(len(d['games']) for d in feed['days'])} games -> {path}")
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--dashboard", metavar="PATH",
+                    help="write the replay-graded season record for the dashboard to PATH")
+    ap.add_argument("--since", default=SEASON_START, help="with --dashboard: first day (YYYYMMDD)")
+    ap.add_argument("--force", action="store_true", help="with --dashboard: replay even if up to date")
     ap.add_argument("--date", help="past day YYYYMMDD (default: today, live)")
     ap.add_argument("--to", help="with --date: replay --date..--to in order (walk-forward)")
     ap.add_argument("--seed", action="store_true",
                     help="with --date/--to: write the replayed days into each model's live history.json")
     a = ap.parse_args()
+    if a.dashboard:
+        return build_dashboard(a.dashboard, a.since, a.force)
     if a.date:
         import datetime as dt
         dates = list(_days(a.date, a.to or a.date))

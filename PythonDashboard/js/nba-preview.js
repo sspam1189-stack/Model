@@ -12,10 +12,6 @@
 
 const NBAP_SEASON_START = '20261023';
 const NBAP_FIRE = 0.58, NBAP_ELITE = 0.65, NBAP_MAX_LINE = 18;
-// Games left out of the records by hand: shown dimmed, never counted.
-const NBAP_SKIP = new Set([
-  '20261102|Atlanta Hawks|Indiana Pacers',   // Siakam + Nembhard ruled out after a 5-pt line move
-]);
 const NBAP_MODELS = [
   { key: 'pyFull', name: 'Full Season', local: 'data/fullseason.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json' },
@@ -235,7 +231,7 @@ function nbapRecordsCard(d) {
       <tbody>${groupRows}</tbody></table></div>
     <div style="padding:8px 10px;color:${NBAP_DIM};font-size:11px">
       Win = +stake, loss = −1.1 × stake. Matching plays use the smallest stake; "split" means same side, different stakes.
-      Graded at each day's last daily-run line.${skipped ? ` ${skipped} game${skipped === 1 ? '' : 's'} skipped by hand (shown dimmed, not counted).` : ''}</div>
+      Graded like the preview replay: each game at its last run before tip${d.through ? ' (through ' + nbapIso(d.through) + '; later days at the latest daily-run line)' : ''}.${skipped ? ` ${skipped} game${skipped === 1 ? '' : 's'} skipped by hand (shown dimmed, not counted).` : ''}</div>
   </div>`;
 }
 
@@ -302,7 +298,7 @@ function nbapFromRun(g) {
   return { aS: g.aS, hS: g.hS, line, side, p, units, result };
 }
 
-function nbapBuild(histories) {
+function nbapBuild(histories, replay) {
   const byDate = {};
   let generated = '', genDate = '';
   NBAP_MODELS.forEach((m, i) => {
@@ -316,7 +312,7 @@ function nbapBuild(histories) {
         const k = g.away + '|' + g.home;
         const row = day[k] || (day[k] = {
           away: g.away, home: g.home, line: null, start: g.startTimeUTC || null, final: null,
-          skipped: NBAP_SKIP.has(r.date + '|' + k), models: {},
+          models: {},
         });
         const x = nbapFromRun(g);
         if (x) {
@@ -329,13 +325,20 @@ function nbapBuild(histories) {
   });
   const dates = Object.keys(byDate).sort();
   const today = dates[dates.length - 1] || '';
+  // Days the replay covers are graded the replay's way (each game at its last
+  // run before tip, same as the preview); later days come from the daily run.
+  const through = (replay && replay.through) || '';
+  const days = (replay && Array.isArray(replay.days) ? replay.days : [])
+    .filter(x => x.date >= NBAP_SEASON_START && x.date <= through)
+    .map(x => ({ date: x.date, live: false, replay: true, games: x.games }));
+  dates.filter(d => d > through).forEach(d => days.push({
+    date: d, live: d === today,
+    games: Object.values(byDate[d]).sort((a, b) => String(a.start || '').localeCompare(String(b.start || ''))),
+  }));
   return {
-    generated, today,
+    generated, today, through,
     models: NBAP_MODELS.map(m => ({ key: m.key, name: m.name })),
-    days: dates.map(d => ({
-      date: d, live: d === today,
-      games: Object.values(byDate[d]).sort((a, b) => String(a.start || '').localeCompare(String(b.start || ''))),
-    })),
+    days,
   };
 }
 
@@ -350,6 +353,14 @@ async function renderNBAPreview() {
       return (j && Array.isArray(j.runs)) ? j : null;
     } catch (e) { return null; }
   };
+  const grab2 = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.days)) ? j : null;
+    } catch (e) { return null; }
+  };
   const lastDate = h => { const r = h && h.runs; return r && r.length ? String(r[r.length - 1].date || '') : ''; };
   // Newest of the dashboard copy and the model's own history wins.
   const histories = await Promise.all(NBAP_MODELS.map(async m => {
@@ -357,12 +368,16 @@ async function renderNBAPreview() {
     if (!a || !b) return a || b;
     return lastDate(b) > lastDate(a) ? b : a;
   }));
+  const replay = (await Promise.all([
+    grab2('data/nba-preview.json'),
+    grab2('https://raw.githubusercontent.com/sspam1189-stack/Model/main/PythonDashboard/data/nba-preview.json'),
+  ])).filter(Boolean).sort((a, b) => String(b.through || '').localeCompare(String(a.through || '')))[0] || null;
   if (!histories.some(Boolean)) {
     el.innerHTML = `<div class="card card-games"><div class="card-title">NBA Preview — No Data</div>
       <div class="no-picks" style="padding:20px 0 6px">The daily-run files could not be loaded.</div></div>`;
     return;
   }
-  const data = nbapBuild(histories);
+  const data = nbapBuild(histories, replay);
   nbapData = data;
   el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-log"></div>';
   nbapRerender();
