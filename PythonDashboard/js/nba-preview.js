@@ -145,7 +145,39 @@ function nbapMatchTags(g, groups) {
   return tags.join('<br>') || `<span style="color:${NBAP_DIM}">—</span>`;
 }
 
+// Phones get stacked cards instead of wide tables (no sideways scroll, no
+// shrunken text). Re-rendered when the width crosses the breakpoint.
+const NBAP_MOBILE_W = 700;
+function nbapMobile() { return window.innerWidth < NBAP_MOBILE_W; }
+function nbapMobStat(label, rec) {
+  return `<div style="background:#161b22;border:1px solid #21262d;border-radius:6px;padding:6px 8px;min-width:0">
+    <div style="color:${NBAP_DIM};font-size:11px">${label}</div>
+    ${rec.w + rec.l + rec.p ? `<div style="font-size:14px;font-weight:700">${rec.w}-${rec.l}${rec.p ? '-' + rec.p : ''}</div>
+    <div style="font-size:12px;white-space:nowrap"><span class="${nbapUClass(rec.u)}">${nbapUnits(rec.u)}</span>
+      <span style="color:${NBAP_DIM}">${rec.w + rec.l ? Math.round(100 * rec.w / (rec.w + rec.l)) + '%' : ''}</span></div>`
+      : `<div style="color:${NBAP_DIM}">—</div>`}</div>`;
+}
+function nbapMobGame(g, inner, sub) {
+  return `<div style="border-top:1px solid #21262d;padding:10px 2px">
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">
+      <div style="font-size:14px">${nbapEsc(nbapNick(g.away))} @ <b>${nbapEsc(nbapNick(g.home))}</b></div>
+      <div style="color:${NBAP_DIM};font-size:12px;white-space:nowrap">line ${g.line == null ? '—' : (g.line > 0 ? '+' : '') + g.line}</div>
+    </div>
+    <div style="color:${NBAP_DIM};font-size:12px;margin-bottom:6px">${sub}</div>${inner}</div>`;
+}
+let nbapWasMobile = null;
+window.addEventListener('resize', () => {
+  if (!nbapData || activeTab !== 'nba-preview') return;
+  const m = nbapMobile();
+  if (nbapWasMobile !== null && m !== nbapWasMobile) {
+    const el = document.getElementById('content');
+    if (el) { el.innerHTML = nbapTodayCard(nbapData) + '<div id="nbap-records"></div><div id="nbap-log"></div>'; nbapRerender(); }
+  }
+  nbapWasMobile = m;
+});
+
 function nbapTodayCard(d) {
+  nbapWasMobile = nbapMobile();
   const day = d.days.find(x => x.date === d.today);
   const groups = nbapGroups(d.models);
   const games = day ? day.games : [];
@@ -155,22 +187,24 @@ function nbapTodayCard(d) {
       <td class="center">${g.line == null ? '—' : (g.line > 0 ? '+' : '') + g.line}</td>
       ${d.models.map(m => `<td style="padding:6px">${nbapModelCell(g, g.models[m.key], (g.official || {})[m.key])}</td>`).join('')}
       <td style="padding:6px">${nbapMatchTags(g, groups)}</td></tr>`).join('');
-  return `<div class="card card-games">
-    <div class="card-title">Today's slate — ${nbapIso(d.today)}
-      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">
-        ${games.length} game${games.length === 1 ? '' : 's'} · ${d.generated ? 'last daily run ' + nbapEsc(d.generated) : ''}</span></div>
-    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+  const mobBody = games.map(g => nbapMobGame(g,
+    d.models.map(m => `<div style="display:grid;grid-template-columns:92px 1fr;gap:6px;padding:3px 0;font-size:13px">
+        <div style="color:${NBAP_DIM}">${nbapEsc(m.name)}</div>
+        <div>${nbapModelCell(g, g.models[m.key], (g.official || {})[m.key])}</div></div>`).join('')
+      + `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 10px">${nbapMatchTags(g, groups).replace(/<br>/g, ' ')}</div>`,
+    `${nbapTime(g.start)}${g.final ? ` · final ${g.final[0]}-${g.final[1]}` : ''}`)).join('');
+  const table = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Game</th><th class="center">Line (home)</th>
         ${d.models.map(m => `<th style="padding:4px 6px">${nbapEsc(m.name)}</th>`).join('')}
         <th style="padding:4px 6px">Matching</th></tr></thead>
       <tbody>${rows || `<tr><td colspan="${3 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No games today.</td></tr>`}</tbody>
-    </table></div>
-    <div style="padding:6px 10px;color:${NBAP_DIM};font-size:11px">
-      <b>Preview</b> plays use the preview rule: under 58% is no play, 58–65% is 1u, 65%+ is 2u.
-      <b style="color:#f0883e">OFFICIAL</b> marks a pick the model itself fired in the daily run${d.anyOfficial ? '' : ' (none yet: the models are still in burn-in; official picks start once 20+ teams have played 10 games)'}.
-      Preview plays stop for each model once it starts making official picks${Object.keys(d.offStart || {}).length ? ' (' + d.models.filter(m => d.offStart[m.key]).map(m => m.name + ' from ' + nbapIso(d.offStart[m.key])).join(', ') + ')' : ''}.
-      Matching tags are for preview plays. Scores are each model's projected away-home score, from the latest daily run.</div>
+    </table></div>`;
+  return `<div class="card card-games">
+    <div class="card-title">Today's slate — ${nbapIso(d.today)}
+      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">
+        ${games.length} game${games.length === 1 ? '' : 's'} · ${d.generated ? 'last daily run ' + nbapEsc(d.generated) : ''}</span></div>
+    ${nbapMobile() ? `<div style="padding:0 10px">${mobBody || `<div style="padding:10px 0;color:${NBAP_DIM}">No games today.</div>`}</div>` : table}
   </div>`;
 }
 
@@ -215,8 +249,10 @@ function nbapRecordsCard(d, kind) {
     : nbapRange === 'season' ? 'season to date' : nbapRange === 'last7' ? 'last 7 days' : nbapRange;
 
   // each model: all / 2u / 1u
+  const mobModels = [], mobGroups = [];
   const modelRows = d.models.map(m => {
     const all = nbapNewRec(), two = nbapNewRec(), one = nbapNewRec();
+    mobModels.push({ name: m.name, all, two, one });
     games.forEach(g => {
       const x = g.models[m.key];
       if (!x || !x.units || !x.result) return;
@@ -231,6 +267,7 @@ function nbapRecordsCard(d, kind) {
   // matching groups: both 2u / both 1u / split / any
   const groupRows = nbapGroups(d.models).map(grp => {
     const r = { both2: nbapNewRec(), both1: nbapNewRec(), split: nbapNewRec(), any: nbapNewRec() };
+    mobGroups.push({ name: grp.name, r });
     games.forEach(g => {
       const mt = nbapMatch(g, grp.keys);
       if (!mt || !mt.result) return;
@@ -255,7 +292,16 @@ function nbapRecordsCard(d, kind) {
       once 20+ teams have played 10 games; this table then shows the models' own record, kept separate from the
       preview record, and preview plays stop.</div></div>`;
   }
-  return head + `
+  const grid = cols => `display:grid;grid-template-columns:repeat(${cols},minmax(0,1fr));gap:6px`;
+  const mobile = `<div style="padding:0 10px">
+      <div style="color:${NBAP_DIM};font-size:12px;margin:4px 0 6px">Each model</div>
+      ${mobModels.map(x => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(x.name)}</div>
+        <div style="${grid(3)}">${nbapMobStat('All plays', x.all)}${nbapMobStat('2u only', x.two)}${nbapMobStat('1u only', x.one)}</div></div>`).join('')}
+      <div style="color:${NBAP_DIM};font-size:12px;margin:12px 0 6px">When they match (same side)</div>
+      ${mobGroups.map(x => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(x.name)}</div>
+        <div style="${grid(2)}">${nbapMobStat('Both 2u', x.r.both2)}${nbapMobStat('Both 1u', x.r.both1)}${nbapMobStat('Split 1u/2u', x.r.split)}${nbapMobStat('Any', x.r.any)}</div></div>`).join('')}
+    </div>`;
+  return head + (nbapMobile() ? mobile : `
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Model</th>${th('All plays')}${th('2u only')}${th('1u only')}</tr></thead>
@@ -263,11 +309,7 @@ function nbapRecordsCard(d, kind) {
     <div style="overflow-x:auto;margin-top:14px"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">When they match (same side)</th>${th('Both 2u')}${th('Both 1u')}${th('Split 1u/2u')}${th('Any')}</tr></thead>
-      <tbody>${groupRows}</tbody></table></div>
-    <div style="padding:8px 10px;color:${NBAP_DIM};font-size:11px">
-      Win = +stake, loss = −1.1 × stake. Matching plays use the smallest stake; "split" means same side, different stakes.
-      ${official ? "The models' own picks from the daily runs (engine-fired, its own stake), graded at each day's last daily-run line."
-        : `Preview rule (58% 1u, 65% 2u), graded like the preview replay: each game at its last run before tip${d.through ? ' (through ' + nbapIso(d.through) + '; later days at the latest daily-run line)' : ''}.`}${skipped ? ` ${skipped} game${skipped === 1 ? '' : 's'} skipped by hand (shown dimmed, not counted).` : ''}</div>
+      <tbody>${groupRows}</tbody></table></div>`) + `
   </div>`;
 }
 
@@ -404,6 +446,26 @@ function nbapHistoryCard(d) {
       ${cells}<td style="padding:4px 6px">${nbapMatchTags(g, groups)}</td></tr>`;
   }).join('');
 
+  // phone layout: a header per day, one stacked block per game
+  let mobLast = null;
+  const mobBody = list.filter(r => showDates.has(r.date)).map(({ date, g, plays }) => {
+    const hdr = date !== mobLast ? `<div style="padding:12px 2px 2px;font-weight:700;color:#c9d1d9;border-top:1px solid #30363d">
+      ${nbapIso(date)}${date === d.today ? ' · today' : ''}</div>` : '';
+    mobLast = date;
+    const lines = d.models.map(m => {
+      const ps = plays.filter(p => p.m === m.key);
+      if (!ps.length) return '';
+      return `<div style="display:grid;grid-template-columns:92px 1fr;gap:6px;padding:3px 0;font-size:13px">
+        <div style="color:${NBAP_DIM}">${nbapEsc(m.name)}</div><div>${ps.map(p => `${
+          p.type === 'official' ? nbapBadge('OFFICIAL ' + p.units + 'u', '#f0883e')
+            : nbapBadge('preview ' + p.units + 'u', p.units === 2 ? '#3fb950' : '#58a6ff')}
+          ${nbapEsc(nbapPlay(g, p.side))}${resTag(p.result)}`).join('<br>')}</div></div>`;
+    }).join('');
+    const tags = nbapMatchTags(g, groups);
+    return hdr + nbapMobGame(g, lines + (tags.includes('—') ? '' : `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 10px">${tags.replace(/<br>/g, ' ')}</div>`),
+      g.final ? `final ${g.final[0]}-${g.final[1]}` : 'pending');
+  }).join('');
+
   const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const allRows = Object.values(rows);
   const months = [...new Set(allRows.map(r => r.date.slice(0, 6)))].sort().reverse();
@@ -439,18 +501,17 @@ function nbapHistoryCard(d) {
       <span style="color:#c9d1d9">Preview plays shown: ${nbapRecCell(recP)}</span>
       <span style="color:#c9d1d9;margin-left:14px">Official: ${nbapRecCell(recO)}</span>
       ${pend ? `<span style="color:${NBAP_DIM};margin-left:14px">${pend} pending</span>` : ''}
-      <div style="color:${NBAP_DIM};font-size:11px;margin-top:2px">Each model's play counts on its own (three models on one game = three plays).
-        Matching filter uses preview plays.</div>
     </div>
-    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+    ${nbapMobile() ? `<div style="padding:0 10px">${mobBody || `<div style="padding:10px 0;color:${NBAP_DIM}">No plays match these filters.</div>`}</div>`
+    : `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Date</th><th>Game</th><th class="center">Final</th>
         ${d.models.map(m => `<th style="padding:4px 6px">${nbapEsc(m.name)}</th>`).join('')}<th>Matching (preview)</th></tr></thead>
       <tbody>${body || `<tr><td colspan="${4 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No plays match these filters.</td></tr>`}</tbody>
-    </table></div>
+    </table></div>`}
     <div class="date-nav" style="padding:8px 10px">
       <button onclick="nbapPage(-1)" ${page === 0 ? 'disabled' : ''}>Newer</button>
-      <span class="current-view">${pageDates.length ? nbapIso([...showDates].pop()) + ' – ' + nbapIso([...showDates][0]) : ''} · page ${page + 1} / ${pages}</span>
+      <span class="current-view">${pageDates.length ? nbapShortDate([...showDates].pop()) + ' – ' + nbapShortDate([...showDates][0]) : ''} · ${page + 1}/${pages}</span>
       <button onclick="nbapPage(1)" ${page >= pages - 1 ? 'disabled' : ''}>Older</button>
     </div>
   </div>`;
