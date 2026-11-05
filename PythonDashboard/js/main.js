@@ -224,7 +224,7 @@ let summaryMeta = {};
 // (VAR 1.20 / cap 26) is the live K model; CSW .1 Old and Whiff .1/Cap26 are
 // shadows, their tab buttons hidden (display:none in index.html) — still
 // run + publish. Keep this in sync with the tab marked .active in index.html.
-let activeTab = 'fullseason';
+let activeTab = 'nba-preview';  // default page: NBA Preview
 let viewMode = 'today';
 let historyPage = 0;
 const DAYS_PER_PAGE = 7;
@@ -2607,6 +2607,10 @@ async function render() {
   // NBA Player Props
   if (activeTab === 'nba-props') {
     return renderNBAProps();
+  }
+  // NBA Preview: the three full-season models side by side (own renderer)
+  if (activeTab === 'nba-preview') {
+    return renderNBAPreview();
   }
   // NBA situational systems (pre-registered experiment; own renderer)
   if (activeTab === 'nba-systems') {
