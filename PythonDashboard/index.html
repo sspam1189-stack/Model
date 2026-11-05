@@ -79,5 +79,25 @@
   <script src="js/mlb-all-ml.js?v=21"></script>
   <script src="js/mlb-slate-scout.js?v=2026090159"></script>
   <script>render();</script>
+  <script>
+    // Phones keep a cached copy of this page (and through it, old script
+    // versions) after a deploy. Fetch the live page once per load and, if its
+    // script versions differ from the ones running, reload once from the network.
+    (function () {
+      try {
+        if (sessionStorage.getItem('dashVersionReload')) { sessionStorage.removeItem('dashVersionReload'); return; }
+      } catch (e) {}
+      const vers = html => (html.match(/js\/[\w.-]+\.js\?v=[\w.]+/g) || []).sort().join('|');
+      const mine = vers(document.documentElement.innerHTML);
+      fetch(location.pathname + '?nocache=' + Date.now(), { cache: 'no-store' })
+        .then(r => r.ok ? r.text() : null)
+        .then(live => {
+          if (!live || !mine || vers(live) === mine) return;
+          try { sessionStorage.setItem('dashVersionReload', '1'); } catch (e) {}
+          location.replace(location.pathname + '?r=' + Date.now() + location.hash);
+        })
+        .catch(() => {});
+    })();
+  </script>
 </body>
 </html>
