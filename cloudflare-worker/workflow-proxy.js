@@ -33,9 +33,11 @@ const SCHEDULE = [
   { cron: "45 10 * * *", wf: "python", tz: "America/Chicago" },  // 10:45 AM CT
   { cron: "15 13 * * *", wf: "python", tz: "America/Chicago" },  //  1:15 PM CT
   { cron: "15 17 * * *", wf: "python", tz: "America/Chicago" },  //  5:15 PM CT
-  // WNBA full season + props (wnba-run-daily.yml)
-  { cron: "45 15 * * *", wf: "wnba" },    // 10:45 AM CDT
-  { cron: "45 21 * * *", wf: "wnba" },    //  4:45 PM CDT
+  // WNBA full season + props (wnba-run-daily.yml) -- PAUSED 2026-11-05: the
+  // WNBA season is over. Uncomment both lines to resume next season (still
+  // dispatchable by hand via /dispatch/wnba or workflow_dispatch).
+  // { cron: "45 15 * * *", wf: "wnba" },    // 10:45 AM CDT
+  // { cron: "45 21 * * *", wf: "wnba" },    //  4:45 PM CDT
   // NFL weekly pipeline, stage "all" (nfl-weekly.yml)
   { cron: "0 15 * * 3", wf: "nfl" },      // Wed mid-week fetch + project
   { cron: "0 23 * * 4", wf: "nfl" },      // Thu pre-game refresh
