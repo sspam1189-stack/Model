@@ -26,6 +26,7 @@ let nbapRange = 'season';   // season | last7 | YYYYMM
 let nbapDay = '';           // YYYYMMDD; overrides the range
 let nbapLogPage = 0;
 let nbapOffPage = 0;
+let nbapRecKind = null;   // records table: 'preview' | 'official' (default: official once it exists)
 const NBAP_PAGE = 40;
 const NBAP_HIST_DAYS = 3;   // play history: days per page
 const NBAP_DIM = '#8b949e';
@@ -191,6 +192,18 @@ function nbapFilterBar(d) {
   </div>`;
 }
 
+function nbapSetRecKind(v) { nbapRecKind = v; nbapRerender(); }
+function nbapRecToggle(kind) {
+  const btn = (v, label, c) => {
+    const on = kind === v;
+    return `<button onclick="nbapSetRecKind('${v}')" style="background:${on ? c + '33' : '#1e1e1e'};
+      color:${on ? c : '#c9d1d9'};border:1px solid ${on ? c : '#444'};padding:5px 14px;font-size:13px;
+      font-weight:${on ? 700 : 400};cursor:pointer;border-radius:${v === 'preview' ? '6px 0 0 6px' : '0 6px 6px 0'}">${label}</button>`;
+  };
+  return `<span role="group" aria-label="Preview or official plays" style="display:inline-flex;margin-right:10px">${
+    btn('preview', 'Preview plays', '#58a6ff')}${btn('official', 'Official plays', '#f0883e')}</span>`;
+}
+
 function nbapRecordsCard(d, kind) {
   const official = kind === 'official';
   const days = nbapDaysInRange(d, official ? d.offDays : d.days);
@@ -227,11 +240,19 @@ function nbapRecordsCard(d, kind) {
   }).join('');
 
   const th = s => `<th class="center" style="padding:4px 6px">${s}</th>`;
+  const noneYet = official && !d.anyOfficial;
   const skipped = days.flatMap(x => x.games).filter(g => g.skipped).length;
-  return `<div class="card card-games">
-    <div class="card-title">${official ? '<span style="color:#f0883e">Official plays</span>' : 'Preview plays'} — records, ${nbapEsc(label)}
+  const head = `<div class="card card-games">
+    <div class="card-title">Records — ${official ? '<span style="color:#f0883e">official plays</span>' : 'preview plays'}, ${nbapEsc(label)}
       <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${days.length} day${days.length === 1 ? '' : 's'}</span></div>
-    ${official ? '' : `<div style="padding:0 10px">${nbapFilterBar(d)}</div>`}
+    <div style="padding:8px 10px 0;display:flex;flex-wrap:wrap;align-items:center">${nbapRecToggle(kind)}${nbapFilterBar(d)}</div>`;
+  if (noneYet) {
+    return head + `<div style="padding:6px 10px 14px;color:${NBAP_DIM};font-size:12px">No official plays yet. The models are
+      still in burn-in, so every daily-run game is a PASS and every play so far is a preview play. Official picks start
+      once 20+ teams have played 10 games; this table then shows the models' own record, kept separate from the
+      preview record, and preview plays stop.</div></div>`;
+  }
+  return head + `
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Model</th>${th('All plays')}${th('2u only')}${th('1u only')}</tr></thead>
@@ -242,7 +263,7 @@ function nbapRecordsCard(d, kind) {
       <tbody>${groupRows}</tbody></table></div>
     <div style="padding:8px 10px;color:${NBAP_DIM};font-size:11px">
       Win = +stake, loss = −1.1 × stake. Matching plays use the smallest stake; "split" means same side, different stakes.
-      ${official ? "The models' own picks from the daily runs (engine-fired, its own stake), graded at each day's last daily-run line. Same filters as above."
+      ${official ? "The models' own picks from the daily runs (engine-fired, its own stake), graded at each day's last daily-run line."
         : `Preview rule (58% 1u, 65% 2u), graded like the preview replay: each game at its last run before tip${d.through ? ' (through ' + nbapIso(d.through) + '; later days at the latest daily-run line)' : ''}.`}${skipped ? ` ${skipped} game${skipped === 1 ? '' : 's'} skipped by hand (shown dimmed, not counted).` : ''}</div>
   </div>`;
 }
@@ -435,15 +456,8 @@ function nbapHistoryCard(d) {
 function nbapRerender() {
   if (!nbapData) return;
   const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
-  set('nbap-records', nbapRecordsCard(nbapData, 'preview'));
+  set('nbap-records', nbapRecordsCard(nbapData, nbapRecKind || (nbapData.anyOfficial ? 'official' : 'preview')));
   set('nbap-log', nbapHistoryCard(nbapData));
-  set('nbap-official', nbapData.anyOfficial
-    ? nbapRecordsCard(nbapData, 'official')
-    : `<div class="card card-games"><div class="card-title"><span style="color:#f0883e">Official plays</span></div>
-        <div style="padding:6px 10px 12px;color:${NBAP_DIM};font-size:12px">None yet. The models are still in burn-in,
-        so every daily-run game is a PASS and everything above is a preview play. Official picks start once 20+
-        teams have played 10 games; from then on this section shows the models' own record, kept separate
-        from the preview record, and their picks appear in the play history below.</div></div>`);
 }
 
 // One model's daily-run game -> lean side, P(cover), stake, ATS result.
@@ -589,6 +603,6 @@ async function renderNBAPreview() {
   }
   const data = nbapBuild(histories, replay);
   nbapData = data;
-  el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-official"></div><div id="nbap-log"></div>';
+  el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-log"></div>';
   nbapRerender();
 }
