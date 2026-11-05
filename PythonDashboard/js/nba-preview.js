@@ -125,7 +125,7 @@ function nbapModelCell(g, m, off) {
   const res = m.units && m.result
     ? ` <span class="${m.result === 'W' ? 'win-text' : m.result === 'L' ? 'loss-text' : ''}">${m.result}</span>` : '';
   if (!m.units) {
-    return `<span style="color:${NBAP_DIM}">${nbapEsc(nbapNick(m.side === 'home' ? g.home : g.away))} ${pct} · no play</span><br>${proj}${offTag}`;
+    return `<span style="color:${NBAP_DIM}">${nbapEsc(nbapNick(m.side === 'home' ? g.home : g.away))} ${pct} · ${m.previewOff ? 'preview stopped' : 'no play'}</span><br>${proj}${offTag}`;
   }
   const c = m.units === 2 ? '#3fb950' : '#58a6ff';
   return `<b>${nbapEsc(nbapPlay(g, m.side))}</b> ${pct} ${nbapBadge('preview ' + m.units + 'u', c)}${res}<br>${proj}${offTag}`;
@@ -168,6 +168,7 @@ function nbapTodayCard(d) {
     <div style="padding:6px 10px;color:${NBAP_DIM};font-size:11px">
       <b>Preview</b> plays use the preview rule: under 58% is no play, 58–65% is 1u, 65%+ is 2u.
       <b style="color:#f0883e">OFFICIAL</b> marks a pick the model itself fired in the daily run${d.anyOfficial ? '' : ' (none yet: the models are still in burn-in; official picks start once 20+ teams have played 10 games)'}.
+      Preview plays stop for each model once it starts making official picks${Object.keys(d.offStart || {}).length ? ' (' + d.models.filter(m => d.offStart[m.key]).map(m => m.name + ' from ' + nbapIso(d.offStart[m.key])).join(', ') + ')' : ''}.
       Matching tags are for preview plays. Scores are each model's projected away-home score, from the latest daily run.</div>
   </div>`;
 }
@@ -530,11 +531,22 @@ function nbapBuild(histories, replay) {
     date: d, live: d === today,
     games: Object.values(byDate[d]).sort((a, b) => String(a.start || '').localeCompare(String(b.start || ''))),
   }));
+  // Preview plays stop once the model makes official picks: from each model's
+  // first official-pick day on, its 58/65 preview play is dropped (the lean is
+  // still shown) and only the official pick counts. Earlier days keep their
+  // preview record.
+  const offStart = {};
+  Object.keys(offByDate).sort().forEach(d => Object.values(offByDate[d]).forEach(g =>
+    Object.keys(g.models).forEach(k => { if (!offStart[k]) offStart[k] = d; })));
+  days.forEach(x => x.games.forEach(g => Object.keys(offStart).forEach(k => {
+    const m = g.models[k];
+    if (m && x.date >= offStart[k] && m.units) { g.models[k] = Object.assign({}, m, { units: 0, previewOff: true }); }
+  })));
   const offDays = Object.keys(offByDate).sort().map(d => ({
     date: d, live: d === today, games: Object.values(offByDate[d]),
   }));
   return {
-    generated, today, through, anyOfficial, offDays,
+    generated, today, through, anyOfficial, offDays, offStart,
     models: NBAP_MODELS.map(m => ({ key: m.key, name: m.name })),
     days,
   };
