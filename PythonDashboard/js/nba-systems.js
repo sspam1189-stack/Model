@@ -41,6 +41,8 @@ const NBAS_TIER_LABEL = {
 
 let nbasFilters = {
   system: 'all', tier: 'all', market: 'all', result: 'all', season: 'all',
+  month: 'all',   // YYYYMM
+  day: '',        // YYYYMMDD; '' = any day
 };
 let nbasLogPage = 0;
 let nbasShowMechanism = null;   // system id whose mechanism is expanded
@@ -73,6 +75,12 @@ function nbasRerender(focusId) {
 }
 
 function nbasSetFilter(k, v, focusId) {
+  if (k === 'day') {
+    v = String(v || '').replace(/-/g, '');
+    if (v) nbasFilters.month = 'all';   // a day overrides the month
+  } else if (k === 'month') {
+    nbasFilters.day = '';               // a month clears the day
+  }
   nbasFilters[k] = v;
   nbasLogPage = 0;
   nbasRerender(focusId);
@@ -399,11 +407,24 @@ function nbasLogTable(d) {
     (f.market === 'all' || e.market === f.market) &&
     (f.result === 'all' || (f.result === 'pending'
       ? e.result === 'pending' : e.result === f.result)) &&
-    (f.season === 'all' || nbasSeason(e.date) === f.season)
+    (f.season === 'all' || nbasSeason(e.date) === f.season) &&
+    (f.month === 'all' || String(e.date).slice(0, 6) === f.month) &&
+    (!f.day || String(e.date) === f.day)
   ).sort((a, b) => String(b.date).localeCompare(String(a.date))
     || String(a.system).localeCompare(String(b.system)));
 
   const seasons = [...new Set(all.map(e => nbasSeason(e.date)))].sort().reverse();
+  const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [...new Set(all.map(e => String(e.date).slice(0, 6)))]
+    .filter(m => /^\d{6}$/.test(m)).sort().reverse();
+  const days = all.map(e => String(e.date)).filter(x => /^\d{8}$/.test(x)).sort();
+  const isoDay = x => x ? nbasDate(x) : '';
+  const ctlStyle = `background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;
+             padding:3px 8px;font-size:12px;margin-right:6px;cursor:pointer`;
+  const dayInput = `<input type="date" id="nbas-sel-day" aria-label="Filter by day"
+      value="${isoDay(f.day)}" min="${isoDay(days[0])}" max="${isoDay(days[days.length - 1])}"
+      onchange="nbasSetFilter('day', this.value, this.id)" style="${ctlStyle};color-scheme:dark">`
+    + (f.day ? `<button onclick="nbasSetFilter('day', '')" style="${ctlStyle}">Clear day</button>` : '');
   const sel = (key, opts, labels) => `<select id="nbas-sel-${key}"
       onchange="nbasSetFilter('${key}', this.value, this.id)"
       style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;
@@ -468,6 +489,9 @@ function nbasLogTable(d) {
       </div>
       <div style="padding:6px 10px 8px">
         ${sel('season', ['all'].concat(seasons), ['All seasons'].concat(seasons))}
+        ${sel('month', ['all'].concat(months),
+              ['All Months'].concat(months.map(m => MON[+m.slice(4) - 1] + ' ' + m.slice(0, 4))))}
+        ${dayInput}
         ${sel('system', ['all'].concat(d.systems.map(s => s.id)),
               ['All systems'].concat(d.systems.map(s => s.id)))}
         ${sel('market', ['all', 'spread', 'total', 'h2h'],
