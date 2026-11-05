@@ -193,15 +193,18 @@ function nbapFilterBar(d) {
 }
 
 function nbapSetRecKind(v) { nbapRecKind = v; nbapRerender(); }
-function nbapRecToggle(kind) {
-  const btn = (v, label, c) => {
+// Preview comes first until official picks exist; then Official leads.
+function nbapRecToggle(kind, officialFirst) {
+  const btn = (v, label, c, first) => {
     const on = kind === v;
     return `<button onclick="nbapSetRecKind('${v}')" style="background:${on ? c + '33' : '#1e1e1e'};
       color:${on ? c : '#c9d1d9'};border:1px solid ${on ? c : '#444'};padding:5px 14px;font-size:13px;
-      font-weight:${on ? 700 : 400};cursor:pointer;border-radius:${v === 'preview' ? '6px 0 0 6px' : '0 6px 6px 0'}">${label}</button>`;
+      font-weight:${on ? 700 : 400};cursor:pointer;border-radius:${first ? '6px 0 0 6px' : '0 6px 6px 0'}">${label}</button>`;
   };
+  const prev = f => btn('preview', 'Preview plays', '#58a6ff', f);
+  const off = f => btn('official', 'Official plays', '#f0883e', f);
   return `<span role="group" aria-label="Preview or official plays" style="display:inline-flex;margin-right:10px">${
-    btn('preview', 'Preview plays', '#58a6ff')}${btn('official', 'Official plays', '#f0883e')}</span>`;
+    officialFirst ? off(true) + prev(false) : prev(true) + off(false)}</span>`;
 }
 
 function nbapRecordsCard(d, kind) {
@@ -245,7 +248,7 @@ function nbapRecordsCard(d, kind) {
   const head = `<div class="card card-games">
     <div class="card-title">Records — ${official ? '<span style="color:#f0883e">official plays</span>' : 'preview plays'}, ${nbapEsc(label)}
       <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${days.length} day${days.length === 1 ? '' : 's'}</span></div>
-    <div style="padding:8px 10px 0;display:flex;flex-wrap:wrap;align-items:center">${nbapRecToggle(kind)}${nbapFilterBar(d)}</div>`;
+    <div style="padding:8px 10px 0;display:flex;flex-wrap:wrap;align-items:center">${nbapRecToggle(kind, d.anyOfficial)}${nbapFilterBar(d)}</div>`;
   if (noneYet) {
     return head + `<div style="padding:6px 10px 14px;color:${NBAP_DIM};font-size:12px">No official plays yet. The models are
       still in burn-in, so every daily-run game is a PASS and every play so far is a preview play. Official picks start
