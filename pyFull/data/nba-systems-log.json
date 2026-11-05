@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-04T23:16:22Z",
+ "generated": "2026-11-05T07:00:21Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -28395,9 +28395,9 @@
    "book_price": 112,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 1.26,
+   "book_profit": 1.12,
    "startTimeUTC": "2026-11-05T00:10:00.000+00:00"
   },
   {
@@ -28416,9 +28416,9 @@
    "book_price": -118,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8475,
+   "book_profit": 0.8475,
    "startTimeUTC": "2026-11-05T00:10:00.000+00:00"
   },
   {
@@ -28437,9 +28437,9 @@
    "book_price": 126,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T01:10:00.000+00:00"
   },
   {
@@ -28458,9 +28458,9 @@
    "book_price": 400,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00"
   },
   {
@@ -28479,9 +28479,9 @@
    "book_price": -106,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00"
   },
   {
@@ -28500,9 +28500,9 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00"
   },
   {
@@ -28521,9 +28521,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T03:40:00.000+00:00"
   },
   {
@@ -28542,10 +28542,31 @@
    "book_price": -112,
    "stake": 1.0,
    "status": "card",
+   "result": "WIN",
+   "profit": 0.8929,
+   "book_profit": 0.8929,
+   "startTimeUTC": "2026-11-05T00:10:00.000+00:00"
+  },
+  {
+   "date": "20261105",
+   "system": "pickem_under",
+   "tier": "candidate",
+   "market": "total",
+   "side": "UNDER",
+   "play": "UNDER 223.5",
+   "team": "Phoenix Suns",
+   "game": "Orlando Magic @ Phoenix Suns",
+   "away": "Orlando Magic",
+   "home": "Phoenix Suns",
+   "line": 223.5,
+   "price": -110,
+   "book_price": -110,
+   "stake": 1.0,
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-05T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-06T02:10:00.000+00:00"
   }
  ]
 }
