@@ -1,5 +1,5 @@
 // PythonDashboard/js/nba-preview.js
-// "NBA Preview" tab (default page): the three full-season models side by side,
+// "NBA Picks" tab (default page; data-tab id nba-preview): the three full-season models side by side,
 // built from the same daily-run files the individual model tabs read
 // (fullseason / -kalmanoff / -kalmanearly). Nothing extra runs: every daily
 // run refreshes this page.
@@ -156,7 +156,7 @@ function nbapTodayCard(d) {
       ${d.models.map(m => `<td style="padding:6px">${nbapModelCell(g, g.models[m.key], (g.official || {})[m.key])}</td>`).join('')}
       <td style="padding:6px">${nbapMatchTags(g, groups)}</td></tr>`).join('');
   return `<div class="card card-games">
-    <div class="card-title">Today's preview — ${nbapIso(d.today)}
+    <div class="card-title">Today's slate — ${nbapIso(d.today)}
       <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">
         ${games.length} game${games.length === 1 ? '' : 's'} · ${d.generated ? 'last daily run ' + nbapEsc(d.generated) : ''}</span></div>
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
@@ -571,7 +571,7 @@ function nbapBuild(histories, replay) {
 
 async function renderNBAPreview() {
   const el = document.getElementById('content');
-  el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading NBA preview...</div>';
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading NBA picks...</div>';
   const grab = async (url) => {
     try {
       const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
@@ -600,7 +600,7 @@ async function renderNBAPreview() {
     grab2('https://raw.githubusercontent.com/sspam1189-stack/Model/main/PythonDashboard/data/nba-preview.json'),
   ])).filter(Boolean).sort((a, b) => String(b.through || '').localeCompare(String(a.through || '')))[0] || null;
   if (!histories.some(Boolean)) {
-    el.innerHTML = `<div class="card card-games"><div class="card-title">NBA Preview — No Data</div>
+    el.innerHTML = `<div class="card card-games"><div class="card-title">NBA Picks — No Data</div>
       <div class="no-picks" style="padding:20px 0 6px">The daily-run files could not be loaded.</div></div>`;
     return;
   }
