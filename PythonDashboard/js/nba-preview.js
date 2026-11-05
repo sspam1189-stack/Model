@@ -26,8 +26,8 @@ let nbapRange = 'season';   // season | last7 | YYYYMM
 let nbapDay = '';           // YYYYMMDD; overrides the range
 let nbapLogPage = 0;
 let nbapOffPage = 0;
-let nbapHistKind = 'all';   // all | preview | official
 const NBAP_PAGE = 40;
+const NBAP_HIST_DAYS = 3;   // play history: days per page
 const NBAP_DIM = '#8b949e';
 const NBAP_SHORT = { pyFull: 'FS', pyFullKalmanOff: 'KO', pyFullKalmanEarly: 'KE' };
 
@@ -287,82 +287,145 @@ function nbapLogCard(d, kind) {
   </div>`;
 }
 
-function nbapSetHistKind(v) { nbapHistKind = v; nbapLogPage = 0; nbapRerender(); }
+// Play-history filters (own row, like the other logs).
+let nbapHF = { kind: 'all', month: 'all', day: '', team: 'all', model: 'all',
+               stake: 'all', result: 'all', side: 'all', match: 'all' };
+function nbapSetHF(k, v, focusId) {
+  if (k === 'day') { v = String(v || '').replace(/-/g, ''); if (v) nbapHF.month = 'all'; }
+  if (k === 'month') nbapHF.day = '';
+  nbapHF[k] = v; nbapLogPage = 0; nbapRerender();
+  if (focusId) { const f = document.getElementById(focusId); if (f) f.focus(); }
+}
+function nbapResetHF() {
+  nbapHF = { kind: 'all', month: 'all', day: '', team: 'all', model: 'all',
+             stake: 'all', result: 'all', side: 'all', match: 'all' };
+  nbapLogPage = 0; nbapRerender();
+}
 
 // Every play on the page, preview and official, one row per game, newest
-// first. Pending games (today) included. Uses the range/day filter above.
+// first, today's pending plays included.
 function nbapHistoryCard(d) {
-  const inRange = x => {
-    if (nbapDay) return x.date === nbapDay;
-    if (nbapRange === 'season') return true;
-    if (nbapRange === 'last7') {
-      const t = new Date(nbapIso(d.today) + 'T12:00:00'); t.setDate(t.getDate() - 7);
-      return x.date >= t.toISOString().slice(0, 10).replace(/-/g, '');
-    }
-    return x.date.slice(0, 6) === nbapRange;
-  };
+  const f = nbapHF;
   const rows = {};
   const key = (dt, g) => dt + '|' + g.away + '|' + g.home;
-  d.days.filter(inRange).forEach(x => x.games.forEach(g => {
-    if (d.models.some(m => g.models[m.key] && g.models[m.key].units))
-      rows[key(x.date, g)] = { date: x.date, g, off: g.official || {} };
+  d.days.forEach(x => x.games.forEach(g => {
+    rows[key(x.date, g)] = { date: x.date, g, off: Object.assign({}, g.official || {}) };
   }));
-  (d.offDays || []).filter(inRange).forEach(x => x.games.forEach(g => {
+  (d.offDays || []).forEach(x => x.games.forEach(g => {
     const k = key(x.date, g);
-    if (rows[k]) rows[k].off = Object.assign({}, rows[k].off, g.models);
-    else rows[k] = { date: x.date, g: Object.assign({}, g, { models: {} }), off: g.models };
+    if (rows[k]) Object.assign(rows[k].off, g.models);
+    else rows[k] = { date: x.date, g: Object.assign({}, g, { models: {} }), off: Object.assign({}, g.models) };
   }));
-  let list = Object.values(rows);
-  if (nbapHistKind === 'preview') list = list.filter(r => d.models.some(m => r.g.models[m.key] && r.g.models[m.key].units));
-  if (nbapHistKind === 'official') list = list.filter(r => Object.keys(r.off).length);
+  const groups = nbapGroups(d.models);
+  const teamLine = (g, side) => g.line == null ? null : (side === 'home' ? g.line : -g.line);
+  // the plays in a row that pass the play-level filters
+  const playsOf = r => {
+    const out = [];
+    d.models.forEach(m => {
+      if (f.model !== 'all' && f.model !== m.key) return;
+      const x = r.g.models[m.key], o = r.off[m.key];
+      if (x && x.units && f.kind !== 'official') out.push({ m: m.key, type: 'preview', ...x });
+      if (o && f.kind !== 'preview') out.push({ m: m.key, type: 'official', ...o });
+    });
+    return out.filter(p =>
+      (f.stake === 'all' || String(p.units) === f.stake) &&
+      (f.result === 'all' || (f.result === 'pending' ? !p.result : p.result === f.result)) &&
+      (f.side === 'all' || (() => { const t = teamLine(r.g, p.side); return t != null && (f.side === 'fav' ? t < 0 : t > 0); })()));
+  };
+  let list = Object.values(rows).filter(r =>
+    (f.month === 'all' || r.date.slice(0, 6) === f.month) &&
+    (!f.day || r.date === f.day) &&
+    (f.team === 'all' || r.g.away === f.team || r.g.home === f.team) &&
+    (f.match === 'all' || (() => {
+      const grp = groups[+f.match.split(':')[0]], kind = f.match.split(':')[1];
+      const mt = grp && nbapMatch(r.g, grp.keys);
+      return mt && (kind === 'any' || mt.kind === kind);
+    })()));
+  list = list.map(r => ({ ...r, plays: playsOf(r) })).filter(r => r.plays.length);
   list.sort((a, b) => b.date.localeCompare(a.date) || String(b.g.start || '').localeCompare(String(a.g.start || '')));
-  const nPrev = list.filter(r => d.models.some(m => r.g.models[m.key] && r.g.models[m.key].units)).length;
-  const nOff = list.filter(r => Object.keys(r.off).length).length;
+
+  // record of the plays shown, preview and official kept apart
+  const recP = nbapNewRec(), recO = nbapNewRec();
+  let pend = 0;
+  list.forEach(r => r.plays.forEach(p => {
+    if (!p.result) { pend++; return; }
+    nbapAdd(p.type === 'official' ? recO : recP, p.result, p.units);
+  }));
 
   const resTag = res => res ? ` <span class="${res === 'W' ? 'win-text' : res === 'L' ? 'loss-text' : ''}">${res}</span>`
     : ` <span style="color:${NBAP_DIM};font-size:11px">pending</span>`;
-  const groups = nbapGroups(d.models);
-  const pages = Math.max(1, Math.ceil(list.length / NBAP_PAGE));
+  // Pages of NBAP_HIST_DAYS days each (newest first), with a header row per day.
+  const pageDates = [...new Set(list.map(r => r.date))];
+  const pages = Math.max(1, Math.ceil(pageDates.length / NBAP_HIST_DAYS));
   const page = Math.min(nbapLogPage, pages - 1);
-  const body = list.slice(page * NBAP_PAGE, (page + 1) * NBAP_PAGE).map(({ date, g, off }) => {
+  const showDates = new Set(pageDates.slice(page * NBAP_HIST_DAYS, (page + 1) * NBAP_HIST_DAYS));
+  let lastDate = null;
+  const body = list.filter(r => showDates.has(r.date)).map(({ date, g, plays }) => {
+    const dayHdr = date !== lastDate ? `<tr><td colspan="${4 + d.models.length}" style="padding:8px 6px 4px;
+      font-weight:600;color:#c9d1d9;border-top:1px solid #30363d">${nbapIso(date)}${date === d.today ? ' · today' : ''}</td></tr>` : '';
+    lastDate = date;
     const cells = d.models.map(m => {
-      const x = g.models[m.key], o = off[m.key];
-      const parts = [];
-      if (x && x.units && nbapHistKind !== 'official')
-        parts.push(`<span style="white-space:nowrap">${nbapBadge('preview ' + x.units + 'u', x.units === 2 ? '#3fb950' : '#58a6ff')}
-          ${nbapEsc(nbapPlay(g, x.side))}${resTag(x.result)}</span>`);
-      if (o && nbapHistKind !== 'preview')
-        parts.push(`<span style="white-space:nowrap">${nbapBadge('OFFICIAL ' + o.units + 'u', '#f0883e')}
-          ${nbapEsc(nbapPlay(g, o.side))}${resTag(o.result)}</span>`);
+      const parts = plays.filter(p => p.m === m.key).map(p => `<span style="white-space:nowrap">${
+        p.type === 'official' ? nbapBadge('OFFICIAL ' + p.units + 'u', '#f0883e')
+          : nbapBadge('preview ' + p.units + 'u', p.units === 2 ? '#3fb950' : '#58a6ff')}
+        ${nbapEsc(nbapPlay(g, p.side))}${resTag(p.result)}</span>`);
       return `<td style="padding:4px 6px">${parts.join('<br>') || `<span style="color:${NBAP_DIM}">—</span>`}</td>`;
     }).join('');
-    return `<tr style="border-top:1px solid #21262d">
-      <td style="padding:4px 6px;color:${NBAP_DIM};white-space:nowrap">${nbapIso(date)}</td>
+    return dayHdr + `<tr style="border-top:1px solid #21262d">
+      <td style="padding:4px 6px;color:${NBAP_DIM};white-space:nowrap">${nbapShortDate(date)}</td>
       <td style="padding:4px 6px">${nbapEsc(nbapNick(g.away))} @ ${nbapEsc(nbapNick(g.home))}
         <div style="color:${NBAP_DIM};font-size:11px">line ${g.line == null ? '—' : (g.line > 0 ? '+' : '') + g.line}</div></td>
       <td class="center">${g.final ? `${g.final[0]}-${g.final[1]}` : `<span style="color:${NBAP_DIM}">—</span>`}</td>
-      ${cells}<td style="padding:4px 6px">${nbapHistKind === 'official' ? '' : nbapMatchTags(g, groups)}</td></tr>`;
+      ${cells}<td style="padding:4px 6px">${nbapMatchTags(g, groups)}</td></tr>`;
   }).join('');
-  const style = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer';
+
+  const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const allRows = Object.values(rows);
+  const months = [...new Set(allRows.map(r => r.date.slice(0, 6)))].sort().reverse();
+  const teams = [...new Set(allRows.flatMap(r => [r.g.away, r.g.home]))].sort();
+  const dates = allRows.map(r => r.date).sort();
+  const st = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:3px 8px;font-size:12px;margin:0 6px 6px 0;cursor:pointer';
+  const sel = (k, opts) => `<select id="nbap-hf-${k}" onchange="nbapSetHF('${k}', this.value, this.id)" style="${st}">`
+    + opts.map(([v, l]) => `<option value="${nbapEsc(v)}" ${f[k] === v ? 'selected' : ''}>${nbapEsc(l)}</option>`).join('') + '</select>';
+  const matchOpts = [['all', 'Any matching']];
+  groups.forEach((g, i) => {
+    const n = g.keys.length > 2 ? 'All 3' : g.keys.map(k => NBAP_SHORT[k] || k).join('+');
+    matchOpts.push([i + ':any', n + ' agree'], [i + ':both2', n + ' both 2u'], [i + ':both1', n + ' both 1u'], [i + ':split', n + ' split']);
+  });
+  const active = Object.entries(f).some(([k, v]) => (k === 'day' ? v !== '' : v !== 'all'));
   return `<div class="card card-games">
     <div class="card-title">Play history — preview and official
-      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${list.length} games · ${nPrev} with a preview play · ${nOff} with an official pick</span></div>
-    <div style="padding:4px 10px 8px">
-      <select onchange="nbapSetHistKind(this.value)" style="${style}">
-        ${[['all', 'Preview + official'], ['preview', 'Preview plays only'], ['official', 'Official plays only']]
-          .map(([v, l]) => `<option value="${v}" ${nbapHistKind === v ? 'selected' : ''}>${l}</option>`).join('')}
-      </select>
-      <span style="color:${NBAP_DIM};font-size:11px;margin-left:8px">Uses the range / day filter above. Includes today's pending plays.</span>
+      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${list.length} games · ${pageDates.length} days · 3 days per page</span></div>
+    <div style="padding:4px 10px 2px">
+      ${sel('kind', [['all', 'Preview + official'], ['preview', 'Preview only'], ['official', 'Official only']])}
+      ${sel('month', [['all', 'All months']].concat(months.map(m => [m, MON[+m.slice(4) - 1] + ' ' + m.slice(0, 4)])))}
+      <input type="date" id="nbap-hf-day" aria-label="Filter by day" value="${nbapIso(f.day)}"
+        min="${nbapIso(dates[0])}" max="${nbapIso(dates[dates.length - 1])}"
+        onchange="nbapSetHF('day', this.value, this.id)" style="${st};color-scheme:dark">
+      ${sel('team', [['all', 'All teams']].concat(teams.map(t => [t, t])))}
+      ${sel('model', [['all', 'All models']].concat(d.models.map(m => [m.key, m.name])))}
+      ${sel('stake', [['all', 'All stakes'], ['2', '2u'], ['1', '1u']])}
+      ${sel('result', [['all', 'All results'], ['W', 'Wins'], ['L', 'Losses'], ['P', 'Pushes'], ['pending', 'Pending']])}
+      ${sel('side', [['all', 'Fav + dog'], ['fav', 'Favorites'], ['dog', 'Underdogs']])}
+      ${sel('match', matchOpts)}
+      ${active ? `<button onclick="nbapResetHF()" style="${st}">Clear filters</button>` : ''}
+    </div>
+    <div style="padding:0 10px 8px;font-size:12px">
+      <span style="color:#c9d1d9">Preview plays shown: ${nbapRecCell(recP)}</span>
+      <span style="color:#c9d1d9;margin-left:14px">Official: ${nbapRecCell(recO)}</span>
+      ${pend ? `<span style="color:${NBAP_DIM};margin-left:14px">${pend} pending</span>` : ''}
+      <div style="color:${NBAP_DIM};font-size:11px;margin-top:2px">Each model's play counts on its own (three models on one game = three plays).
+        Matching filter uses preview plays.</div>
     </div>
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Date</th><th>Game</th><th class="center">Final</th>
         ${d.models.map(m => `<th style="padding:4px 6px">${nbapEsc(m.name)}</th>`).join('')}<th>Matching (preview)</th></tr></thead>
-      <tbody>${body || `<tr><td colspan="${4 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No plays in this range.</td></tr>`}</tbody>
+      <tbody>${body || `<tr><td colspan="${4 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No plays match these filters.</td></tr>`}</tbody>
     </table></div>
     <div class="date-nav" style="padding:8px 10px">
       <button onclick="nbapPage(-1)" ${page === 0 ? 'disabled' : ''}>Newer</button>
-      <span class="current-view">Page ${page + 1} / ${pages}</span>
+      <span class="current-view">${pageDates.length ? nbapIso([...showDates].pop()) + ' – ' + nbapIso([...showDates][0]) : ''} · page ${page + 1} / ${pages}</span>
       <button onclick="nbapPage(1)" ${page >= pages - 1 ? 'disabled' : ''}>Older</button>
     </div>
   </div>`;
