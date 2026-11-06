@@ -241,6 +241,29 @@ function nbapRecToggle(kind, officialFirst) {
     officialFirst ? off(true) + prev(false) : prev(true) + off(false)}</span>`;
 }
 
+// Mean absolute error of the projected home margin vs the final margin, over
+// every final game in the range (plays or not). Vegas = the closing home line.
+function nbapMAE(games, key) {
+  let n = 0, sum = 0;
+  games.forEach(g => {
+    if (!g.final) return;
+    const actual = g.final[1] - g.final[0];
+    if (key === 'vegas') {
+      if (g.line == null) return;
+      sum += Math.abs(-g.line - actual); n++;
+      return;
+    }
+    const m = g.models[key];
+    if (!m || !Number.isFinite(m.aS) || !Number.isFinite(m.hS)) return;
+    sum += Math.abs((m.hS - m.aS) - actual); n++;
+  });
+  return n ? { mae: sum / n, n } : null;
+}
+function nbapMAECell(x, best) {
+  if (!x) return `<span style="color:${NBAP_DIM}">—</span>`;
+  return `<b style="${best ? 'color:#3fb950' : ''}">${x.mae.toFixed(2)}</b> <span style="color:${NBAP_DIM};font-size:11px">${x.n} g</span>`;
+}
+
 function nbapRecordsCard(d, kind) {
   const official = kind === 'official';
   const days = nbapDaysInRange(d, official ? d.offDays : d.days);
@@ -250,9 +273,15 @@ function nbapRecordsCard(d, kind) {
 
   // each model: all / 2u / 1u
   const mobModels = [], mobGroups = [];
+  // MAE always over the projections (all final games in range), either toggle
+  const projGames = nbapDaysInRange(d, d.days).flatMap(x => x.games);
+  const maes = {};
+  d.models.forEach(m => { maes[m.key] = nbapMAE(projGames, m.key); });
+  const vegasMAE = nbapMAE(projGames, 'vegas');
+  const bestMAE = Math.min(...Object.values(maes).filter(Boolean).map(x => x.mae));
   const modelRows = d.models.map(m => {
     const all = nbapNewRec(), two = nbapNewRec(), one = nbapNewRec();
-    mobModels.push({ name: m.name, all, two, one });
+    mobModels.push({ name: m.name, all, two, one, mae: maes[m.key] });
     games.forEach(g => {
       const x = g.models[m.key];
       if (!x || !x.units || !x.result) return;
@@ -260,6 +289,7 @@ function nbapRecordsCard(d, kind) {
       nbapAdd(x.units === 2 ? two : one, x.result, x.units);
     });
     return `<tr style="border-top:1px solid #21262d"><td style="padding:6px"><b>${nbapEsc(m.name)}</b></td>
+      <td class="center">${nbapMAECell(maes[m.key], maes[m.key] && maes[m.key].mae === bestMAE)}</td>
       <td class="center">${nbapRecCell(all)}</td><td class="center">${nbapRecCell(two)}</td>
       <td class="center">${nbapRecCell(one)}</td></tr>`;
   }).join('');
@@ -295,8 +325,10 @@ function nbapRecordsCard(d, kind) {
   const grid = cols => `display:grid;grid-template-columns:repeat(${cols},minmax(0,1fr));gap:6px`;
   const mobile = `<div style="padding:0 10px">
       <div style="color:${NBAP_DIM};font-size:12px;margin:4px 0 6px">Each model</div>
-      ${mobModels.map(x => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(x.name)}</div>
+      ${mobModels.map(x => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(x.name)}
+          <span style="font-weight:400;font-size:12px;color:${NBAP_DIM};margin-left:6px">MAE ${nbapMAECell(x.mae, x.mae && x.mae.mae === bestMAE)}</span></div>
         <div style="${grid(3)}">${nbapMobStat('All plays', x.all)}${nbapMobStat('2u only', x.two)}${nbapMobStat('1u only', x.one)}</div></div>`).join('')}
+      <div style="color:${NBAP_DIM};font-size:12px;margin:-2px 0 10px">Vegas line MAE ${nbapMAECell(vegasMAE, false)}</div>
       <div style="color:${NBAP_DIM};font-size:12px;margin:12px 0 6px">When they match (same side)</div>
       ${mobGroups.map(x => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(x.name)}</div>
         <div style="${grid(2)}">${nbapMobStat('Both 2u', x.r.both2)}${nbapMobStat('Both 1u', x.r.both1)}${nbapMobStat('Split 1u/2u', x.r.split)}${nbapMobStat('Any', x.r.any)}</div></div>`).join('')}
@@ -304,8 +336,10 @@ function nbapRecordsCard(d, kind) {
   return head + (nbapMobile() ? mobile : `
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
-        <th style="padding:4px 6px">Model</th>${th('All plays')}${th('2u only')}${th('1u only')}</tr></thead>
-      <tbody>${modelRows}</tbody></table></div>
+        <th style="padding:4px 6px">Model</th>${th('MAE')}${th('All plays')}${th('2u only')}${th('1u only')}</tr></thead>
+      <tbody>${modelRows}
+        <tr style="border-top:1px solid #21262d"><td style="padding:6px;color:${NBAP_DIM}">Vegas line</td>
+          <td class="center">${nbapMAECell(vegasMAE, false)}</td><td colspan="3"></td></tr></tbody></table></div>
     <div style="overflow-x:auto;margin-top:14px"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">When they match (same side)</th>${th('Both 2u')}${th('Both 1u')}${th('Split 1u/2u')}${th('Any')}</tr></thead>
