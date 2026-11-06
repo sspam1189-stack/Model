@@ -235,7 +235,7 @@
           tbl.className = 'data';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const hRow = tbl.createTHead().insertRow();
-          ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','Actual','O/U','W/L'].forEach((h, i) => {
+          ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','Actual','O/U','pCover','W/L'].forEach((h, i) => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
@@ -252,7 +252,9 @@
             [shortName(p.player), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
              String(p.proj), p.line!=null?String(p.line):'\u2014', yEdgeStr, yPrice,
              p.actual!=null?String(p.actual):'\u2014',
-             p.pick==='OVER'?'O':'U', p.result==='WIN'?'W':'L'].forEach((v, i) => {
+             p.pick==='OVER'?'O':'U',
+             p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
+             p.result==='WIN'?'W':(p.result==='PUSH'?'P':'L')].forEach((v, i) => {
               const td = row.insertCell();
               td.textContent = v;
               td.style.cssText = 'padding:4px 4px;text-align:center';
@@ -262,7 +264,8 @@
               if (i === 6 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
               if (i === 7) td.style.color = '#999';
               if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 10) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 10) td.style.fontWeight = '700';
+              if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : p.result === 'PUSH' ? '#999' : 'var(--red)'; }
             });
           }
           recapCard.appendChild(tbl);
