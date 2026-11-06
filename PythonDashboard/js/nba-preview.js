@@ -13,11 +13,11 @@
 const NBAP_SEASON_START = '20261023';
 const NBAP_FIRE = 0.58, NBAP_ELITE = 0.65, NBAP_MAX_LINE = 18;
 const NBAP_MODELS = [
-  { key: 'pyFull', name: 'Full Season', local: 'data/fullseason.json',
+  { key: 'pyFull', name: 'Full Season', tab: 'fullseason', local: 'data/fullseason.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json' },
-  { key: 'pyFullKalmanOff', name: 'KalmanOff', local: 'data/fullseason-kalmanoff.json',
+  { key: 'pyFullKalmanOff', name: 'KalmanOff', tab: 'fullseason-ko', local: 'data/fullseason-kalmanoff.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json' },
-  { key: 'pyFullKalmanEarly', name: 'KalmanEarly', local: 'data/fullseason-kalmanearly.json',
+  { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json' },
 ];
 
@@ -683,13 +683,12 @@ async function renderNBAPreview() {
       return (j && Array.isArray(j.days)) ? j : null;
     } catch (e) { return null; }
   };
-  const lastDate = h => { const r = h && h.runs; return r && r.length ? String(r[r.length - 1].date || '') : ''; };
-  // Newest of the dashboard copy and the model's own history wins.
-  const histories = await Promise.all(NBAP_MODELS.map(async m => {
-    const [a, b] = await Promise.all([grab(m.local), grab(m.remote)]);
-    if (!a || !b) return a || b;
-    return lastDate(b) > lastDate(a) ? b : a;
-  }));
+  // Same loader and cache as the model tabs (fetchData in main.js), so this
+  // page always shows exactly the run the Full Season / KalmanOff /
+  // KalmanEarly tabs show.
+  const histories = await Promise.all(NBAP_MODELS.map(m =>
+    (typeof fetchData === 'function' && typeof SOURCES !== 'undefined' && SOURCES[m.tab])
+      ? fetchData(m.tab) : grab(m.local).then(a => a || grab(m.remote))));
   const replay = (await Promise.all([
     grab2('data/nba-preview.json'),
     grab2('https://raw.githubusercontent.com/sspam1189-stack/Model/main/PythonDashboard/data/nba-preview.json'),
