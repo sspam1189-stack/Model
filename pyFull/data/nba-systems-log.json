@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-07T16:46:05Z",
+ "generated": "2026-11-07T19:16:18Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -28756,6 +28756,27 @@
    "profit": 0.0,
    "book_profit": 0.0,
    "startTimeUTC": "2026-11-08T03:10:00.000+00:00"
+  },
+  {
+   "date": "20261107",
+   "system": "home_dog_5_over",
+   "tier": "candidate",
+   "market": "total",
+   "side": "OVER",
+   "play": "OVER 223.5",
+   "team": "Cleveland Cavaliers",
+   "game": "New York Knicks @ Cleveland Cavaliers",
+   "away": "New York Knicks",
+   "home": "Cleveland Cavaliers",
+   "line": 223.5,
+   "price": -105,
+   "book_price": -105,
+   "stake": 1.0,
+   "status": "shadow",
+   "result": "pending",
+   "profit": 0.0,
+   "book_profit": 0.0,
+   "startTimeUTC": "2026-11-08T01:10:00.000+00:00"
   }
  ]
 }
