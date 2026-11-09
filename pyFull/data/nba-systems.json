@@ -221,10 +221,11 @@
    "line": 2.5,
    "spread": 2.5,
    "total": 235.5,
-   "price": 126,
+   "price": 114,
    "book_price": 114,
    "status": "card",
-   "startTimeUTC": "2026-11-10T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
+   "conv_price": 126
   },
   {
    "date": "20261109",
@@ -332,12 +333,12 @@
     "l": 2,
     "p": 0,
     "pending": 0,
-    "units": -0.15,
+    "units": -0.2,
     "book_units": -0.2,
     "book_n": 3,
     "n": 3,
     "pct": 0.3333333333333333,
-    "roi": -0.04999999999999997
+    "roi": -0.06666666666666665
    },
    "shadow": {
     "w": 0,
@@ -356,12 +357,12 @@
     "l": 2,
     "p": 0,
     "pending": 0,
-    "units": -0.15,
+    "units": -0.2,
     "book_units": -0.2,
     "book_n": 3,
     "n": 3,
     "pct": 0.3333333333333333,
-    "roi": -0.04999999999999997
+    "roi": -0.06666666666666665
    },
    "seeded": {
     "w": 50,
@@ -390,12 +391,12 @@
     "l": 4,
     "p": 0,
     "pending": 0,
-    "units": 3.87,
+    "units": 3.12,
     "book_units": 3.12,
     "book_n": 9,
     "n": 9,
     "pct": 0.5555555555555556,
-    "roi": 0.42999999999999994
+    "roi": 0.3466666666666667
    },
    "shadow": {
     "w": 0,
@@ -414,12 +415,12 @@
     "l": 4,
     "p": 0,
     "pending": 0,
-    "units": 3.87,
+    "units": 3.12,
     "book_units": 3.12,
     "book_n": 9,
     "n": 9,
     "pct": 0.5555555555555556,
-    "roi": 0.42999999999999994
+    "roi": 0.3466666666666667
    },
    "seeded": {
     "w": 80,
@@ -28549,14 +28550,15 @@
    "away": "Houston Rockets",
    "home": "Dallas Mavericks",
    "line": 6.5,
-   "price": 209,
+   "price": 188,
    "book_price": 188,
    "stake": 1.0,
    "status": "card",
    "result": "WIN",
-   "profit": 2.09,
+   "profit": 1.88,
    "book_profit": 1.88,
-   "startTimeUTC": "2026-10-31T00:10:00.000+00:00"
+   "startTimeUTC": "2026-10-31T00:10:00.000+00:00",
+   "conv_price": 209
   },
   {
    "date": "20261030",
@@ -28633,14 +28635,15 @@
    "away": "Orlando Magic",
    "home": "Toronto Raptors",
    "line": 5.5,
-   "price": 185,
+   "price": 180,
    "book_price": 180,
    "stake": 1.0,
    "status": "card",
    "result": "WIN",
-   "profit": 1.85,
+   "profit": 1.8,
    "book_profit": 1.8,
-   "startTimeUTC": "2026-10-30T23:40:00.000+00:00"
+   "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
+   "conv_price": 185
   },
   {
    "date": "20261030",
@@ -28717,14 +28720,15 @@
    "away": "Minnesota Timberwolves",
    "home": "San Antonio Spurs",
    "line": 11.5,
-   "price": 386,
+   "price": 440,
    "book_price": 440,
    "stake": 1.0,
    "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-01T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
+   "conv_price": 386
   },
   {
    "date": "20261031",
@@ -28801,14 +28805,15 @@
    "away": "Portland Trail Blazers",
    "home": "Denver Nuggets",
    "line": 4.5,
-   "price": 163,
+   "price": 142,
    "book_price": 142,
    "stake": 1.0,
    "status": "card",
    "result": "WIN",
-   "profit": 1.63,
+   "profit": 1.42,
    "book_profit": 1.42,
-   "startTimeUTC": "2026-11-03T02:10:00.000+00:00"
+   "startTimeUTC": "2026-11-03T02:10:00.000+00:00",
+   "conv_price": 163
   },
   {
    "date": "20261102",
@@ -28843,14 +28848,15 @@
    "away": "Miami Heat",
    "home": "Los Angeles Lakers",
    "line": 2.5,
-   "price": 126,
+   "price": 114,
    "book_price": 114,
    "stake": 1.0,
    "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-03T03:10:00.000+00:00"
+   "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
+   "conv_price": 126
   },
   {
    "date": "20261102",
@@ -28885,14 +28891,15 @@
    "away": "New Orleans Pelicans",
    "home": "Memphis Grizzlies",
    "line": 4.5,
-   "price": 163,
+   "price": 150,
    "book_price": 150,
    "stake": 1.0,
    "status": "card",
    "result": "WIN",
-   "profit": 1.63,
+   "profit": 1.5,
    "book_profit": 1.5,
-   "startTimeUTC": "2026-11-03T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
+   "conv_price": 163
   },
   {
    "date": "20261102",
@@ -28927,14 +28934,15 @@
    "away": "Washington Wizards",
    "home": "Orlando Magic",
    "line": 2.5,
-   "price": 126,
+   "price": 120,
    "book_price": 120,
    "stake": 1.0,
    "status": "card",
    "result": "WIN",
-   "profit": 1.26,
+   "profit": 1.2,
    "book_profit": 1.2,
-   "startTimeUTC": "2026-11-03T00:40:00.000+00:00"
+   "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
+   "conv_price": 126
   },
   {
    "date": "20261102",
@@ -29053,14 +29061,15 @@
    "away": "Philadelphia 76ers",
    "home": "Detroit Pistons",
    "line": 2.5,
-   "price": 126,
+   "price": 112,
    "book_price": 112,
    "stake": 1.0,
    "status": "card",
    "result": "WIN",
-   "profit": 1.26,
+   "profit": 1.12,
    "book_profit": 1.12,
-   "startTimeUTC": "2026-11-05T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-05T00:10:00.000+00:00",
+   "conv_price": 126
   },
   {
    "date": "20261104",
@@ -29095,14 +29104,15 @@
    "away": "Cleveland Cavaliers",
    "home": "Oklahoma City Thunder",
    "line": 3.5,
-   "price": 143,
+   "price": 126,
    "book_price": 126,
    "stake": 1.0,
    "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-05T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-05T01:10:00.000+00:00",
+   "conv_price": 143
   },
   {
    "date": "20261104",
@@ -29116,14 +29126,15 @@
    "away": "Los Angeles Lakers",
    "home": "Sacramento Kings",
    "line": 11.5,
-   "price": 386,
+   "price": 400,
    "book_price": 400,
    "stake": 1.0,
    "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-05T03:10:00.000+00:00"
+   "startTimeUTC": "2026-11-05T03:10:00.000+00:00",
+   "conv_price": 386
   },
   {
    "date": "20261104",
@@ -29242,14 +29253,15 @@
    "away": "Washington Wizards",
    "home": "Atlanta Hawks",
    "line": 7.5,
-   "price": 237,
+   "price": 220,
    "book_price": 220,
    "stake": 1.0,
    "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-07T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-07T00:10:00.000+00:00",
+   "conv_price": 237
   },
   {
    "date": "20261106",
@@ -29326,14 +29338,15 @@
    "away": "New York Knicks",
    "home": "Cleveland Cavaliers",
    "line": 4.5,
-   "price": 163,
+   "price": 172,
    "book_price": 172,
    "stake": 1.0,
    "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-08T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-08T01:10:00.000+00:00",
+   "conv_price": 163
   },
   {
    "date": "20261107",
@@ -29557,14 +29570,15 @@
    "away": "Los Angeles Lakers",
    "home": "Atlanta Hawks",
    "line": 1.5,
-   "price": 111,
+   "price": 100,
    "book_price": 100,
    "stake": 1.0,
    "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-10T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
+   "conv_price": 111
   },
   {
    "date": "20261109",
@@ -29636,24 +29650,24 @@
    "l": 34,
    "p": 0,
    "pending": 5,
-   "units": 3.876,
+   "units": 3.076,
    "book_units": 3.076,
    "book_n": 71,
    "n": 71,
    "pct": 0.5211267605633803,
-   "roi": 0.05458450704225363
+   "roi": 0.04331690140845075
   },
   "card": {
    "w": 34,
    "l": 24,
    "p": 0,
    "pending": 3,
-   "units": 11.128,
+   "units": 10.328,
    "book_units": 10.328,
    "book_n": 58,
    "n": 58,
    "pct": 0.5862068965517241,
-   "roi": 0.1918551724137932
+   "roi": 0.17806206896551727
   },
   "shadow": {
    "w": 3,
@@ -29672,12 +29686,12 @@
    "l": 33,
    "p": 0,
    "pending": 5,
-   "units": 4.876,
+   "units": 4.076,
    "book_units": 4.076,
    "book_n": 70,
    "n": 70,
    "pct": 0.5285714285714286,
-   "roi": 0.06965000000000011
+   "roi": 0.05822142857142862
   }
  },
  "notes": [

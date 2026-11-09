@@ -267,9 +267,9 @@ function nbasTodayCard(d) {
     }
     const c = NBAS_TIER_COLOR[p.tier] || NBAS_DIM;
     const dim = p.status !== 'card' ? ';opacity:.68' : '';
-    // A converted moneyline price is not a real quote. Marking it on the row is
-    // the only place a reader would otherwise assume it was.
-    const conv = p.market === 'h2h'
+    // Moneylines grade at the real book price (2026-11-09). Only a play with no
+    // real price falls back to the frozen conversion, and is marked.
+    const conv = (p.market === 'h2h' && (p.book_price === null || p.book_price === undefined))
       ? `<span style="color:${NBAS_AMBER}" title="frozen spread-to-ML conversion, not a book quote">*</span>` : '';
     h += `<tr style="border-top:1px solid #161b22${dim}">`
       + `<td style="padding:3px 6px;color:${NBAS_DIM}">${esc(nbasCtTime(p.startTimeUTC))}</td>`
@@ -282,12 +282,10 @@ function nbasTodayCard(d) {
       + `${esc(nbasName(d, p.system))}</span></td></tr>`;
   }
   h += '</tbody></table></div>';
-  if (plays.some(p => p.market === 'h2h')) {
+  if (plays.some(p => p.market === 'h2h' && (p.book_price === null || p.book_price === undefined))) {
     h += `<div style="padding:6px 10px;font-size:11px;color:${NBAS_DIM}">`
-      + `<span style="color:${NBAS_AMBER}">*</span> moneyline price is the frozen `
-      + `spread-to-ML conversion, which is what grades the play. The real book `
-      + `price is recorded alongside it; the gap between them is the measurement `
-      + `the backtest could never make.</div>`;
+      + `<span style="color:${NBAS_AMBER}">*</span> no book moneyline was available, so this `
+      + `price is the frozen spread-to-ML conversion.</div>`;
   }
   return h + '</div>';
 }

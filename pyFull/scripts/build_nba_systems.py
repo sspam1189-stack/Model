@@ -80,7 +80,8 @@ def _play_row(row, s, date):
         price = LOG._price_or_default(row.get("spread_price"))
     else:
         play = "{0} ML".format(row["team"])
-        price = R.ml_american(row["spread"])
+        # real moneyline when available (2026-11-09); conversion only as fallback
+        price = row.get("ml_price") if row.get("ml_price") is not None else R.ml_american(row["spread"])
     return {
         "date": date, "system": s["id"], "tier": s["tier"], "market": s["market"],
         "side": s["side"], "label": s["label"], "play": play, "team": row["team"],

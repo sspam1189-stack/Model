@@ -17,9 +17,10 @@ Three rules that make the record honest:
   IDEMPOTENT.  Only `pending` rows are ever touched, and an entry key is
   (date, system, away, home), so re-running a day changes nothing.
 
-MONEYLINE ENTRIES CARRY TWO PRICES. `price` is the frozen spread-to-ML
-conversion (situational_systems.ml_american) and is what grades the entry, so
-the forward record stays comparable with the backtest it is testing.
+MONEYLINE ENTRIES CARRY TWO PRICES. Since 2026-11-09 `price` is the real h2h
+price when the feed has one (it grades the entry); `conv_price` keeps the frozen
+spread-to-ML conversion (situational_systems.ml_american) for comparison with
+the backtest, and grades only when no real price exists.
 `book_price` is the real h2h number the feed saw, recorded from 2026-09
 onward. `book_profit` grades the same play at the real price. The gap between
 profit and book_profit is the measurement the backtest could never make.
@@ -124,6 +125,7 @@ def add(blob, *, date, system, row, status=None, stake=1.0):
     market = s["market"]
     away, home = _sides(row)
 
+    conv_price = None
     if market == "total":
         play = f"{s['side']} {_fmt(row['total'])}"
         line, price = row["total"], _price_or_default(
@@ -136,8 +138,12 @@ def add(blob, *, date, system, row, status=None, stake=1.0):
     else:
         play = f"{row['team']} ML"
         line = row["spread"]
-        price = R.ml_american(row["spread"])     # frozen conversion -- grades the entry
-        book_price = row.get("ml_price")         # real h2h, from 2026-09 on
+        # 2026-11-09 (user): grade at the REAL moneyline when the feed has one;
+        # the frozen spread->ML conversion is kept as conv_price for comparing
+        # against the backtest, and only grades when no real price exists.
+        conv_price = R.ml_american(row["spread"])
+        book_price = row.get("ml_price")
+        price = book_price if book_price is not None else conv_price
 
     e = {
         "date": date, "system": system, "tier": s["tier"],
@@ -145,6 +151,7 @@ def add(blob, *, date, system, row, status=None, stake=1.0):
         "play": play, "team": row["team"], "game": f"{away} @ {home}",
         "away": away, "home": home,
         "line": line, "price": price, "book_price": book_price,
+        **({"conv_price": conv_price} if conv_price is not None else {}),
         "stake": stake, "status": status,
         "result": "pending", "profit": 0.0, "book_profit": 0.0,
         "startTimeUTC": row.get("startTimeUTC"),
