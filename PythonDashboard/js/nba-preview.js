@@ -30,8 +30,8 @@ let nbapRecKind = null;   // records table: 'preview' | 'official' (default: off
 const NBAP_PAGE = 40;
 const NBAP_HIST_DAYS = 3;   // play history: days per page
 const NBAP_DIM = '#8b949e';
-// Official picks: 1u orange, 2u magenta (preview stays blue 1u / green 2u).
-function nbapOffColor(units) { return units === 2 ? '#db61a2' : '#f0883e'; }
+// Official picks use the same colors as preview: 1u blue, 2u green.
+function nbapOffColor(units) { return units === 2 ? '#3fb950' : '#58a6ff'; }
 const NBAP_SHORT = { pyFull: 'FS', pyFullKalmanOff: 'KO', pyFullKalmanEarly: 'KE' };
 
 function nbapEsc(s) {
