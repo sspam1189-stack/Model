@@ -278,11 +278,17 @@ function nbapRecordsCard(d, kind) {
 
   // each model: all / 2u / 1u
   const mobModels = [], mobGroups = [];
-  // MAE always over the projections (all final games in range), either toggle
-  const projGames = nbapDaysInRange(d, d.days).flatMap(x => x.games);
+  // MAE over every final game in range, split by era to match the toggle:
+  // Preview = days before the model's official picks began, Official = from
+  // that day on, Preview + official = all of it.
+  const projDays = nbapDaysInRange(d, d.days);
+  const offStarts = Object.values(d.offStart || {}).sort();
+  const eraGames = start => projDays.filter(x =>
+    combined || !start ? (official ? !!start : true) : (official ? x.date >= start : x.date < start))
+    .flatMap(x => x.games);
   const maes = {};
-  d.models.forEach(m => { maes[m.key] = nbapMAE(projGames, m.key); });
-  const vegasMAE = nbapMAE(projGames, 'vegas');
+  d.models.forEach(m => { maes[m.key] = nbapMAE(eraGames((d.offStart || {})[m.key]), m.key); });
+  const vegasMAE = nbapMAE(eraGames(offStarts[0]), 'vegas');
   const bestMAE = Math.min(...Object.values(maes).filter(Boolean).map(x => x.mae));
   const modelRows = d.models.map(m => {
     const all = nbapNewRec(), two = nbapNewRec(), one = nbapNewRec();
