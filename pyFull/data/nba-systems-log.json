@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-11T19:16:30Z",
+ "generated": "2026-11-11T23:16:05Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -29405,6 +29405,28 @@
    "profit": 0.0,
    "book_profit": 0.0,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00"
+  },
+  {
+   "date": "20261111",
+   "system": "rematch_dog_ml",
+   "tier": "candidate",
+   "market": "h2h",
+   "side": "TEAM",
+   "play": "Oklahoma City Thunder ML",
+   "team": "Oklahoma City Thunder",
+   "game": "Oklahoma City Thunder @ Portland Trail Blazers",
+   "away": "Oklahoma City Thunder",
+   "home": "Portland Trail Blazers",
+   "line": 2.5,
+   "price": 116,
+   "book_price": 116,
+   "conv_price": 126,
+   "stake": 1.0,
+   "status": "card",
+   "result": "pending",
+   "profit": 0.0,
+   "book_profit": 0.0,
+   "startTimeUTC": "2026-11-12T03:10:00.000+00:00"
   }
  ]
 }
