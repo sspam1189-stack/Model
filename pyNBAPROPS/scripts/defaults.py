@@ -119,6 +119,13 @@ MIN_EDGE = {
     "turnovers":     0.3,
 }
 
+# Price cap: skip a pick whose price is worse (more negative) than this.
+# 2026-11-11 (user): threes only, -200. 2026-27 threes priced worse than -200
+# went 9-6 -4.15u (60% hit vs ~68-71% break-even); -200 or better 22-13 +3.93u.
+MAX_JUICE = {
+    "threes": -200,
+}
+
 MAX_EDGE = {
     "points":        10.0,
     "rebounds":       6.0,

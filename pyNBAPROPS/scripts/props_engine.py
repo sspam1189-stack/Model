@@ -20,7 +20,7 @@ from scipy.stats import t as t_dist
 
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_MINUTES,
-    MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
+    MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE, MAX_JUICE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
     SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
@@ -841,6 +841,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp, low_data_std=Fal
 
             # Attach the relevant odds for the picked direction
             pick_price = over_price if direction == "OVER" else under_price
+
+            # Price cap (per market): too much juice for the hit rate.
+            cap = MAX_JUICE.get(market)
+            if cap is not None and pick_price is not None and int(pick_price) < cap:
+                return result
 
             result["pick"] = direction
             result["conf"] = "high"
