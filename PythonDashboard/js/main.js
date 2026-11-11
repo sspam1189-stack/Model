@@ -698,6 +698,11 @@ function calcUnits(w, l, picks) {
   // Fallback: -110 assumption (risk-to-win-1u): WIN=+1u, LOSS=-1.1u
   return Math.round((w - l * 1.1) * 100) / 100;
 }
+// Units at each pick's real stake (2u / 1u where the model has stake tiers,
+// else 1u), -110 pricing. All model-tab records use this (2026-11-11).
+function stakedUnits(picks) {
+  return Math.round(picks.reduce((a, p) => a + pickUnit({ result: p.result, odds: p.odds, stake: p.stake || 1 }), 0) * 100) / 100;
+}
 function fmtUnits(u) { return (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'; }
 function confBadge(conf) {
   const c = String(conf || '').toLowerCase();
@@ -830,7 +835,7 @@ function tallyPicks(picks, { conf = null, side = null, stake = null } = {}) {
     matched.push({ result, odds: g.sOdds ?? g.odds, stake: stake ? st : 1 });
     matchedStaked.push({ result, odds: g.sOdds ?? g.odds, stake: st });
   }
-  return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l, matched), stakedUnits: calcUnits(w, l, matchedStaked), played: w + l + p };
+  return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l, matchedStaked), flatUnits: calcUnits(w, l, matched.map(m => ({ ...m, stake: 1 }))), stakedUnits: calcUnits(w, l, matchedStaked), played: w + l + p };
 }
 
 function computeSummary(runs) {
@@ -860,7 +865,7 @@ function getActionablePicks(runs) {
         matchup: `${teamAlias(g.away)} @ ${teamAlias(g.home)}`,
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
-        sDiff: g.sDiff, pCover: g.pCover,
+        sDiff: g.sDiff, pCover: g.pCover, stake: pickStake(g, g.pCover),
       });
     }
   }
@@ -889,7 +894,7 @@ function computeWeekly(runs) {
     else weeks[key].p++;
   }
   return Object.values(weeks).sort((a, b) => a.week.localeCompare(b.week)).map(r => ({
-    ...r, pct: winPct(r.w, r.l), units: calcUnits(r.w, r.l)
+    ...r, pct: winPct(r.w, r.l), units: stakedUnits(r.picks)
   }));
 }
 
@@ -904,7 +909,7 @@ function computeRolling(runs) {
     const p = chunk.filter(x => x.result === 'PUSH').length;
     rows.push({
       label: `#${i + 1}\u2013${i + window}`,
-      w, l, p, pct: winPct(w, l), units: calcUnits(w, l),
+      w, l, p, pct: winPct(w, l), units: stakedUnits(chunk),
       startDate: chunk[0].dateDisplay || chunk[0].date,
       endDate: chunk[chunk.length - 1].dateDisplay || chunk[chunk.length - 1].date,
       picks: chunk,
@@ -943,8 +948,9 @@ function computeTeamRecords(runs) {
       const parsed = parseSpreadPick(g.sPick);
       if (!parsed) continue;
       const team = parsed.team;
-      if (!teams[team]) teams[team] = { w: 0, l: 0, p: 0, picks: 0, fav: 0, dog: 0 };
+      if (!teams[team]) teams[team] = { w: 0, l: 0, p: 0, picks: 0, fav: 0, dog: 0, list: [] };
       teams[team].picks++;
+      teams[team].list.push({ result, stake: pickStake(g, g.pCover) });
       if (result === 'WIN') teams[team].w++;
       else if (result === 'LOSS') teams[team].l++;
       else teams[team].p++;
@@ -1061,7 +1067,7 @@ function getYesterdayRecap(runs) {
         matchup: `${teamAlias(g.away)} @ ${teamAlias(g.home)}`,
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
-        sDiff: g.sDiff, pCover: g.pCover,
+        sDiff: g.sDiff, pCover: g.pCover, stake: pickStake(g, g.pCover),
       });
     }
     if (!picks.length) continue;
@@ -1071,7 +1077,7 @@ function getYesterdayRecap(runs) {
     return {
       dateDisplay: day.dateDisplay || day.date,
       picks, tally: { w, l, p },
-      units: calcUnits(w, l),
+      units: stakedUnits(picks),
     };
   }
   return null;
@@ -1233,7 +1239,7 @@ function renderSpreadRecord(runs, modelSummary = null) {
   const row = (label, b) => `<tr><td>${label}</td><td>${b.w}-${b.l}-${b.p}</td>
     <td class="center"><span class="${pctClass(b.pct)}">${fmtPct(Number(b.pct || 0))}</span></td>
     <td class="center"><span class="${unitClass(b.units)}">${fmtUnits(b.units)}</span></td>
-    ${hasStake ? `<td class="center"><span class="${unitClass(b.stakedUnits)}">${fmtUnits(b.stakedUnits)}</span></td>` : ''}
+    ${hasStake ? `<td class="center" style="opacity:.75"><span class="${unitClass(b.flatUnits)}">${fmtUnits(b.flatUnits)}</span></td>` : ''}
     <td class="center">${b.played}</td></tr>`;
   // Stake-tier breakdown: picks clearing the elite pCover cut are staked 2u, the
   // rest 1u. Units in these rows reflect the ACTUAL stake (2u P&L is not flat).
@@ -1253,7 +1259,7 @@ function renderSpreadRecord(runs, modelSummary = null) {
     <div class="card card-records">
       <div class="card-title">Spread Record (ATS)</div>
       <table class="data">
-        <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th>${hasStake ? '<th class="center" title="Units at the recommended stake: 2u on elite picks, 1u otherwise">2u/1u</th>' : ''}<th class="center">Graded</th></tr></thead>
+        <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center" title="Units at each pick's real stake (2u / 1u)">Units</th>${hasStake ? '<th class="center" title="Every pick counted as 1u">Flat 1u</th>' : ''}<th class="center">Graded</th></tr></thead>
         <tbody>
           ${row('Model', modelBucket)}
           ${stakeRows}
@@ -1375,7 +1381,7 @@ function renderLast10(runs) {
     <td class="center">${esc(p.final)}</td>
   </tr>`).join('');
   const t = { w: picks.filter(x => x.result === 'WIN').length, l: picks.filter(x => x.result === 'LOSS').length, p: picks.filter(x => x.result === 'PUSH').length };
-  t.pct = winPct(t.w, t.l); t.units = calcUnits(t.w, t.l);
+  t.pct = winPct(t.w, t.l); t.units = stakedUnits(picks);
   return `
     <div class="card card-trends">
       <div class="card-title">Last 10 Spread</div>
@@ -1467,15 +1473,15 @@ function renderTeamRecords(runs) {
   const sorted = Object.entries(teams)
     .filter(([, t]) => t.w + t.l >= 3)
     .sort((a, b) => {
-      const uA = calcUnits(a[1].w, a[1].l);
-      const uB = calcUnits(b[1].w, b[1].l);
+      const uA = stakedUnits(a[1].list);
+      const uB = stakedUnits(b[1].list);
       return uB - uA;
     });
   if (!sorted.length) return '';
   const rows = sorted.map(([name, t]) => {
     const total = t.w + t.l;
     const pct = total > 0 ? (100 * t.w / total) : 0;
-    const units = calcUnits(t.w, t.l);
+    const units = stakedUnits(t.list);
     return `<tr>
       <td>${esc(name)}</td>
       <td class="center">${t.picks}</td>
