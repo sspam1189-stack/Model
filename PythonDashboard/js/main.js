@@ -1739,13 +1739,14 @@ function renderHistoryDay(run) {
 
 function updateLastRunInfo() {
   const labels = {
-    fullseason: 'Full Season', nfl: 'NFL',
+    fullseason: 'Full Season', 'nba-preview': 'Full Season', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
     'mlb-props': "MLB K's CSW .1", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26 (shadow)",
     'mlb-props-cv125c25': "MLB K's CSW .1 Old (shadow)",
     'mlb-batter-props': 'MLB Batter Props',
   };
-  const data = cache[activeTab];
+  // NBA Picks is built from the Full Season run, so it shows that run's time.
+  const data = cache[activeTab === 'nba-preview' ? 'fullseason' : activeTab];
   const el = document.getElementById('last-run-info');
   if (!el) return;
 

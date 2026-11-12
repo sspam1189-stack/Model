@@ -724,6 +724,7 @@ async function renderNBAPreview() {
   }
   const data = nbapBuild(histories, replay);
   nbapData = data;
+  if (typeof updateLastRunInfo === 'function') updateLastRunInfo();   // data is loaded now
   el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-log"></div>';
   nbapRerender();
 }
