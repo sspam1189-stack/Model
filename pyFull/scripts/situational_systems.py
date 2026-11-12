@@ -276,35 +276,28 @@ SYSTEMS = [
         "test": _blowout_dog,
     },
     {
-        # 2026-11-04, user decision: paused (CARD -> SHADOW) after a 9-11
-        # (-2.7u) start; still logged and graded, no longer on the card.
-        "id": "home_dog_5_over", "tier": "candidate", "status": SHADOW, "market": "total", "side": "OVER",
-        "label": "Home dog of +5 or more -> OVER",
+        # 2026-11-12, user decision: flipped to the UNDER for 2026-27 and put
+        # on the card. Replaces home_dog_5_over (paused 2026-11-04), whose
+        # 2026-27 plays went 11-18 on the over -- 18-11 on the under. The
+        # 2025-26 backtest pointed the other way (over 166-120), so this is
+        # a this-season read, not the backtest's claim.
+        "id": "home_dog_5_under", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
+        "label": "Home dog of +5 or more -> UNDER",
         "name": (
-            "Home dog over"),
+            "Home dog under"),
         "rule": (
-            "Home team getting 5 or more points (home spread >= +5) -> OVER."),
+            "Home team getting 5 or more points (home spread >= +5) -> UNDER."),
         "why": (
-            "Home dog of +5 or more -> over. 166-120 +10.8% (n=286, p=0.008), "
-            "both halves positive. The book lifts the total only 0.7 over "
-            "average for these games and they land 3.7 over it, with the "
-            "scoring coming from the ROAD FAVOURITE (121.7 points against a "
-            "114.2 league average) rather than the home dog collapsing. Mirror "
-            "test: home favourites of 5+ lean under at 250-262. CAUTION -- at "
-            "+30.9u this is the screen's best system and the permutation null "
-            "clears that mark one time in five. Carded 2026-09-02."),
-        "backtest": {"w": 166, "l": 120, "units": 30.9, "roi": 0.108, "p": 0.008,
-                     "h1": 13.9, "h2": 17.0, "priced": "real -110"},
+            "Home dog of +5 or more -> under, flipped from the over on "
+            "2026-11-12: this season the over went 11-18 (under 18-11). "
+            "CAUTION -- the 2025-26 backtest ran the other way (over 166-120, "
+            "under 120-166 -56.9u); this rides the current season only."),
+        "backtest": {"w": 120, "l": 166, "units": -56.9, "roi": -0.199, "p": None,
+                     "h1": None, "h2": None, "priced": "real -110"},
         "mechanism": (
-            "The book lifts the total only 0.7 over average for these games; "
-            "they land 3.7 over it. The scoring comes from the ROAD FAVOURITE "
-            "(121.7 points against a 114.2 league average), not from the home "
-            "dog collapsing. Stronger at +8 or more (97-65). The mirror is the "
-            "test: home favourites of 5+ lean UNDER at 250-262. Same shape as "
-            "the day-mismatch OVER already registered in pyNFL -- an "
-            "independent replication in another sport. CAUTION: at +30.9u this "
-            "is the screen's best system, and the permutation null clears that "
-            "mark 20% of the time."),
+            "Mirror of the paused home-dog OVER. The 2025-26 screen found the "
+            "over (166-120); 2026-27 opened 11-18 on it, so the card takes the "
+            "under for this season and re-checks it as the sample grows."),
         "test": lambda r: r["is_home"] and r["spread"] >= 5,
     },
 
