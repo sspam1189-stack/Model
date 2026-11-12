@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-12T03:59:59Z",
+ "generated": "2026-11-12T15:01:54Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -29144,9 +29144,9 @@
    "book_price": null,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": null,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00"
   },
   {
@@ -29166,9 +29166,9 @@
    "conv_price": 209,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T02:40:00.000+00:00"
   },
   {
@@ -29188,9 +29188,9 @@
    "conv_price": 209,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T02:40:00.000+00:00"
   },
   {
@@ -29209,9 +29209,9 @@
    "book_price": -108,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T02:40:00.000+00:00"
   },
   {
@@ -29230,9 +29230,9 @@
    "book_price": -108,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T02:40:00.000+00:00"
   },
   {
@@ -29252,9 +29252,9 @@
    "conv_price": 143,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00"
   },
   {
@@ -29273,9 +29273,9 @@
    "book_price": -105,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00"
   },
   {
@@ -29294,9 +29294,9 @@
    "book_price": null,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": null,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00"
   },
   {
@@ -29315,9 +29315,9 @@
    "book_price": null,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": null,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00"
   },
   {
@@ -29337,10 +29337,74 @@
    "conv_price": 126,
    "stake": 1.0,
    "status": "card",
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
+   "startTimeUTC": "2026-11-12T03:10:00.000+00:00"
+  },
+  {
+   "date": "20261112",
+   "system": "elite_dog_ml",
+   "tier": "candidate",
+   "market": "h2h",
+   "side": "TEAM",
+   "play": "Dallas Mavericks ML",
+   "team": "Dallas Mavericks",
+   "game": "Dallas Mavericks @ Minnesota Timberwolves",
+   "away": "Dallas Mavericks",
+   "home": "Minnesota Timberwolves",
+   "line": 5.5,
+   "price": 184,
+   "book_price": 184,
+   "conv_price": 185,
+   "stake": 1.0,
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-12T03:10:00.000+00:00"
+   "startTimeUTC": "2026-11-13T01:10:00.000+00:00"
+  },
+  {
+   "date": "20261112",
+   "system": "elite_dog_ats",
+   "tier": "candidate",
+   "market": "spread",
+   "side": "TEAM",
+   "play": "Dallas Mavericks +5.5",
+   "team": "Dallas Mavericks",
+   "game": "Dallas Mavericks @ Minnesota Timberwolves",
+   "away": "Dallas Mavericks",
+   "home": "Minnesota Timberwolves",
+   "line": 5.5,
+   "price": -110,
+   "book_price": -110,
+   "stake": 1.0,
+   "status": "card",
+   "result": "pending",
+   "profit": 0.0,
+   "book_profit": 0.0,
+   "startTimeUTC": "2026-11-13T01:10:00.000+00:00"
+  },
+  {
+   "date": "20261112",
+   "system": "home_dog_5_under",
+   "tier": "candidate",
+   "market": "total",
+   "side": "UNDER",
+   "play": "UNDER 220.5",
+   "team": "Washington Wizards",
+   "game": "Detroit Pistons @ Washington Wizards",
+   "away": "Detroit Pistons",
+   "home": "Washington Wizards",
+   "line": 220.5,
+   "price": -106,
+   "book_price": -106,
+   "stake": 1.0,
+   "status": "card",
+   "result": "pending",
+   "profit": 0.0,
+   "book_profit": 0.0,
+   "startTimeUTC": "2026-11-13T00:10:00.000+00:00"
   }
  ]
 }
