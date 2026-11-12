@@ -124,7 +124,43 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
                               R.TIERS.index(p["tier"]) if p["tier"] in R.TIERS else 9,
                               str(p.get("startTimeUTC") or ""), p["system"]))
 
-    # 3. log them (idempotent on date|system|away|home)
+    # 3. log them (idempotent on date|system|team)
+    # The LAST run before tip decides (2026-11-11): a pending play for a game
+    # that has not started yet is dropped if this run no longer fires it (the
+    # line flipped, e.g. the dog became the favourite), and a play that still
+    # fires takes this run's line and price.
+    now_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    cur = {}
+    for row in todays:
+        for s in R.evaluate(row):
+            cur[(date, s["id"], row["team"])] = _play_row(row, s, date)
+    fired = set(cur)
+    seen = {tuple(LOG._sides(row)) for row in todays}   # games this run priced
+    def _unstarted(e):
+        st = e.get("startTimeUTC")
+        return bool(st) and str(st).replace("Z", "+00:00") > now_utc
+    kept, dropped = [], 0
+    for e in blob["entries"]:
+        if (e.get("date") == date and e.get("result") == "pending" and not e.get("no_play")
+                and _unstarted(e)):
+            k = (e["date"], e["system"], e.get("team"))
+            if k not in fired:
+                if (e.get("away"), e.get("home")) in seen:
+                    dropped += 1
+                    continue
+                kept.append(e)          # game missing from this run's feed: keep
+                continue
+            p = cur[k]
+            e["play"], e["line"], e["price"] = p["play"], p["line"], p["price"]
+            if p["market"] == "h2h":
+                e["book_price"] = p.get("book_price")
+                e["conv_price"] = R.ml_american(p["spread"])
+            else:
+                e["book_price"] = p["price"]
+        kept.append(e)
+    blob["entries"] = kept
+    if dropped:
+        print("  [systems] dropped {0} play(s) that no longer fire".format(dropped))
     added = 0
     for row in todays:
         for s in R.evaluate(row):
