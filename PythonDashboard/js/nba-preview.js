@@ -565,7 +565,8 @@ function nbapHistoryCard(d) {
 
 // ── team spread record ─────────────────────────────────────────────────────
 // Record by the team each model played, over the page's date range. Its own
-// filters: which plays (preview / official / both), model, team.
+// filters: which plays (preview / official / both), model, team. Models are
+// never added together: "All models" shows a column (or a row) per model.
 let nbapTF = { kind: 'combined', model: 'all', team: 'all' };
 function nbapSetTF(k, v, focusId) {
   nbapTF[k] = v; nbapRerender();
@@ -578,7 +579,9 @@ function nbapTeamCard(d) {
   const label = nbapDay ? nbapIso(nbapDay)
     : nbapRange === 'season' ? 'season to date' : nbapRange === 'last7' ? 'last 7 days' : nbapRange === 'last14' ? 'last 14 days' : nbapRange;
   const models = d.models.filter(m => f.model === 'all' || f.model === m.key);
-  const blank = () => ({ all: nbapNewRec(), two: nbapNewRec(), one: nbapNewRec(), fav: 0, dog: 0, n: 0 });
+  const blank = () => ({ all: nbapNewRec(), two: nbapNewRec(), one: nbapNewRec(), fav: 0, dog: 0, n: 0, by: {} });
+  // All models + all teams: one column per model, never added together.
+  const split = f.model === 'all' && f.team === 'all';
   const rows = {};            // keyed by team, or by model when one team is selected
   const teams = new Set();
   let pending = 0;
@@ -594,6 +597,7 @@ function nbapTeamCard(d) {
       const r = rows[key] || (rows[key] = blank());
       r.n++;
       nbapAdd(r.all, p.result, p.units);
+      nbapAdd(r.by[m.key] || (r.by[m.key] = nbapNewRec()), p.result, p.units);
       nbapAdd(p.units === 2 ? r.two : r.one, p.result, p.units);
       const line = p.line != null ? p.line : g.line;
       if (line != null) { const t = p.side === 'home' ? line : -line; if (t < 0) r.fav++; else if (t > 0) r.dog++; }
@@ -602,12 +606,16 @@ function nbapTeamCard(d) {
   // every team seen on the page stays in the dropdown, whatever the filters
   d.combDays.forEach(x => x.games.forEach(g => { teams.add(g.away); teams.add(g.home); }));
   if (f.team !== 'all') teams.add(f.team);
-  const list = Object.entries(rows).sort((a, b) => b[1].all.u - a[1].all.u || a[0].localeCompare(b[0]));
+  const list = Object.entries(rows).sort((a, b) => split ? a[0].localeCompare(b[0])
+    : (b[1].all.u - a[1].all.u || a[0].localeCompare(b[0])));
   const tot = blank();
   list.forEach(([, r]) => {
     ['all', 'two', 'one'].forEach(k => { tot[k].w += r[k].w; tot[k].l += r[k].l; tot[k].p += r[k].p; tot[k].u += r[k].u; });
     tot.fav += r.fav; tot.dog += r.dog; tot.n += r.n;
+    Object.keys(r.by).forEach(k => { const t = tot.by[k] || (tot.by[k] = nbapNewRec()), x = r.by[k];
+      t.w += x.w; t.l += x.l; t.p += x.p; t.u += x.u; });
   });
+  const none = nbapNewRec();
 
   const st = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:3px 8px;font-size:12px;margin:0 6px 6px 0;cursor:pointer';
   const sel = (k, opts) => `<select id="nbap-tf-${k}" onchange="nbapSetTF('${k}', this.value, this.id)" style="${st}">`
@@ -615,18 +623,23 @@ function nbapTeamCard(d) {
   const kindName = f.kind === 'official' ? 'official plays' : f.kind === 'preview' ? 'preview plays' : 'preview + official';
   const first = f.team === 'all' ? 'Team played' : 'Model';
   const th = t => `<th class="center" style="padding:4px 6px">${t}</th>`;
-  const tr = (name, r, bold) => `<tr style="border-top:1px solid #21262d${bold ? ';background:#161b22' : ''}">
+  const tr = (name, r, bold) => split ? `<tr style="border-top:1px solid #21262d${bold ? ';background:#161b22' : ''}">
+      <td style="padding:6px">${bold ? `<b>${nbapEsc(name)}</b>` : nbapEsc(name)}</td>
+      ${d.models.map(m => `<td class="center">${nbapRecCell(r.by[m.key] || none)}</td>`).join('')}</tr>`
+    : `<tr style="border-top:1px solid #21262d${bold ? ';background:#161b22' : ''}">
       <td style="padding:6px">${bold ? `<b>${nbapEsc(name)}</b>` : nbapEsc(name)}</td>
       <td class="center">${r.n}</td><td class="center">${nbapRecCell(r.all)}</td>
       <td class="center">${nbapRecCell(r.two)}</td><td class="center">${nbapRecCell(r.one)}</td>
       <td class="center">${r.fav}</td><td class="center">${r.dog}</td></tr>`;
   const empty = `<div style="padding:8px 10px 12px;color:${NBAP_DIM};font-size:12px">No graded plays match these filters.</div>`;
-  const mob = (list.length > 1 ? [['Total', tot]] : []).concat(list).map(([name, r]) => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(name)}
-        <span style="font-weight:400;font-size:12px;color:${NBAP_DIM};margin-left:6px">${r.n} play${r.n === 1 ? '' : 's'} · ${r.fav} fav · ${r.dog} dog</span></div>
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">${nbapMobStat('All plays', r.all)}${nbapMobStat('2u only', r.two)}${nbapMobStat('1u only', r.one)}</div></div>`).join('');
+  const mob = (list.length > 1 && (split || f.model !== 'all') ? [['Total', tot]] : []).concat(list).map(([name, r]) => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(name)}
+        ${split ? '' : `<span style="font-weight:400;font-size:12px;color:${NBAP_DIM};margin-left:6px">${r.n} play${r.n === 1 ? '' : 's'} · ${r.fav} fav · ${r.dog} dog</span>`}</div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">${split
+        ? d.models.map(m => nbapMobStat(m.name, r.by[m.key] || none)).join('')
+        : nbapMobStat('All plays', r.all) + nbapMobStat('2u only', r.two) + nbapMobStat('1u only', r.one)}</div></div>`).join('');
   return `<div class="card card-games">
     <div class="card-title">Team spread record (ATS) — ${nbapEsc(kindName)}, ${nbapEsc(label)}
-      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${tot.n} graded play${tot.n === 1 ? '' : 's'}${pending ? ` · ${pending} pending` : ''}</span></div>
+      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${f.model === 'all' ? 'each model separately' : `${tot.n} graded play${tot.n === 1 ? '' : 's'}`}${pending ? ` · ${pending} pending` : ''}</span></div>
     <div style="padding:8px 10px 2px">
       ${sel('kind', [['combined', 'Preview + official'], ['official', 'Official plays'], ['preview', 'Preview plays']])}
       ${sel('model', [['all', 'All models']].concat(d.models.map(m => [m.key, m.name])))}
@@ -637,8 +650,9 @@ function nbapTeamCard(d) {
     ${!list.length ? empty : nbapMobile() ? `<div style="padding:0 10px">${mob}</div>` : `
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
-        <th style="padding:4px 6px">${first}</th>${th('Plays')}${th('All plays')}${th('2u only')}${th('1u only')}${th('Fav')}${th('Dog')}</tr></thead>
-      <tbody>${list.map(([name, r]) => tr(name, r, false)).join('')}${list.length > 1 ? tr('Total', tot, true) : ''}</tbody>
+        <th style="padding:4px 6px">${first}</th>${split ? d.models.map(m => th(nbapEsc(m.name))).join('')
+          : th('Plays') + th('All plays') + th('2u only') + th('1u only') + th('Fav') + th('Dog')}</tr></thead>
+      <tbody>${list.map(([name, r]) => tr(name, r, false)).join('')}${list.length > 1 && (split || f.model !== 'all') ? tr('Total', tot, true) : ''}</tbody>
     </table></div>`}
   </div>`;
 }
