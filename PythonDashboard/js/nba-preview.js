@@ -567,7 +567,9 @@ function nbapHistoryCard(d) {
 // Record by the team each model played, over the page's date range. Its own
 // filters: which plays (preview / official / both), model, team. Models are
 // never added together: "All models" shows a column (or a row) per model.
-let nbapTF = { kind: 'combined', model: 'all', team: 'all' };
+// KalmanOff is the default model (the one followed).
+const NBAP_TF_DEFAULT = { kind: 'combined', model: 'pyFullKalmanOff', team: 'all' };
+let nbapTF = Object.assign({}, NBAP_TF_DEFAULT);
 function nbapSetTF(k, v, focusId) {
   nbapTF[k] = v; nbapRerender();
   if (focusId) { const f = document.getElementById(focusId); if (f) f.focus(); }
@@ -656,8 +658,8 @@ function nbapTeamCard(d) {
       ${kindToggle}
       ${modelToggle}
       ${sel('team', [['all', 'All teams']].concat([...teams].sort().map(t => [t, t])))}
-      ${f.kind !== 'combined' || f.model !== 'all' || f.team !== 'all'
-        ? `<button onclick="nbapTF={kind:'combined',model:'all',team:'all'};nbapRerender()" style="${st}">Clear filters</button>` : ''}
+      ${f.kind !== NBAP_TF_DEFAULT.kind || f.model !== NBAP_TF_DEFAULT.model || f.team !== NBAP_TF_DEFAULT.team
+        ? `<button onclick="nbapTF=Object.assign({},NBAP_TF_DEFAULT);nbapRerender()" style="${st}">Clear filters</button>` : ''}
     </div>
     ${!list.length ? empty : nbapMobile() ? `<div style="padding:0 10px">${mob}</div>` : `
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
