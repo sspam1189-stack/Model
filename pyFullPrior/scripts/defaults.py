@@ -1,5 +1,6 @@
-# NBA Full Prior -- a fifth NBA full-season model (2026-11-12). Built on NBA
-# Full KalmanOff (Kalman offsets not applied) plus two things:
+# NBA KalmanOff + Last Season (pyFullPrior, 2026-11-12). Built on NBA Full
+# KalmanOff (Kalman offsets not applied). Addition 1 is on; addition 2 was split
+# out to pyFullInj on 2026-11-13 (PRIOR_INJURIES below is off here):
 #   1. last season's final team ratings as the starting point (PRIOR_GAMES /
 #      PRIOR_REGRESS below; sources/prior.py blend_team_prior)
 #   2. injuries from game 1, using last season's player ratings until this
@@ -230,7 +231,7 @@ ENGINE_CONFIG = {
     "PRIOR_REGRESS": 0.8,
     # The two additions, switchable separately.
     "PRIOR_TEAM": True,        # last season's team ratings as the starting point
-    "PRIOR_INJURIES": True,    # injuries from game 1 (last-season player ratings)
+    "PRIOR_INJURIES": False,   # injuries from game 1 (last-season player ratings)
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }

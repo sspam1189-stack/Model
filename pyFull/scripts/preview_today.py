@@ -32,13 +32,16 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 # dNET (pyFullDNET) still runs live but is hidden from the preview (2026-11-02).
-# pyFullPrior (2026-11-12): KalmanOff + last season as the starting point +
-# injuries from game 1. Shown as a fourth column; not part of the AGREE groups.
+# 2026-11-13: the two additions to KalmanOff run as separate models, each in
+# its own column and neither part of the AGREE groups:
+#   pyFullPrior = KalmanOff + last season's ratings as the starting point
+#   pyFullInj   = KalmanOff + injuries from game 1
 MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff"),
-          ("pyFullKalmanEarly", "NBA Full KalmanEarly"), ("pyFullPrior", "NBA Full Prior")]
+          ("pyFullKalmanEarly", "NBA Full KalmanEarly"), ("pyFullPrior", "KalmanOff + Last Season"),
+          ("pyFullInj", "KalmanOff + Injuries")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
-              "pyFullKalmanEarly": "nba-kalmanearly", "pyFullPrior": "nba-prior"}
+              "pyFullKalmanEarly": "nba-kalmanearly", "pyFullPrior": "nba-prior", "pyFullInj": "nba-inj"}
 # Consensus records: every listed model fired the same side, at the smallest stake.
 # Optional 4th field: every member must be at least this stake (2 = all at 2u).
 AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
