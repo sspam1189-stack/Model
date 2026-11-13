@@ -22,7 +22,7 @@ const NBAP_MODELS = [
 ];
 
 let nbapData = null;
-let nbapRange = 'season';   // season | last7 | YYYYMM
+let nbapRange = 'season';   // season | last7 | last14 | YYYYMM
 let nbapDay = '';           // YYYYMMDD; overrides the range
 let nbapLogPage = 0;
 let nbapOffPage = 0;
@@ -102,9 +102,9 @@ function nbapDaysInRange(d, all) {
   const graded = all.filter(x => !x.live || x.games.some(g => g.final));
   if (nbapDay) return all.filter(x => x.date === nbapDay);
   if (nbapRange === 'season') return graded;
-  if (nbapRange === 'last7') {
+  if (nbapRange === 'last7' || nbapRange === 'last14') {
     const t = new Date(nbapIso(d.today) + 'T12:00:00');
-    t.setDate(t.getDate() - 7);
+    t.setDate(t.getDate() - (nbapRange === 'last14' ? 14 : 7));
     const cut = t.toISOString().slice(0, 10).replace(/-/g, '');
     return graded.filter(x => x.date >= cut && x.date < d.today);
   }
@@ -216,7 +216,7 @@ function nbapFilterBar(d) {
   const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const months = [...new Set(d.days.map(x => x.date.slice(0, 6)))].sort().reverse();
   const style = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer;margin-right:6px';
-  const opts = [['season', 'Season to date'], ['last7', 'Last 7 days']]
+  const opts = [['season', 'Season to date'], ['last7', 'Last 7 days'], ['last14', 'Last 14 days']]
     .concat(months.map(m => [m, MON[+m.slice(4) - 1] + ' ' + m.slice(0, 4)]));
   const days = d.days.map(x => x.date);
   return `<div style="padding:8px 0 10px">
@@ -275,7 +275,7 @@ function nbapRecordsCard(d, kind) {
   const days = nbapDaysInRange(d, official ? d.offDays : combined ? d.combDays : d.days);
   const games = days.flatMap(x => x.games).filter(g => !g.skipped);
   const label = nbapDay ? nbapIso(nbapDay)
-    : nbapRange === 'season' ? 'season to date' : nbapRange === 'last7' ? 'last 7 days' : nbapRange;
+    : nbapRange === 'season' ? 'season to date' : nbapRange === 'last7' ? 'last 7 days' : nbapRange === 'last14' ? 'last 14 days' : nbapRange;
 
   // each model: all / 2u / 1u
   const mobModels = [], mobGroups = [];
