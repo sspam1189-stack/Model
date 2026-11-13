@@ -20,6 +20,9 @@ on:
       only:
         description: "With date+to: replay (and seed) just this model, e.g. pyFullKalmanOff"
         default: ""
+      official_from:
+        description: "With seed: dates from this day (YYYYMMDD) on are written with their replayed picks, not as burn-in"
+        default: ""
 
 permissions:
   contents: write
@@ -45,6 +48,7 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
+          NBA_SEED_OFFICIAL_FROM: ${{ inputs.official_from }}
         run: |
           if ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.only }}" -and "${{ inputs.seed }}" -eq "true") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --only ${{ inputs.only }} --seed }
           elseif ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.only }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --only ${{ inputs.only }} }

@@ -257,7 +257,10 @@ def seed_history(model, runs, dates):
     """Write the walk-forward days into the model's live history.json as
     burn-in runs (projected and graded, no official picks), replacing the
     placeholder runs for those dates, so live self-tune / Kalman learn from
-    them like every other graded game."""
+    them like every other graded game. Dates from NBA_SEED_OFFICIAL_FROM
+    (YYYYMMDD, optional) on are written as replayed, picks included: those
+    are days official picks were already being made."""
+    official_from = (os.environ.get("NBA_SEED_OFFICIAL_FROM") or "").strip() or "99999999"
     path = os.path.join(REPO, model, "data", "history.json")
     raw = open(path, encoding="utf-8", newline="").read()
     store = json.loads(raw)
@@ -267,12 +270,12 @@ def seed_history(model, runs, dates):
         r = runs.get(d)
         if not r:
             continue
-        for g in r.get("games", []):
+        for g in r.get("games", []) if d < official_from else []:
             g["burnIn"] = True
             g["sPick"], g["sConf"], g["pCover"] = "PASS", "low", None
             g["oPick"], g["oConf"], g["pOU"] = "PASS", "low", None
             g.pop("stakeUnits", None)
-            g["note"] = "Seeded 2026-10-30 from the walk-forward preview (stats through the day before)"
+            g["note"] = "Seeded from the walk-forward preview (stats through the day before)"
         r["burnIn"] = False
         by_date[d] = r
         n += len(r.get("games", []))
