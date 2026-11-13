@@ -63,6 +63,12 @@ def _setup(model):
         src = os.path.join(REPO, "data", sub, "nba")
         if os.path.isdir(src):
             shutil.copytree(src, os.path.join(root, "data", sub, "nba"))
+    # per-game player logs, for the median-minutes injury adjustment
+    logs = glob.glob(os.path.join(REPO, "data", "player_cache", "nba", "basic_*.json"))
+    if logs:
+        os.makedirs(os.path.join(root, "data", "player_cache", "nba"), exist_ok=True)
+        for p in logs:
+            shutil.copy(p, os.path.join(root, "data", "player_cache", "nba"))
     d = os.path.join(root, model, "scripts", "defaults.py")
     s = open(d, encoding="utf-8").read()
     # Kalman offsets count only from the model's own projection start (its

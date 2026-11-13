@@ -823,6 +823,14 @@ def _main(subject_label, date):
     # season_type.py override (or pass playoff_mode=True manually) to turn on.
     from sources.season_type import is_playoffs as _is_playoffs
     _playoff_mode = _is_playoffs(date)
+    # Minutes for the adjustment: median of each player's last 10 games rather
+    # than his season average (core/player_minutes.py). NBA_MEDIAN_MINUTES=0/1
+    # overrides the default for a one-off replay.
+    _mm = (os.environ.get("NBA_MEDIAN_MINUTES") or "").strip()
+    if (_mm == "1") if _mm in ("0", "1") else ENGINE_CONFIG.get("MEDIAN_MINUTES"):
+        from core.player_minutes import apply_median_minutes
+        player_advanced, _n_med = apply_median_minutes(player_advanced, date)
+        print(f"  [lineup] Median minutes (last 10 games) applied to {_n_med} player(s)")
     lineup_stats = adjust_team_stats(
         stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
         player_advanced, odds,

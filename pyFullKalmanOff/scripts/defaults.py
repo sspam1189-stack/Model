@@ -241,3 +241,7 @@ KALMAN_DEFAULTS = {
 # 2026-11-13: keep the projection weights at the starting values above; the
 # daily self-tune does not re-fit them. Set to False to tune daily again.
 ENGINE_CONFIG["FREEZE_WEIGHTS"] = True
+
+# Injury adjustment minutes: median of a player's last 10 games instead of his
+# season average (core/player_minutes.py). Off until its walk-forward is read.
+ENGINE_CONFIG["MEDIAN_MINUTES"] = False
