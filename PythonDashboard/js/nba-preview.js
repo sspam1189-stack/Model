@@ -14,11 +14,14 @@ const NBAP_SEASON_START = '20261023';
 const NBAP_FIRE = 0.58, NBAP_ELITE = 0.65, NBAP_MAX_LINE = 18;
 const NBAP_MODELS = [
   { key: 'pyFull', name: 'Full Season', tab: 'fullseason', local: 'data/fullseason.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json' },
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json',
+    kal: 'data/kalman-fullseason.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/kalman_state.json' },
   { key: 'pyFullKalmanOff', name: 'KalmanOff', tab: 'fullseason-ko', local: 'data/fullseason-kalmanoff.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json' },
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json',
+    kal: 'data/kalman-kalmanoff.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/kalman_state.json' },
   { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json' },
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json',
+    kal: 'data/kalman-kalmanearly.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/kalman_state.json' },
 ];
 
 let nbapData = null;
@@ -640,6 +643,15 @@ function nbapTeamCard(d) {
   const kindName = f.kind === 'official' ? 'official plays' : f.kind === 'preview' ? 'preview plays' : 'preview + official';
   const first = f.team === 'all' ? 'Team played' : 'Model';
   const th = t => `<th class="center" style="padding:4px 6px">${t}</th>`;
+  // current Kalman correction for the row's team in the selected model
+  const kState = (d.kalman || {})[f.model];
+  const kalCell = (name, bold) => {
+    const t = bold ? null : (kState && kState.teams || {})[f.team === 'all' ? name : f.team];
+    if (!t || !Number.isFinite(t.adj_mean)) return `<span style="color:${NBAP_DIM}">—</span>`;
+    const v = t.adj_mean, c = v > 0.05 ? '#3fb950' : v < -0.05 ? '#f85149' : NBAP_DIM;
+    return `<span style="color:${c}">${v > 0 ? '+' : ''}${v.toFixed(1)}</span>`;
+  };
+  const kalHead = f.model === 'pyFullKalmanOff' ? 'Kalman adj (not applied)' : 'Kalman adj';
   const tr = (name, r, bold) => split ? `<tr style="border-top:1px solid #21262d${bold ? ';background:#161b22' : ''}">
       <td style="padding:6px">${bold ? `<b>${nbapEsc(name)}</b>` : nbapEsc(name)}</td>
       ${d.models.map(m => `<td class="center">${nbapRecCell(r.by[m.key] || none)}</td>`).join('')}</tr>`
@@ -647,10 +659,10 @@ function nbapTeamCard(d) {
       <td style="padding:6px">${bold ? `<b>${nbapEsc(name)}</b>` : nbapEsc(name)}</td>
       <td class="center">${r.n}</td><td class="center">${nbapRecCell(r.all)}</td>
       <td class="center">${nbapRecCell(r.two)}</td><td class="center">${nbapRecCell(r.one)}</td>
-      <td class="center">${r.fav}</td><td class="center">${r.dog}</td></tr>`;
+      <td class="center">${r.fav}</td><td class="center">${r.dog}</td><td class="center">${kalCell(name, bold)}</td></tr>`;
   const empty = `<div style="padding:8px 10px 12px;color:${NBAP_DIM};font-size:12px">No graded plays match these filters.</div>`;
   const mob = (list.length > 1 && (split || f.model !== 'all') ? [['Total', tot]] : []).concat(list).map(([name, r]) => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(name)}
-        ${split ? '' : `<span style="font-weight:400;font-size:12px;color:${NBAP_DIM};margin-left:6px">${r.n} play${r.n === 1 ? '' : 's'} · ${r.fav} fav · ${r.dog} dog</span>`}</div>
+        ${split ? '' : `<span style="font-weight:400;font-size:12px;color:${NBAP_DIM};margin-left:6px">${r.n} play${r.n === 1 ? '' : 's'} · ${r.fav} fav · ${r.dog} dog${name === 'Total' ? '' : ` · ${kalHead} ${kalCell(name, false)}`}</span>`}</div>
       <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">${split
         ? d.models.map(m => nbapMobStat(m.name, r.by[m.key] || none)).join('')
         : nbapMobStat('All plays', r.all) + nbapMobStat('2u only', r.two) + nbapMobStat('1u only', r.one)}</div></div>`).join('');
@@ -668,7 +680,8 @@ function nbapTeamCard(d) {
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">${first}</th>${split ? d.models.map(m => th(nbapEsc(m.name))).join('')
-          : th('Plays') + th('All plays') + th('2u only') + th('1u only') + th('Fav') + th('Dog')}</tr></thead>
+          : th('Plays') + th('All plays') + th('2u only') + th('1u only') + th('Fav') + th('Dog')
+            + `<th class="center" style="padding:4px 6px" title="The model's current point correction for this team, learned from its results so far">${kalHead}</th>`}</tr></thead>
       <tbody>${list.map(([name, r]) => tr(name, r, false)).join('')}${list.length > 1 && (split || f.model !== 'all') ? tr('Total', tot, true) : ''}</tbody>
     </table></div>`}
   </div>`;
@@ -835,7 +848,23 @@ async function renderNBAPreview() {
       <div class="no-picks" style="padding:20px 0 6px">The daily-run files could not be loaded.</div></div>`;
     return;
   }
+  // Each model's current Kalman team corrections (points), for the team table.
+  const grabK = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && j.teams && Object.keys(j.teams).length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const kalman = {};
+  await Promise.all(NBAP_MODELS.map(async m => {
+    const both = (await Promise.all([grabK(m.kal), grabK(m.kalRemote)])).filter(Boolean)
+      .sort((a, b) => String(b.lastDriftDate || '').localeCompare(String(a.lastDriftDate || '')));
+    if (both[0]) kalman[m.key] = both[0];
+  }));
   const data = nbapBuild(histories, replay);
+  data.kalman = kalman;
   nbapData = data;
   if (typeof updateLastRunInfo === 'function') updateLastRunInfo();   // data is loaded now
   el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-teams"></div><div id="nbap-log"></div>';
