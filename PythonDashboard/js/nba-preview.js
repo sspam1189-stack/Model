@@ -175,7 +175,7 @@ window.addEventListener('resize', () => {
   const m = nbapMobile();
   if (nbapWasMobile !== null && m !== nbapWasMobile) {
     const el = document.getElementById('content');
-    if (el) { el.innerHTML = nbapTodayCard(nbapData) + '<div id="nbap-records"></div><div id="nbap-log"></div>'; nbapRerender(); }
+    if (el) { el.innerHTML = nbapTodayCard(nbapData) + '<div id="nbap-records"></div><div id="nbap-teams"></div><div id="nbap-log"></div>'; nbapRerender(); }
   }
   nbapWasMobile = m;
 });
@@ -563,10 +563,91 @@ function nbapHistoryCard(d) {
   </div>`;
 }
 
+// ── team spread record ─────────────────────────────────────────────────────
+// Record by the team each model played, over the page's date range. Its own
+// filters: which plays (preview / official / both), model, team.
+let nbapTF = { kind: 'combined', model: 'all', team: 'all' };
+function nbapSetTF(k, v, focusId) {
+  nbapTF[k] = v; nbapRerender();
+  if (focusId) { const f = document.getElementById(focusId); if (f) f.focus(); }
+}
+function nbapTeamCard(d) {
+  const f = nbapTF;
+  const src = f.kind === 'official' ? (d.offDays || []) : f.kind === 'preview' ? d.days : d.combDays;
+  const days = nbapDaysInRange(d, src);
+  const label = nbapDay ? nbapIso(nbapDay)
+    : nbapRange === 'season' ? 'season to date' : nbapRange === 'last7' ? 'last 7 days' : nbapRange === 'last14' ? 'last 14 days' : nbapRange;
+  const models = d.models.filter(m => f.model === 'all' || f.model === m.key);
+  const blank = () => ({ all: nbapNewRec(), two: nbapNewRec(), one: nbapNewRec(), fav: 0, dog: 0, n: 0 });
+  const rows = {};            // keyed by team, or by model when one team is selected
+  const teams = new Set();
+  let pending = 0;
+  days.forEach(x => x.games.forEach(g => {
+    if (g.skipped) return;
+    models.forEach(m => {
+      const p = g.models[m.key];
+      if (!p || !p.units) return;
+      const team = p.side === 'home' ? g.home : g.away;
+      if (f.team !== 'all' && team !== f.team) return;
+      if (!p.result) { pending++; return; }
+      const key = f.team === 'all' ? team : m.name;
+      const r = rows[key] || (rows[key] = blank());
+      r.n++;
+      nbapAdd(r.all, p.result, p.units);
+      nbapAdd(p.units === 2 ? r.two : r.one, p.result, p.units);
+      const line = p.line != null ? p.line : g.line;
+      if (line != null) { const t = p.side === 'home' ? line : -line; if (t < 0) r.fav++; else if (t > 0) r.dog++; }
+    });
+  }));
+  // every team seen on the page stays in the dropdown, whatever the filters
+  d.combDays.forEach(x => x.games.forEach(g => { teams.add(g.away); teams.add(g.home); }));
+  if (f.team !== 'all') teams.add(f.team);
+  const list = Object.entries(rows).sort((a, b) => b[1].all.u - a[1].all.u || a[0].localeCompare(b[0]));
+  const tot = blank();
+  list.forEach(([, r]) => {
+    ['all', 'two', 'one'].forEach(k => { tot[k].w += r[k].w; tot[k].l += r[k].l; tot[k].p += r[k].p; tot[k].u += r[k].u; });
+    tot.fav += r.fav; tot.dog += r.dog; tot.n += r.n;
+  });
+
+  const st = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:3px 8px;font-size:12px;margin:0 6px 6px 0;cursor:pointer';
+  const sel = (k, opts) => `<select id="nbap-tf-${k}" onchange="nbapSetTF('${k}', this.value, this.id)" style="${st}">`
+    + opts.map(([v, l]) => `<option value="${nbapEsc(v)}" ${f[k] === v ? 'selected' : ''}>${nbapEsc(l)}</option>`).join('') + '</select>';
+  const kindName = f.kind === 'official' ? 'official plays' : f.kind === 'preview' ? 'preview plays' : 'preview + official';
+  const first = f.team === 'all' ? 'Team played' : 'Model';
+  const th = t => `<th class="center" style="padding:4px 6px">${t}</th>`;
+  const tr = (name, r, bold) => `<tr style="border-top:1px solid #21262d${bold ? ';background:#161b22' : ''}">
+      <td style="padding:6px">${bold ? `<b>${nbapEsc(name)}</b>` : nbapEsc(name)}</td>
+      <td class="center">${r.n}</td><td class="center">${nbapRecCell(r.all)}</td>
+      <td class="center">${nbapRecCell(r.two)}</td><td class="center">${nbapRecCell(r.one)}</td>
+      <td class="center">${r.fav}</td><td class="center">${r.dog}</td></tr>`;
+  const empty = `<div style="padding:8px 10px 12px;color:${NBAP_DIM};font-size:12px">No graded plays match these filters.</div>`;
+  const mob = (list.length > 1 ? [['Total', tot]] : []).concat(list).map(([name, r]) => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(name)}
+        <span style="font-weight:400;font-size:12px;color:${NBAP_DIM};margin-left:6px">${r.n} play${r.n === 1 ? '' : 's'} · ${r.fav} fav · ${r.dog} dog</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">${nbapMobStat('All plays', r.all)}${nbapMobStat('2u only', r.two)}${nbapMobStat('1u only', r.one)}</div></div>`).join('');
+  return `<div class="card card-games">
+    <div class="card-title">Team spread record (ATS) — ${nbapEsc(kindName)}, ${nbapEsc(label)}
+      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${tot.n} graded play${tot.n === 1 ? '' : 's'}${pending ? ` · ${pending} pending` : ''}</span></div>
+    <div style="padding:8px 10px 2px">
+      ${sel('kind', [['combined', 'Preview + official'], ['official', 'Official plays'], ['preview', 'Preview plays']])}
+      ${sel('model', [['all', 'All models']].concat(d.models.map(m => [m.key, m.name])))}
+      ${sel('team', [['all', 'All teams']].concat([...teams].sort().map(t => [t, t])))}
+      ${f.kind !== 'combined' || f.model !== 'all' || f.team !== 'all'
+        ? `<button onclick="nbapTF={kind:'combined',model:'all',team:'all'};nbapRerender()" style="${st}">Clear filters</button>` : ''}
+    </div>
+    ${!list.length ? empty : nbapMobile() ? `<div style="padding:0 10px">${mob}</div>` : `
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
+        <th style="padding:4px 6px">${first}</th>${th('Plays')}${th('All plays')}${th('2u only')}${th('1u only')}${th('Fav')}${th('Dog')}</tr></thead>
+      <tbody>${list.map(([name, r]) => tr(name, r, false)).join('')}${list.length > 1 ? tr('Total', tot, true) : ''}</tbody>
+    </table></div>`}
+  </div>`;
+}
+
 function nbapRerender() {
   if (!nbapData) return;
   const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
   set('nbap-records', nbapRecordsCard(nbapData, nbapRecKind || (nbapData.anyOfficial ? 'official' : 'preview')));
+  set('nbap-teams', nbapTeamCard(nbapData));
   set('nbap-log', nbapHistoryCard(nbapData));
 }
 
@@ -726,6 +807,6 @@ async function renderNBAPreview() {
   const data = nbapBuild(histories, replay);
   nbapData = data;
   if (typeof updateLastRunInfo === 'function') updateLastRunInfo();   // data is loaded now
-  el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-log"></div>';
+  el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-teams"></div><div id="nbap-log"></div>';
   nbapRerender();
 }
