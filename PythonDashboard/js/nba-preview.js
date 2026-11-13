@@ -620,6 +620,18 @@ function nbapTeamCard(d) {
   const st = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:3px 8px;font-size:12px;margin:0 6px 6px 0;cursor:pointer';
   const sel = (k, opts) => `<select id="nbap-tf-${k}" onchange="nbapSetTF('${k}', this.value, this.id)" style="${st}">`
     + opts.map(([v, l]) => `<option value="${nbapEsc(v)}" ${f[k] === v ? 'selected' : ''}>${nbapEsc(l)}</option>`).join('') + '</select>';
+  // which-plays and model filters: rows of toggle buttons, one choice at a time
+  const toggle = (k, label, opts, c) => `<span role="group" aria-label="${label}" style="display:inline-flex;flex-wrap:wrap;margin:0 8px 6px 0;vertical-align:top">${
+    opts.map(([v, l], i) => {
+      const on = f[k] === v;
+      const rad = i === 0 ? '6px 0 0 6px' : i === opts.length - 1 ? '0 6px 6px 0' : '0';
+      return `<button onclick="nbapSetTF('${k}','${v}')" aria-pressed="${on}" style="background:${on ? c + '33' : '#1e1e1e'};
+        color:${on ? c : '#c9d1d9'};border:1px solid ${on ? c : '#444'};padding:3px 10px;font-size:12px;
+        font-weight:${on ? 700 : 400};cursor:pointer;border-radius:${rad};margin-left:${i ? '-1px' : '0'}">${nbapEsc(l)}</button>`;
+    }).join('')}</span>`;
+  const kindToggle = toggle('kind', 'Which plays',
+    [['combined', 'Preview + official'], ['official', 'Official'], ['preview', 'Preview']], '#a371f7');
+  const modelToggle = toggle('model', 'Model', [['all', 'All models']].concat(d.models.map(m => [m.key, m.name])), '#58a6ff');
   const kindName = f.kind === 'official' ? 'official plays' : f.kind === 'preview' ? 'preview plays' : 'preview + official';
   const first = f.team === 'all' ? 'Team played' : 'Model';
   const th = t => `<th class="center" style="padding:4px 6px">${t}</th>`;
@@ -641,8 +653,8 @@ function nbapTeamCard(d) {
     <div class="card-title">Team spread record (ATS) — ${nbapEsc(kindName)}, ${nbapEsc(label)}
       <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${f.model === 'all' ? 'each model separately' : `${tot.n} graded play${tot.n === 1 ? '' : 's'}`}${pending ? ` · ${pending} pending` : ''}</span></div>
     <div style="padding:8px 10px 2px">
-      ${sel('kind', [['combined', 'Preview + official'], ['official', 'Official plays'], ['preview', 'Preview plays']])}
-      ${sel('model', [['all', 'All models']].concat(d.models.map(m => [m.key, m.name])))}
+      ${kindToggle}
+      ${modelToggle}
       ${sel('team', [['all', 'All teams']].concat([...teams].sort().map(t => [t, t])))}
       ${f.kind !== 'combined' || f.model !== 'all' || f.team !== 'all'
         ? `<button onclick="nbapTF={kind:'combined',model:'all',team:'all'};nbapRerender()" style="${st}">Clear filters</button>` : ''}
