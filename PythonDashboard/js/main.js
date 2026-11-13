@@ -1471,7 +1471,7 @@ function renderWeeklyRolling(runs) {
 function renderTeamRecords(runs) {
   const teams = computeTeamRecords(runs);
   const sorted = Object.entries(teams)
-    .filter(([, t]) => t.w + t.l >= 3)
+    .filter(([, t]) => t.w + t.l + t.p >= 1)   // every team with a graded pick (was 3+, which hid most teams early in a season)
     .sort((a, b) => {
       const uA = stakedUnits(a[1].list);
       const uB = stakedUnits(b[1].list);
