@@ -17,6 +17,9 @@ on:
         description: "With date+to: write the replayed days into each model's live history (commits)"
         type: boolean
         default: false
+      only:
+        description: "With date+to: replay (and seed) just this model, e.g. pyFullPrior"
+        default: ""
 
 permissions:
   contents: write
@@ -43,7 +46,9 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
         run: |
-          if ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.seed }}" -eq "true") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --seed }
+          if ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.only }}" -and "${{ inputs.seed }}" -eq "true") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --only ${{ inputs.only }} --seed }
+          elseif ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.only }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --only ${{ inputs.only }} }
+          elseif ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.seed }}" -eq "true") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --seed }
           elseif ("${{ inputs.date }}" -and "${{ inputs.to }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} }
           elseif ("${{ inputs.date }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} }
           else { python pyFull/scripts/preview_today.py }
@@ -54,7 +59,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyFull/data/history.json pyFullKalmanOff/data/history.json pyFullDNET/data/history.json pyFullKalmanEarly/data/history.json
+          git add pyFull/data/history.json pyFullKalmanOff/data/history.json pyFullDNET/data/history.json pyFullKalmanEarly/data/history.json pyFullPrior/data/history.json
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Seed NBA full-season histories with walk-forward ${{ inputs.date }}-${{ inputs.to }} [skip ci]"
