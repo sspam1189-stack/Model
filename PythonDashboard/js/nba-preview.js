@@ -571,7 +571,7 @@ function nbapHistoryCard(d) {
 // filters: which plays (preview / official / both), model, team. Models are
 // never added together: "All models" shows a column (or a row) per model.
 // KalmanOff is the default model (the one followed).
-const NBAP_TF_DEFAULT = { kind: 'combined', model: 'pyFullKalmanOff', team: 'all' };
+const NBAP_TF_DEFAULT = { kind: 'official', model: 'pyFullKalmanOff', team: 'all' };
 let nbapTF = Object.assign({}, NBAP_TF_DEFAULT);
 function nbapSetTF(k, v, focusId) {
   nbapTF[k] = v; nbapRerender();
