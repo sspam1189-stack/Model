@@ -20,6 +20,9 @@ on:
       only:
         description: "With date+to: replay (and seed) just this model, e.g. pyFullPrior"
         default: ""
+      variant:
+        description: "NBA Full Prior only: both | team (last-season ratings only) | inj (injuries only)"
+        default: ""
 
 permissions:
   contents: write
@@ -45,6 +48,7 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
+          NBA_PRIOR_VARIANT: ${{ inputs.variant }}
         run: |
           if ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.only }}" -and "${{ inputs.seed }}" -eq "true") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --only ${{ inputs.only }} --seed }
           elseif ("${{ inputs.date }}" -and "${{ inputs.to }}" -and "${{ inputs.only }}") { python pyFull/scripts/preview_today.py --date ${{ inputs.date }} --to ${{ inputs.to }} --only ${{ inputs.only }} }

@@ -789,9 +789,19 @@ def _main(subject_label, date):
     from sources.nba_stats import _season_for as _season_of
     _season = _season_of(date)
     _prior_k = float(ENGINE_CONFIG.get("PRIOR_GAMES", 10))
-    _season_stats, _prior_share = _prior.blend_team_prior(
-        enhanced_stats["season"], _prior.load_team_prior(_season),
-        k_games=_prior_k, regress=float(ENGINE_CONFIG.get("PRIOR_REGRESS", 0.8)))
+    # Each addition can be switched off to measure it alone: PRIOR_TEAM /
+    # PRIOR_INJURIES in defaults, or NBA_PRIOR_VARIANT = both | team | inj
+    # for a one-off replay (team = last-season ratings only, inj = injuries only).
+    _variant = (os.environ.get("NBA_PRIOR_VARIANT") or "").strip().lower()
+    _use_team = ENGINE_CONFIG.get("PRIOR_TEAM", True) if _variant not in ("team", "inj", "both") else _variant in ("team", "both")
+    _use_inj = ENGINE_CONFIG.get("PRIOR_INJURIES", True) if _variant not in ("team", "inj", "both") else _variant in ("inj", "both")
+    print(f"[prior] last-season ratings: {'on' if _use_team else 'off'} | injuries from game 1: {'on' if _use_inj else 'off'}")
+    if _use_team:
+        _season_stats, _prior_share = _prior.blend_team_prior(
+            enhanced_stats["season"], _prior.load_team_prior(_season),
+            k_games=_prior_k, regress=float(ENGINE_CONFIG.get("PRIOR_REGRESS", 0.8)))
+    else:
+        _season_stats, _prior_share = enhanced_stats["season"], {}
     stats = blend_base(_season_stats, enhanced_stats.get("last10"), base_w.get("recentWeight", 0.35))
 
     # Stats already cached in the read-or-fetch block above
@@ -835,12 +845,21 @@ def _main(subject_label, date):
     _playoff_mode = _is_playoffs(date)
     # NBA Full Prior: injuries from game 1 -- rosters and player ratings fall
     # back to last season's until this season's exist (sources/prior.py).
-    lineup_stats, _prior_inj_notes = _prior.adjust_team_stats_prior(
-        stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
-        player_advanced, odds,
-        player_prior=_prior.load_player_prior(_season), prior_share=_prior_share,
-        recent_injury_dates=recent_injury_dates, k_games=_prior_k,
-    )
+    if _use_inj:
+        lineup_stats, _prior_inj_notes = _prior.adjust_team_stats_prior(
+            stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
+            player_advanced, odds,
+            player_prior=_prior.load_player_prior(_season), prior_share=_prior_share,
+            recent_injury_dates=recent_injury_dates, k_games=_prior_k,
+        )
+    else:
+        # stock adjustment, as NBA Full KalmanOff
+        lineup_stats = adjust_team_stats(
+            stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
+            player_advanced, odds,
+            recent_injury_dates=recent_injury_dates, ofs_players=ofs_players,
+            playoff_mode=_playoff_mode,
+        )
     result = apply_b2b_adjustment(lineup_stats, b2b_teams, odds)
     adjusted_stats, b2b_notes = result["adjusted"], result["b2bNotes"]
     a = get_avgs(adjusted_stats)

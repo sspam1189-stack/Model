@@ -228,6 +228,9 @@ ENGINE_CONFIG = {
     # ~11.2 on KalmanOff's inputs; flat across K 8-12 and regress 0.8-1.0.
     "PRIOR_GAMES": 10,
     "PRIOR_REGRESS": 0.8,
+    # The two additions, switchable separately.
+    "PRIOR_TEAM": True,        # last season's team ratings as the starting point
+    "PRIOR_INJURIES": True,    # injuries from game 1 (last-season player ratings)
     "USE_SAFE_FUZZY": False,
     "USE_COLLAPSE_ABBR": False,
 }
