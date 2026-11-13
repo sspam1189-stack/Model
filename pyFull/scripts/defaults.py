@@ -239,5 +239,7 @@ KALMAN_DEFAULTS = {
 ENGINE_CONFIG["FREEZE_WEIGHTS"] = True
 
 # Injury adjustment minutes: median of a player's last 10 games instead of his
-# season average (core/player_minutes.py). Off until its walk-forward is read.
-ENGINE_CONFIG["MEDIAN_MINUTES"] = False
+# season average (core/player_minutes.py). On from 2026-11-13: the Oct 23 -
+# Nov 12 walk-forward gave the same records as the average (margins moved 0.1
+# on a handful of games).
+ENGINE_CONFIG["MEDIAN_MINUTES"] = True
