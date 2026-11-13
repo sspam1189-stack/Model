@@ -383,7 +383,9 @@ def main():
     a = ap.parse_args()
     if a.only:
         global MODELS, TRACKED, AGREE
-        MODELS = [m for m in MODELS if m[0] == a.only]
+        # any model with recorded inputs can be replayed alone (dNET is hidden
+        # from the preview but still runs live)
+        MODELS = [m for m in MODELS if m[0] == a.only] or ([(a.only, a.only)] if a.only in INPUTS_DIR else [])
         if not MODELS:
             sys.exit(f"--only: unknown model {a.only}")
         AGREE = []
