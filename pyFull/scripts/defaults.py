@@ -233,3 +233,7 @@ KALMAN_DEFAULTS = {
     "minVar":      2.0,
     "maxVar":      30,
 }
+
+# 2026-11-13: keep the projection weights at the starting values above; the
+# daily self-tune does not re-fit them. Set to False to tune daily again.
+ENGINE_CONFIG["FREEZE_WEIGHTS"] = True

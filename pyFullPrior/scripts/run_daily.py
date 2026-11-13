@@ -924,7 +924,21 @@ def _main(subject_label, date):
             if not g.get("_features"): continue
             g["_recencyWeight"] = _recency_weight(days_ago)
             recent_graded.append(g)
-    if recent_graded and store.get("lastTuneDate") != date:
+    if ENGINE_CONFIG.get("FREEZE_WEIGHTS"):
+        # 2026-11-13: projection weights stay at their starting values
+        # (defaults.DEFAULT_W) and are not re-fitted each day. Checked on
+        # KalmanOff, Oct 23 - Nov 11 (154 games): margin miss 12.80 frozen vs
+        # 12.82 tuned daily. Thresholds and the other saved settings are kept.
+        # The weight uncertainty sits at its floor, as it did once tuned.
+        for _k in ("wOFF", "wTS", "wTO", "wORR", "wDEF", "constant", "paceAdj", "hca"):
+            if _k in defaults["DEFAULT_W"]:
+                base_w[_k] = defaults["DEFAULT_W"][_k]
+        base_w_var = {**defaults["DEFAULT_W_VAR"], **base_w_var}
+        base_w_var["wDEF"] = defaults["BAYES_HYPER"].get("minWeightVar", 0.05)
+        base_w_var["hca"] = defaults.get("HCA_VAR_FLOOR", 0.2)
+        store["weights"], store["weightsVar"] = dict(base_w), dict(base_w_var)
+        print(f"[3b] Weights frozen at starting values (wDEF {base_w.get('wDEF')}, hca {base_w.get('hca')}) - no self-tune")
+    elif recent_graded and store.get("lastTuneDate") != date:
         tuned = tune_weights(base_w, base_w_var, recent_graded)
         store["weights"], store["weightsVar"], store["lastTuneDate"] = tuned["W"], tuned["W_var"], date
         # Copy again — see note above. Only tuned weights are persisted; the
