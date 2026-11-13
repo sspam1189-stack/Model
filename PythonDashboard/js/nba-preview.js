@@ -19,10 +19,6 @@ const NBAP_MODELS = [
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json' },
   { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json' },
-  // 2026-11-12: KalmanOff + last season as the starting point + injuries from
-  // game 1. Its own column and records row; not part of the matching groups.
-  { key: 'pyFullPrior', name: 'Prior', tab: 'fullseason-prior', solo: true, local: 'data/fullseason-prior.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullPrior/data/history.json' },
 ];
 
 let nbapData = null;
@@ -36,7 +32,7 @@ const NBAP_HIST_DAYS = 3;   // play history: days per page
 const NBAP_DIM = '#8b949e';
 // Official picks use the same colors as preview: 1u blue, 2u green.
 function nbapOffColor(units) { return units === 2 ? '#3fb950' : '#58a6ff'; }
-const NBAP_SHORT = { pyFull: 'FS', pyFullKalmanOff: 'KO', pyFullKalmanEarly: 'KE', pyFullPrior: 'PR' };
+const NBAP_SHORT = { pyFull: 'FS', pyFullKalmanOff: 'KO', pyFullKalmanEarly: 'KE' };
 
 function nbapEsc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c =>

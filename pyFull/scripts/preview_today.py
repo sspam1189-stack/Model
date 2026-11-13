@@ -32,13 +32,11 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 # dNET (pyFullDNET) still runs live but is hidden from the preview (2026-11-02).
-# pyFullPrior (2026-11-12): KalmanOff + last season as the starting point +
-# injuries from game 1. Shown as a fourth column; not part of the AGREE groups.
 MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff"),
-          ("pyFullKalmanEarly", "NBA Full KalmanEarly"), ("pyFullPrior", "NBA Full Prior")]
+          ("pyFullKalmanEarly", "NBA Full KalmanEarly")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
-              "pyFullKalmanEarly": "nba-kalmanearly", "pyFullPrior": "nba-prior"}
+              "pyFullKalmanEarly": "nba-kalmanearly"}
 # Consensus records: every listed model fired the same side, at the smallest stake.
 # Optional 4th field: every member must be at least this stake (2 = all at 2u).
 AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
@@ -61,7 +59,7 @@ def _setup(model):
     shutil.copytree(os.path.join(REPO, model), os.path.join(root, model), ignore=SKIP)
     os.makedirs(os.path.join(root, "data"), exist_ok=True)
     os.makedirs(os.path.join(root, "PythonDashboard", "data"), exist_ok=True)
-    for sub in ("espn_cache", "injury_cache", "priors"):
+    for sub in ("espn_cache", "injury_cache"):
         src = os.path.join(REPO, "data", sub, "nba")
         if os.path.isdir(src):
             shutil.copytree(src, os.path.join(root, "data", sub, "nba"))
@@ -376,7 +374,7 @@ def main():
     ap.add_argument("--date", help="past day YYYYMMDD (default: today, live)")
     ap.add_argument("--to", help="with --date: replay --date..--to in order (walk-forward)")
     ap.add_argument("--only", metavar="MODEL",
-                    help="with --date/--to: replay (and --seed) just this model, e.g. pyFullPrior")
+                    help="with --date/--to: replay (and --seed) just this model, e.g. pyFullKalmanOff")
     ap.add_argument("--seed", action="store_true",
                     help="with --date/--to: write the replayed days into each model's live history.json")
     a = ap.parse_args()
