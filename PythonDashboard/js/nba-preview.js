@@ -636,7 +636,7 @@ function nbapTeamCard(d) {
     kComb = ['combined', 'Preview + official', '#a371f7'];
   const kindToggle = toggle('kind', 'Which plays', d.anyOfficial ? [kOff, kPrev, kComb] : [kPrev, kOff, kComb]);
   const modelToggle = toggle('model', 'Model',
-    [['all', 'All models', '#58a6ff']].concat(d.models.map(m => [m.key, m.name, '#58a6ff'])));
+    d.models.map(m => [m.key, m.name, '#58a6ff']));   // one model at a time, no combined view
   const kindName = f.kind === 'official' ? 'official plays' : f.kind === 'preview' ? 'preview plays' : 'preview + official';
   const first = f.team === 'all' ? 'Team played' : 'Model';
   const th = t => `<th class="center" style="padding:4px 6px">${t}</th>`;
