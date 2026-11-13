@@ -622,18 +622,21 @@ function nbapTeamCard(d) {
   const st = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:3px 8px;font-size:12px;margin:0 6px 6px 0;cursor:pointer';
   const sel = (k, opts) => `<select id="nbap-tf-${k}" onchange="nbapSetTF('${k}', this.value, this.id)" style="${st}">`
     + opts.map(([v, l]) => `<option value="${nbapEsc(v)}" ${f[k] === v ? 'selected' : ''}>${nbapEsc(l)}</option>`).join('') + '</select>';
-  // which-plays and model filters: rows of toggle buttons, one choice at a time
-  const toggle = (k, label, opts, c) => `<span role="group" aria-label="${label}" style="display:inline-flex;flex-wrap:wrap;margin:0 8px 6px 0;vertical-align:top">${
-    opts.map(([v, l], i) => {
+  // which-plays and model filters: toggle rows, styled like the records
+  // card's toggle (same size, same colors, same order).
+  const toggle = (k, label, opts) => `<span role="group" aria-label="${label}" style="display:inline-flex;flex-wrap:wrap;margin-right:10px;margin-bottom:6px;vertical-align:top">${
+    opts.map(([v, l, c], i) => {
       const on = f[k] === v;
       const rad = i === 0 ? '6px 0 0 6px' : i === opts.length - 1 ? '0 6px 6px 0' : '0';
       return `<button onclick="nbapSetTF('${k}','${v}')" aria-pressed="${on}" style="background:${on ? c + '33' : '#1e1e1e'};
-        color:${on ? c : '#c9d1d9'};border:1px solid ${on ? c : '#444'};padding:3px 10px;font-size:12px;
-        font-weight:${on ? 700 : 400};cursor:pointer;border-radius:${rad};margin-left:${i ? '-1px' : '0'}">${nbapEsc(l)}</button>`;
+        color:${on ? c : '#c9d1d9'};border:1px solid ${on ? c : '#444'};padding:5px 14px;font-size:13px;
+        font-weight:${on ? 700 : 400};cursor:pointer;border-radius:${rad};margin-left:-1px">${nbapEsc(l)}</button>`;
     }).join('')}</span>`;
-  const kindToggle = toggle('kind', 'Which plays',
-    [['combined', 'Preview + official'], ['official', 'Official'], ['preview', 'Preview']], '#a371f7');
-  const modelToggle = toggle('model', 'Model', [['all', 'All models']].concat(d.models.map(m => [m.key, m.name])), '#58a6ff');
+  const kOff = ['official', 'Official plays', '#f0883e'], kPrev = ['preview', 'Preview plays', '#58a6ff'],
+    kComb = ['combined', 'Preview + official', '#a371f7'];
+  const kindToggle = toggle('kind', 'Which plays', d.anyOfficial ? [kOff, kPrev, kComb] : [kPrev, kOff, kComb]);
+  const modelToggle = toggle('model', 'Model',
+    [['all', 'All models', '#58a6ff']].concat(d.models.map(m => [m.key, m.name, '#58a6ff'])));
   const kindName = f.kind === 'official' ? 'official plays' : f.kind === 'preview' ? 'preview plays' : 'preview + official';
   const first = f.team === 'all' ? 'Team played' : 'Model';
   const th = t => `<th class="center" style="padding:4px 6px">${t}</th>`;
