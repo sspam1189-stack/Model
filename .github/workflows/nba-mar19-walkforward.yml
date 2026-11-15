@@ -1,7 +1,7 @@
-name: NBA March-19 Model Walk-Forward (no commit)
+name: NBA Old-Model Walk-Forward (no commit)
 
-# Testing only. Walks the 2026-03-19 Python full-season model (pyFullMar19, a
-# verbatim copy of that day's code) forward over a date range on this season's
+# Testing only. Walks an old copy of the Python full-season model (pyFullMar19 =
+# 2026-03-19, pyFullApr19 = 2026-04-19; verbatim copies of that day's code) forward over a date range on this season's
 # saved inputs, in a throwaway copy, and prints the day-by-day table and the
 # totals (job summary + log). Writes nothing to the repo and touches no live
 # model, record or dashboard file.
@@ -16,8 +16,11 @@ on:
         description: "Last day, YYYYMMDD"
         default: ""
       min_gp:
-        description: "Games before a team is projected (the March-19 code hard-codes 15; 1 = from game 1, as the preview does)"
+        description: "Games before a team is projected (the old code requires 15; 1 = from game 1, as the preview does)"
         default: "1"
+      version:
+        description: "Which copy: mar19 or apr19"
+        default: "mar19"
 
 permissions:
   contents: read
@@ -46,7 +49,8 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
         run: |
-          python pyFullMar19/walk_forward.py --from ${{ inputs.date }} --to ${{ inputs.to }} --min-gp ${{ inputs.min_gp }} | Tee-Object -FilePath mar19.md
+          $dir = if ("${{ inputs.version }}" -eq "apr19") { "pyFullApr19" } else { "pyFullMar19" }
+          python "$dir/walk_forward.py" --from ${{ inputs.date }} --to ${{ inputs.to }} --min-gp ${{ inputs.min_gp }} | Tee-Object -FilePath oldmodel.md
           $code = $LASTEXITCODE
-          Get-Content mar19.md | Add-Content $env:GITHUB_STEP_SUMMARY
+          Get-Content oldmodel.md | Add-Content $env:GITHUB_STEP_SUMMARY
           exit $code

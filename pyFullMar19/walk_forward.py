@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # pyFullMar19/walk_forward.py
 #
+# (Also drives the 2026-04-19 copy: pyFullApr19/walk_forward.py calls main("apr19").)
+#
 # Walk the 2026-03-19 Python full-season model (pyFullMar19/scripts, a verbatim
 # copy of PythonFull/scripts at commit 088596411) forward over a date range on
 # this season's saved inputs. Testing only: nothing here runs live, and nothing
@@ -76,9 +78,9 @@ def _ts(s):
         return None
 
 
-def odds_for(date, snaps):
-    """Each game's last recorded line before its tip, in the OLD sign
-    convention (line > 0 = home favored)."""
+def odds_for(date, snaps, flip=True):
+    """Each game's last recorded line before its tip. flip=True gives the
+    March sign convention (line > 0 = home favored)."""
     games = {}
     for s in snaps:
         t = _ts(s.get("startedAt"))
@@ -96,7 +98,7 @@ def odds_for(date, snaps):
     out = []
     for g in sorted(games.values(), key=lambda g: str(g.get("startTimeUTC") or "")):
         g = dict(g)
-        if isinstance(g.get("line"), (int, float)):
+        if flip and isinstance(g.get("line"), (int, float)):
             g["line"] = -g["line"]
         out.append(g)
     return out
@@ -129,14 +131,16 @@ def injuries_for(date, snaps, first_tip):
             pick = s
     if pick:
         inj = _val(pick, "injury_data") or {}
+        ofs = _val(pick, "out_for_season")
+        ofs = ofs.get("__set__") if isinstance(ofs, dict) else ofs
         return ({"report": inj.get("report") or {}, "playerMPG": inj.get("playerMPG") or {}},
-                _val(pick, "player_advanced") or {})
+                _val(pick, "player_advanced") or {}, sorted(ofs or []))
     p = os.path.join(DATA, "injury_cache", "nba", date + ".json")
     if os.path.exists(p):
         c = json.load(open(p, encoding="utf-8"))
         return ({"report": c.get("report") or {}, "playerMPG": c.get("playerMPG") or {}},
-                c.get("playerAdvanced") or {})
-    return {"report": {}, "playerMPG": {}}, {}
+                c.get("playerAdvanced") or {}, [])
+    return {"report": {}, "playerMPG": {}}, {}, []
 
 
 def scoreboard(date):
@@ -187,21 +191,47 @@ def _off(n=0):
 rd.today_central_yyyymmdd = lambda: date
 rd.yyyymmdd_from_central_offset = _off
 rd.fetch_todays_odds = lambda: inp["odds"]
+if hasattr(rd, "fetch_fanduel_nba_odds"):          # April copy
+    rd.fetch_fanduel_nba_odds = lambda: inp["odds"]
+    rd.fetch_injury_data = lambda *_a, **_k: inp["injuries"]
+    rd.fetch_player_advanced = lambda *_a, **_k: inp["playerAdvanced"]
+    rd.fetch_out_for_season = lambda *_a, **_k: set(inp["outForSeason"])
 rd.fetch_ats_trends = lambda: {}
 rd.fetch_ou_trends = lambda: {}
 rd.detect_b2b = lambda: set(inp["b2b"])
-rd.fetch_scoreboard = lambda d=None: inp["scoreboards"].get(d or date)
+_pre = [True]                            # today's board is served empty: nothing has tipped yet
+rd.fetch_scoreboard = lambda d=None: ({"events": []} if (d or date) == date and _pre[0] and inp.get("pregame")
+                                      else inp["scoreboards"].get(d or date))
 rd.send_email = lambda *_a, **_k: None
 try:
     rd.main()
 except Exception as e:                  # the run is saved before the email is built
     print(f"[walk-forward] after-save step failed (ignored): {type(e).__name__}: {e}")
 if inp.get("final"):                    # last date: grade it too
+    _pre[0] = False
     st = rd.load_store(); rd.grade_date_in_store(st, date)
 '''
 
 
-def main():
+VERSIONS = {
+    # the 2026-03-19 code: PythonFull/scripts only; reads NBAFullseason caches
+    "mar19": {"label": "2026-03-19", "src": "pyFullMar19", "scripts": ("PythonFull", "scripts"),
+              "copy": [("scripts", ("PythonFull", "scripts"))], "data": ("PythonFull", "data"),
+              "stats_dir": ("NBAFullseason", "data", "stats_cache"), "inj_dir": ("NBAFullseason", "data", "injury_cache"),
+              "min_gp": ("model_engine.py", "MIN_GP = 15", "MIN_GP = {n}"), "flip": True, "h2h": True, "pregame": False,
+              "rule": "P >= probHigh, edge <= 10, |line| < 12, LR veto; flat 1u"},
+    # the 2026-04-19 code: pyFull/scripts + the shared core/; shared data/ caches
+    "apr19": {"label": "2026-04-19", "src": "pyFullApr19", "scripts": ("pyFull", "scripts"),
+              "copy": [(os.path.join("pyFull", "scripts"), ("pyFull", "scripts")), ("core", ("core",))],
+              "data": ("pyFull", "data"),
+              "stats_dir": ("data", "stats_cache", "nba"), "inj_dir": ("data", "injury_cache", "nba"),
+              "min_gp": ("defaults.py", '"MIN_GP": 15', '"MIN_GP": {n}'), "flip": False, "h2h": False, "pregame": True,
+              "rule": "P >= probHigh, |line| < 18; flat 1u"},
+}
+
+
+def main(version="mar19"):
+    V = VERSIONS[version]
     ap = argparse.ArgumentParser()
     ap.add_argument("--from", dest="d0", required=True)
     ap.add_argument("--to", dest="d1", required=True)
@@ -211,48 +241,60 @@ def main():
     ap.add_argument("--keep", action="store_true", help="keep the scratch directory")
     a = ap.parse_args()
 
-    root = tempfile.mkdtemp(prefix="mar19-")
-    scripts = os.path.join(root, "PythonFull", "scripts")
-    shutil.copytree(os.path.join(HERE, "scripts"), scripts, ignore=shutil.ignore_patterns("__pycache__"))
-    os.makedirs(os.path.join(root, "PythonFull", "data"), exist_ok=True)
-    for sub in ("stats_cache", "injury_cache"):
-        os.makedirs(os.path.join(root, "NBAFullseason", "data", sub), exist_ok=True)
-    eng = os.path.join(scripts, "model_engine.py")
+    root = tempfile.mkdtemp(prefix=version + "-")
+    scripts = os.path.join(root, *V["scripts"])
+    for src_rel, dst in V["copy"]:
+        shutil.copytree(os.path.join(REPO, V["src"], src_rel), os.path.join(root, *dst),
+                        ignore=shutil.ignore_patterns("__pycache__"))
+    stats_dir, inj_dir = os.path.join(root, *V["stats_dir"]), os.path.join(root, *V["inj_dir"])
+    for d in (os.path.join(root, *V["data"]), stats_dir, inj_dir):
+        os.makedirs(d, exist_ok=True)
+    fname, old, new = V["min_gp"]
+    eng = os.path.join(scripts, fname)
     src = open(eng, encoding="utf-8").read()
-    assert "MIN_GP = 15" in src
-    open(eng, "w", encoding="utf-8").write(src.replace("MIN_GP = 15", f"MIN_GP = {a.min_gp}"))
+    assert old in src
+    open(eng, "w", encoding="utf-8").write(src.replace(old, new.format(n=a.min_gp)))
     open(os.path.join(scripts, "_wf_runner.py"), "w", encoding="utf-8").write(RUNNER)
 
     dates = list(_days(a.d0, a.d1))
     env = {k: v for k, v in os.environ.items() if not k.startswith("GMAIL")}
     env.update(PYTHONUTF8="1", PYTHONIOENCODING="utf-8", PYTHONDONTWRITEBYTECODE="1")
+    if not V["h2h"]:
+        # April reads the previous days' saved injury reports itself (long-term
+        # absences); give it the repo's, as live had them. It only reads days
+        # before the one it is running.
+        for p in glob.glob(os.path.join(DATA, "injury_cache", "nba", "*.json")):
+            if os.path.basename(p)[:8] < dates[-1]:
+                shutil.copy(p, inj_dir)
     for i, date in enumerate(dates):
         snaps = _snapshots(date)
-        odds = odds_for(date, snaps)
+        odds = odds_for(date, snaps, V["flip"])
         stats, src_name = stats_for(date, snaps)
         tips = [t for t in (_ts(g.get("startTimeUTC")) for g in odds) if t]
-        inj, padv = injuries_for(date, snaps, min(tips) if tips else None)
-        with open(os.path.join(root, "NBAFullseason", "data", "stats_cache", date + ".json"), "w", encoding="utf-8") as f:
+        inj, padv, ofs = injuries_for(date, snaps, min(tips) if tips else None)
+        with open(os.path.join(stats_dir, date + ".json"), "w", encoding="utf-8") as f:
             json.dump(stats, f)
-        with open(os.path.join(root, "NBAFullseason", "data", "injury_cache", date + ".json"), "w", encoding="utf-8") as f:
-            json.dump({"injuryData": inj, "playerAdvanced": padv, "h2hMatchups": h2h_before(date, dates[0])}, f)
+        if V["h2h"]:
+            with open(os.path.join(inj_dir, date + ".json"), "w", encoding="utf-8") as f:
+                json.dump({"injuryData": inj, "playerAdvanced": padv, "h2hMatchups": h2h_before(date, dates[0])}, f)
         sbs = {d: scoreboard(d) for d in [date] + [_prev(date, n) for n in range(1, 6)]}
         b2b = sorted({t for f in finals(_prev(date)) for t in (f["away"], f["home"])})
         inp = os.path.join(root, "inputs.json")
         with open(inp, "w", encoding="utf-8") as f:
-            json.dump({"odds": odds, "b2b": b2b, "scoreboards": sbs, "final": i == len(dates) - 1}, f)
+            json.dump({"odds": odds, "b2b": b2b, "scoreboards": sbs, "final": i == len(dates) - 1,
+                       "injuries": inj, "playerAdvanced": padv, "outForSeason": ofs, "pregame": V["pregame"]}, f)
         p = subprocess.run([sys.executable, "_wf_runner.py", date, inp], cwd=scripts, env=env,
                            capture_output=True, text=True, encoding="utf-8", errors="replace")
         tail = [l for l in (p.stdout + p.stderr).strip().splitlines()
                 if any(k in l for k in ("tuned", "LR model", "lr_model", "Traceback", "Error", "walk-forward", "probHigh"))][-4:]
-        print(f"[mar19] {date}: {len(odds)} games, stats {src_name}, exit {p.returncode}" + ("".join("\n    " + l.strip() for l in tail)))
+        print(f"[{version}] {date}: {len(odds)} games, stats {src_name}, exit {p.returncode}" + ("".join("\n    " + l.strip() for l in tail)))
         if p.returncode != 0:
             print((p.stdout + p.stderr)[-2000:])
             sys.exit(1)
 
-    hist = os.path.join(root, "PythonFull", "data", "history.json")
+    hist = os.path.join(root, *V["data"], "history.json")
     store = json.load(open(hist, encoding="utf-8"))
-    report(store, dates)
+    report(store, dates, V)
     if a.out:
         shutil.copy(hist, a.out)
         print(f"\nhistory -> {a.out}")
@@ -268,24 +310,26 @@ def _rec(rows):
     return f"{w}-{l} ({u:+.1f}u)"
 
 
-def report(store, dates):
+def report(store, dates, V):
     """Per-day table and totals. Lines are printed in today's convention
     (home line, negative = home favored)."""
+    sgn = -1 if V["flip"] else 1
     official, r5865, errs, vegas = [], [], [], []
-    print(f"\n# 2026-03-19 model, walk-forward {dates[0]}-{dates[-1]}\n")
+    print(f"\n# {V['label']} model, walk-forward {dates[0]}-{dates[-1]}\n")
     for run in store.get("runs", []):
         if run["date"] not in dates:
             continue
         day_off, day_58 = [], []
-        print(f"## {run['date']}\n\n| Game | Line (home) | Final | 2026-03-19 model |\n|---|---|---|---|")
+        print(f"## {run['date']}\n\n| Game | Line (home) | Final | {V['label']} model |\n|---|---|---|---|")
         for g in run.get("games", []):
             name = f"{g.get('away')} @ {g.get('home')}"
             if g.get("status") in ("MISSING_ODDS", "SKIPPED") or not isinstance(g.get("hS"), (int, float)):
                 print(f"| {name} | | | skipped ({g.get('status')}) |"); continue
-            line = -g["line"]                                   # today's convention
+            line = sgn * g["line"]                              # today's convention
             ph = g.get("pHomeCover")
-            side_home = (ph if ph is not None else (0.5 if g["margin"] == 0 else float(g["margin"] > 0))) >= 0.5
-            pc = max(ph, 1 - ph) if ph is not None else None
+            ph = ph if ph is not None else (0.5 if not g.get("margin") else float(g["margin"] > 0))
+            side_home = ph >= 0.5
+            pc = max(ph, 1 - ph) if g.get("pHomeCover") is not None else None
             fin, res = "", ""
             has = isinstance(g.get("homeScore"), (int, float)) and isinstance(g.get("awayScore"), (int, float))
             if has:
@@ -313,11 +357,11 @@ def report(store, dates):
         official += day_off; r5865 += day_58
     w = store.get("weights") or {}
     print("## Total\n")
-    print(f"Official picks (P >= probHigh, edge <= 10, |line| < 12, LR veto; flat 1u): {_rec(official)}")
+    print(f"Official picks ({V['rule']}): {_rec(official)}")
     print(f"58/65 rule on its probabilities (|line| < 18): {_rec(r5865)} | 2u {_rec([x for x in r5865 if x[0] == 2])} | 1u {_rec([x for x in r5865 if x[0] == 1])}")
     if errs:
         print(f"Average margin miss: {sum(errs) / len(errs):.2f} over {len(errs)} games (Vegas {sum(vegas) / len(vegas):.2f})")
-    print("Final weights: " + ", ".join(f"{k} {w.get(k)}" for k in ("wTS", "wTO", "wORR", "wNET", "hca", "constant", "paceAdj", "probHigh")))
+    print("Final weights: " + ", ".join(f"{k} {w.get(k)}" for k in ("wTS", "wTO", "wORR", "wNET", "wDEF", "hca", "constant", "paceAdj", "probHigh") if k in w))
 
 
 if __name__ == "__main__":
