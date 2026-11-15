@@ -15371,7 +15371,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": -7.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15381,12 +15381,12 @@
           "total": 226.5,
           "startTimeUTC": "2026-11-15T21:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -154,
-          "home_ml": 130,
-          "over_ml": -106,
-          "under_ml": -114,
-          "spread_price_away": -114,
-          "spread_price_home": -106,
+          "away_ml": -156,
+          "home_ml": 132,
+          "over_ml": -105,
+          "under_ml": -115,
+          "spread_price_away": -115,
+          "spread_price_home": -105,
           "aS": 117.6,
           "hS": 113.9,
           "pT": 231.5,
@@ -15443,7 +15443,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 2.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15453,12 +15453,12 @@
           "total": 214.5,
           "startTimeUTC": "2026-11-15T21:40:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -102,
-          "home_ml": -116,
+          "away_ml": -108,
+          "home_ml": -108,
           "over_ml": -102,
           "under_ml": -120,
-          "spread_price_away": -114,
-          "spread_price_home": -106,
+          "spread_price_away": -118,
+          "spread_price_home": -104,
           "aS": 106.9,
           "hS": 112.3,
           "pT": 219.2,
@@ -15520,7 +15520,7 @@
             "flagSide": "home",
             "flagAt": "2026-11-15T07:42:13-06:00",
             "lineLast": -1.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15530,12 +15530,12 @@
           "total": 226.5,
           "startTimeUTC": "2026-11-15T22:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -1350,
-          "home_ml": 810,
-          "over_ml": -106,
-          "under_ml": -114,
-          "spread_price_away": -108,
-          "spread_price_home": -112,
+          "away_ml": -1200,
+          "home_ml": 750,
+          "over_ml": -104,
+          "under_ml": -118,
+          "spread_price_away": -104,
+          "spread_price_home": -118,
           "aS": 120.6,
           "hS": 102.4,
           "pT": 223.0,
@@ -15592,18 +15592,18 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 16.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
           "away": "Dallas Mavericks",
           "home": "Boston Celtics",
-          "line": -13.5,
+          "line": -14.5,
           "total": 219.5,
           "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 560,
-          "home_ml": -800,
+          "away_ml": 640,
+          "home_ml": -950,
           "over_ml": -110,
           "under_ml": -110,
           "spread_price_away": -110,
@@ -15611,19 +15611,19 @@
           "aS": 107.0,
           "hS": 118.2,
           "pT": 225.2,
-          "margin": -2.3,
-          "sDiff": 2.3,
+          "margin": -3.3,
+          "sDiff": 3.3,
           "tDiff": 1.8,
-          "sPick": "PASS",
-          "sConf": "low",
+          "sPick": "Dallas Mavericks +14.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
-          "injuryNote": "Away: Max Christie (out/bench)",
-          "pHomeCover": 0.439,
-          "pAwayCover": 0.561,
+          "injuryNote": "Away: Max Christie (doubtful/bench)",
+          "pHomeCover": 0.413,
+          "pAwayCover": 0.587,
           "pOver": 0.545,
           "pUnder": 0.455,
-          "pCover": null,
+          "pCover": 0.587,
           "pOU": null,
           "minGP": 12,
           "pCal": 0.5,
@@ -15660,6 +15660,7 @@
               "DEF": 0.8
             }
           },
+          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- 2.8 \u00b7 Over 38.5% \u00b7 Under 61.5% \u00b7 O/U +/- -2.8",
             "home": "ATS +/- 3.5 \u00b7 Over 25.0% \u00b7 Under 75.0% \u00b7 O/U +/- -4.3"
@@ -15670,8 +15671,12 @@
             "edge0": -1.7,
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
-            "lineLast": -13.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "lineLast": -14.5,
+            "atLast": "2026-11-15T13:17:57-06:00",
+            "flagLine": -14.5,
+            "flagEdge": -3.3,
+            "flagSide": "away",
+            "flagAt": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15681,12 +15686,12 @@
           "total": 217.5,
           "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -198,
-          "home_ml": 166,
+          "away_ml": -205,
+          "home_ml": 172,
           "over_ml": -110,
           "under_ml": -110,
-          "spread_price_away": -114,
-          "spread_price_home": -106,
+          "spread_price_away": -115,
+          "spread_price_home": -105,
           "aS": 110.0,
           "hS": 107.9,
           "pT": 217.9,
@@ -15743,7 +15748,7 @@
             "side0": "home",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 4.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15815,7 +15820,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 8.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15825,12 +15830,12 @@
           "total": 233.5,
           "startTimeUTC": "2026-11-16T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -300,
-          "home_ml": 245,
+          "away_ml": -320,
+          "home_ml": 260,
           "over_ml": -110,
           "under_ml": -110,
-          "spread_price_away": -114,
-          "spread_price_home": -106,
+          "spread_price_away": -115,
+          "spread_price_home": -105,
           "aS": 121.7,
           "hS": 113.1,
           "pT": 234.8,
@@ -15887,7 +15892,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 7.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         },
         {
@@ -15897,8 +15902,8 @@
           "total": 222.5,
           "startTimeUTC": "2026-11-16T02:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -500,
-          "home_ml": 385,
+          "away_ml": -480,
+          "home_ml": 370,
           "over_ml": -110,
           "under_ml": -110,
           "spread_price_away": -106,
@@ -15959,12 +15964,12 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 10.5,
-            "atLast": "2026-11-15T11:49:58-06:00"
+            "atLast": "2026-11-15T13:17:57-06:00"
           }
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         6-6-0   (50.0%)   [graded 12]\n  Elite:       6-6-0   (50.0%)   [graded 12]\n\nFAV/DOG (Spread)\n  Favorites:   2-2-0   (50.0%)   [graded 4]\n  Underdogs:   4-4-0   (50.0%)   [graded 8]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/15/2026, 11:49:58 AM"
+      "ranAt": "11/15/2026, 01:17:57 PM"
     }
   ],
   "weights": {
