@@ -128,6 +128,7 @@ jobs:
           Copy-Item pyFull/data/kalman_state.json PythonDashboard/data/kalman-fullseason.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFullKalmanOff/data/kalman_state.json PythonDashboard/data/kalman-kalmanoff.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFullKalmanEarly/data/kalman_state.json PythonDashboard/data/kalman-kalmanearly.json -Force -ErrorAction SilentlyContinue
+          Copy-Item pyFullRatings/data/kalman_state.json PythonDashboard/data/kalman-ratings.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFull/data/nba-systems.json PythonDashboard/data/nba-systems.json -Force -ErrorAction SilentlyContinue
           # Archived seasons (season rollover moves last season out of history.json)
           # so the dashboard's season dropdown can still show them.

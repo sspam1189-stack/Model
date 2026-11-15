@@ -22,6 +22,10 @@ const NBAP_MODELS = [
   { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json',
     kal: 'data/kalman-kalmanearly.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/kalman_state.json' },
+  // solo: shown and recorded on its own, never part of the "models agree" groups.
+  { key: 'pyFullRatings', name: 'Ratings', tab: 'fullseason-ratings', solo: true, local: 'data/fullseason-ratings.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/history.json',
+    kal: 'data/kalman-ratings.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/kalman_state.json' },
 ];
 
 let nbapData = null;
@@ -35,7 +39,7 @@ const NBAP_HIST_DAYS = 3;   // play history: days per page
 const NBAP_DIM = '#8b949e';
 // Official picks use the same colors as preview: 1u blue, 2u green.
 function nbapOffColor(units) { return units === 2 ? '#3fb950' : '#58a6ff'; }
-const NBAP_SHORT = { pyFull: 'FS', pyFullKalmanOff: 'KO', pyFullKalmanEarly: 'KE' };
+const NBAP_SHORT = { pyFull: 'FS', pyFullKalmanOff: 'KO', pyFullKalmanEarly: 'KE', pyFullRatings: 'RT' };
 
 function nbapEsc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
@@ -656,7 +660,7 @@ function nbapTeamCard(d) {
     const v = t.adj_mean, c = v > 0.05 ? '#3fb950' : v < -0.05 ? '#f85149' : NBAP_DIM;
     return `<span style="color:${c}">${v > 0 ? '+' : ''}${v.toFixed(1)}</span>`;
   };
-  const kalHead = f.model === 'pyFullKalmanOff' ? 'Kalman adj (not applied)' : 'Kalman adj';
+  const kalHead = (f.model === 'pyFullKalmanOff' || f.model === 'pyFullRatings') ? 'Kalman adj (not applied)' : 'Kalman adj';
   const tr = (name, r, bold) => split ? `<tr style="border-top:1px solid #21262d${bold ? ';background:#161b22' : ''}">
       <td style="padding:6px">${bold ? `<b>${nbapEsc(name)}</b>` : nbapEsc(name)}</td>
       ${d.models.map(m => `<td class="center">${nbapRecCell(r.by[m.key] || none)}</td>`).join('')}</tr>`
