@@ -31,11 +31,13 @@ const NBAS_AMBER = '#d29922';
 const NBAS_TIER_COLOR = {
   candidate: '#7c5cff',
   control: NBAS_AMBER,
+  watch: '#58a6ff',
   reference: NBAS_DIM,
 };
 const NBAS_TIER_LABEL = {
   candidate: 'CANDIDATE',
   control: 'CONTROL — known junk, same bar',
+  watch: 'WATCH — shadow, added 2026-11-15',
   reference: 'REFERENCE — the model itself',
 };
 
@@ -190,7 +192,8 @@ function nbasBanner(d) {
   const nCard = d.systems.filter(s => s.status === 'card').length;
   const live = (d.totals && d.totals.live) || {};
   const card = (d.totals && d.totals.card) || {};
-  const graded = (live.n || 0) + (live.p || 0);
+  // carded plays only: shadow systems are graded but not part of this count
+  const graded = (card.n || 0) + (card.p || 0);
   return `
     <div class="card card-games" style="border-left:3px solid ${NBAS_GREEN}">
       <div class="card-title">NBA Systems
@@ -218,7 +221,7 @@ function nbasBanner(d) {
         only be read against break-even, not against what the screen returns on
         nothing. They are recoverable from git if that comparison is wanted.
         <br><br>
-        <span style="color:${NBAS_DIM}">Live graded so far: <b>${graded}</b> plays
+        <span style="color:${NBAS_DIM}">Carded plays graded so far: <b>${graded}</b>
         ${graded ? '· card ' + nbasUnits(card.units) : '· the season has not started'}.
         Seeded 2025-26 plays appear in the log below but are held out of every
         live record.</span>
@@ -330,7 +333,7 @@ function nbasRecordTable(d) {
       </tr>${mech}`;
   }).join('');
 
-  const tierSel = ['all', 'candidate', 'control', 'reference']
+  const tierSel = ['all', 'candidate', 'watch', 'control', 'reference']
     .map(t => `<option value="${t}" ${nbasFilters.tier === t ? 'selected' : ''}>`
       + `${t === 'all' ? 'All tiers' : t}</option>`).join('');
 

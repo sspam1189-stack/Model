@@ -324,6 +324,113 @@ SYSTEMS = [
     # The measurements survive in validate_systems.py and can be re-run; the
     # controls can be restored from git history if the comparison is wanted.
 
+    # --------------------------------------------------------------------- WATCH
+    # Added 2026-11-15 by user decision, SHADOW: graded forward, never bet, held
+    # out of the card. Found by looking where the original screen never did
+    # (three-point shooting and intraday line moves; see systems_extra.py).
+    # About twenty ideas were tried, so one or two this good are expected by
+    # chance. The line-move systems have no 2025-26 backtest at all (no
+    # intraday lines were saved then) and their 2026-27 record through Nov 14
+    # was seen BEFORE the rule was written -- the weakest kind of evidence.
+    {
+        "id": "fade_spread_move", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "label": "Spread moved 1+ against a team during the day -> back it",
+        "name": (
+            "Fade spread move"),
+        "rule": (
+            "The team's spread at this run is at least 1 point worse for it "
+            "than the first line saved that day -> back that team ATS at the "
+            "current line."),
+        "why": (
+            "Back the side a 1+ point intraday spread move went against. "
+            "47-27 in 2026-27 through Nov 14, in-sample: the rule was written "
+            "after seeing those games. No 2025-26 backtest exists. Shadow "
+            "from 2026-11-15."),
+        "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
+        "mechanism": (
+            "Intraday spread moves are mostly injury news. If the market "
+            "over-adjusts for a late scratch, the team the line moved against "
+            "is the value side. Needs a line near tip, so it can only be read "
+            "late in the day."),
+        "test": lambda r: r.get("_spread_move") is not None and r["_spread_move"] >= 1.0,
+    },
+    {
+        "id": "total_move_over", "tier": "watch", "status": SHADOW, "market": "total", "side": "OVER",
+        "label": "Total moved up 1.5+ during the day -> OVER",
+        "name": (
+            "Follow total move (over)"),
+        "rule": (
+            "The total at this run is at least 1.5 points above the first "
+            "total saved that day -> OVER at the current number."),
+        "why": (
+            "Follow a 1.5+ point intraday total move. Over and under halves "
+            "together went 21-9 in 2026-27 through Nov 14, in-sample. No "
+            "2025-26 backtest exists. Shadow from 2026-11-15."),
+        "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
+        "mechanism": (
+            "The mirror of the spread result: when a total moves it has kept "
+            "being right, as if totals under-react where spreads over-react. "
+            "Half of one system; total_move_under is the other half."),
+        "test": lambda r: r["is_home"] and r.get("_total_move") is not None and r["_total_move"] >= 1.5,
+    },
+    {
+        "id": "total_move_under", "tier": "watch", "status": SHADOW, "market": "total", "side": "UNDER",
+        "label": "Total moved down 1.5+ during the day -> UNDER",
+        "name": (
+            "Follow total move (under)"),
+        "rule": (
+            "The total at this run is at least 1.5 points below the first "
+            "total saved that day -> UNDER at the current number."),
+        "why": (
+            "The under half of the follow-total-move system; see "
+            "total_move_over. Shadow from 2026-11-15."),
+        "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
+        "mechanism": (
+            "See total_move_over."),
+        "test": lambda r: r["is_home"] and r.get("_total_move") is not None and r["_total_move"] <= -1.5,
+    },
+    {
+        "id": "both_hot_under", "tier": "watch", "status": SHADOW, "market": "total", "side": "UNDER",
+        "label": "Both teams shot hot from three last game -> UNDER",
+        "name": (
+            "Both hot under"),
+        "rule": (
+            "Each team's made threes in its previous game were worth 6+ points "
+            "more than its usual rate gives on the shots it took -> UNDER."),
+        "why": (
+            "Both teams 6+ points above expectation on their own threes last "
+            "game -> under. 39-21 in 2025-26 at an assumed -110, both halves "
+            "positive (16-11 / 23-10); 4-1 in 2026-27 through Nov 14, out of "
+            "sample. Fires about once in 20 games. Shadow from 2026-11-15."),
+        "backtest": {"w": 39, "l": 21, "units": 14.5, "roi": 0.241, "priced": "assumed -110"},
+        "mechanism": (
+            "Hot three-point shooting does not repeat, but it lifts the next "
+            "total. Requiring both teams keeps it rare; the one-team version "
+            "was 84-84."),
+        "test": lambda r: (r["is_home"] and r.get("_3own") is not None and r.get("_o_3own") is not None
+                           and r["_3own"] >= 6 and r["_o_3own"] >= 6),
+    },
+    {
+        "id": "unlucky_team_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "label": "Team lost 15+ points to three-point luck last game -> ATS",
+        "name": (
+            "Unlucky team ATS"),
+        "rule": (
+            "In its previous game the team's net three-point luck (its made "
+            "threes above expectation minus its opponent's) was -15 points or "
+            "worse -> back it ATS."),
+        "why": (
+            "Team 15+ points unlucky from three last game -> ATS. 119-93 in "
+            "2025-26 at an assumed -110 (59-40 / 60-53), which fell just short "
+            "of the strict rule (z=1.8); 15-8 in 2026-27 through Nov 14. "
+            "Shadow from 2026-11-15."),
+        "backtest": {"w": 119, "l": 93, "units": 15.2, "roi": 0.072, "z": 1.8, "priced": "assumed -110"},
+        "mechanism": (
+            "A result driven by three-point variance looks worse than the "
+            "team is; if the next line leans on it, the team is undervalued."),
+        "test": lambda r: r.get("_3luck") is not None and r["_3luck"] <= -15,
+    },
+
     # ----------------------------------------------------------------- REFERENCE
     {
         "id": "model_over_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "OVER",
@@ -352,9 +459,10 @@ SYSTEMS = [
 ]
 
 BY_ID = {s["id"]: s for s in SYSTEMS}
+#: "watch" = shadow systems added 2026-11-15 (see WATCH above).
 #: "control" is retained in the ordering only so ledger rows written before
 #: the controls were dropped still sort and render.
-TIERS = ("candidate", "control", "reference")
+TIERS = ("candidate", "control", "watch", "reference")
 CONVERTED_PRICE_MARKETS = ("h2h",)
 
 

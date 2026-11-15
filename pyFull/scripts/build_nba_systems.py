@@ -26,6 +26,7 @@ import shutil
 import situational_systems as R
 import systems_context as C
 import systems_log as LOG
+import systems_extra as X
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, "..", "data"))
@@ -106,6 +107,7 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
     games = C.load_games(store=store, pending=pending, pending_date=date)
     rows, playoff_start = C.build(games, stats)
     C.enrich(rows, games)
+    X.attach(rows)          # three-point luck and intraday line moves (watch systems)
 
     blob = LOG.load()
 
@@ -260,14 +262,49 @@ def seed():
     return blob
 
 
+def backfill_watch(since, until=None):
+    """Write this season's history for the WATCH systems into the ledger:
+    every settled game from `since` on that a watch system fires, at the line
+    in history (the last line before tip), graded. Idempotent. These are
+    ordinary shadow entries (not `backfilled`), flagged `hist` so the log
+    shows they were added after the fact."""
+    with open(os.path.join(DATA, "history.json"), encoding="utf-8") as fh:
+        store = json.load(fh)
+    games = C.load_games(store=store)
+    rows, _ = C.build(games, C.load_stats())
+    C.enrich(rows, games)
+    X.attach(rows)
+    blob = LOG.load()
+    n = 0
+    for row in rows:
+        if not row["settled"] or row["date"] < since or (until and row["date"] > until):
+            continue
+        for s in R.evaluate(row):
+            if s.get("tier") != "watch":
+                continue
+            e = LOG.add(blob, date=row["date"], system=s["id"], row=row)
+            if e is not None:
+                e["hist"] = True
+                n += 1
+    graded = LOG.grade(blob, finals_from_store(store), dry_run=True)
+    blob["entries"].sort(key=lambda e: (str(e.get("date") or ""), 1 if e.get("hist") else 0))
+    LOG.save(blob)
+    print("  [watch] {0} history plays added, {1} graded".format(n, len(graded)))
+    return blob
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default=None)
+    ap.add_argument("--backfill-watch", metavar="YYYYMMDD", default=None,
+                    help="add the watch systems' history from this date on, then build")
     ap.add_argument("--seed", action="store_true")
     ap.add_argument("--no-dashboard", action="store_true")
     args = ap.parse_args()
     if args.seed:
         seed()
+    if args.backfill_watch:
+        backfill_watch(args.backfill_watch)
     build(date=args.date, write_dashboard=not args.no_dashboard)
 
 
