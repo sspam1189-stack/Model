@@ -94,6 +94,18 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python run_daily.py
 
+      # NBA Full Ratings: team ratings built from game results (opponent-adjusted,
+      # last season as the starting point, tonight's lineup), with a line-value
+      # tracker. Same feeds, its own data.
+      - name: Run daily (NBA Full Ratings)
+        continue-on-error: true
+        working-directory: pyFullRatings/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python run_daily.py
+
       # Replay-graded season record for the dashboard's NBA Preview tab (each
       # game graded at its last run before tip, same as the preview replay).
       # Re-runs only once a new day is fully final; never blocks the commit.
@@ -111,6 +123,7 @@ jobs:
           Copy-Item pyFullKalmanOff/data/history.json PythonDashboard/data/fullseason-kalmanoff.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFullDNET/data/history.json PythonDashboard/data/fullseason-dnet.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFullKalmanEarly/data/history.json PythonDashboard/data/fullseason-kalmanearly.json -Force -ErrorAction SilentlyContinue
+          Copy-Item pyFullRatings/data/history.json PythonDashboard/data/fullseason-ratings.json -Force -ErrorAction SilentlyContinue
           # Current Kalman team corrections, for the NBA Picks team table.
           Copy-Item pyFull/data/kalman_state.json PythonDashboard/data/kalman-fullseason.json -Force -ErrorAction SilentlyContinue
           Copy-Item pyFullKalmanOff/data/kalman_state.json PythonDashboard/data/kalman-kalmanoff.json -Force -ErrorAction SilentlyContinue
@@ -132,7 +145,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Scope to pyFull-owned paths so a parallel pyNBAPROPS push can't race us.
-          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json PythonDashboard/data/archive/ data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/ pyFullKalmanOff/data/ PythonDashboard/data/fullseason-kalmanoff.json data/run_inputs/nba-kalmanoff/ pyFullDNET/data/ PythonDashboard/data/fullseason-dnet.json data/run_inputs/nba-dnet/ pyFullKalmanEarly/data/ PythonDashboard/data/fullseason-kalmanearly.json data/run_inputs/nba-kalmanearly/ PythonDashboard/data/nba-preview.json PythonDashboard/data/kalman-fullseason.json PythonDashboard/data/kalman-kalmanoff.json PythonDashboard/data/kalman-kalmanearly.json
+          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json PythonDashboard/data/archive/ data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/ data/run_inputs/nba/ pyFullKalmanOff/data/ PythonDashboard/data/fullseason-kalmanoff.json data/run_inputs/nba-kalmanoff/ pyFullDNET/data/ PythonDashboard/data/fullseason-dnet.json data/run_inputs/nba-dnet/ pyFullKalmanEarly/data/ PythonDashboard/data/fullseason-kalmanearly.json data/run_inputs/nba-kalmanearly/ PythonDashboard/data/nba-preview.json PythonDashboard/data/kalman-fullseason.json PythonDashboard/data/kalman-kalmanoff.json PythonDashboard/data/kalman-kalmanearly.json pyFullRatings/data/ PythonDashboard/data/fullseason-ratings.json data/run_inputs/nba-ratings/ data/player_cache/nba/
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Run daily Python Fullseason [skip ci]"

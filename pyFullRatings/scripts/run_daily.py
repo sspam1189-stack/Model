@@ -790,7 +790,9 @@ def _main(subject_label, date):
     # OFF / DEF / PACE are replaced; the other columns are kept as they were.
     _ratings_info = None
     if ENGINE_CONFIG.get("RATINGS_MODEL"):
-        from core.ratings_model import build_team_stats as _build_ratings
+        from core.ratings_model import build_team_stats as _build_ratings, refresh_logs as _refresh_logs
+        if not _ri.replaying():
+            print(f"  [ratings] {_refresh_logs(date)}")
         _rt, _ratings_info = _build_ratings(date, list(stats.keys()), injury_data.get("report", {}))
         if _rt:
             stats = {t: ({**s, **_rt[t]} if t in _rt else s) for t, s in stats.items()}
@@ -1124,6 +1126,18 @@ def _main(subject_label, date):
 
     # 6-7. Save
     print("[4/7] Saving...")
+    # Line-value tracker (core/line_value.py): note each game's first line of
+    # the day, the line when the edge first reached the flag size, and the
+    # latest line, so the model can be judged by where the market moved.
+    if ENGINE_CONFIG.get("LINE_VALUE"):
+        try:
+            from core.line_value import track as _lv_track
+            from zoneinfo import ZoneInfo as _ZI
+            _n_lv = _lv_track(games, _prev_games, datetime.now(_ZI("America/Chicago")).isoformat(timespec="seconds"),
+                              float(ENGINE_CONFIG.get("LINE_VALUE_FLAG", 3.0)))
+            print(f"  [line value] tracking {_n_lv} game(s)")
+        except Exception as _e:
+            print(f"  [line value] tracker failed (non-fatal): {_e}")
     run = {"date":date,"dateDisplay":date_display,"burnIn":False,"weightsUsed":base_w,"weightsNext":base_w,"games":games,"summaryText":""}
     print("[5/7] Saving...")
     run["summaryText"] = compute_summary_text(store)

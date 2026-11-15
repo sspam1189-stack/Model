@@ -252,3 +252,9 @@ ENGINE_CONFIG["MEDIAN_MINUTES"] = True
 # ratings, last season as the starting point, tonight's lineup) instead of raw
 # season averages. See core/ratings_model.py.
 ENGINE_CONFIG["RATINGS_MODEL"] = True
+
+# Line-value tracker (core/line_value.py): judge the model by where the line
+# moves after its number is made. Games are flagged when the edge reaches
+# LINE_VALUE_FLAG points.
+ENGINE_CONFIG["LINE_VALUE"] = True
+ENGINE_CONFIG["LINE_VALUE_FLAG"] = 3.0

@@ -33,11 +33,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 # dNET (pyFullDNET) still runs live but is hidden from the preview (2026-11-02).
 MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff"),
-          ("pyFullKalmanEarly", "NBA Full KalmanEarly")]
+          ("pyFullKalmanEarly", "NBA Full KalmanEarly"),
+          # 2026-11-15: ratings built from game results (core/ratings_model.py); its own
+          # column, not part of the AGREE groups
+          ("pyFullRatings", "NBA Full Ratings")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
               "pyFullKalmanEarly": "nba-kalmanearly",
-              # replay-only (run with --only): ratings built from game results, see core/ratings_model.py
               "pyFullRatings": "nba-ratings"}
 # Consensus records: every listed model fired the same side, at the smallest stake.
 # Optional 4th field: every member must be at least this stake (2 = all at 2u).
@@ -284,6 +286,8 @@ def seed_history(model, runs, dates):
             g["oPick"], g["oConf"], g["pOU"] = "PASS", "low", None
             g.pop("stakeUnits", None)
             g["note"] = "Seeded from the walk-forward preview (stats through the day before)"
+        for g in r.get("games", []):
+            g.pop("lv", None)       # a replay runs once per day: no line movement to track
         r["burnIn"] = False
         by_date[d] = r
         n += len(r.get("games", []))

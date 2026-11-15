@@ -193,6 +193,66 @@ def _ridge(games, lam, prior_net, teams):
             "pace": {t: float(bp[ix[t]]) for t in teams}, "mup": float(bp[n])}
 
 
+def refresh_logs(date):
+    """Live runs only: make sure this season's player logs include last night's
+    games. The props run refreshes the same file, but it runs after the
+    full-season run. Returns a short status string; never raises."""
+    try:
+        from zoneinfo import ZoneInfo
+        season = _season(date)
+        root = os.environ.get("PYFULL_BACKFILL_REPO") or os.path.normpath(os.path.join(_HERE, ".."))
+        path = os.path.join(root, "data", "player_cache", "nba", f"basic_{season}_Regular_Season.json")
+        latest = ""
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as f:
+                latest = max((str(r.get("game_date") or "") for r in json.load(f) or []), default="")
+        yday = (dt.datetime.now(ZoneInfo("America/Chicago")) - dt.timedelta(days=1)).strftime("%Y-%m-%d")
+        if latest >= yday:
+            return f"player logs current (through {latest})"
+        from nba_api.stats.endpoints import leaguegamelog
+        df = leaguegamelog.LeagueGameLog(season=season, season_type_all_star="Regular Season",
+                                         player_or_team_abbreviation="P", timeout=120).get_data_frames()[0]
+
+        def _i(v):
+            try:
+                return int(v) if v == v and v is not None else 0
+            except (TypeError, ValueError):
+                return 0
+
+        def _m(v):
+            try:
+                if isinstance(v, str) and ":" in v:
+                    a, b = v.split(":")[:2]
+                    return float(a) + float(b) / 60.0
+                return float(v) if v == v and v is not None else 0.0
+            except (TypeError, ValueError):
+                return 0.0
+        logs = []
+        for _, r in df.iterrows():
+            mu = str(r.get("MATCHUP") or "")
+            opp = mu.split(" vs. ")[-1] if " vs. " in mu else (mu.split(" @ ")[-1] if " @ " in mu else "")
+            logs.append({
+                "player_id": _i(r.get("PLAYER_ID")), "player_name": str(r.get("PLAYER_NAME") or ""),
+                "team": str(r.get("TEAM_ABBREVIATION") or ""), "opp": opp.strip(), "is_home": " vs. " in mu,
+                "game_id": str(r.get("GAME_ID") or ""), "game_date": str(r.get("GAME_DATE") or ""), "min": _m(r.get("MIN")),
+                "pts": _i(r.get("PTS")), "reb": _i(r.get("REB")), "ast": _i(r.get("AST")), "stl": _i(r.get("STL")),
+                "blk": _i(r.get("BLK")), "tov": _i(r.get("TOV")), "fg3m": _i(r.get("FG3M")), "fg3a": _i(r.get("FG3A")),
+                "fga": _i(r.get("FGA")), "fgm": _i(r.get("FGM")), "fta": _i(r.get("FTA")), "ftm": _i(r.get("FTM")),
+                "oreb": _i(r.get("OREB")), "dreb": _i(r.get("DREB")), "pf": _i(r.get("PF")),
+                "plus_minus": float(r.get("PLUS_MINUS")) if r.get("PLUS_MINUS") == r.get("PLUS_MINUS") and r.get("PLUS_MINUS") is not None else 0.0,
+            })
+        new_latest = max((g["game_date"] for g in logs), default="")
+        if len(logs) < 100 or new_latest < latest:
+            return f"player logs NOT refreshed (fetch returned {len(logs)} rows); using logs through {latest or 'n/a'}"
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(logs, f)
+        _LOG_CACHE.pop(season, None)
+        return f"player logs refreshed: {len(logs)} rows through {new_latest} (had {latest or 'none'})"
+    except Exception as e:
+        return f"player logs NOT refreshed ({type(e).__name__}: {e}); using the saved file"
+
+
 _PRIOR_CACHE = {}
 
 

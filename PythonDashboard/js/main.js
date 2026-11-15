@@ -145,6 +145,12 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullDNET/data/history.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
+  'fullseason-ratings': {
+    name: 'NBA Full Ratings',
+    local: 'data/fullseason-ratings.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/history.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
   'fullseason-ke': {
     name: 'NBA Full KalmanEarly',
     local: 'data/fullseason-kalmanearly.json',
@@ -717,14 +723,14 @@ function confBadge(conf) {
 // calcUnits (flat, model ATS accuracy) and is NOT restated by the tier.
 function eliteStakeCut() {
   if (activeTab === 'wnba-full') return 0.72;
-  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet' || activeTab === 'fullseason-ke') return 0.65;
+  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet' || activeTab === 'fullseason-ke' || activeTab === 'fullseason-ratings') return 0.65;
   return null;
 }
 // Fire floor: min P(cover) for a pick to fire (bet), from each model's probHigh.
 // Used as the lower bound of the 1u stake tier label.
 function fireThreshold() {
   if (activeTab === 'wnba-full') return 0.62;
-  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet' || activeTab === 'fullseason-ke') return 0.58;
+  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet' || activeTab === 'fullseason-ke' || activeTab === 'fullseason-ratings') return 0.58;
   return null;
 }
 function stakeUnits(pCover) {
@@ -1194,7 +1200,7 @@ function renderTodayPicks(run, runs) {
 
   // Include UNDER picks as official picks if they match any filter criteria (fullseason only)
   let underItems = '';
-  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet' || activeTab === 'fullseason-ke') {
+  if (activeTab === 'fullseason' || activeTab === 'fullseason-ko' || activeTab === 'fullseason-dnet' || activeTab === 'fullseason-ke' || activeTab === 'fullseason-ratings') {
     const todayUnders = (run.games || []).filter(g => {
       if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') return false;
       if (!g.oPick || g.oPick !== 'UNDER') return false;
@@ -1227,6 +1233,52 @@ function renderTodayPicks(run, runs) {
   }
   html += `</div>`;
   return html;
+}
+
+// Line value (NBA Full Ratings): how far the market moved toward the model's
+// side after its number was made. Uses g.lv, written by core/line_value.py.
+function renderLineValue(runs) {
+  const rows = [];
+  for (const r of runs || []) {
+    for (const g of r.games || []) {
+      const lv = g.lv;
+      if (!lv || !Number.isFinite(lv.lineLast) || !Number.isFinite(lv.line0)) continue;
+      const final = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore) ? g.homeScore - g.awayScore : null;
+      const one = (line, side) => {
+        if (!Number.isFinite(line) || !side) return null;
+        const s = side === 'home' ? 1 : -1;
+        const cover = final == null ? null : (final + line) * s;
+        return { v: (line - lv.lineLast) * s, res: cover == null ? null : (cover > 0 ? 'W' : cover < 0 ? 'L' : 'P') };
+      };
+      rows.push({ first: one(lv.line0, lv.side0), flag: one(lv.flagLine, lv.flagSide),
+                  official: g.sPick && g.sPick !== 'PASS' ? one(lv.line0, lv.side0) : null });
+    }
+  }
+  const sets = [['Every game, first line of the day', rows.map(x => x.first)],
+                ['Flagged: edge of 3+ points', rows.map(x => x.flag)],
+                ['Official plays', rows.map(x => x.official)]]
+    .map(([name, xs]) => [name, xs.filter(Boolean)]);
+  if (!sets[0][1].length) return '';
+  const body = sets.map(([name, xs]) => {
+    if (!xs.length) return `<tr><td>${esc(name)}</td><td class="center" colspan="4" style="color:var(--muted)">none yet</td></tr>`;
+    const avg = xs.reduce((a, x) => a + x.v, 0) / xs.length;
+    const toward = xs.filter(x => x.v > 0).length, against = xs.filter(x => x.v < 0).length;
+    const w = xs.filter(x => x.res === 'W').length, l = xs.filter(x => x.res === 'L').length;
+    const cls = avg > 0.005 ? 'win-text' : (avg < -0.005 ? 'loss-text' : '');
+    return `<tr><td>${esc(name)}</td><td class="center">${xs.length}</td>
+      <td class="center"><span class="${cls}">${avg >= 0 ? '+' : ''}${avg.toFixed(2)} pts</span></td>
+      <td class="center"><span class="win-text">${toward}</span> / <span class="loss-text">${against}</span></td>
+      <td class="center">${w}-${l}</td></tr>`;
+  }).join('');
+  return `
+    <div class="card card-records">
+      <div class="card-title">Line Value</div>
+      <div class="card-subtitle">Points the line moved toward the model's side between its number and the last line before tip.</div>
+      <table class="data">
+        <thead><tr><th>Games</th><th class="center">Count</th><th class="center">Avg line value</th><th class="center">Moved toward / against</th><th class="center">Record at that line</th></tr></thead>
+        <tbody>${body}</tbody>
+      </table>
+    </div>`;
 }
 
 function renderSpreadRecord(runs, modelSummary = null) {
@@ -1739,7 +1791,7 @@ function renderHistoryDay(run) {
 
 function updateLastRunInfo() {
   const labels = {
-    fullseason: 'Full Season', 'nba-preview': 'Full Season', nfl: 'NFL',
+    fullseason: 'Full Season', 'nba-preview': 'Full Season', 'fullseason-ratings': 'Full Ratings', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
     'mlb-props': "MLB K's CSW .1", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26 (shadow)",
     'mlb-props-cv125c25': "MLB K's CSW .1 Old (shadow)",
@@ -2702,6 +2754,7 @@ async function render() {
     html += renderRecap(runs);
     html += renderTodayPicks(latestRun, runs);
     html += renderSpreadRecord(segRuns, modelSummary);
+    if (activeTab === 'fullseason-ratings') html += renderLineValue(segRuns);
     html += '<div class="section-label">Cover Probabilities</div>';
     html += renderProbTable(latestRun);
     html += renderVetoTable(runs);
