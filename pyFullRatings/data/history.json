@@ -15362,8 +15362,8 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 0.0 \u00b7 Over 30.8% \u00b7 Under 69.2% \u00b7 O/U +/- -7.2",
-            "home": "ATS +/- -1.4 \u00b7 Over 38.5% \u00b7 Under 61.5% \u00b7 O/U +/- -8.3"
+            "away": "ATS +/- 0.1 \u00b7 Over 35.7% \u00b7 Under 64.3% \u00b7 O/U +/- -4.6",
+            "home": "ATS +/- -1.4 \u00b7 Over 42.9% \u00b7 Under 57.1% \u00b7 O/U +/- -5.6"
           },
           "lv": {
             "line0": -7.5,
@@ -15371,8 +15371,10 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": -7.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
-          }
+            "atLast": "2026-11-15T16:12:18-06:00"
+          },
+          "awayScore": 124.0,
+          "homeScore": 131.0
         },
         {
           "away": "Los Angeles Lakers",
@@ -15443,7 +15445,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 2.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         },
         {
@@ -15520,7 +15522,7 @@
             "flagSide": "home",
             "flagAt": "2026-11-15T07:42:13-06:00",
             "lineLast": -1.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         },
         {
@@ -15592,42 +15594,42 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 16.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         },
         {
           "away": "Dallas Mavericks",
           "home": "Boston Celtics",
           "line": -14.5,
-          "total": 219.5,
+          "total": 217.5,
           "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 640,
-          "home_ml": -950,
-          "over_ml": -110,
-          "under_ml": -110,
-          "spread_price_away": -110,
-          "spread_price_home": -110,
-          "aS": 107.0,
+          "away_ml": 660,
+          "home_ml": -1000,
+          "over_ml": -112,
+          "under_ml": -108,
+          "spread_price_away": -108,
+          "spread_price_home": -112,
+          "aS": 105.9,
           "hS": 118.2,
-          "pT": 225.2,
-          "margin": -3.3,
-          "sDiff": 3.3,
-          "tDiff": 1.8,
-          "sPick": "Dallas Mavericks +14.5",
-          "sConf": "elite",
+          "pT": 224.1,
+          "margin": -2.2,
+          "sDiff": 2.2,
+          "tDiff": 3.2,
+          "sPick": "PASS",
+          "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
-          "injuryNote": "Away: Max Christie (doubtful/bench)",
-          "pHomeCover": 0.413,
-          "pAwayCover": 0.587,
-          "pOver": 0.545,
-          "pUnder": 0.455,
-          "pCover": 0.587,
+          "injuryNote": "Away: Max Christie (out/bench), Kyrie Irving (out/starter)",
+          "pHomeCover": 0.442,
+          "pAwayCover": 0.558,
+          "pOver": 0.581,
+          "pUnder": 0.419,
+          "pCover": null,
           "pOU": null,
           "minGP": 12,
           "pCal": 0.5,
-          "marginVar": 226.2,
+          "marginVar": 224.9,
           "marginStd": 15.0,
           "_features": {
             "dTS": 0.013349999999999973,
@@ -15642,7 +15644,7 @@
             "dORR": 0.0002,
             "dDEF": 5.2221,
             "hca": 1.0,
-            "_baseline": 3.8315,
+            "_baseline": 4.992,
             "_pace": 1.0004
           },
           "kalmanAdj": {
@@ -15660,7 +15662,6 @@
               "DEF": 0.8
             }
           },
-          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- 2.8 \u00b7 Over 38.5% \u00b7 Under 61.5% \u00b7 O/U +/- -2.8",
             "home": "ATS +/- 3.5 \u00b7 Over 25.0% \u00b7 Under 75.0% \u00b7 O/U +/- -4.3"
@@ -15672,7 +15673,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": -14.5,
-            "atLast": "2026-11-15T13:17:57-06:00",
+            "atLast": "2026-11-15T16:12:18-06:00",
             "flagLine": -14.5,
             "flagEdge": -3.3,
             "flagSide": "away",
@@ -15682,36 +15683,36 @@
         {
           "away": "New York Knicks",
           "home": "Toronto Raptors",
-          "line": 4.5,
+          "line": 3.5,
           "total": 217.5,
           "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -205,
-          "home_ml": 172,
-          "over_ml": -110,
-          "under_ml": -110,
+          "away_ml": -176,
+          "home_ml": 148,
+          "over_ml": -115,
+          "under_ml": -105,
           "spread_price_away": -115,
           "spread_price_home": -105,
           "aS": 110.0,
           "hS": 107.9,
           "pT": 217.9,
-          "margin": 2.4,
-          "sDiff": 2.4,
+          "margin": 1.4,
+          "sDiff": 1.4,
           "tDiff": -0.4,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.563,
-          "pAwayCover": 0.437,
+          "pHomeCover": 0.537,
+          "pAwayCover": 0.463,
           "pOver": 0.49,
           "pUnder": 0.51,
           "pCover": null,
           "pOU": null,
           "minGP": 12,
           "pCal": 0.5,
-          "marginVar": 225.7,
+          "marginVar": 224.4,
           "marginStd": 15.0,
           "_features": {
             "dTS": -0.0048000000000000265,
@@ -15747,8 +15748,8 @@
             "edge0": 2.4,
             "side0": "home",
             "at0": "2026-11-15T07:42:13-06:00",
-            "lineLast": 4.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "lineLast": 3.5,
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         },
         {
@@ -15783,7 +15784,7 @@
           "pOU": null,
           "minGP": 13,
           "pCal": 0.5,
-          "marginVar": 225.9,
+          "marginVar": 224.6,
           "marginStd": 15.0,
           "_features": {
             "dTS": -0.03299999999999992,
@@ -15820,7 +15821,7 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 8.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         },
         {
@@ -15832,8 +15833,8 @@
           "_book": "FanDuel",
           "away_ml": -320,
           "home_ml": 260,
-          "over_ml": -110,
-          "under_ml": -110,
+          "over_ml": -106,
+          "under_ml": -114,
           "spread_price_away": -115,
           "spread_price_home": -105,
           "aS": 121.7,
@@ -15849,13 +15850,13 @@
           "injuryNote": "Away: Kingston Flemings (out/bench)",
           "pHomeCover": 0.471,
           "pAwayCover": 0.529,
-          "pOver": 0.415,
-          "pUnder": 0.585,
+          "pOver": 0.414,
+          "pUnder": 0.586,
           "pCover": null,
           "pOU": null,
           "minGP": 13,
           "pCal": 0.5,
-          "marginVar": 226.5,
+          "marginVar": 225.2,
           "marginStd": 15.0,
           "_features": {
             "dTS": -0.014000000000000012,
@@ -15892,43 +15893,43 @@
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
             "lineLast": 7.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         },
         {
           "away": "Oklahoma City Thunder",
           "home": "Sacramento Kings",
-          "line": 10.5,
+          "line": 11.5,
           "total": 222.5,
           "startTimeUTC": "2026-11-16T02:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -480,
-          "home_ml": 370,
-          "over_ml": -110,
-          "under_ml": -110,
-          "spread_price_away": -106,
-          "spread_price_home": -114,
+          "away_ml": -560,
+          "home_ml": 420,
+          "over_ml": -114,
+          "under_ml": -106,
+          "spread_price_away": -104,
+          "spread_price_home": -118,
           "aS": 116.6,
           "hS": 104.8,
           "pT": 221.4,
-          "margin": -1.3,
-          "sDiff": 1.3,
+          "margin": -0.3,
+          "sDiff": 0.3,
           "tDiff": -1.7,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.466,
-          "pAwayCover": 0.534,
+          "pHomeCover": 0.492,
+          "pAwayCover": 0.508,
           "pOver": 0.457,
           "pUnder": 0.543,
           "pCover": null,
           "pOU": null,
           "minGP": 12,
           "pCal": 0.5,
-          "marginVar": 227.5,
-          "marginStd": 15.1,
+          "marginVar": 226.2,
+          "marginStd": 15.0,
           "_features": {
             "dTS": 0.008000000000000007,
             "dTO": 0.034,
@@ -15963,13 +15964,13 @@
             "edge0": -1.3,
             "side0": "away",
             "at0": "2026-11-15T07:42:13-06:00",
-            "lineLast": 10.5,
-            "atLast": "2026-11-15T13:17:57-06:00"
+            "lineLast": 11.5,
+            "atLast": "2026-11-15T16:12:18-06:00"
           }
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         6-6-0   (50.0%)   [graded 12]\n  Elite:       6-6-0   (50.0%)   [graded 12]\n\nFAV/DOG (Spread)\n  Favorites:   2-2-0   (50.0%)   [graded 4]\n  Underdogs:   4-4-0   (50.0%)   [graded 8]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/15/2026, 01:17:57 PM"
+      "ranAt": "11/15/2026, 04:12:18 PM"
     }
   ],
   "weights": {
@@ -16001,5 +16002,5 @@
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 225.1
+  "residualVar": 223.8
 }
