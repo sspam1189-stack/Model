@@ -201,7 +201,16 @@ MIN_LINE = {
 # the model fires them anyway. rebounds OVER is +1.1%, below vig, not the
 # +5.0% the flat price implied. RETIRED, both of them -- do not restore
 # either OVER side without re-running the price-aware numbers.
-UNDER_ONLY_MARKETS = {"threes", "rebounds"}
+#
+# 2026-11-15 (user): assists OVER retired too -- the model is UNDERS ONLY.
+#   2026-27 so far, assists OVER 5-8 (-33.5% at real prices); every under cell
+#   is at or above break-even (assists 23-12, threes 32-20, rebounds 10-7).
+#   Across all 40,838 graded props (Jan 2026 - Nov 2026) a blind OVER loses
+#   8.8-10.5% in every market and a blind UNDER 1.3-3.5%: the book's hold sits
+#   almost entirely on the over. The 2025-26 backfill had assists OVER at
+#   +10.9% / +3.9%, but that record was produced by a model calibrated on the
+#   same months, so it is not a forward result.
+UNDER_ONLY_MARKETS = {"threes", "rebounds", "assists"}
 
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}
 

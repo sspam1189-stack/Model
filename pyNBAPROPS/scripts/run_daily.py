@@ -707,6 +707,26 @@ def run_daily(date_key=None):
         today_fresh = [p for p in dashboard.get("props", [])
                        if p.get("date") == date_iso or not p.get("date")]
 
+        # Line-value tracking (2026-11-15): remember the line and price each
+        # pick was FIRST seen at today. The pick's own line/price keep
+        # following the latest board, so open_* against them shows whether the
+        # market moved toward the pick. Never blocks the run.
+        try:
+            import datetime as _dt
+            _first = {(p.get("player"), p.get("market"), p.get("pick")): p for p in today_existing}
+            _now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
+            for p in today_fresh:
+                _prev = _first.get((p.get("player"), p.get("market"), p.get("pick")))
+                if _prev and _prev.get("open_line") is not None:
+                    p["open_line"], p["open_price"], p["open_at"] = (
+                        _prev["open_line"], _prev.get("open_price"), _prev.get("open_at"))
+                else:
+                    p["open_line"] = p.get("line")
+                    p["open_price"] = p.get("over_price") if p.get("pick") == "OVER" else p.get("under_price")
+                    p["open_at"] = _now_iso
+        except Exception as _e:
+            print(f"  [line value] open-price tracking failed (non-fatal): {_e}")
+
         merged_props = kept + today_started + today_fresh
 
         # Preserve todayProjections for started games too — they were
