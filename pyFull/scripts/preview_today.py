@@ -36,7 +36,9 @@ MODELS = [("pyFull", "NBA Full Season"), ("pyFullKalmanOff", "NBA Full KalmanOff
           ("pyFullKalmanEarly", "NBA Full KalmanEarly")]
 SKIP = shutil.ignore_patterns("__pycache__", "archive", "run_inputs", "odds_cache", "stats_cache")
 INPUTS_DIR = {"pyFull": "nba", "pyFullKalmanOff": "nba-kalmanoff", "pyFullDNET": "nba-dnet",
-              "pyFullKalmanEarly": "nba-kalmanearly"}
+              "pyFullKalmanEarly": "nba-kalmanearly",
+              # replay-only (run with --only): ratings built from game results, see core/ratings_model.py
+              "pyFullRatings": "nba-ratings"}
 # Consensus records: every listed model fired the same side, at the smallest stake.
 # Optional 4th field: every member must be at least this stake (2 = all at 2u).
 AGREE = [("k3", "3 Kalman agree", ["pyFull", "pyFullKalmanOff", "pyFullKalmanEarly"]),
