@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-16T16:46:05Z",
+ "generated": "2026-11-16T18:06:56Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -33043,27 +33043,6 @@
   },
   {
    "date": "20261116",
-   "system": "home_dog_5_under",
-   "tier": "candidate",
-   "market": "total",
-   "side": "UNDER",
-   "play": "UNDER 225.5",
-   "team": "Brooklyn Nets",
-   "game": "Philadelphia 76ers @ Brooklyn Nets",
-   "away": "Philadelphia 76ers",
-   "home": "Brooklyn Nets",
-   "line": 225.5,
-   "price": -106,
-   "book_price": -106,
-   "stake": 1.0,
-   "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
-   "startTimeUTC": "2026-11-17T00:40:00.000+00:00"
-  },
-  {
-   "date": "20261116",
    "system": "blowout_dog_ml",
    "tier": "candidate",
    "market": "h2h",
@@ -33096,8 +33075,8 @@
    "away": "Houston Rockets",
    "home": "Miami Heat",
    "line": 2.5,
-   "price": -106,
-   "book_price": -106,
+   "price": -110,
+   "book_price": -110,
    "stake": 1.0,
    "status": "card",
    "result": "pending",
@@ -33210,6 +33189,27 @@
    "profit": 0.0,
    "book_profit": 0.0,
    "startTimeUTC": "2026-11-17T00:10:00.000+00:00"
+  },
+  {
+   "date": "20261116",
+   "system": "fade_spread_move",
+   "tier": "watch",
+   "market": "spread",
+   "side": "TEAM",
+   "play": "Philadelphia 76ers -4.5",
+   "team": "Philadelphia 76ers",
+   "game": "Philadelphia 76ers @ Brooklyn Nets",
+   "away": "Philadelphia 76ers",
+   "home": "Brooklyn Nets",
+   "line": -4.5,
+   "price": -114,
+   "book_price": -114,
+   "stake": 1.0,
+   "status": "shadow",
+   "result": "pending",
+   "profit": 0.0,
+   "book_profit": 0.0,
+   "startTimeUTC": "2026-11-17T00:40:00.000+00:00"
   }
  ]
 }
