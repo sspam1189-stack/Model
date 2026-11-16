@@ -81495,7 +81495,7 @@
       "weekKey": "2026_W10",
       "season": 2026,
       "week": 10,
-      "date": "20261115",
+      "date": "20261116",
       "dateDisplay": "2026 Week 10",
       "burnIn": false,
       "weightsUsed": {
@@ -82355,13 +82355,13 @@
           "away": "LAC",
           "line": -4.5,
           "total": 38.5,
-          "hS": 24.6,
+          "hS": 24.5,
           "aS": 17.8,
-          "pT": 42.4,
+          "pT": 42.3,
           "projSpread": -6.7,
           "margin": 2.2,
           "sDiff": 2.2,
-          "tDiff": 3.9,
+          "tDiff": 3.8,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -82374,7 +82374,7 @@
           "pCover": null,
           "pOU": null,
           "pHomeCoverRaw": 0.559,
-          "pOverRaw": 0.596,
+          "pOverRaw": 0.593,
           "probCalibrated": true,
           "marginVar": 167.0,
           "marginStd": 12.9,
@@ -82663,7 +82663,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   177-161-7  (52.4%)  -0.1u\n  TOTAL:    169-124-3  (57.7%)  +32.6u",
-      "ranAt": "11/15/2026, 09:01:44 AM"
+      "ranAt": "11/15/2026, 10:31:48 PM"
     }
   ],
   "meta": {
@@ -87018,250 +87018,10 @@
       {
         "away": "Minnesota Vikings",
         "home": "San Francisco 49ers",
-        "line": -4.5,
+        "line": -3.0,
         "total": 45.5,
         "commenceTimeIso": "2026-11-23T01:20:00.000Z",
         "_book": "FanDuel"
-      },
-      {
-        "away": "Minnesota Vikings",
-        "home": "Green Bay Packers",
-        "line": -2.5,
-        "total": 42.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "GB",
-        "_awayAbbr": "MIN",
-        "_weatherAdj": {
-          "total_adj": 1.6,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": "calm 1.2mph"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Kansas City Chiefs",
-        "home": "Atlanta Falcons",
-        "line": 3.5,
-        "total": 47.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "ATL",
-        "_awayAbbr": "KC",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Houston Texans",
-        "home": "Cleveland Browns",
-        "line": 4.5,
-        "total": 41.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "CLE",
-        "_awayAbbr": "HOU",
-        "_weatherAdj": {
-          "total_adj": -0.9,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": "clear"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Miami Dolphins",
-        "home": "Indianapolis Colts",
-        "line": -4.5,
-        "total": 37.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "IND",
-        "_awayAbbr": "MIA",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Jacksonville Jaguars",
-        "home": "Tennessee Titans",
-        "line": 10.5,
-        "total": 46.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "TEN",
-        "_awayAbbr": "JAX",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": "calm 4.2mph"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Buffalo Bills",
-        "home": "New York Jets",
-        "line": 7.5,
-        "total": 50.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "NYJ",
-        "_awayAbbr": "BUF",
-        "_weatherAdj": {
-          "total_adj": -0.2,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": "clear"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "San Francisco 49ers",
-        "home": "Dallas Cowboys",
-        "line": 4.5,
-        "total": 55.5,
-        "commenceTimeIso": "2026-11-15T21:26:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "DAL",
-        "_awayAbbr": "SF",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.5,
-          "rest_note": "travel (2h TZ diff)"
-        }
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Cincinnati Bengals",
-        "line": -3.5,
-        "total": 49.5,
-        "commenceTimeIso": "2026-11-16T01:21:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "CIN",
-        "_awayAbbr": "PIT",
-        "_weatherAdj": {
-          "total_adj": 0.9,
-          "spread_adj": 0.0,
-          "is_dome": false,
-          "weather_note": "calm 4.5mph"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Los Angeles Rams",
-        "home": "Arizona Cardinals",
-        "line": 9.5,
-        "total": 38.5,
-        "commenceTimeIso": "2026-11-15T21:06:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "ARI",
-        "_awayAbbr": "LA",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
-        "away": "Carolina Panthers",
-        "home": "New Orleans Saints",
-        "line": -1.5,
-        "total": 48.5,
-        "commenceTimeIso": "2026-11-15T18:01:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "NO",
-        "_awayAbbr": "CAR",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
       },
       {
         "away": "Los Angeles Chargers",
@@ -87273,10 +87033,10 @@
         "_homeAbbr": "BAL",
         "_awayAbbr": "LAC",
         "_weatherAdj": {
-          "total_adj": 0.9,
+          "total_adj": 0.8,
           "spread_adj": 0.0,
           "is_dome": false,
-          "weather_note": "calm 4.3mph"
+          "weather_note": "clear"
         },
         "_restAdj": {
           "home_rest_adj": 0.0,
@@ -87288,41 +87048,17 @@
         }
       },
       {
-        "away": "Seattle Seahawks",
-        "home": "Las Vegas Raiders",
-        "line": 6.5,
-        "total": 40.5,
-        "commenceTimeIso": "2026-11-15T21:06:00.000Z",
-        "_book": "FanDuel",
-        "_homeAbbr": "LV",
-        "_awayAbbr": "SEA",
-        "_weatherAdj": {
-          "total_adj": 1.0,
-          "spread_adj": 0.0,
-          "is_dome": true,
-          "weather_note": "dome"
-        },
-        "_restAdj": {
-          "home_rest_adj": 0.0,
-          "away_rest_adj": 0.0,
-          "home_days_rest": null,
-          "away_days_rest": null,
-          "travel_adj": 0.0,
-          "rest_note": "standard rest"
-        }
-      },
-      {
         "away": "Indianapolis Colts",
         "home": "Houston Texans",
-        "line": -9.5,
-        "total": 43.5,
+        "line": -10.0,
+        "total": 44.5,
         "commenceTimeIso": "2026-11-20T01:16:00.000Z",
         "_book": "FanDuel"
       },
       {
         "away": "New Orleans Saints",
         "home": "Chicago Bears",
-        "line": -9.5,
+        "line": -10.5,
         "total": 49.5,
         "commenceTimeIso": "2026-11-22T18:01:00.000Z",
         "_book": "FanDuel"
@@ -87339,7 +87075,7 @@
         "away": "Miami Dolphins",
         "home": "Buffalo Bills",
         "line": -16.5,
-        "total": 46.5,
+        "total": 47.5,
         "commenceTimeIso": "2026-11-22T18:01:00.000Z",
         "_book": "FanDuel"
       },
@@ -87347,22 +87083,30 @@
         "away": "Tennessee Titans",
         "home": "Dallas Cowboys",
         "line": -7.5,
-        "total": 50.5,
+        "total": 52.5,
         "commenceTimeIso": "2026-11-22T18:01:00.000Z",
         "_book": "FanDuel"
       },
       {
         "away": "Arizona Cardinals",
         "home": "Kansas City Chiefs",
-        "line": -14.5,
-        "total": 41.5,
+        "line": -15.5,
+        "total": 40.5,
+        "commenceTimeIso": "2026-11-22T18:01:00.000Z",
+        "_book": "FanDuel"
+      },
+      {
+        "away": "Tampa Bay Buccaneers",
+        "home": "Detroit Lions",
+        "line": -5.5,
+        "total": 46.5,
         "commenceTimeIso": "2026-11-22T18:01:00.000Z",
         "_book": "FanDuel"
       },
       {
         "away": "Las Vegas Raiders",
         "home": "Denver Broncos",
-        "line": -7.5,
+        "line": -9.5,
         "total": 40.5,
         "commenceTimeIso": "2026-11-22T21:26:00.000Z",
         "_book": "FanDuel"
@@ -87370,32 +87114,16 @@
       {
         "away": "New York Jets",
         "home": "Los Angeles Chargers",
-        "line": -1.5,
-        "total": 43.5,
+        "line": -3.5,
+        "total": 40.5,
         "commenceTimeIso": "2026-11-22T21:06:00.000Z",
-        "_book": "FanDuel"
-      },
-      {
-        "away": "Pittsburgh Steelers",
-        "home": "Philadelphia Eagles",
-        "line": 4.5,
-        "total": 38.5,
-        "commenceTimeIso": "2026-11-22T18:01:00.000Z",
-        "_book": "FanDuel"
-      },
-      {
-        "away": "Cincinnati Bengals",
-        "home": "Washington Commanders",
-        "line": 4.5,
-        "total": 51.5,
-        "commenceTimeIso": "2026-11-24T01:16:00.000Z",
         "_book": "FanDuel"
       },
       {
         "away": "Jacksonville Jaguars",
         "home": "New York Giants",
         "line": 6.5,
-        "total": 44.5,
+        "total": 46.5,
         "commenceTimeIso": "2026-11-22T21:26:00.000Z",
         "_book": "FanDuel"
       }
@@ -87480,6 +87208,62 @@
     "report": {
       "Arizona Cardinals": [
         {
+          "player": "Jordan Burch",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Burch (knee) has been ruled out for the remainder of Sunday's tilt against the Rams, Josh Weinfuss of ESPN.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jayden Williams",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "Williams (knee) has been ruled out for Sunday's game against the Rams, Darren Urban of the Cardinals' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Joey Aguilar",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Aguilar (coach's decision) is inactive but will serve as the emergency third quarterback against the Rams on Sunday, Darren Urban of the Cardinals' official site reports.",
+          "tier": "elite"
+        },
+        {
+          "player": "Starling Thomas V",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Eku Leota",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Hjalte Froholdt",
+          "playerId": "",
+          "status": "out",
+          "position": "C",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jon Gaines II",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
           "player": "Gardner Minshew II",
           "playerId": "",
           "status": "out",
@@ -87488,79 +87272,71 @@
           "tier": "elite"
         },
         {
-          "player": "Hunter Long",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "Arizona activated Long (knee) from injured reserve Saturday, and he remains questionable for Sunday's battle against the Rams.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jayden Williams",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "Williams (knee) is listed as questionable for Sunday's game against the Rams, Zach Gershman of the Cardinals' official site reports.",
-          "tier": "medium"
-        },
-        {
           "player": "Zachary Carter",
           "playerId": "",
           "status": "out",
           "position": "DT",
           "description": "Carter (knee) has been ruled out ahead of Sunday's game against the Rams, Zach Gershman of the Cardinals' official site reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Jon Gaines II",
-          "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "Gaines (ankle) has been ruled out ahead of Sunday's game against the Rams, Bo Brack of GoPHNX.com reports.",
-          "tier": "low"
-        },
-        {
-          "player": "Hjalte Froholdt",
-          "playerId": "",
-          "status": "out",
-          "position": "C",
-          "description": "Froholdt (concussion) has been ruled out ahead of Sunday's game against the Rams, Bo Brack of GoPHNX.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Andrew Wingard",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "Wingard (groin) is listed as questionable for Sunday's game against the Rams, Zach Gershman of the Cardinals' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Darius Robinson",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Max Melton",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Michael Wilson",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "The Cardinals placed Wilson (neck) on injured reserve Tuesday.",
-          "tier": "high"
         }
       ],
       "Atlanta Falcons": [
+        {
+          "player": "Drake London",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "London is being evaluated for a possible concussion during Sunday's game against the Chiefs, Tori McElhaney of the Falcons' official site reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Andy Dalton",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Dalton is inactive for Sunday's game against the Chiefs but was designated as his team's emergency third quarterback.",
+          "tier": "elite"
+        },
+        {
+          "player": "Avieon Terrell",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Cameron Williams",
+          "playerId": "",
+          "status": "out",
+          "position": "OL",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Jack Strand",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "inactive",
+          "tier": "elite"
+        },
+        {
+          "player": "Robert Longerbeam",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Zachariah Branch",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "inactive",
+          "tier": "high"
+        },
         {
           "player": "Divine Deablo",
           "playerId": "",
@@ -87570,52 +87346,12 @@
           "tier": "medium"
         },
         {
-          "player": "Zachariah Branch",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Branch (hamstring) has been ruled out for Sunday's game against the Chiefs.",
-          "tier": "high"
-        },
-        {
-          "player": "Josh Woods",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "James Pearce Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Gervon Dexter Sr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DT",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
           "player": "Brian Robinson Jr.",
           "playerId": "",
           "status": "out",
           "position": "RB",
           "description": "Robinson (hamstring) was placed on injured reserve Saturday, Marc Raimondi of ESPN.com reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Samson Ebukam",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "Ebukam (hamstring) was placed on injured reserve by the Falcons on Tuesday, Tori McElhaney of the team's official website reports.",
-          "tier": "high"
         }
       ],
       "Baltimore Ravens": [
@@ -87646,12 +87382,68 @@
       ],
       "Buffalo Bills": [
         {
-          "player": "Jordan Hancock",
+          "player": "Dorian Williams",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Williams (calf) is questionable to return to Sunday's game against the Jets.",
+          "tier": "medium"
+        },
+        {
+          "player": "Dee Alford",
           "playerId": "",
           "status": "questionable",
           "position": "CB",
-          "description": "The Bills activated Hancock (hamstring) from injured reserve Saturday, and he is questionable to face the Jets on Sunday.",
+          "description": "Alford (concussion) has been ruled out for the remainder of Sunday's game against the Jets.",
           "tier": "high"
+        },
+        {
+          "player": "Christian Benford",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Benford (groin) has been ruled out for the rest of Sunday's game against the Jets.",
+          "tier": "high"
+        },
+        {
+          "player": "Ar'maj Reed-Adams",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Jalon Kilgore",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jude Bowry",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Mike Danna",
+          "playerId": "",
+          "status": "out",
+          "position": "DE",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Greg Gaines",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
         },
         {
           "player": "Tyrell Shavers",
@@ -87662,37 +87454,69 @@
           "tier": "high"
         },
         {
-          "player": "Spencer Brown",
+          "player": "Shane Buechele",
           "playerId": "",
-          "status": "doubtful",
-          "position": "OT",
-          "description": "Brown (ankle) is listed as doubtful for Sunday's game against the Jets.",
-          "tier": "medium"
-        },
-        {
-          "player": "Christian Benford",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Benford (wrist) is listed as questionable for Sunday's game against the Jets.",
-          "tier": "high"
-        },
-        {
-          "player": "Sam Franklin Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
-          "tier": "medium"
+          "status": "out",
+          "position": "QB",
+          "description": "The Bills elevated Buechele from the practice squad to the active roster Saturday.",
+          "tier": "elite"
         }
       ],
       "Carolina Panthers": [
         {
-          "player": "Jaelan Phillips",
+          "player": "Haynes King",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
+          "position": "QB",
+          "description": "King (coach's decision) is inactive but will serve as the emergency third quarterback against the Saints on Sunday, Darin Gantt of the Panthers' official site reports.",
+          "tier": "elite"
+        },
+        {
+          "player": "Will Lee III",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "Lee (hamstring) is inactive for Sunday's game against the Saints, Darin Gantt of the Panthers' official site reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Ja'Tavion Sanders",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "Sanders (coach's decision) is inactive for Sunday's game against the Saints, Darin Gantt of the Panthers' official site reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Bobby Okereke",
+          "playerId": "",
+          "status": "out",
           "position": "LB",
-          "description": "Phillips (hamstring), who is listed as questionable for Sunday's game against the Saints, is in line to play, Ian Rapoport of NFL Network reports.",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Sam Hecht",
+          "playerId": "",
+          "status": "out",
+          "position": "C",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "AJ Dillon",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "TeRah Edwards",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -87717,30 +87541,6 @@
           "status": "out",
           "position": "RB",
           "description": "Brooks (groin) has been downgraded from doubtful to out for Sunday's game against the Saints, Joe Person of The Athletic reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Xavier Legette",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "The Panthers activated Legette (knee) from injured reserve Saturday, Alex Zietlow of The Charlotte Observer reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Will Lee III",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Lee (hamstring) is listed as questionable for Sunday's game against the Saints.",
-          "tier": "high"
-        },
-        {
-          "player": "Bobby Okereke",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Okereke (foot) didn't practice Thursday.",
           "tier": "medium"
         },
         {
@@ -87812,20 +87612,60 @@
       ],
       "Cincinnati Bengals": [
         {
-          "player": "Andrei Iosivas",
+          "player": "Oren Burks",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Burks (groin) will not return to Sunday night's game against the Steelers, Jay Morrison of SI.com reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Dalton Risner",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "Risner (knee) will not return to Sunday night's game against the Steelers.",
+          "tier": "low"
+        },
+        {
+          "player": "Myles Hinton",
           "playerId": "",
           "status": "out",
-          "position": "WR",
-          "description": "Iosivas (thumb) has been downgraded from doubtful to out for Sunday's game against the Steelers.",
-          "tier": "high"
+          "position": "OT",
+          "description": "Hinton (illness) is inactive for Sunday's Week 10 matchup against the Steelers.",
+          "tier": "medium"
+        },
+        {
+          "player": "Landon Robinson",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Connor Lew",
+          "playerId": "",
+          "status": "out",
+          "position": "C",
+          "description": "inactive",
+          "tier": "medium"
         },
         {
           "player": "Kyle Dugger",
           "playerId": "",
           "status": "out",
           "position": "S",
-          "description": "Dugger (quadriceps) has been ruled out ahead of Sunday's game against the Steelers.",
+          "description": "inactive",
           "tier": "medium"
+        },
+        {
+          "player": "Andrei Iosivas",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Iosivas (thumb) has been downgraded from doubtful to out for Sunday's game against the Steelers.",
+          "tier": "high"
         },
         {
           "player": "Brian Parker II",
@@ -87854,12 +87694,52 @@
       ],
       "Cleveland Browns": [
         {
-          "player": "Denzel Boston",
+          "player": "Dillon Gabriel",
           "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Boston (toe), who is listed as questionable for Sunday's game against the Texans, is expected to play barring a surprise, Jeremy Fowler of ESPN reports.",
+          "status": "out",
+          "position": "QB",
+          "description": "Gabriel (coach's decision) is inactive for Sunday's game against the Texans but will serve as the Browns' emergency third quarterback.",
+          "tier": "elite"
+        },
+        {
+          "player": "Ronnie Hickman",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Noah Igbinoghene",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
           "tier": "high"
+        },
+        {
+          "player": "Justin Jefferson",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Parker Brailsford",
+          "playerId": "",
+          "status": "out",
+          "position": "C",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Taylen Green",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "inactive",
+          "tier": "elite"
         },
         {
           "player": "Michael Burton",
@@ -87868,39 +87748,79 @@
           "position": "FB",
           "description": "The Browns placed Burton (calf) on injured reserve Saturday, Chris Easterling of the Akron Beacon Journal reports.",
           "tier": "low"
-        },
-        {
-          "player": "Ronnie Hickman",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Hickman (concussion) has been ruled out for Sunday's game against the Texans, Daniel Oyefusi of ESPN.com reports.",
-          "tier": "medium"
         }
       ],
       "Dallas Cowboys": [
         {
-          "player": "Joey Porter Jr.",
+          "player": "Tyler Booker",
           "playerId": "",
           "status": "questionable",
-          "position": "CB",
-          "description": "Porter (ankle) is listed as questionable but is expected to play Sunday against the 49ers, Ian Rapoport of NFL Network reports.",
-          "tier": "high"
+          "position": "G",
+          "description": "Booker hurt his ankle during Sunday's loss to San Francisco and is slated for X-rays and an MRI, Calvin Watkins of The Dallas Morning News reports.",
+          "tier": "low"
         },
         {
           "player": "DaRon Bland",
           "playerId": "",
           "status": "questionable",
           "position": "CB",
-          "description": "Bland (ankle), who is listed as questionable for Sunday's game against the 49ers, is expected to play, Ian Rapoport of NFL Network reports.",
+          "description": "Bland (ankle) will undergo X-rays and an MRI, Calvin Watkins of The Dallas Morning News reports.",
           "tier": "high"
         },
         {
-          "player": "Jonathan Bullard",
+          "player": "Juanyeh Thomas",
           "playerId": "",
-          "status": "questionable",
-          "position": "DT",
-          "description": "The Cowboys activated Bullard (calf) from injured reserve Saturday.",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jonathan Mingo",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Derion Kendrick",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "P.J. Locke",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Ajani Cornelius",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Donovan Ezeiruaku",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jake Ferguson",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -87909,62 +87829,6 @@
           "status": "out",
           "position": "RB",
           "description": "The Cowboys placed Goodson (knee) on injured reserve Saturday, Tommy Yarrish of the team's official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Donovan Ezeiruaku",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Ezeiruaku (ankle) has been ruled out for Sunday's game against the 49ers, Tommy Yarrish of the Cowboys' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jonathan Mingo",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Mingo (ankle/foot) has been ruled out ahead of Sunday's game against the 49ers, Tommy Yarrish of the Cowboys' official site reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Juanyeh Thomas",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "S",
-          "description": "doubtful",
-          "tier": "medium"
-        },
-        {
-          "player": "Alijah Clark",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Devin Moore",
-          "playerId": "",
-          "status": "out",
-          "position": "CB",
-          "description": "The Cowboys designated Moore (hip) for return from injured reserve Wednesday, Patrik Walker of the Cowboys' official site reports.",
-          "tier": "high"
-        },
-        {
-          "player": "P.J. Locke",
-          "playerId": "",
-          "status": "out",
-          "position": "S",
-          "description": "Locke (concussion) won't play in Sunday's game against the 49ers, Patrik Walker of the team's official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jake Ferguson",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "According to coach Brian Schottenheimer, Ferguson (knee) is in line to miss multiple weeks, Patrik Walker of the Cowboys' official site reports.",
           "tier": "medium"
         }
       ],
@@ -88019,6 +87883,14 @@
         }
       ],
       "Detroit Lions": [
+        {
+          "player": "Aidan Hutchinson",
+          "playerId": "",
+          "status": "doubtful",
+          "position": "DE",
+          "description": "Hutchinson is believed to have suffered a significant knee injury that \"knocks him out for the foreseeable future,\" Ian Rapoport of NFL Network reports.",
+          "tier": "high"
+        },
         {
           "player": "Mekhi Wingo",
           "playerId": "",
@@ -88094,51 +87966,51 @@
       ],
       "Green Bay Packers": [
         {
-          "player": "Josh Whyle",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Green Bay placed Whyle (concussion) on injured reserve Saturday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Chris Brooks",
+          "player": "Bo Melton",
           "playerId": "",
           "status": "questionable",
-          "position": "RB",
-          "description": "Green Bay activated Brooks (ankle) from injured reserve Saturday, though he is still questionable for Sunday's Week 10 clash against the Vikings.",
-          "tier": "medium"
+          "position": "WR",
+          "description": "Melton (thigh) has been ruled out for the rest of Sunday's game against the Vikings, Rob Demovsky of ESPN.com reports.",
+          "tier": "high"
         },
         {
           "player": "Skyy Moore",
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "The Packers activated Moore (ankle) from injured reserve Saturday, and he remains questionable for Sunday's matchup against Minnesota.",
+          "description": "Moore (ankle) has been ruled out for the rest of Sunday's game against the Vikings, Rob Demovsky of ESPN.com reports.",
           "tier": "high"
         },
         {
-          "player": "Josh Jacobs",
+          "player": "Brandon Cisse",
           "playerId": "",
-          "status": "out",
-          "position": "RB",
-          "description": "Jacobs underwent surgery on his fractured right ring finger Friday and \"should be back in the next few weeks,\" Tom Pelissero of Netflix reports.",
-          "tier": "medium"
+          "status": "questionable",
+          "position": "CB",
+          "description": "Cisse (ribs) is questionable to return to Sunday's game against the Vikings.",
+          "tier": "high"
         },
         {
           "player": "Kevin Zeitler",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "G",
-          "description": "Zeitler (ankle/triceps) is questionable for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
+          "description": "Zeitler (ankle/triceps) is inactive for Sunday's game against the Vikings, Mike Spofford of the Packers' official site reports.",
           "tier": "low"
         },
         {
-          "player": "Travis Glover",
+          "player": "Zaire Franklin",
           "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "Glover (knee) is questionable for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
+          "status": "out",
+          "position": "LB",
+          "description": "Franklin (shin) is inactive for Sunday's game against the Vikings.",
+          "tier": "medium"
+        },
+        {
+          "player": "Pierre Strong Jr.",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Strong (coach's decision) is inactive for Sunday's game against the Vikings.",
           "tier": "medium"
         },
         {
@@ -88146,105 +88018,81 @@
           "playerId": "",
           "status": "out",
           "position": "G",
-          "description": "Rhyan (ankle) has been ruled out for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
+          "description": "inactive",
           "tier": "low"
         },
         {
-          "player": "Lukas Van Ness",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Van Ness (back) is listed as questionable for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Javon Bullard",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "Bullard (ankle) is listed as questionable for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Zaire Franklin",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "LB",
-          "description": "Franklin (shin) is listed as doubtful for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Xavier McKinney",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "McKinney (foot) is listed as questionable for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Micah Parsons",
+          "player": "Josh Jacobs",
           "playerId": "",
           "status": "out",
-          "position": "DE",
-          "description": "Parsons (knee/illness) has been ruled out for Sunday's game against the Vikings, Wes Hodkiewicz of the Packers' official site reports.",
-          "tier": "high"
+          "position": "RB",
+          "description": "inactive",
+          "tier": "medium"
         },
         {
-          "player": "Warren Brinson",
+          "player": "Donovan Jennings",
           "playerId": "",
           "status": "out",
-          "position": "DT",
-          "description": "Coach Matt LaFleur said Thursday that he expects Brinson (IR, calf) to play again at some point this season, Matt Schneidman of The Athletic reports.",
+          "position": "G",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Josh Whyle",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "Green Bay placed Whyle (concussion) on injured reserve Saturday.",
           "tier": "medium"
         }
       ],
       "Houston Texans": [
         {
-          "player": "Will Anderson Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Anderson (ankle), who is listed as questionable for Sunday's game against the Browns, \"should be OK\" to play, Jeremy Fowler of ESPN.com reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Jake Hummel",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "The Texans activated Hummel (groin) from injured reserve Saturday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Braden Smith",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "Smith is now questionable for Sunday's game against the Browns due to an illness.",
-          "tier": "medium"
-        },
-        {
           "player": "David Montgomery",
           "playerId": "",
           "status": "out",
           "position": "RB",
-          "description": "Montgomery (groin) has been downgraded from questionable to out for Sunday's game against the Browns.",
+          "description": "Texans head coach DeMeco Ryans said Sunday that he's \"not certain\" if Montgomery (groin) will be able to play Thursday against Indianapolis, DJ Bien-Aime of ESPN reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Woody Marks",
+          "playerId": "",
+          "status": "doubtful",
+          "position": "RB",
+          "description": "Marks is being evaluated for a possible concussion during Sunday's game at Cleveland.",
+          "tier": "medium"
+        },
+        {
+          "player": "Wyatt Teller",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "Teller (illness) is inactive for Sunday's game against the Browns.",
+          "tier": "low"
         },
         {
           "player": "Keylan Rutledge",
           "playerId": "",
           "status": "out",
           "position": "G",
-          "description": "Rutledge (neck) has been ruled out ahead of Sunday's game against the Browns.",
+          "description": "inactive",
           "tier": "low"
+        },
+        {
+          "player": "Marvin Harrison Jr.",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "inactive",
+          "tier": "high"
         },
         {
           "player": "Danielle Hunter",
           "playerId": "",
           "status": "out",
           "position": "DE",
-          "description": "Hunter (hamstring) has been ruled out for Sunday's game against the Browns.",
+          "description": "inactive",
           "tier": "high"
         },
         {
@@ -88252,7 +88100,7 @@
           "playerId": "",
           "status": "out",
           "position": "TE",
-          "description": "Jordan (finger) has been ruled out for Sunday's game against the Browns.",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -88260,32 +88108,8 @@
           "playerId": "",
           "status": "out",
           "position": "LB",
-          "description": "Al-Shaair (groin/personal) has been ruled out for Sunday's game against the Browns.",
+          "description": "inactive",
           "tier": "medium"
-        },
-        {
-          "player": "Wyatt Teller",
-          "playerId": "",
-          "status": "questionable",
-          "position": "G",
-          "description": "questionable",
-          "tier": "low"
-        },
-        {
-          "player": "Trent Brown",
-          "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "questionable",
-          "tier": "medium"
-        },
-        {
-          "player": "Marvin Harrison Jr.",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Harrison (hamstring) is ruled out for Sunday's game against the Browns.",
-          "tier": "high"
         },
         {
           "player": "Jaylin Smith",
@@ -88297,6 +88121,70 @@
         }
       ],
       "Indianapolis Colts": [
+        {
+          "player": "Sauce Gardner",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Gardner (calf) is questionable to return to Sunday's game against the Dolphins, Jake Arthur of Roundtable.io reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Charvarius Ward",
+          "playerId": "",
+          "status": "questionable",
+          "position": "CB",
+          "description": "Ward (shin) is questionable to return against the Dolphins on Sunday.",
+          "tier": "high"
+        },
+        {
+          "player": "Bernhard Raimann",
+          "playerId": "",
+          "status": "questionable",
+          "position": "OT",
+          "description": "Raimann has entered the league's concussion protocol and has been ruled out for the rest of Sunday's game against the Dolphins, James Boyd of The Athletic reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Riley Leonard",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Leonard (coach's decision) is inactive but will serve as the Colts' emergency third quarterback against the Dolphins on Sunday.",
+          "tier": "elite"
+        },
+        {
+          "player": "Luke Rhodes",
+          "playerId": "",
+          "status": "out",
+          "position": "LS",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Jerry Tillery",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jalen Travis",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jaylon Carlies",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
         {
           "player": "Akeem Davis-Gaither",
           "playerId": "",
@@ -88322,38 +88210,6 @@
           "tier": "medium"
         },
         {
-          "player": "Jalen Travis",
-          "playerId": "",
-          "status": "out",
-          "position": "OT",
-          "description": "Travis (knee) has been ruled out ahead of Sunday's game against the Dolphins, Abby Halpin of the Colts' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jaylon Carlies",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Carlies (neck) has been ruled out ahead of Sunday's game against the Dolphins, Abby Halpin of the Colts' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jerry Tillery",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "Tillery (calf) has been ruled out for Sunday's game against Miami, Abby Halpin of the Colts' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Luke Rhodes",
-          "playerId": "",
-          "status": "out",
-          "position": "LS",
-          "description": "Rhodes (hamstring) has been ruled out for Sunday's game against the Dolphins, Abby Halpin of the Colts' official site reports.",
-          "tier": "low"
-        },
-        {
           "player": "Alec Pierce",
           "playerId": "",
           "status": "out",
@@ -88364,37 +88220,93 @@
       ],
       "Jacksonville Jaguars": [
         {
-          "player": "B.J. Green II",
+          "player": "Robert Hainsey",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "Hainsey (knee) is questionable to return to Sunday's game against the Titans.",
+          "tier": "medium"
+        },
+        {
+          "player": "Danny Striggow",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Striggow is being evaluated for a possible concussion and is questionable to return to Sunday's game against the Titans.",
+          "tier": "high"
+        },
+        {
+          "player": "CJ Williams",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Williams (coach's decision) is inactive for Sunday's game against the Titans.",
+          "tier": "high"
+        },
+        {
+          "player": "Wesley Williams",
           "playerId": "",
           "status": "out",
           "position": "DE",
-          "description": "Green (forearm) has been ruled out ahead of Sunday's game against the Titans, Michael DiRocco of ESPN.com reports.",
+          "description": "inactive",
           "tier": "high"
+        },
+        {
+          "player": "Albert Regis",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
         },
         {
           "player": "Jessie Bates III",
           "playerId": "",
           "status": "out",
           "position": "S",
-          "description": "Jaguars coach Liam Coen said Friday that Bates and DT Jordan Davis will not play in Sunday's game at Tennessee, Ryan O'Halloran of The Florida Times-Union reports.",
+          "description": "inactive",
           "tier": "medium"
+        },
+        {
+          "player": "B.J. Green II",
+          "playerId": "",
+          "status": "out",
+          "position": "DE",
+          "description": "Green (forearm) has been ruled out ahead of Sunday's game against the Titans, Michael DiRocco of ESPN.com reports.",
+          "tier": "high"
         }
       ],
       "Kansas City Chiefs": [
         {
-          "player": "Kenneth Walker III",
+          "player": "Jared Wiley",
           "playerId": "",
           "status": "out",
-          "position": "RB",
-          "description": "Walker (groin) has been ruled out for Sunday's game against the Falcons, Jordan Schultz of Fox Sports reports.",
+          "position": "TE",
+          "description": "Wiley suffered a fractured ankle in the Chiefs' 35-13 victory over the Falcons on Sunday, Matt Derrick of ChiefsDigest.com reports.",
           "tier": "medium"
         },
         {
-          "player": "Jaylon Moore",
+          "player": "Trey Smith",
+          "playerId": "",
+          "status": "questionable",
+          "position": "G",
+          "description": "Smith (concussion) has been ruled out for the remainder of Sunday's game against the Falcons.",
+          "tier": "low"
+        },
+        {
+          "player": "Garrett Nussmeier",
           "playerId": "",
           "status": "out",
-          "position": "OT",
-          "description": "Moore (ankle) has been ruled out ahead of Sunday's game against the Falcons.",
+          "position": "QB",
+          "description": "Nussmeier (coach's decision) is inactive but will serve as the Chiefs' emergency third quarterback against the Falcons on Sunday.",
+          "tier": "elite"
+        },
+        {
+          "player": "Jaydn Ott",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Ott (hamstring) has been ruled out for Sunday's game against the Falcons, Matt McMullen of the Chiefs' official site reports.",
           "tier": "medium"
         },
         {
@@ -88402,45 +88314,117 @@
           "playerId": "",
           "status": "out",
           "position": "DT",
-          "description": "Woods (neck) has been ruled out ahead of Sunday's game against the Falcons.",
+          "description": "inactive",
           "tier": "medium"
         },
         {
-          "player": "Jaydn Ott",
+          "player": "Ben VanSumeren",
           "playerId": "",
-          "status": "questionable",
-          "position": "RB",
-          "description": "Ott (hamstring) is listed as questionable for Sunday's game against the Falcons.",
+          "status": "out",
+          "position": "FB",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Jaylon Moore",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
           "tier": "medium"
         },
         {
-          "player": "Mansoor Delane",
+          "player": "Melvin Smith Jr.",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "CB",
-          "description": "Delane (shoulder) is listed as questionable for Sunday's game against Atlanta.",
+          "description": "inactive",
           "tier": "high"
+        },
+        {
+          "player": "Kenneth Walker III",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "Walker (groin), who won't play Sunday in Atlanta, is expected to \"be able to go\" next Sunday against the Cardinals, Ian Rapoport of NFL Network reports.",
+          "tier": "medium"
         }
       ],
       "Las Vegas Raiders": [
         {
-          "player": "Thomas Booker IV",
+          "player": "Brock Bowers",
           "playerId": "",
           "status": "questionable",
+          "position": "TE",
+          "description": "Bowers (ankle) will be evaluated further Monday, Ryan McFadden of ESPN reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Kwity Paye",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Paye (neck) is questionable to return to Sunday's game against the Seahawks",
+          "tier": "high"
+        },
+        {
+          "player": "Malik Benson",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Benson (coach's decision) is inactive for Sunday's game against the Seahawks.",
+          "tier": "high"
+        },
+        {
+          "player": "Thomas Booker IV",
+          "playerId": "",
+          "status": "out",
           "position": "DT",
-          "description": "Booker (ankle) is listed as questionable ahead of Sunday's game against the Seahawks, Ryan McFadden of ESPN.com reports.",
+          "description": "Booker (ankle) is inactive for Sunday's game against the Seahawks.",
           "tier": "medium"
         },
         {
           "player": "Dont'e Thornton Jr.",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "WR",
-          "description": "Thornton (back) is questionable to play against the Seahawks on Sunday, Ryan McFadden of ESPN.com reports.",
+          "description": "Thornton (back) is inactive for Sunday's game against the Seahawks.",
           "tier": "high"
+        },
+        {
+          "player": "Tristin McCollum",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Dalton Johnson",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Bryce Cabeldue",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "inactive",
+          "tier": "low"
         }
       ],
       "Los Angeles Chargers": [
+        {
+          "player": "Ladd McConkey",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "McConkey (back) won't travel to Baltimore with the Chargers for Monday's game against the Ravens and has been downgraded from questionable to out for Week 10 action.",
+          "tier": "high"
+        },
         {
           "player": "Branson Taylor",
           "playerId": "",
@@ -88506,14 +88490,6 @@
           "tier": "medium"
         },
         {
-          "player": "Ladd McConkey",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "McConkey (back) is listed as questionable for Monday night's game against the Ravens, Noah Furtado of The Athletic reports.",
-          "tier": "high"
-        },
-        {
           "player": "Brenen Thompson",
           "playerId": "",
           "status": "doubtful",
@@ -88524,43 +88500,83 @@
       ],
       "Los Angeles Rams": [
         {
+          "player": "Coleman Shelton",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "Shelton (hamstring) has been ruled out for the remainder of Sunday's game against the Cardinals.",
+          "tier": "medium"
+        },
+        {
+          "player": "Dylan McMahon",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "McMahon (knee) has been ruled out for the remainder of Sunday's game against the Cardinals.",
+          "tier": "medium"
+        },
+        {
+          "player": "Joe Cardona",
+          "playerId": "",
+          "status": "out",
+          "position": "LS",
+          "description": "Cardona (ankle) is inactive for Sunday's game against Arizona.",
+          "tier": "low"
+        },
+        {
+          "player": "Ty Simpson",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Simpson (coach's decision) is inactive but will serve as the Rams' emergency third quarterback in Sunday's game against the Cardinals.",
+          "tier": "elite"
+        },
+        {
+          "player": "Keagen Trost",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Darryl Peterson III",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Maximus Pulley",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Desjuan Johnson",
+          "playerId": "",
+          "status": "out",
+          "position": "DE",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
           "player": "Steve Avila",
           "playerId": "",
           "status": "out",
           "position": "G",
-          "description": "Avila (hamstring) has been ruled out for Sunday's game against the Cardinals, Sarah Barshop of ESPN.com reports.",
+          "description": "inactive",
           "tier": "low"
         },
         {
-          "player": "Trent McDuffie",
+          "player": "Davante Adams",
           "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "McDuffie (back) is listed as questionable for Sunday's game against the Cardinals, Sarah Barshop of ESPN.com reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Kam Curl",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "Head coach Sean McVay told reporters Friday that he is optimistic that Curl (toe) will be available for Sunday's game against the Cardinals, Adam Grosbard of The Orange County Register reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Davis Allen",
-          "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "Allen (oblique) is questionable for Sunday's game against Arizona, Sarah Barshop of ESPN.com reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Myles Garrett",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Head coach Sean McVay said Friday that Garrett (knee) will be listed as questionable for Sunday's game at Arizona but is expected to play, Sarah Barshop of ESPN.com reports.",
+          "status": "out",
+          "position": "WR",
+          "description": "According to Ian Rapoport of NFL Network and ESPN,  Adams (hamstring) is believed to be targeting a return to action Nov. 25 against the Packers.",
           "tier": "high"
         },
         {
@@ -88568,43 +88584,75 @@
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "The Rams placed Nacua (knee) on injured reserve Thursday.",
+          "description": "Nacua (knee/toe) has an expected return date of \"mid-December,\" Ian Rapoport of NFL Network reports.",
           "tier": "high"
-        },
-        {
-          "player": "Davante Adams",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Head coach Sean McVay said Wednesday that Adams (hamstring) returning after the Nov. 25 against the Packers \"is a realistic timeline for us,\" Greg Beacham of the Associated Press reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Jordan Whittington",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Whittington (back) was placed on injured reserve Tuesday.",
-          "tier": "high"
-        },
-        {
-          "player": "Joe Cardona",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LS",
-          "description": "questionable",
-          "tier": "low"
-        },
-        {
-          "player": "Terrance Ferguson",
-          "playerId": "",
-          "status": "out",
-          "position": "TE",
-          "description": "Rams head coach Sean McVay acknowledged Monday during his appearance on the \"Coach McVay Show\" that he remains optimistic Ferguson (hamstring/ankle) will return from injured reserve this season, though he was unwilling to guarantee that the tight end will be activated by the time his 21-day evaluation window closes, Cameron DaSilva of USA Today reports. \"I'm reluctant to get too far ahead of anything, just because -- but yes, that is something we'd want to avoid if he's not prepared,\" McVay said, regarding the possibility of Ferguson being shut down.",
-          "tier": "medium"
         }
       ],
       "Miami Dolphins": [
+        {
+          "player": "Andrew Meyer",
+          "playerId": "",
+          "status": "questionable",
+          "position": "C",
+          "description": "Meyer (stinger) is questionable to return to Sunday's matchup against Indianapolis.",
+          "tier": "medium"
+        },
+        {
+          "player": "Zeek Biggers",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "Biggers (knee) has been ruled out for the rest of Sunday's game against the Colts, Barry Jackson of the Miami Herald reports.",
+          "tier": "medium"
+        },
+        {
+          "player": "Chris Bell",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Bell (knee) is inactive for Sunday's Week 10 matchup against the Colts.",
+          "tier": "high"
+        },
+        {
+          "player": "Caedan Wallace",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jared Wayne",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Justin Joly",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Aaron Brewer",
+          "playerId": "",
+          "status": "out",
+          "position": "C",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Marcellas Dial Jr.",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
         {
           "player": "Darrell Baker Jr.",
           "playerId": "",
@@ -88614,93 +88662,53 @@
           "tier": "high"
         },
         {
-          "player": "Aaron Brewer",
-          "playerId": "",
-          "status": "out",
-          "position": "C",
-          "description": "Brewer (concussion) has been ruled out ahead of Sunday's game against the Colts, Barry Jackson of the Miami Herald reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jared Wayne",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Wayne (quadriceps) has been ruled out for Sunday's game against the Colts, David Furones of the South Florida Sun Sentinel reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Chris Bell",
-          "playerId": "",
-          "status": "doubtful",
-          "position": "WR",
-          "description": "Bell (knee) is listed as doubtful for Sunday's game against the Colts.",
-          "tier": "high"
-        },
-        {
           "player": "Malik Willis",
           "playerId": "",
           "status": "out",
           "position": "QB",
           "description": "The Dolphins hope Willis (abdomen) will return this year but haven't ruled out season-ending surgery, Joe Schad of The Palm Beach Post reports.",
           "tier": "elite"
-        },
-        {
-          "player": "Zach Sieler",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "The Dolphins placed Sieler (biceps) on injured reserve Tuesday.",
-          "tier": "medium"
         }
       ],
       "Minnesota Vikings": [
         {
-          "player": "Jordan Addison",
+          "player": "Andrew Van Ginkel",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Van Ginkel (quadriceps) is questionable to return to Sunday's game against the Packers.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jeshaun Jones",
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Addison (thumb), who listed is questionable for Sunday's contest at Green Bay, is in line to be a game-time decision, Ian Rapoport of NFL Network reports.",
+          "description": "Jones (shoulder) is questionable to return to Sunday's game against the Packers.",
           "tier": "high"
         },
         {
-          "player": "Kyler Murray",
+          "player": "Bo Richter",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Richter (foot) has been ruled out for the rest of Sunday's game against the Packers.",
+          "tier": "medium"
+        },
+        {
+          "player": "Max Brosmer",
           "playerId": "",
           "status": "out",
           "position": "QB",
-          "description": "The Vikings are targeting Week 12 against the Falcons on Sunday, Nov. 29, for a return for Murray (hamstring), Tom Pelissero of Netflix reports.",
+          "description": "Brosmer (coach's decision) is inactive but will serve as the Vikings' emergency third quarterback against the Packers on Sunday.",
           "tier": "elite"
         },
         {
-          "player": "Tyrion Ingram-Dawkins",
-          "playerId": "",
-          "status": "out",
-          "position": "DE",
-          "description": "Ingram-Dawkins (ankle) has been ruled out for Sunday's game against the Packers, Ben Goessling of The Minnesota Star Tribune reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Joshua Metellus",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "Metellus (shoulder) is listed as questionable for Sunday's game against Green Bay, Ben Goessling of The Minnesota Star Tribune reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Blake Cashman",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Cashman (concussion) has been ruled out for Sunday's game against the Packers, Ben Goessling of The Minnesota Star Tribune reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Jauan Jennings",
+          "player": "Jordan Addison",
           "playerId": "",
           "status": "out",
           "position": "WR",
-          "description": "Jennings (calf) has been ruled out for Sunday's game at Green Bay.",
+          "description": "Addison (thumb) is inactive for Sunday's game at Green Bay, Tom Pelissero of Netflix reports.",
           "tier": "high"
         },
         {
@@ -88708,19 +88716,75 @@
           "playerId": "",
           "status": "out",
           "position": "TE",
-          "description": "Hockenson (wrist) has been ruled out for Sunday's game at Green Bay.",
+          "description": "inactive",
           "tier": "medium"
         },
         {
-          "player": "Kyle Van Noy",
+          "player": "Tyrion Ingram-Dawkins",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
+          "position": "DE",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Jauan Jennings",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Blake Cashman",
+          "playerId": "",
+          "status": "out",
           "position": "LB",
-          "description": "Van Noy (calf) has returned to Monday night's matchup with Buffalo, Kevin Seifert of ESPN.com reports.",
+          "description": "inactive",
           "tier": "medium"
+        },
+        {
+          "player": "Kyler Murray",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "The Vikings are hopeful that Murray (hamstring) will be available to play Week 12 against the Falcons, Tom Pelissero of Netflix reports.",
+          "tier": "elite"
         }
       ],
       "New England Patriots": [
+        {
+          "player": "Drake Maye",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "Maye (ankle) will undergo additional testing, but the Patriots expect him to be out for a while, SNF on NBC reports.",
+          "tier": "elite"
+        },
+        {
+          "player": "A.J. Brown",
+          "playerId": "",
+          "status": "questionable",
+          "position": "WR",
+          "description": "Brown (hamstring) was spotted limping out of the locker room following Sunday's Week 10 loss to Detroit, Andrew Callahan of the Boston Herald reports.",
+          "tier": "high"
+        },
+        {
+          "player": "Dre'Mont Jones",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DE",
+          "description": "Jones (cramps) is questionable to return to Sunday's game against the Lions in Munich.",
+          "tier": "high"
+        },
+        {
+          "player": "Robert Spillane",
+          "playerId": "",
+          "status": "questionable",
+          "position": "LB",
+          "description": "Spillane (illness) is questionable to return to Sunday's game against the Lions in Munich.",
+          "tier": "medium"
+        },
         {
           "player": "Brenden Schooler",
           "playerId": "",
@@ -88780,27 +88844,59 @@
       ],
       "New Orleans Saints": [
         {
-          "player": "Christen Miller",
+          "player": "Asim Richards",
           "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "The Saints placed Miller (knee) on injured reserve Saturday.",
+          "status": "questionable",
+          "position": "OT",
+          "description": "Richards (knee) is questionable to return to Sunday's game against Carolina, Jeff Nowak of WWL Radio reports.",
           "tier": "medium"
         },
         {
-          "player": "Travis Etienne Jr.",
+          "player": "Pete Werner",
           "playerId": "",
           "status": "questionable",
-          "position": "RB",
-          "description": "The Saints activated Etienne (hamstring) from injured reserve Saturday, but he remains questionable for Sunday's game against the Panthers, Nick Underhill of NewOrleans.Football reports.",
+          "position": "LB",
+          "description": "Werner (hamstring) has been ruled out for the rest of Sunday's game against the Panthers, Jeff Nowak of WWL Radio reports.",
           "tier": "medium"
+        },
+        {
+          "player": "Zach Wilson",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Wilson (coach's decision) is inactive but will serve as the Saints' emergency third quarterback against the Panthers on Sunday.",
+          "tier": "elite"
+        },
+        {
+          "player": "Mike Reid",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
         },
         {
           "player": "Erik McCoy",
           "playerId": "",
           "status": "out",
           "position": "C",
-          "description": "McCoy (biceps) has been ruled out for Sunday's game against the Panthers, Ross Jackson of WWL-TV reports.",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "CJ Donaldson",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jaylan Ford",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -88808,23 +88904,15 @@
           "playerId": "",
           "status": "out",
           "position": "OT",
-          "description": "Fuaga (knee) has been ruled out for Sunday's game against the Panthers, Nick Underhill of NewOrleans.Football reports.",
+          "description": "inactive",
           "tier": "medium"
         },
         {
-          "player": "Martin Emerson Jr.",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Emerson (shin) is listed as questionable for Sunday's game against the Saints, Ross Jackson of WWL-TV reports.",
-          "tier": "high"
-        },
-        {
-          "player": "CJ Donaldson",
+          "player": "Christen Miller",
           "playerId": "",
           "status": "out",
-          "position": "RB",
-          "description": "Donaldson (shoulder) has been ruled out for Sunday's game against the Panthers, Nick Underhill of NewOrleans.Football reports.",
+          "position": "DT",
+          "description": "The Saints placed Miller (knee) on injured reserve Saturday.",
           "tier": "medium"
         }
       ],
@@ -88896,84 +88984,68 @@
       ],
       "New York Jets": [
         {
-          "player": "Garrett Wilson",
+          "player": "Geno Smith",
           "playerId": "",
           "status": "questionable",
-          "position": "WR",
-          "description": "Wilson (concussion) reportedly cleared the concussion protocol and is expected to play in Sunday's game versus the Bills, per Ian Rapoport of NFL Network.",
-          "tier": "high"
-        },
-        {
-          "player": "VJ Payne",
-          "playerId": "",
-          "status": "questionable",
-          "position": "S",
-          "description": "The Jets activated Payne (knee) from injured reserve Saturday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Adonai Mitchell",
-          "playerId": "",
-          "status": "questionable",
-          "position": "WR",
-          "description": "Mitchell (knee) is listed as questionable for Sunday's game against the Bills but is expected to play, Matt Zenitz of CBS Sports reports.",
-          "tier": "high"
+          "position": "QB",
+          "description": "Jets head coach Aaron Glenn said after Sunday's loss to Buffalo that Smith, who departed the contest due to an ankle injury, will have his status for Week 11 determined during the upcoming week of practice, Jack Bell of the Jets' official site reports.",
+          "tier": "elite"
         },
         {
           "player": "Omar Cooper Jr.",
           "playerId": "",
           "status": "questionable",
           "position": "WR",
-          "description": "Cooper (ankle), who is listed as questionable for Sunday's game against the Bills, is expected to be available, Matt Zenitz of CBS Sports reports.",
+          "description": "Cooper (ankle) won't return to Sunday's game against the Bills, Zack Rosenblatt of The Athletic reports.",
           "tier": "high"
         },
         {
-          "player": "Nahshon Wright",
+          "player": "Dylan Parham",
           "playerId": "",
           "status": "questionable",
-          "position": "CB",
-          "description": "Wright (back) is questionable for Sunday's game against Buffalo.",
-          "tier": "high"
-        },
-        {
-          "player": "Harrison Phillips",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DT",
-          "description": "Phillips (ankle) is questionable against the Bills on Sunday.",
-          "tier": "medium"
-        },
-        {
-          "player": "Joseph Ossai",
-          "playerId": "",
-          "status": "questionable",
-          "position": "DE",
-          "description": "Ossai (ankle) is questionable for Sunday's game against the Bills.",
-          "tier": "high"
+          "position": "G",
+          "description": "Parham (knee) is questionable to return to Sunday's game against the Bills.",
+          "tier": "low"
         },
         {
           "player": "Jarvis Brownlee Jr.",
           "playerId": "",
-          "status": "questionable",
+          "status": "out",
           "position": "CB",
-          "description": "Brownlee (illness) is listed as questionable for Sunday's game against Buffalo.",
+          "description": "Brownlee (illness) is inactive for Sunday's game against the Bills.",
           "tier": "high"
+        },
+        {
+          "player": "Tim Patrick",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Patrick (coach's decision) is inactive for Sunday's game against the Bills.",
+          "tier": "high"
+        },
+        {
+          "player": "Jelani Woods",
+          "playerId": "",
+          "status": "out",
+          "position": "TE",
+          "description": "inactive",
+          "tier": "medium"
         },
         {
           "player": "Trevin Wallace",
           "playerId": "",
           "status": "out",
           "position": "LB",
-          "description": "Wallace (groin) has been ruled out for Sunday's game against the Bills, Rich Cimini of ESPN.com reports.",
+          "description": "inactive",
           "tier": "medium"
         },
         {
-          "player": "Max Mitchell",
+          "player": "Nate Lynn",
           "playerId": "",
           "status": "out",
-          "position": "OT",
-          "description": "The Jets placed Mitchell (concussion) on their injured reserve list Tuesday, Amanda Vogt of the team's official site reports.",
-          "tier": "medium"
+          "position": "DE",
+          "description": "inactive",
+          "tier": "high"
         }
       ],
       "Philadelphia Eagles": [
@@ -89036,19 +89108,51 @@
       ],
       "Pittsburgh Steelers": [
         {
-          "player": "Derrick Harmon",
+          "player": "Mason McCormick",
           "playerId": "",
           "status": "questionable",
-          "position": "DT",
-          "description": "The Steelers activated Harmon (foot) from injured reserve Saturday, Mike DeFabo of The Athletic reports.",
+          "position": "G",
+          "description": "McCormick suffered an ankle injury in Sunday night's game against the Bengals and will not return, Nick Farabaugh of PennLive.com reports.",
+          "tier": "low"
+        },
+        {
+          "player": "Will Howard",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "Howard (coach's decision) is inactive and serving as Pittsburgh's emergency third quarterback Sunday night versus Cincinnati.",
+          "tier": "elite"
+        },
+        {
+          "player": "Eli Heidenreich",
+          "playerId": "",
+          "status": "out",
+          "position": "RB",
+          "description": "inactive",
           "tier": "medium"
         },
         {
-          "player": "Pat Freiermuth",
+          "player": "Sean Murphy-Bunting",
           "playerId": "",
-          "status": "questionable",
-          "position": "TE",
-          "description": "Freiermuth (illness) was added to Saturday's injury report and is listed as questionable for Sunday's game against Cincinnati.",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Drew Allar",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "inactive",
+          "tier": "elite"
+        },
+        {
+          "player": "DeShon Elliott",
+          "playerId": "",
+          "status": "out",
+          "position": "S",
+          "description": "Elliott suffered a pregame knee injury and has been ruled out for Sunday's Week 10 matchup against the Bengals.",
           "tier": "medium"
         },
         {
@@ -89058,24 +89162,48 @@
           "position": "WR",
           "description": "Pittman (foot) is warmed up with his teammates Thursday, though he remains on IR and wasn't wearing a helmet, Nick Farabaugh of PennLive.com reports.",
           "tier": "high"
-        },
-        {
-          "player": "Sebastian Joseph-Day",
-          "playerId": "",
-          "status": "out",
-          "position": "DT",
-          "description": "Joseph-Day (triceps) was placed on injured reserve by the Steelers on Thursday, Teresa Varley of the team's official website reports.",
-          "tier": "medium"
         }
       ],
       "San Francisco 49ers": [
         {
-          "player": "Trent Williams",
+          "player": "Brandin Cooks",
           "playerId": "",
-          "status": "questionable",
-          "position": "OT",
-          "description": "Williams (shoulder), who is listed as questionable for Sunday's game against the Cowboys, is expected to play, Adam Schefter of ESPN reports.",
+          "status": "out",
+          "position": "WR",
+          "description": "Cooks (coach's decision) is inactive for Sunday's game against the Cowboys.",
+          "tier": "high"
+        },
+        {
+          "player": "Kurtis Rourke",
+          "playerId": "",
+          "status": "out",
+          "position": "QB",
+          "description": "inactive",
+          "tier": "elite"
+        },
+        {
+          "player": "Tatum Bethune",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
           "tier": "medium"
+        },
+        {
+          "player": "Enrique Cruz Jr.",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Mike Evans",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "Evans (Achilles) has a chance to return to action next Sunday against the Vikings, Mike Garafolo of NFL Network reports.",
+          "tier": "high"
         },
         {
           "player": "C.J. West",
@@ -89100,71 +89228,39 @@
           "position": "DT",
           "description": "Halton recently underwent surgery to repair a broken leg and dislocated ankle that he suffered during the 49ers' Week 9 win over the Raiders, Adam Schefter of ESPN reports.",
           "tier": "medium"
-        },
-        {
-          "player": "Renardo Green",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Green (back) is listed as questionable for Sunday's game against Dallas.",
-          "tier": "high"
-        },
-        {
-          "player": "Deommodore Lenoir",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "Lenoir (foot) is questionable for Sunday's game against the Cowboys.",
-          "tier": "high"
-        },
-        {
-          "player": "Dre Greenlaw",
-          "playerId": "",
-          "status": "questionable",
-          "position": "LB",
-          "description": "Greenlaw (knee) is questionable for Sunday's game against the Cowboys.",
-          "tier": "medium"
-        },
-        {
-          "player": "Mike Evans",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Evans (Achilles) has been ruled out for Sunday's game at Dallas, Nick Wagoner of ESPN reports.",
-          "tier": "high"
-        },
-        {
-          "player": "Upton Stout",
-          "playerId": "",
-          "status": "questionable",
-          "position": "CB",
-          "description": "questionable",
-          "tier": "high"
-        },
-        {
-          "player": "Brandon Aiyuk",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "The 49ers reinstated Aiyuk (personal) from the reserve/left squad list Monday and were granted a two-week roster exemption for the wide receiver, Tom Pelissero of Netflix reports.",
-          "tier": "high"
         }
       ],
       "Seattle Seahawks": [
         {
-          "player": "Quenton Nelson",
+          "player": "Abraham Lucas",
           "playerId": "",
-          "status": "out",
-          "position": "G",
-          "description": "Nelson (knee) has been ruled out for Sunday's game against the Raiders, John Boyle of the Seahawks' official site reports.",
-          "tier": "low"
+          "status": "questionable",
+          "position": "OT",
+          "description": "Lucas suffered a sprained ankle during Sunday's Week 10 win over the Raiders, Brady Henderson of ESPN.com reports.",
+          "tier": "medium"
         },
         {
-          "player": "Charles Cross",
+          "player": "George Holani",
+          "playerId": "",
+          "status": "questionable",
+          "position": "RB",
+          "description": "Holani (knee) has been ruled out for the remainder of Sunday's game against the Seahawks.",
+          "tier": "medium"
+        },
+        {
+          "player": "Jarran Reed",
+          "playerId": "",
+          "status": "questionable",
+          "position": "DT",
+          "description": "Reed is doubtful to return to Sunday's game against Las Vegas due to a toe injury.",
+          "tier": "medium"
+        },
+        {
+          "player": "Emanuel Wilson",
           "playerId": "",
           "status": "out",
-          "position": "OT",
-          "description": "Cross (ankle) has been ruled out for Sunday's game against the Raiders, John Boyle of the Seahawks' official site reports.",
+          "position": "RB",
+          "description": "Wilson (coach's decision) is inactive for Sunday's game at Arizona.",
           "tier": "medium"
         },
         {
@@ -89172,7 +89268,31 @@
           "playerId": "",
           "status": "out",
           "position": "DT",
-          "description": "Williams (shoulder) has been ruled out for Sunday's game against the Raiders, John Boyle of the Seahawks' official site reports.",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Quenton Nelson",
+          "playerId": "",
+          "status": "out",
+          "position": "G",
+          "description": "inactive",
+          "tier": "low"
+        },
+        {
+          "player": "Avery Smith",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Charles Cross",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -89180,11 +89300,27 @@
           "playerId": "",
           "status": "out",
           "position": "QB",
-          "description": "Darnold (quadriceps), who won't play this coming Sunday at Las Vegas, is expected to return in Week 12 at San Francisco on Sunday, Nov. 29 after a Week 11 bye, Gregg Bell of Sports Radio 93.3 KJR Seattle reports.",
+          "description": "inactive",
           "tier": "elite"
+        },
+        {
+          "player": "Deven Eastern",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
         }
       ],
       "Tampa Bay Buccaneers": [
+        {
+          "player": "Baker Mayfield",
+          "playerId": "",
+          "status": "questionable",
+          "position": "QB",
+          "description": "Mayfield's availability for next Sunday's game against the Lions is in question due to an injury he sustained to his foot and ankle area during the Buccaneers' Week 9 loss to the Bears, Mike Garafolo of NFL Network reports.",
+          "tier": "elite"
+        },
         {
           "player": "Yaya Diaby",
           "playerId": "",
@@ -89212,11 +89348,75 @@
       ],
       "Tennessee Titans": [
         {
-          "player": "Tyjae Spears",
+          "player": "Wan'Dale Robinson",
           "playerId": "",
           "status": "questionable",
+          "position": "WR",
+          "description": "Robinson (ankle) is questionable to return to Sunday's game against the Jaguars.",
+          "tier": "high"
+        },
+        {
+          "player": "Tony Adams",
+          "playerId": "",
+          "status": "questionable",
+          "position": "S",
+          "description": "Adams has entered the league's concussion protocol and has been ruled out for the rest of Sunday's game against the Jaguars.",
+          "tier": "medium"
+        },
+        {
+          "player": "Nicholas Singleton",
+          "playerId": "",
+          "status": "out",
           "position": "RB",
-          "description": "Spears (knee) is expected to play Sunday against the Jaguars, Jeremy Fowler of ESPN.com reports.",
+          "description": "Singleton (coach's decision) is inactive for Sunday's game against the Jaguars.",
+          "tier": "medium"
+        },
+        {
+          "player": "Carnell Tate",
+          "playerId": "",
+          "status": "out",
+          "position": "WR",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Anthony Hill Jr.",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Jaylon Jones",
+          "playerId": "",
+          "status": "out",
+          "position": "CB",
+          "description": "inactive",
+          "tier": "high"
+        },
+        {
+          "player": "Jackie Marshall",
+          "playerId": "",
+          "status": "out",
+          "position": "DT",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Cody Barton",
+          "playerId": "",
+          "status": "out",
+          "position": "LB",
+          "description": "inactive",
+          "tier": "medium"
+        },
+        {
+          "player": "Brandon Crenshaw-Dickson",
+          "playerId": "",
+          "status": "out",
+          "position": "OT",
+          "description": "inactive",
           "tier": "medium"
         },
         {
@@ -89234,30 +89434,6 @@
           "position": "G",
           "description": "The Titans placed Skoronski (hamstring) on injured reserve Saturday, Jim Wyatt of the team's official site reports.",
           "tier": "low"
-        },
-        {
-          "player": "Cody Barton",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Barton (concussion) has been ruled out for Sunday's game against the Jaguars, Jim Wyatt of the Titans' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Anthony Hill Jr.",
-          "playerId": "",
-          "status": "out",
-          "position": "LB",
-          "description": "Hill (neck) has been ruled out for Sunday's game against the Jaguars, Jim Wyatt of the Titans' official site reports.",
-          "tier": "medium"
-        },
-        {
-          "player": "Carnell Tate",
-          "playerId": "",
-          "status": "out",
-          "position": "WR",
-          "description": "Tate (shoulder) has been ruled out for Sunday's game against the Jaguars, Jim Wyatt of the Titans' official site reports.",
-          "tier": "high"
         },
         {
           "player": "James Williams Sr.",

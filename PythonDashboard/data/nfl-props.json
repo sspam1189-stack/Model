@@ -1,8 +1,8 @@
 {
   "season": 2026,
   "week": 10,
-  "generated": "2026-11-15T15:02:40",
-  "totalProjections": 90,
+  "generated": "2026-11-16T04:32:09",
+  "totalProjections": 8,
   "totalPicks": 275,
   "props": [
     {
@@ -6091,7 +6091,7 @@
       "line": 10.5,
       "lean": "OVER",
       "pCover": 0.751,
-      "odds": -114,
+      "odds": -113,
       "status": "below",
       "season": 2026,
       "week": 10,
@@ -6228,7 +6228,7 @@
       "line": 21.5,
       "lean": "OVER",
       "pCover": 0.71,
-      "odds": -114,
+      "odds": -113,
       "status": "below",
       "season": 2026,
       "week": 10,
@@ -6449,7 +6449,7 @@
       "line": 80.5,
       "lean": "UNDER",
       "pCover": 0.651,
-      "odds": -114,
+      "odds": -113,
       "status": "below",
       "season": 2026,
       "week": 10,
@@ -6489,23 +6489,6 @@
       "week": 10,
       "commence": "2026-11-15T21:26:00.000Z",
       "game": "SF @ DAL"
-    },
-    {
-      "player": "O.Hampton",
-      "team": "LAC",
-      "opp": "BAL",
-      "market": "rush_yds",
-      "proj": 40.4,
-      "std": 17.1,
-      "line": 33.5,
-      "lean": "OVER",
-      "pCover": 0.646,
-      "odds": -114,
-      "status": "below",
-      "season": 2026,
-      "week": 10,
-      "commence": "2026-11-17T01:21:00.000Z",
-      "game": "LAC @ BAL"
     },
     {
       "player": "Bi.Robinson",
@@ -6625,6 +6608,23 @@
       "week": 10,
       "commence": "2026-11-15T18:01:00.000Z",
       "game": "JAX @ TEN"
+    },
+    {
+      "player": "O.Hampton",
+      "team": "LAC",
+      "opp": "BAL",
+      "market": "rush_yds",
+      "proj": 40.4,
+      "std": 17.1,
+      "line": 34.5,
+      "lean": "OVER",
+      "pCover": 0.626,
+      "odds": -113,
+      "status": "below",
+      "season": 2026,
+      "week": 10,
+      "commence": "2026-11-17T01:21:00.000Z",
+      "game": "LAC @ BAL"
     },
     {
       "player": "M.Lloyd",
@@ -6773,7 +6773,7 @@
       "line": 6.5,
       "lean": "OVER",
       "pCover": 0.582,
-      "odds": -134,
+      "odds": -140,
       "status": "below",
       "season": 2026,
       "week": 10,
@@ -7405,23 +7405,6 @@
       "injury": "out"
     },
     {
-      "player": "K.Mitchell",
-      "team": "LAC",
-      "opp": "BAL",
-      "market": "rush_att",
-      "proj": 6.2,
-      "std": 1.8,
-      "line": null,
-      "lean": null,
-      "pCover": null,
-      "odds": null,
-      "status": "noline",
-      "season": 2026,
-      "week": 10,
-      "commence": "2026-11-17T01:21:00.000Z",
-      "game": "LAC @ BAL"
-    },
-    {
       "player": "K.Miller",
       "team": "NO",
       "opp": "CAR",
@@ -7641,6 +7624,23 @@
       "week": 10,
       "commence": "2026-11-15T18:01:00.000Z",
       "game": "MIA @ IND"
+    },
+    {
+      "player": "K.Mitchell",
+      "team": "LAC",
+      "opp": "BAL",
+      "market": "rush_att",
+      "proj": 6.2,
+      "std": 1.8,
+      "line": null,
+      "lean": null,
+      "pCover": null,
+      "odds": null,
+      "status": "noline",
+      "season": 2026,
+      "week": 10,
+      "commence": "2026-11-17T01:21:00.000Z",
+      "game": "LAC @ BAL"
     }
   ]
 }
