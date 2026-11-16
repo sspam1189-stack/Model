@@ -247,3 +247,6 @@ ENGINE_CONFIG["FREEZE_WEIGHTS"] = True
 # Nov 12 walk-forward gave the same records as the average (margins moved 0.1
 # on a handful of games).
 ENGINE_CONFIG["MEDIAN_MINUTES"] = True
+
+# Lineup value at half strength (2026-11-15, user): core/lineup_shift.py.
+ENGINE_CONFIG["LINEUP_VALUE_STRENGTH"] = 0.5

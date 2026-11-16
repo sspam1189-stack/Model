@@ -299,7 +299,7 @@ def _prior_season(season):
     return out
 
 
-def build_team_stats(date, team_names, injury_report=None):
+def build_team_stats(date, team_names, injury_report=None, versus_fielded=False):
     """Team-stats table for `date` (games before it only).
 
     Returns (stats, info): stats = {team name: {OFF, DEF, PACE, GP}} for every
@@ -406,6 +406,8 @@ def build_team_stats(date, team_names, injury_report=None):
         delta = 0.0
         if tv is not None:
             share = (lam / (gp + lam)) if prior else 0.0        # how much of the rating is the prior (full roster)
+            if versus_fielded:                                   # caller's team numbers are season-to-date only
+                share = 0.0
             base = share * full[t] + (1 - share) * (fielded if fielded is not None else full[t])
             delta = tv - base
         pts = VALUE_POINTS * delta                               # points of margin
@@ -415,6 +417,7 @@ def build_team_stats(date, team_names, injury_report=None):
             "PACE": round(fit["mup"] + 2 * fit["pace"][t], 2),   # the engine averages the two teams' PACE
             "GP": gp,
         }
+        info.setdefault("pts", {})[nm] = round(pts, 2)
         missing = sorted(((typ(n) * val(n), n) for n in outs if n in roster[t] and typ(n) > 0), reverse=True)
         if abs(pts) >= 0.3 or missing:
             who = ", ".join(n for _, n in missing[:4])

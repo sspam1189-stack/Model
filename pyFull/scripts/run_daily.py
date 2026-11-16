@@ -840,6 +840,15 @@ def _main(subject_label, date):
         from core.player_minutes import apply_median_minutes
         player_advanced, _n_med = apply_median_minutes(player_advanced, date)
         print(f"  [lineup] Median minutes (last 10 games) applied to {_n_med} player(s)")
+    # Lineup value (core/lineup_shift.py): tonight's lineup against the lineups
+    # the team has fielded, in points of margin, applied per game below.
+    from core import lineup_shift as _lineup_shift
+    _lv_k = _lineup_shift.strength(ENGINE_CONFIG)
+    _lv_pts, _lv_notes = ({}, {})
+    if _lv_k:
+        _lv_pts, _lv_notes = _lineup_shift.points(date, list(stats.keys()), injury_data.get("report", {}),
+                                                  refresh=not _ri.replaying())
+        print(f"  [lineup value] strength {_lv_k}: {len(_lv_pts)} team(s) valued, {len(_lv_notes)} with a note")
     lineup_stats = adjust_team_stats(
         stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
         player_advanced, odds,
@@ -1060,8 +1069,12 @@ def _main(subject_label, date):
         except Exception: injury_adj = None
         game_stats = blend_for_game(adjusted_stats, enhanced_stats.get("home"), enhanced_stats.get("away"), g["home"], g["away"], base_w.get("locationWeight", 0.25))
         game_avgs = get_avgs(game_stats)
+        game_stats, _lv_shift = _lineup_shift.shift_game(game_stats, g["home"], g["away"], _lv_pts, _lv_k, base_w)
         r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var, h2h_matchups, team_hca=team_hca)
         if not r: games.append({**g, "status": "SKIPPED"}); continue
+        if _lv_shift:
+            r["lineupAdj"] = {"homeMargin": _lv_shift, "strength": _lv_k,
+                              "home": _lv_notes.get(g["home"]), "away": _lv_notes.get(g["away"])}
 
         ad = compute_team_delta(g["away"]); hd = compute_team_delta(g["home"])
         if ad or hd:
