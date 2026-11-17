@@ -16728,7 +16728,7 @@
         {
           "away": "New York Knicks",
           "home": "Toronto Raptors",
-          "line": 3.5,
+          "line": 2.5,
           "total": 215.5,
           "startTimeUTC": "2026-11-18T00:40:00.000+00:00",
           "_book": "FanDuel",
@@ -16736,27 +16736,27 @@
           "home_ml": 120,
           "over_ml": -106,
           "under_ml": -114,
-          "spread_price_away": -104,
-          "spread_price_home": -118,
+          "spread_price_away": -114,
+          "spread_price_home": -106,
           "aS": 112.3,
           "hS": 106.0,
           "pT": 218.3,
-          "margin": -2.8,
-          "sDiff": 2.8,
+          "margin": -3.8,
+          "sDiff": 3.8,
           "tDiff": 1.1,
-          "sPick": "PASS",
-          "sConf": "low",
+          "sPick": "New York Knicks -2.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.435,
-          "pAwayCover": 0.565,
+          "pHomeCover": 0.412,
+          "pAwayCover": 0.588,
           "pOver": 0.524,
           "pUnder": 0.476,
-          "pCover": null,
+          "pCover": 0.588,
           "pOU": null,
           "minGP": 13.0,
-          "pCal": 0.505,
+          "pCal": 0.507,
           "marginVar": 295.0,
           "marginStd": 17.2,
           "_features": {
@@ -16790,6 +16790,7 @@
             "home": "lineup +0.2 pts (out: Kawhi Leonard)",
             "away": "lineup -1.2 pts"
           },
+          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- -0.7 \u00b7 Over 30.8% \u00b7 Under 69.2% \u00b7 O/U +/- -10.0",
             "home": "ATS +/- 0.1 \u00b7 Over 53.8% \u00b7 Under 46.2% \u00b7 O/U +/- 0.3"
@@ -16799,13 +16800,13 @@
           "away": "Detroit Pistons",
           "home": "San Antonio Spurs",
           "line": -9.5,
-          "total": 221.5,
+          "total": 222.5,
           "startTimeUTC": "2026-11-18T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 320,
-          "home_ml": -405,
-          "over_ml": -118,
-          "under_ml": -104,
+          "away_ml": 330,
+          "home_ml": -420,
+          "over_ml": -110,
+          "under_ml": -110,
           "spread_price_away": -112,
           "spread_price_home": -108,
           "aS": 108.3,
@@ -16813,7 +16814,7 @@
           "pT": 230.6,
           "margin": 4.5,
           "sDiff": 4.5,
-          "tDiff": -1.4,
+          "tDiff": -2.4,
           "sPick": "San Antonio Spurs -9.5",
           "sConf": "elite",
           "oPick": "PASS",
@@ -16821,8 +16822,8 @@
           "injuryNote": "Away: Duncan Robinson (out/starter)",
           "pHomeCover": 0.603,
           "pAwayCover": 0.397,
-          "pOver": 0.469,
-          "pUnder": 0.531,
+          "pOver": 0.447,
+          "pUnder": 0.553,
           "pCover": 0.603,
           "pOU": null,
           "minGP": 12.0,
@@ -16911,15 +16912,15 @@
           "marginStd": 17.2,
           "_features": {
             "dTS": -0.023749999999999938,
-            "dTO": 0.04374999999999998,
-            "dORR": 0.030000000000000027,
+            "dTO": 0.04394999999999999,
+            "dORR": 0.029899999999999982,
             "dDEF": 6.930000000000007,
             "avgPace": 100.9265
           },
           "_marginFeatures": {
             "dTS": -0.024,
-            "dTO": -0.0442,
-            "dORR": 0.0303,
+            "dTO": -0.0444,
+            "dORR": 0.0302,
             "dDEF": 6.9944,
             "hca": 1.0,
             "_baseline": -2.3227,
@@ -16949,8 +16950,7 @@
               "OFF": -1.4,
               "DEF": 0.925,
               "TS": 0.0016,
-              "TO": 0.0504,
-              "ORR": 0.0002
+              "TO": 0.0506
             }
           },
           "trends": {
@@ -17114,7 +17114,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         8-22-0   (26.7%)   [graded 30]\n  Elite:       8-22-0   (26.7%)   [graded 30]\n\nFAV/DOG (Spread)\n  Favorites:   4-13-0   (23.5%)   [graded 17]\n  Underdogs:   4-9-0   (30.8%)   [graded 13]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/17/2026, 09:01:39 AM"
+      "ranAt": "11/17/2026, 10:46:00 AM"
     }
   ],
   "weights": {
