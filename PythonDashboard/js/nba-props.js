@@ -47,7 +47,11 @@
       // Points market is retired for NBA — drop it. WNBA ships points (both
       // directions), so callers can keep it via opts.dropPoints:false.
       const dropPoints = opts.dropPoints !== false;
-      const picks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts' && (dropPoints ? p.market !== 'points' : true));
+      const allPicks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts' && (dropPoints ? p.market !== 'points' : true));
+      // Shadow picks (p.shadow): tracked, not bet. Kept out of every record and
+      // table below and listed on their own card.
+      const shadowPicks = allPicks.filter(p => p.shadow);
+      const picks = allPicks.filter(p => !p.shadow);
       const isBacktest = picks.some(p => p.result != null);
 
       // Helper: get ISO week start (Monday) for a date string
@@ -387,11 +391,67 @@
           el.appendChild(todayCard);
         }
 
+        // ── Shadow picks: tracked, not bet ──
+        if (shadowPicks.length > 0) {
+          const shCard = document.createElement('div');
+          shCard.className = 'card card-picks';
+          shCard.style.marginBottom = '16px';
+          const shMk = [...new Set(shadowPicks.map(p => marketLabels[p.market] || p.market))].join(', ');
+          shCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title', textContent: `Shadow \u2014 ${shMk} (tracked, not bet)` }));
+          const shDec = o => (o == null ? 100 / 110 : (o > 0 ? o / 100 : 100 / -o));
+          let sw = 0, sl = 0, su = 0;
+          shadowPicks.forEach(p => {
+            if (p.result === 'WIN') { sw++; su += shDec(p.odds); }
+            else if (p.result === 'LOSS') { sl++; su -= 1; }
+          });
+          const shRec = document.createElement('div');
+          shRec.style.cssText = 'margin:6px 0 2px;font-size:0.9rem';
+          const sn = sw + sl;
+          shRec.textContent = sn ? `${sw}-${sl} \u00b7 ${(su >= 0 ? '+' : '') + su.toFixed(2)}u \u00b7 ROI ${(su >= 0 ? '+' : '') + (100 * su / sn).toFixed(1)}%`
+            : 'No graded picks yet';
+          if (sn) shRec.style.color = su >= 0 ? 'var(--green)' : 'var(--red)';
+          shCard.appendChild(shRec);
+          const shTbl = document.createElement('table');
+          shTbl.className = 'props-data-table';
+          shTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const shHead = shTbl.createTHead().insertRow();
+          ['Date', 'Name', 'Team', 'Cat', 'Proj', 'Line', 'Odds', 'O/U', 'pCover', 'Actual', 'Result'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Name') th.style.textAlign = 'left';
+            shHead.appendChild(th);
+          });
+          const shBody = shTbl.createTBody();
+          shadowPicks.slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || (b.pCover || 0) - (a.pCover || 0))
+            .slice(0, 25).forEach(p => {
+              const row = shBody.insertRow();
+              row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+              [String(p.date || '').slice(5), shortName(p.player), p.team || '', marketLabels[p.market] || p.market,
+                String(p.proj), p.line != null ? String(p.line) : '\u2014',
+                p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014',
+                p.pick === 'OVER' ? 'O' : 'U',
+                p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+                p.actual != null ? String(p.actual) : '\u2014',
+                p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : (p.result || '\u2014')].forEach((val, i) => {
+                const td = row.insertCell();
+                td.textContent = val;
+                td.style.cssText = 'padding:4px 4px;text-align:center';
+                if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 0 || i === 2 || i === 6) td.style.color = '#999';
+                if (i === 10) { td.style.fontWeight = '700'; td.style.color = val === 'W' ? 'var(--green)' : val === 'L' ? 'var(--red)' : '#999'; }
+              });
+            });
+          shCard.appendChild(shTbl);
+          el.appendChild(shCard);
+        }
+
         // ── Tomorrow's Potential Picks (look-ahead) ──
         // Driven by data.tomorrowPicks emitted by run_daily.py Stage 8b.
         // Hidden when the field is absent or empty (default state).
         try {
-          const tomPicks = Array.isArray(data.tomorrowPicks) ? data.tomorrowPicks.slice() : [];
+          const tomPicks = Array.isArray(data.tomorrowPicks) ? data.tomorrowPicks.filter(p => !p.shadow) : [];
           const tomDate = data.tomorrowDate || (tomPicks[0] && tomPicks[0].date) || '';
           if (tomPicks.length > 0) {
             const tomCard = document.createElement('div');

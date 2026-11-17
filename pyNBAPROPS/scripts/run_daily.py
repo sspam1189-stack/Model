@@ -727,6 +727,24 @@ def run_daily(date_key=None):
         except Exception as _e:
             print(f"  [line value] open-price tracking failed (non-fatal): {_e}")
 
+        # Shadow markets: tracked, not bet (defaults.SHADOW_MARKETS).
+        try:
+            from defaults import SHADOW_MARKETS as _SHADOW
+        except Exception:
+            _SHADOW = {}
+        def _tag_shadow(_rows, _d):
+            _n = 0
+            for p in _rows or []:
+                _from = _SHADOW.get(p.get("market"))
+                if _from and p.get("pick") not in (None, "PASS") and str(p.get("date") or _d) >= _from:
+                    p["shadow"] = True
+                    _n += 1
+            return _n
+        _n_sh = _tag_shadow(today_fresh, date_iso)
+        _tag_shadow(dashboard.get("tomorrowPicks"), dashboard.get("tomorrowDate") or date_iso)
+        if _n_sh:
+            print(f"  Shadow (tracked, not bet): {_n_sh} pick(s)")
+
         merged_props = kept + today_started + today_fresh
 
         # Preserve todayProjections for started games too — they were

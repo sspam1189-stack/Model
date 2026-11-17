@@ -212,6 +212,16 @@ MIN_LINE = {
 #   same months, so it is not a forward result.
 UNDER_ONLY_MARKETS = {"threes", "rebounds", "assists"}
 
+# Shadow markets (2026-11-17, user): still projected, picked and graded, but
+# tagged "shadow" so they are tracked without being bet -- the dashboard keeps
+# them out of the records and lists them on their own. Value = first pick date
+# (YYYY-MM-DD) the market is shadowed from; earlier picks stay in the record.
+#   threes: 2026-27 unders 34-26, -7.9% at real prices through 11-15. The
+#   projection leans on recent games, so its lowest numbers (the picks) are
+#   cold streaks; when it strays from a player's season average the result
+#   lands on the average. Higher stated probability has meant worse results.
+SHADOW_MARKETS = {"threes": "2026-11-17"}
+
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}
 
 # ---------------------------------------------------------------------------
