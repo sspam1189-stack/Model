@@ -139,7 +139,7 @@ SYSTEMS = [
         "id": "elite_dog_ml", "tier": "candidate", "status": SHADOW, "market": "h2h", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ML",
         "name": (
-            "Elite dog ML"),
+            "Hot dog ML"),
         "rule": (
             "Team SU win% >= .650 over 10+ prior games AND getting points "
             "(spread > 0) -> back that team on the moneyline."),
@@ -215,9 +215,9 @@ SYSTEMS = [
         "id": "elite_dog_ats", "tier": "candidate", "status": SHADOW, "market": "spread", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ATS",
         "name": (
-            "Elite dog ATS"),
+            "Hot dog ATS"),
         "rule": (
-            "Same trigger as Elite dog ML -- SU .650+ over 10+ games, getting "
+            "Same trigger as Hot dog ML -- SU .650+ over 10+ games, getting "
             "points -- but take the points instead of the moneyline."),
         "why": (
             "SU .650+ team getting points -> ATS. 63-43 +13.5% (n=106) at a "
