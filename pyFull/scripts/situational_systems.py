@@ -336,8 +336,14 @@ SYSTEMS = [
     # chance. The line-move systems have no 2025-26 backtest at all (no
     # intraday lines were saved then) and their 2026-27 record through Nov 14
     # was seen BEFORE the rule was written -- the weakest kind of evidence.
+    #
+    # 2026-11-17, user decision: fade_spread_move, total_move_over,
+    # total_move_under and unlucky_team_ats promoted SHADOW -> CARD, ahead of
+    # the 25-live-play gate (at promotion each had 1-2 days of live plays; the
+    # rest of its record is the 2026-27 history above). both_hot_under stays
+    # SHADOW. Plays already logged as shadow keep that status in the ledger.
     {
-        "id": "fade_spread_move", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "fade_spread_move", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Spread moved 1+ against a team during the day -> back it",
         "name": (
             "Fade spread move"),
@@ -359,7 +365,7 @@ SYSTEMS = [
         "test": lambda r: r.get("_spread_move") is not None and r["_spread_move"] >= 1.0,
     },
     {
-        "id": "total_move_over", "tier": "watch", "status": SHADOW, "market": "total", "side": "OVER",
+        "id": "total_move_over", "tier": "watch", "status": CARD, "market": "total", "side": "OVER",
         "label": "Total moved up 1.5+ during the day -> OVER",
         "name": (
             "Follow total move (over)"),
@@ -378,7 +384,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r.get("_total_move") is not None and r["_total_move"] >= 1.5,
     },
     {
-        "id": "total_move_under", "tier": "watch", "status": SHADOW, "market": "total", "side": "UNDER",
+        "id": "total_move_under", "tier": "watch", "status": CARD, "market": "total", "side": "UNDER",
         "label": "Total moved down 1.5+ during the day -> UNDER",
         "name": (
             "Follow total move (under)"),
@@ -415,7 +421,7 @@ SYSTEMS = [
                            and r["_3own"] >= 6 and r["_o_3own"] >= 6),
     },
     {
-        "id": "unlucky_team_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "unlucky_team_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Team lost 15+ points to three-point luck last game -> ATS",
         "name": (
             "Unlucky team ATS"),

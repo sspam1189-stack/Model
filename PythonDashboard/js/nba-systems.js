@@ -37,7 +37,7 @@ const NBAS_TIER_COLOR = {
 const NBAS_TIER_LABEL = {
   candidate: 'CANDIDATE',
   control: 'CONTROL — known junk, same bar',
-  watch: 'WATCH — shadow, added 2026-11-15',
+  watch: 'WATCH — added 2026-11-15',
   reference: 'REFERENCE — the model itself',
 };
 
