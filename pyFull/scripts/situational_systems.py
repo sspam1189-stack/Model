@@ -340,8 +340,9 @@ SYSTEMS = [
     # 2026-11-17, user decision: fade_spread_move, total_move_over,
     # total_move_under and unlucky_team_ats promoted SHADOW -> CARD, ahead of
     # the 25-live-play gate (at promotion each had 1-2 days of live plays; the
-    # rest of its record is the 2026-27 history above). both_hot_under stays
-    # SHADOW. Plays already logged as shadow keep that status in the ledger.
+    # rest of its record is the 2026-27 history above). both_hot_under was
+    # carded the same day, a little later. Plays already logged as shadow keep
+    # that status in the ledger.
     {
         "id": "fade_spread_move", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Spread moved 1+ against a team during the day -> back it",
@@ -400,7 +401,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r.get("_total_move") is not None and r["_total_move"] <= -1.5,
     },
     {
-        "id": "both_hot_under", "tier": "watch", "status": SHADOW, "market": "total", "side": "UNDER",
+        "id": "both_hot_under", "tier": "watch", "status": CARD, "market": "total", "side": "UNDER",
         "label": "Both teams shot hot from three last game -> UNDER",
         "name": (
             "Both hot under"),
