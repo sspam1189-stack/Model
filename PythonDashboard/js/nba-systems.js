@@ -187,6 +187,15 @@ async function renderNBASystems() {
     + '<div id="nbas-log">' + nbasLogTable(data) + '</div>';
 }
 
+// Sides (ATS + moneyline) and totals (overs / unders) are different bets and
+// are kept in separate sections everywhere on this tab.
+const NBAS_GROUPS = [['sides', 'ATS & ML'], ['totals', 'Overs & Unders']];
+function nbasGroup(market) { return market === 'total' ? 'totals' : 'sides'; }
+function nbasGroupRow(label, cols, extra) {
+  return `<tr><td colspan="${cols}" style="padding:12px 6px 5px;font-size:13px;font-weight:700;`
+    + `color:#e6edf3;border-bottom:1px solid #30363d">${esc(label)}${extra || ''}</td></tr>`;
+}
+
 // ---------------------------------------------------------------------------
 function nbasBanner(d) {
   const nCard = d.systems.filter(s => s.status === 'card').length;
@@ -260,8 +269,15 @@ function nbasTodayCard(d) {
     card: 'CARD — bet these',
     shadow: 'SHADOW — graded, never bet',
   };
-  let status = null;
-  for (const p of plays) {
+  let status = null, group = null;
+  const ordered = [];
+  NBAS_GROUPS.forEach(([g]) => plays.forEach(p => { if (nbasGroup(p.market) === g) ordered.push(p); }));
+  for (const p of ordered) {
+    if (nbasGroup(p.market) !== group) {
+      group = nbasGroup(p.market);
+      status = null;
+      h += nbasGroupRow((NBAS_GROUPS.find(x => x[0] === group) || [])[1] || group, 5);
+    }
     if (p.status !== status) {
       status = p.status;
       const sc = status === 'card' ? NBAS_GREEN : NBAS_DIM;
@@ -296,8 +312,9 @@ function nbasTodayCard(d) {
 // ---------------------------------------------------------------------------
 // Panel 2 — per-system record. LIVE and BACKTEST never share a column.
 function nbasRecordTable(d) {
-  const rows = d.systems.filter(s =>
-    (nbasFilters.tier === 'all' || s.tier === nbasFilters.tier)).map(s => {
+  const shown = d.systems.filter(s =>
+    (nbasFilters.tier === 'all' || s.tier === nbasFilters.tier));
+  const rowFor = s => {
     const rec = (d.records || {})[s.id] || {};
     const live = rec.live || {};
     const b = s.backtest || {};
@@ -331,6 +348,20 @@ function nbasRecordTable(d) {
           style="cursor:pointer;color:${NBAS_DIM}" title="why this is in the registry">
           ${nbasShowMechanism === s.id ? '▾' : '▸'} why</span></td>
       </tr>${mech}`;
+  };
+  // one section per group, each headed by its own carded live total
+  const rows = NBAS_GROUPS.map(([g, label]) => {
+    const list = shown.filter(s => nbasGroup(s.market) === g);
+    if (!list.length) return '';
+    let w = 0, l = 0, u = 0;
+    list.forEach(s => {   // every carded play, including systems since moved to shadow
+      const lv = ((d.records || {})[s.id] || {}).card || {};
+      w += lv.w || 0; l += lv.l || 0; u += lv.units || 0;
+    });
+    const tot = (w + l)
+      ? `<span style="font-weight:400;font-size:11px;color:${NBAS_DIM}"> · carded live ${w}-${l} `
+        + `<span class="${nbasUClass(u)}">${nbasUnits(u)}</span></span>` : '';
+    return nbasGroupRow(label, 10, tot) + list.map(rowFor).join('');
   }).join('');
 
   const tierSel = ['all', 'candidate', 'watch', 'control', 'reference']
@@ -371,7 +402,7 @@ function nbasRecordTable(d) {
 // rule-status card — display name, the literal rule, then a one-line why
 // carrying the record and the carding date.
 function nbasDefinitions(d) {
-  const rows = d.systems.map(s => {
+  const defFor = s => {
     const c = NBAS_TIER_COLOR[s.tier] || NBAS_DIM;
     const carded = s.status === 'card';
     const chip = carded
@@ -388,6 +419,11 @@ function nbasDefinitions(d) {
       <div style="font-size:12px;color:#c9d1d9;margin-top:3px">${esc(s.rule || s.label)}</div>
       <div style="font-size:11px;color:${NBAS_DIM};margin-top:3px;line-height:1.5">${esc(s.why || '')}</div>
     </div>`;
+  };
+  const rows = NBAS_GROUPS.map(([g, label]) => {
+    const list = d.systems.filter(s => nbasGroup(s.market) === g);
+    return list.length ? `<div style="padding:12px 10px 5px;font-size:13px;font-weight:700;color:#e6edf3;
+      border-top:1px solid #30363d">${esc(label)}</div>` + list.map(defFor).join('') : '';
   }).join('');
   return `<div class="card card-games">
     <div class="card-title">What these systems are
@@ -405,7 +441,7 @@ function nbasLogTable(d) {
   const rows = all.filter(e =>
     (f.system === 'all' || e.system === f.system) &&
     (f.tier === 'all' || e.tier === f.tier) &&
-    (f.market === 'all' || e.market === f.market) &&
+    (f.market === 'all' || e.market === f.market || (f.market === 'sides' && e.market !== 'total')) &&
     (f.result === 'all' || (f.result === 'pending'
       ? e.result === 'pending' : e.result === f.result)) &&
     (f.season === 'all' || nbasSeason(e.date) === f.season) &&
@@ -451,6 +487,8 @@ function nbasLogTable(d) {
   const liveSum = sum(rows.filter(e => !e.backfilled && e.status === 'card'));
   const shadowSum = sum(rows.filter(e => !e.backfilled && e.status !== 'card'));
   const seedSum = sum(rows.filter(e => e.backfilled));
+  const grpSum = NBAS_GROUPS.map(([g, label]) => [label,
+    sum(rows.filter(e => !e.backfilled && e.status === 'card' && nbasGroup(e.market) === g))]);
 
   const totalPages = Math.max(1, Math.ceil(rows.length / NBAS_PAGE));
   const page = Math.min(nbasLogPage, totalPages - 1);
@@ -495,8 +533,8 @@ function nbasLogTable(d) {
         ${dayInput}
         ${sel('system', ['all'].concat(d.systems.map(s => s.id)),
               ['All systems'].concat(d.systems.map(s => s.id)))}
-        ${sel('market', ['all', 'spread', 'total', 'h2h'],
-              ['All markets', 'Spread', 'Total', 'Moneyline'])}
+        ${sel('market', ['all', 'sides', 'total', 'spread', 'h2h'],
+              ['All markets', 'ATS & ML', 'Overs & Unders', 'ATS only', 'ML only'])}
         ${sel('result', ['all', 'WIN', 'LOSS', 'PUSH', 'pending'],
               ['All results', 'Wins', 'Losses', 'Pushes', 'Pending'])}
       </div>
@@ -505,6 +543,9 @@ function nbasLogTable(d) {
           <span class="${nbasUClass(liveSum.u)}">${nbasUnits(liveSum.u)}</span>
           ${liveSum.roi !== null ? '· ROI ' + nbasPct(liveSum.roi) : ''}
           ${liveSum.pend ? `<span style="color:${NBAS_DIM}"> · ${liveSum.pend} pending</span>` : ''}</span>
+        ${f.market === 'all' ? grpSum.filter(x => x[1].n).map(([label, g]) => `<span style="color:#c9d1d9;margin-left:14px">
+          ${esc(label)}: <b>${g.w}-${g.l}${g.p ? '-' + g.p : ''}</b>
+          <span class="${nbasUClass(g.u)}">${nbasUnits(g.u)}</span></span>`).join('') : ''}
         ${shadowSum.n || shadowSum.pend ? `<span style="color:${NBAS_DIM};margin-left:14px">Shadow (not bet):
           ${shadowSum.w}-${shadowSum.l}${shadowSum.p ? '-' + shadowSum.p : ''}
           ${shadowSum.pend ? ' · ' + shadowSum.pend + ' pending' : ''}</span>` : ''}
