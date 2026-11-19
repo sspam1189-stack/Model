@@ -18246,45 +18246,45 @@
           "_book": "FanDuel",
           "away_ml": 205,
           "home_ml": -250,
-          "over_ml": -110,
-          "under_ml": -110,
+          "over_ml": -114,
+          "under_ml": -106,
           "spread_price_away": -110,
           "spread_price_home": -110,
           "aS": 108.8,
-          "hS": 120.8,
-          "pT": 229.6,
-          "margin": 5.5,
-          "sDiff": 5.5,
-          "tDiff": 1.1,
+          "hS": 120.9,
+          "pT": 229.7,
+          "margin": 5.6,
+          "sDiff": 5.6,
+          "tDiff": 1.2,
           "sPick": "Memphis Grizzlies -6.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Stephen Curry (out/starter) | Home: Ty Jerome (out/starter)",
-          "pHomeCover": 0.626,
-          "pAwayCover": 0.374,
-          "pOver": 0.524,
-          "pUnder": 0.476,
-          "pCover": 0.626,
+          "pHomeCover": 0.628,
+          "pAwayCover": 0.372,
+          "pOver": 0.527,
+          "pUnder": 0.473,
+          "pCover": 0.628,
           "pOU": null,
           "minGP": 15.0,
           "pCal": 0.507,
           "marginVar": 294.3,
           "marginStd": 17.2,
           "_features": {
-            "dTS": 0.06010000000000004,
-            "dTO": -0.5307999999999999,
-            "dORR": 0.017900000000000027,
-            "dDEF": -0.3299999999999983,
+            "dTS": 0.06130000000000002,
+            "dTO": -0.471,
+            "dORR": 0.018100000000000005,
+            "dDEF": -0.36999999999999034,
             "avgPace": 99.73150000000001
           },
           "_marginFeatures": {
-            "dTS": 0.0599,
-            "dTO": 0.5294,
-            "dORR": 0.0179,
-            "dDEF": -0.3291,
+            "dTS": 0.0611,
+            "dTO": 0.4697,
+            "dORR": 0.0181,
+            "dDEF": -0.369,
             "hca": 1.0,
-            "_baseline": 9.516,
+            "_baseline": 9.6057,
             "_pace": 0.9973
           },
           "kalmanAdj": {
@@ -18304,18 +18304,18 @@
           },
           "_adjDeltas": {
             "away": {
-              "OFF": -2.435,
-              "DEF": 1.43,
-              "TS": -0.0208,
-              "TO": 0.572,
-              "ORR": 0.0048
+              "OFF": -2.415,
+              "DEF": 1.44,
+              "TS": -0.0203,
+              "TO": 0.541,
+              "ORR": 0.0047
             },
             "home": {
-              "OFF": -0.71,
-              "DEF": 1.365,
-              "TS": 0.0107,
-              "TO": 0.0479,
-              "ORR": 0.0067
+              "OFF": -0.6,
+              "DEF": 1.415,
+              "TS": 0.0124,
+              "TO": 0.0768,
+              "ORR": 0.0068
             }
           },
           "stakeUnits": 1,
@@ -18333,7 +18333,7 @@
           "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
           "_book": "FanDuel",
           "away_ml": -480,
-          "home_ml": 360,
+          "home_ml": 370,
           "over_ml": -115,
           "under_ml": -105,
           "spread_price_away": -106,
@@ -18361,15 +18361,15 @@
           "marginStd": 17.2,
           "_features": {
             "dTS": -0.03699999999999992,
-            "dTO": 0.3881,
-            "dORR": -0.005799999999999972,
+            "dTO": 0.413,
+            "dORR": -0.005599999999999994,
             "dDEF": -10.530000000000001,
             "avgPace": 100.52600000000001
           },
           "_marginFeatures": {
             "dTS": -0.0372,
-            "dTO": -0.3902,
-            "dORR": -0.0058,
+            "dTO": -0.4152,
+            "dORR": -0.0056,
             "dDEF": -10.5858,
             "hca": 1.0,
             "_baseline": -10.3763,
@@ -18402,8 +18402,8 @@
               "OFF": -1.5,
               "DEF": 1.24,
               "TS": 0.0061,
-              "TO": 0.2518,
-              "ORR": 0.0017
+              "TO": 0.2766,
+              "ORR": 0.0019
             }
           },
           "trends": {
@@ -18419,10 +18419,10 @@
           "total": 216.5,
           "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -118,
-          "home_ml": 100,
-          "over_ml": -106,
-          "under_ml": -114,
+          "away_ml": -116,
+          "home_ml": -104,
+          "over_ml": -105,
+          "under_ml": -115,
           "spread_price_away": -108,
           "spread_price_home": -112,
           "aS": 111.1,
@@ -18566,7 +18566,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         10-27-0   (27.0%)   [graded 37]\n  Elite:       10-27-0   (27.0%)   [graded 37]\n\nFAV/DOG (Spread)\n  Favorites:   5-17-0   (22.7%)   [graded 22]\n  Underdogs:   5-10-0   (33.3%)   [graded 15]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/19/2026, 09:01:40 AM"
+      "ranAt": "11/19/2026, 10:46:00 AM"
     }
   ],
   "weights": {
