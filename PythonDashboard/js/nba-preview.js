@@ -12,8 +12,9 @@
 
 const NBAP_SEASON_START = '20261023';
 const NBAP_FIRE = 0.58, NBAP_ELITE = 0.65, NBAP_MAX_LINE = 18;
-// hidden: still run daily, just not shown on this page (user, 2026-11-19).
-const NBAP_ALL_MODELS = [
+// hidden: still run daily and still in the Records table, which keeps
+// updating; left out of the rest of this page (user, 2026-11-19).
+const NBAP_MODELS = [
   // Display order (user, 2026-11-19): KalmanOff, Ratings, KalmanEarly, Full Season.
   { key: 'pyFullKalmanOff', name: 'KalmanOff', tab: 'fullseason-ko', local: 'data/fullseason-kalmanoff.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json',
@@ -29,7 +30,6 @@ const NBAP_ALL_MODELS = [
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json',
     kal: 'data/kalman-fullseason.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/kalman_state.json' },
 ];
-const NBAP_MODELS = NBAP_ALL_MODELS.filter(m => !m.hidden);
 
 let nbapData = null;
 let nbapRange = 'season';   // season | last7 | last14 | YYYYMM
@@ -95,7 +95,7 @@ function nbapMatch(g, keys) {
 }
 
 // With fewer than two comparable models shown there is nothing to match.
-function nbapHasGroups() { return nbapGroups(NBAP_MODELS).length > 0; }
+function nbapHasGroups(d) { return nbapGroups(d.models).length > 0; }
 
 function nbapGroups(models) {
   models = models.filter(m => !m.solo);
@@ -194,6 +194,7 @@ window.addEventListener('resize', () => {
 });
 
 function nbapTodayCard(d) {
+  d = Object.assign({}, d, { models: d.models.filter(m => !m.hidden) });   // visible models only
   nbapWasMobile = nbapMobile();
   const day = d.days.find(x => x.date === d.today);
   const groups = nbapGroups(d.models);
@@ -203,7 +204,7 @@ function nbapTodayCard(d) {
         <div style="color:${NBAP_DIM};font-size:11px">${nbapTime(g.start)}${g.final ? ` · final ${g.final[0]}-${g.final[1]}` : ''}</div></td>
       <td class="center">${g.line == null ? '—' : (g.line > 0 ? '+' : '') + g.line}</td>
       ${d.models.map(m => `<td style="padding:6px">${nbapModelCell(g, g.models[m.key], (g.official || {})[m.key])}</td>`).join('')}
-      ${nbapHasGroups() ? `<td style="padding:6px">${nbapMatchTags(g, groups)}</td>` : ''}</tr>`).join('');
+      ${nbapHasGroups(d) ? `<td style="padding:6px">${nbapMatchTags(g, groups)}</td>` : ''}</tr>`).join('');
   const mobBody = games.map(g => nbapMobGame(g,
     d.models.map(m => `<div style="display:grid;grid-template-columns:92px 1fr;gap:6px;padding:3px 0;font-size:13px">
         <div style="color:${NBAP_DIM}">${nbapEsc(m.name)}</div>
@@ -214,7 +215,7 @@ function nbapTodayCard(d) {
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Game</th><th class="center">Line (home)</th>
         ${d.models.map(m => `<th style="padding:4px 6px">${nbapEsc(m.name)}</th>`).join('')}
-        ${nbapHasGroups() ? '<th style="padding:4px 6px">Matching</th>' : ''}</tr></thead>
+        ${nbapHasGroups(d) ? '<th style="padding:4px 6px">Matching</th>' : ''}</tr></thead>
       <tbody>${rows || `<tr><td colspan="${3 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No games today.</td></tr>`}</tbody>
     </table></div>`;
   return `<div class="card card-games">
@@ -359,7 +360,7 @@ function nbapRecordsCard(d, kind) {
         <div style="${grid(3)}">${nbapMobStat('All plays', x.all)}${nbapMobStat('2u only', x.two)}${nbapMobStat('1u only', x.one)}</div>
         <div style="${grid(2)};margin-top:6px">${nbapMobStat('Favorites', x.fav)}${nbapMobStat('Underdogs', x.dog)}</div></div>`).join('')}
       <div style="color:${NBAP_DIM};font-size:12px;margin:-2px 0 10px">Vegas line MAE ${nbapMAECell(vegasMAE, false)}</div>
-      ${nbapHasGroups() ? `<div style="color:${NBAP_DIM};font-size:12px;margin:12px 0 6px">When they match (same side)</div>` : ''}
+      ${nbapHasGroups(d) ? `<div style="color:${NBAP_DIM};font-size:12px;margin:12px 0 6px">When they match (same side)</div>` : ''}
       ${mobGroups.map(x => `<div style="margin-bottom:10px"><div style="font-weight:700;margin-bottom:4px">${nbapEsc(x.name)}</div>
         <div style="${grid(2)}">${nbapMobStat('Both 2u', x.r.both2)}${nbapMobStat('Both 1u', x.r.both1)}${nbapMobStat('Split 1u/2u', x.r.split)}${nbapMobStat('Any', x.r.any)}</div></div>`).join('')}
     </div>`;
@@ -370,7 +371,7 @@ function nbapRecordsCard(d, kind) {
       <tbody>${modelRows}
         <tr style="border-top:1px solid #21262d"><td style="padding:6px;color:${NBAP_DIM}">Vegas line</td>
           <td class="center">${nbapMAECell(vegasMAE, false)}</td><td colspan="5"></td></tr></tbody></table></div>
-    <div style="overflow-x:auto;margin-top:14px${nbapHasGroups() ? '' : ';display:none'}"><table style="width:100%;border-collapse:collapse;font-size:12px">
+    <div style="overflow-x:auto;margin-top:14px${nbapHasGroups(d) ? '' : ';display:none'}"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">When they match (same side)</th>${th('Both 2u')}${th('Both 1u')}${th('Split 1u/2u')}${th('Any')}</tr></thead>
       <tbody>${groupRows}</tbody></table></div>`) + `
@@ -378,6 +379,7 @@ function nbapRecordsCard(d, kind) {
 }
 
 function nbapLogCard(d, kind) {
+  d = Object.assign({}, d, { models: d.models.filter(m => !m.hidden) });   // visible models only
   const official = kind === 'official';
   const groups = nbapGroups(d.models);
   const days = nbapDaysInRange(d, official ? d.offDays : d.days).slice().sort((a, b) => b.date.localeCompare(a.date));
@@ -400,14 +402,14 @@ function nbapLogCard(d, kind) {
       <td style="padding:4px 6px;color:${NBAP_DIM}">${nbapShortDate(date)}</td>
       <td style="padding:4px 6px">${nbapEsc(nbapNick(g.away))} @ ${nbapEsc(nbapNick(g.home))}</td>
       <td class="center">${g.final ? `${g.final[0]}-${g.final[1]}` : '<span style="color:' + NBAP_DIM + '">—</span>'}</td>
-      ${cells}${nbapHasGroups() ? `<td style="padding:4px 6px">${nbapMatchTags(g, groups)}</td>` : ''}</tr>`;
+      ${cells}${nbapHasGroups(d) ? `<td style="padding:4px 6px">${nbapMatchTags(g, groups)}</td>` : ''}</tr>`;
   }).join('');
   return `<div class="card card-games">
     <div class="card-title">${official ? '<span style="color:#f0883e">Official plays</span>' : 'Preview plays'} — log <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">${rows.length} games with a play</span></div>
     <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Date</th><th>Game</th><th class="center">Final</th>
-        ${d.models.map(m => `<th class="center">${nbapEsc(m.name)}</th>`).join('')}${nbapHasGroups() ? '<th>Matching</th>' : ''}</tr></thead>
+        ${d.models.map(m => `<th class="center">${nbapEsc(m.name)}</th>`).join('')}${nbapHasGroups(d) ? '<th>Matching</th>' : ''}</tr></thead>
       <tbody>${body || `<tr><td colspan="${4 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No plays in this range.</td></tr>`}</tbody>
     </table></div>
     <div class="date-nav" style="padding:8px 10px">
@@ -436,6 +438,7 @@ function nbapResetHF() {
 // Every play on the page, preview and official, one row per game, newest
 // first, today's pending plays included.
 function nbapHistoryCard(d) {
+  d = Object.assign({}, d, { models: d.models.filter(m => !m.hidden) });   // visible models only
   const f = nbapHF;
   const rows = {};
   const key = (dt, g) => dt + '|' + g.away + '|' + g.home;
@@ -507,7 +510,7 @@ function nbapHistoryCard(d) {
       <td style="padding:4px 6px">${nbapEsc(nbapNick(g.away))} @ ${nbapEsc(nbapNick(g.home))}
         <div style="color:${NBAP_DIM};font-size:11px">line ${g.line == null ? '—' : (g.line > 0 ? '+' : '') + g.line}</div></td>
       <td class="center">${g.final ? `${g.final[0]}-${g.final[1]}` : `<span style="color:${NBAP_DIM}">—</span>`}</td>
-      ${cells}${nbapHasGroups() ? `<td style="padding:4px 6px">${nbapMatchTags(g, groups)}</td>` : ''}</tr>`;
+      ${cells}${nbapHasGroups(d) ? `<td style="padding:4px 6px">${nbapMatchTags(g, groups)}</td>` : ''}</tr>`;
   }).join('');
 
   // phone layout: a header per day, one stacked block per game
@@ -558,7 +561,7 @@ function nbapHistoryCard(d) {
       ${sel('stake', [['all', 'All stakes'], ['2', '2u'], ['1', '1u']])}
       ${sel('result', [['all', 'All results'], ['W', 'Wins'], ['L', 'Losses'], ['P', 'Pushes'], ['pending', 'Pending']])}
       ${sel('side', [['all', 'Fav + dog'], ['fav', 'Favorites'], ['dog', 'Underdogs']])}
-      ${nbapHasGroups() ? sel('match', matchOpts) : ''}
+      ${nbapHasGroups(d) ? sel('match', matchOpts) : ''}
       ${active ? `<button onclick="nbapResetHF()" style="${st}">Clear filters</button>` : ''}
     </div>
     <div style="padding:0 10px 8px;font-size:12px">
@@ -570,7 +573,7 @@ function nbapHistoryCard(d) {
     : `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
       <thead><tr style="text-align:left;color:${NBAP_DIM};border-bottom:1px solid #30363d">
         <th style="padding:4px 6px">Date</th><th>Game</th><th class="center">Final</th>
-        ${d.models.map(m => `<th style="padding:4px 6px">${nbapEsc(m.name)}</th>`).join('')}${nbapHasGroups() ? '<th>Matching (preview)</th>' : ''}</tr></thead>
+        ${d.models.map(m => `<th style="padding:4px 6px">${nbapEsc(m.name)}</th>`).join('')}${nbapHasGroups(d) ? '<th>Matching (preview)</th>' : ''}</tr></thead>
       <tbody>${body || `<tr><td colspan="${4 + d.models.length}" style="padding:10px;color:${NBAP_DIM}">No plays match these filters.</td></tr>`}</tbody>
     </table></div>`}
     <div class="date-nav" style="padding:8px 10px">
@@ -593,6 +596,7 @@ function nbapSetTF(k, v, focusId) {
   if (focusId) { const f = document.getElementById(focusId); if (f) f.focus(); }
 }
 function nbapTeamCard(d) {
+  d = Object.assign({}, d, { models: d.models.filter(m => !m.hidden) });   // visible models only
   const f = nbapTF;
   const src = f.kind === 'official' ? (d.offDays || []) : f.kind === 'preview' ? d.days : d.combDays;
   const days = nbapDaysInRange(d, src);
@@ -824,7 +828,7 @@ function nbapBuild(histories, replay) {
   }));
   return {
     generated, today, through, anyOfficial, offDays, offStart, combDays,
-    models: NBAP_MODELS.map(m => ({ key: m.key, name: m.name, solo: !!m.solo })),
+    models: NBAP_MODELS.map(m => ({ key: m.key, name: m.name, solo: !!m.solo, hidden: !!m.hidden })),
     days,
   };
 }
