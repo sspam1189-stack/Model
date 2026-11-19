@@ -203,13 +203,42 @@ function nbasGroupRow(label, cols, extra) {
 function nbasSysRow(d, id, cols, tier, extra) {
   const c = NBAS_TIER_COLOR[tier] || NBAS_DIM;
   const lv = ((d.records || {})[id] || {}).live || {};
+  const win = n => {
+    const t = nbasWindow(d, id, n);
+    return (t.w + t.l + t.p)
+      ? `<span style="margin-left:10px">last ${n}d ${t.w}-${t.l}${t.p ? '-' + t.p : ''} `
+        + `<span class="${nbasUClass(t.u)}">${nbasUnits(t.u)}</span></span>` : '';
+  };
   const rec = (lv.n || lv.p)
     ? `<span style="color:${NBAS_DIM};font-size:11px;margin-left:8px">season ${lv.w}-${lv.l}${lv.p ? '-' + lv.p : ''} `
-      + `<span class="${nbasUClass(lv.units)}">${nbasUnits(lv.units)}</span></span>` : '';
+      + `<span class="${nbasUClass(lv.units)}">${nbasUnits(lv.units)}</span>${win(7)}${win(14)}</span>` : '';
   return `<tr><td colspan="${cols}" style="padding:8px 6px 2px 14px">`
     + `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;font-size:12px;`
     + `white-space:nowrap;background:${c}22;color:${c};cursor:pointer" onclick="nbasSetSystem('${id}')">`
     + `${esc(nbasName(d, id))}</span>${rec}${extra || ''}</td></tr>`;
+}
+// One system's graded live plays over the last n days, counted back from the
+// slate date (today's own games are not graded yet, so n days = the n before).
+function nbasWindow(d, id, n) {
+  const key = id + '|' + n;
+  const cache = d._win || (d._win = {});
+  if (cache[key]) return cache[key];
+  const end = String(d.date || '');
+  const t = { w: 0, l: 0, p: 0, u: 0 };
+  if (/^\d{8}$/.test(end)) {
+    const dt = new Date(Date.UTC(+end.slice(0, 4), +end.slice(4, 6) - 1, +end.slice(6, 8)));
+    dt.setUTCDate(dt.getUTCDate() - n);
+    const from = dt.toISOString().slice(0, 10).replace(/-/g, '');
+    (d.log || []).forEach(e => {
+      if (e.system !== id || e.no_play || e.backfilled) return;
+      const x = String(e.date);
+      if (x < from || x > end) return;
+      if (e.result === 'WIN') { t.w++; t.u += e.profit || 0; }
+      else if (e.result === 'LOSS') { t.l++; t.u += e.profit || 0; }
+      else if (e.result === 'PUSH') t.p++;
+    });
+  }
+  return (cache[key] = t);
 }
 function nbasSysOrder(d) {
   const o = {};
