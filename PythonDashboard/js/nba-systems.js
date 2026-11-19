@@ -66,6 +66,7 @@ function nbasRerender(focusId) {
     if (el) el.innerHTML = html;
   };
   set('nbas-today', nbasTodayCard(nbasData));
+  set('nbas-yday', nbasYesterdayCard(nbasData));
   set('nbas-record', nbasRecordTable(nbasData));
   set('nbas-log', nbasLogTable(nbasData));
   // The <select> that triggered this was just destroyed and rebuilt, so hand
@@ -182,6 +183,7 @@ async function renderNBASystems() {
   // panels instead of the whole page.
   el.innerHTML = nbasBanner(data)
     + '<div id="nbas-today">' + nbasTodayCard(data) + '</div>'
+    + '<div id="nbas-yday">' + nbasYesterdayCard(data) + '</div>'
     + '<div id="nbas-record">' + nbasRecordTable(data) + '</div>'
     + nbasDefinitions(data)
     + '<div id="nbas-log">' + nbasLogTable(data) + '</div>';
@@ -307,6 +309,71 @@ function nbasTodayCard(d) {
       + `price is the frozen spread-to-ML conversion.</div>`;
   }
   return h + '</div>';
+}
+
+// ---------------------------------------------------------------------------
+// Yesterday's card: the most recent day before today's slate, with results.
+function nbasYesterdayCard(d) {
+  const live = (d.log || []).filter(e => !e.no_play && !e.backfilled && /^\d{8}$/.test(String(e.date))
+    && String(e.date) < String(d.date || '99999999'));
+  if (!live.length) return '';
+  const day = live.map(e => String(e.date)).sort().pop();
+  const plays = live.filter(e => String(e.date) === day
+    && (nbasFilters.system === 'all' || e.system === nbasFilters.system));
+  if (!plays.length) return '';
+  const tally = list => {
+    let w = 0, l = 0, p = 0, u = 0, pend = 0;
+    list.forEach(e => {
+      if (e.result === 'WIN') { w++; u += e.profit || 0; }
+      else if (e.result === 'LOSS') { l++; u += e.profit || 0; }
+      else if (e.result === 'PUSH') p++;
+      else pend++;
+    });
+    return { w, l, p, u, pend, n: w + l + p };
+  };
+  const recTxt = t => (t.n || t.pend)
+    ? `${t.w}-${t.l}${t.p ? '-' + t.p : ''} <span class="${nbasUClass(t.u)}">${nbasUnits(t.u)}</span>`
+      + (t.pend ? ` <span style="color:${NBAS_DIM}">· ${t.pend} pending</span>` : '') : '—';
+  const carded = plays.filter(e => e.status === 'card');
+  let h = `<div class="card card-games"><div class="card-title">Yesterday's card — ${esc(nbasDate(day))}
+      <span style="font-weight:400;font-size:12px;margin-left:8px">${recTxt(tally(carded))}</span></div>`
+    + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    + `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
+    + '<th style="padding:4px 6px">Game</th><th>Play</th><th>Price</th><th>System</th>'
+    + '<th class="center">Result</th><th class="center">P/L</th></tr></thead><tbody>';
+  const SECTION = { card: 'CARD', shadow: 'SHADOW — graded, never bet' };
+  NBAS_GROUPS.forEach(([g, label]) => {
+    const list = plays.filter(e => nbasGroup(e.market) === g);
+    if (!list.length) return;
+    const gc = list.filter(e => e.status === 'card');
+    h += nbasGroupRow(label, 6, gc.length
+      ? `<span style="font-weight:400;font-size:11px;color:${NBAS_DIM}"> · ${recTxt(tally(gc))}</span>` : '');
+    ['card', 'shadow'].forEach(st => {
+      const rows = list.filter(e => (e.status === 'card') === (st === 'card'))
+        .sort((a, b) => String(a.game).localeCompare(String(b.game)) || String(a.system).localeCompare(String(b.system)));
+      if (!rows.length) return;
+      h += `<tr><td colspan="6" style="padding:7px 6px 3px;font-size:11px;font-weight:600;`
+        + `color:${st === 'card' ? NBAS_GREEN : NBAS_DIM}">${esc(SECTION[st])}</td></tr>`;
+      rows.forEach(e => {
+        const c = NBAS_TIER_COLOR[e.tier] || NBAS_DIM;
+        const res = e.result === 'WIN' ? '<span class="win-text">WIN</span>'
+          : e.result === 'LOSS' ? '<span class="loss-text">LOSS</span>'
+            : e.result === 'PUSH' ? 'PUSH' : `<span style="color:${NBAS_DIM}">pending</span>`;
+        const prof = st !== 'card' ? `<span style="color:${NBAS_DIM}">—</span>`
+          : (e.result === 'WIN' || e.result === 'LOSS')
+            ? `<span class="${nbasUClass(e.profit)}">${nbasUnits(e.profit)}</span>` : '—';
+        h += `<tr style="border-top:1px solid #161b22${st !== 'card' ? ';opacity:.68' : ''}">`
+          + `<td style="padding:3px 6px">${esc(e.game || '')}</td>`
+          + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(e.play || '')}</td>`
+          + `<td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasPrice(e.price))}</td>`
+          + `<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;`
+          + `white-space:nowrap;background:${c}22;color:${c};cursor:pointer" `
+          + `onclick="nbasSetSystem('${e.system}')">${esc(nbasName(d, e.system))}</span></td>`
+          + `<td class="center">${res}</td><td class="center">${prof}</td></tr>`;
+      });
+    });
+  });
+  return h + '</tbody></table></div></div>';
 }
 
 // ---------------------------------------------------------------------------
