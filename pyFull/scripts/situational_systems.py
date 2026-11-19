@@ -85,6 +85,8 @@ PROMOTION_MIN_PLAYS = 25   # live plays before a shadow system may be promoted
 # 2026-11-17, user decision: elite_dog_ml and elite_dog_ats moved CARD ->
 # SHADOW. Still evaluated, logged and graded every day; no longer bet. Plays
 # already logged as carded keep that status in the ledger.
+# 2026-11-19, user decision: that was a mistake -- both are CARD again. Their
+# six plays logged as shadow in between (Nov 17-18) were re-marked carded.
 
 # --- frozen spread -> moneyline conversion (2025-26 logistic fit) -----------
 # P(win) = sigmoid(ML_FIT_A + ML_FIT_B * -spread), then half the hold per side.
@@ -136,7 +138,7 @@ def _rematch_dog(r):
 SYSTEMS = [
     # ---------------------------------------------------------------- CANDIDATES
     {
-        "id": "elite_dog_ml", "tier": "candidate", "status": SHADOW, "market": "h2h", "side": "TEAM",
+        "id": "elite_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ML",
         "name": (
             "Hot dog ML"),
@@ -212,7 +214,7 @@ SYSTEMS = [
         "test": _blowout_dog,
     },
     {
-        "id": "elite_dog_ats", "tier": "candidate", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "elite_dog_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ATS",
         "name": (
             "Hot dog ATS"),
