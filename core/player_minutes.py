@@ -80,3 +80,41 @@ def apply_median_minutes(player_adv, date):
             p = {**p, "min": m}
         out[name] = p
     return out, n
+
+
+def _tier(mpg):
+    # same cut-offs as sources/injuries._classify_tier
+    return "star" if mpg >= 32 else "starter" if mpg >= 28 else "bench" if mpg >= 18 else "deep_bench"
+
+
+def _plain(name):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", str(name)) if not unicodedata.combining(c)).lower().strip()
+
+
+def retier_report(report, date):
+    """Copy of the injury report with each player's mpg and tier (star / starter
+    / bench / deep_bench) taken from his median minutes instead of his season
+    average, so the label matches the minutes the adjustment uses. Players
+    without enough games keep what they had. Returns (report, number relabelled)."""
+    if not report:
+        return report, 0
+    med = median_minutes(date)
+    if not med:
+        return report, 0
+    plain = {_plain(k): v for k, v in med.items()}
+    out, n = {}, 0
+    for team, players in report.items():
+        rows = []
+        for p in players or []:
+            m = med.get(p.get("player")) if isinstance(p, dict) else None
+            if m is None and isinstance(p, dict):
+                m = plain.get(_plain(p.get("player")))
+            if m is not None:
+                t = _tier(m)
+                if t != p.get("tier"):
+                    n += 1
+                p = {**p, "mpg": m, "tier": t}
+            rows.append(p)
+        out[team] = rows
+    return out, n

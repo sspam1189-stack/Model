@@ -831,6 +831,12 @@ def _main(subject_label, date):
         from core.player_minutes import apply_median_minutes
         player_advanced, _n_med = apply_median_minutes(player_advanced, date)
         print(f"  [lineup] Median minutes (last 10 games) applied to {_n_med} player(s)")
+        # Same minutes for the star / starter / bench label in the injury note.
+        from core.player_minutes import retier_report
+        _rt_report, _n_rt = retier_report(injury_data.get("report", {}), date)
+        injury_data = {**injury_data, "report": _rt_report}
+        if _n_rt:
+            print(f"  [lineup] {_n_rt} injury label(s) changed by median minutes")
     lineup_stats = adjust_team_stats(
         stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
         player_advanced, odds,
