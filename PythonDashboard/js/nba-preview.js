@@ -13,19 +13,20 @@
 const NBAP_SEASON_START = '20261023';
 const NBAP_FIRE = 0.58, NBAP_ELITE = 0.65, NBAP_MAX_LINE = 18;
 const NBAP_MODELS = [
-  { key: 'pyFull', name: 'Full Season', tab: 'fullseason', local: 'data/fullseason.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json',
-    kal: 'data/kalman-fullseason.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/kalman_state.json' },
+  // Display order (user, 2026-11-19): KalmanOff, Ratings, KalmanEarly, Full Season.
   { key: 'pyFullKalmanOff', name: 'KalmanOff', tab: 'fullseason-ko', local: 'data/fullseason-kalmanoff.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/history.json',
     kal: 'data/kalman-kalmanoff.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanOff/data/kalman_state.json' },
-  { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json',
-    kal: 'data/kalman-kalmanearly.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/kalman_state.json' },
   // solo: shown and recorded on its own, never part of the "models agree" groups.
   { key: 'pyFullRatings', name: 'Ratings', tab: 'fullseason-ratings', solo: true, local: 'data/fullseason-ratings.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/history.json',
     kal: 'data/kalman-ratings.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/kalman_state.json' },
+  { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json',
+    kal: 'data/kalman-kalmanearly.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/kalman_state.json' },
+  { key: 'pyFull', name: 'Full Season', tab: 'fullseason', local: 'data/fullseason.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json',
+    kal: 'data/kalman-fullseason.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/kalman_state.json' },
 ];
 
 let nbapData = null;
