@@ -203,19 +203,39 @@ function nbasGroupRow(label, cols, extra) {
 function nbasSysRow(d, id, cols, tier, extra) {
   const c = NBAS_TIER_COLOR[tier] || NBAS_DIM;
   const lv = ((d.records || {})[id] || {}).live || {};
+  const phone = nbasPhone();
   const win = n => {
     const t = nbasWindow(d, id, n);
     return (t.w + t.l + t.p)
-      ? `<span style="margin-left:10px">last ${n}d ${t.w}-${t.l}${t.p ? '-' + t.p : ''} `
+      ? `<span style="white-space:nowrap${phone ? '' : ';margin-left:10px'}">last ${n}d ${t.w}-${t.l}${t.p ? '-' + t.p : ''} `
         + `<span class="${nbasUClass(t.u)}">${nbasUnits(t.u)}</span></span>` : '';
   };
-  const rec = (lv.n || lv.p)
-    ? `<span style="color:${NBAS_DIM};font-size:11px;margin-left:8px">season ${lv.w}-${lv.l}${lv.p ? '-' + lv.p : ''} `
-      + `<span class="${nbasUClass(lv.units)}">${nbasUnits(lv.units)}</span>${win(7)}${win(14)}</span>` : '';
-  return `<tr><td colspan="${cols}" style="padding:8px 6px 2px 14px">`
-    + `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;font-size:12px;`
+  const season = (lv.n || lv.p)
+    ? `<span style="white-space:nowrap">season ${lv.w}-${lv.l}${lv.p ? '-' + lv.p : ''} `
+      + `<span class="${nbasUClass(lv.units)}">${nbasUnits(lv.units)}</span></span>` : '';
+  const chip = `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;font-size:12px;`
     + `white-space:nowrap;background:${c}22;color:${c};cursor:pointer" onclick="nbasSetSystem('${id}')">`
-    + `${esc(nbasName(d, id))}</span>${rec}${extra || ''}</td></tr>`;
+    + `${esc(nbasName(d, id))}</span>`;
+  if (phone) {
+    // phone: name on its own line, the records wrap underneath it
+    return `<tr><td colspan="${cols}" style="padding:10px 4px 3px 8px">${chip}`
+      + `<div style="display:flex;flex-wrap:wrap;gap:1px 12px;margin-top:3px;font-size:11px;color:${NBAS_DIM}">`
+      + `${season}${season ? win(7) + win(14) : ''}${extra || ''}</div></td></tr>`;
+  }
+  const rec = season
+    ? `<span style="color:${NBAS_DIM};font-size:11px;margin-left:8px">${season}${win(7)}${win(14)}</span>` : '';
+  return `<tr><td colspan="${cols}" style="padding:8px 6px 2px 14px">${chip}${rec}${extra || ''}</td></tr>`;
+}
+// Phone width: the cards stack each play on two lines instead of using columns.
+function nbasPhone() { return window.innerWidth < 700; }
+const NBAS_TBL = 'width:100%;border-collapse:collapse;font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%';
+// One play on a phone: the play and what sits at the right edge on the first
+// line, the game (and anything else) dimmed on the second.
+function nbasPhonePlay(cols, main, right, sub, dim) {
+  return `<tr style="border-top:1px solid #161b22${dim ? ';opacity:.68' : ''}"><td colspan="${cols}" style="padding:5px 4px 5px 14px">`
+    + `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">`
+    + `<span style="font-weight:600">${main}</span><span style="white-space:nowrap">${right}</span></div>`
+    + `<div style="color:${NBAS_DIM};font-size:11px;margin-top:1px">${sub}</div></td></tr>`;
 }
 // One system's graded live plays over the last n days, counted back from the
 // slate date (today's own games are not graded yet, so n days = the n before).
@@ -307,10 +327,11 @@ function nbasTodayCard(d) {
   }
 
   let h = `<div class="card card-games"><div class="card-title">${title}</div>`;
-  h += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
-    + `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
+  const phone = nbasPhone();
+  h += `<div style="overflow-x:auto"><table style="${NBAS_TBL}">`
+    + (phone ? '<tbody>' : `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
     + '<th style="padding:4px 6px 4px 22px">CT</th><th>Game</th><th>Play</th>'
-    + '<th>Price</th></tr></thead><tbody>';
+    + '<th>Price</th></tr></thead><tbody>');
 
   // Sectioned by what gets ACTED ON, not by tier: the card is the thing you
   // bet, and interleaving it with rows kept only for the record is how a
@@ -351,6 +372,11 @@ function nbasTodayCard(d) {
     // real price falls back to the frozen conversion, and is marked.
     const conv = (p.market === 'h2h' && (p.book_price === null || p.book_price === undefined))
       ? `<span style="color:${NBAS_AMBER}" title="frozen spread-to-ML conversion, not a book quote">*</span>` : '';
+    if (phone) {
+      h += nbasPhonePlay(4, esc(p.play), `<span style="color:${NBAS_DIM}">${esc(nbasPrice(p.price))}${conv}</span>`,
+        `${esc(nbasCtTime(p.startTimeUTC))} · ${esc(p.game)}`, p.status !== 'card');
+      continue;
+    }
     h += `<tr style="border-top:1px solid #161b22${dim}">`
       + `<td style="padding:3px 6px 3px 22px;color:${NBAS_DIM}">${esc(nbasCtTime(p.startTimeUTC))}</td>`
       + `<td style="padding:3px 6px">${esc(p.game)}</td>`
@@ -392,10 +418,11 @@ function nbasYesterdayCard(d) {
   const carded = plays.filter(e => e.status === 'card');
   let h = `<div class="card card-games"><div class="card-title">Yesterday's card — ${esc(nbasDate(day))}
       <span style="font-weight:400;font-size:12px;margin-left:8px">${recTxt(tally(carded))}</span></div>`
-    + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
-    + `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
+    + `<div style="overflow-x:auto"><table style="${NBAS_TBL}">`
+    + (nbasPhone() ? '<tbody>' : `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
     + '<th style="padding:4px 6px 4px 22px">Game</th><th>Play</th><th>Price</th>'
-    + '<th class="center">Result</th><th class="center">P/L</th></tr></thead><tbody>';
+    + '<th class="center">Result</th><th class="center">P/L</th></tr></thead><tbody>');
+  const phone = nbasPhone();
   const ord = nbasSysOrder(d);
   const SECTION = { card: 'CARD', shadow: 'SHADOW — graded, never bet' };
   NBAS_GROUPS.forEach(([g, label]) => {
@@ -416,7 +443,7 @@ function nbasYesterdayCard(d) {
           sys = e.system;
           const mine = rows.filter(x => x.system === sys);
           h += nbasSysRow(d, sys, 5, e.tier, st === 'card'
-            ? `<span style="font-size:11px;color:${NBAS_DIM};margin-left:10px">yesterday ${recTxt(tally(mine))}</span>` : '');
+            ? `<span style="font-size:11px;color:${NBAS_DIM};white-space:nowrap${phone ? '' : ';margin-left:10px'}">yesterday ${recTxt(tally(mine))}</span>` : '');
         }
         const res = e.result === 'WIN' ? '<span class="win-text">WIN</span>'
           : e.result === 'LOSS' ? '<span class="loss-text">LOSS</span>'
@@ -424,6 +451,11 @@ function nbasYesterdayCard(d) {
         const prof = st !== 'card' ? `<span style="color:${NBAS_DIM}">—</span>`
           : (e.result === 'WIN' || e.result === 'LOSS')
             ? `<span class="${nbasUClass(e.profit)}">${nbasUnits(e.profit)}</span>` : '—';
+        if (phone) {
+          h += nbasPhonePlay(5, esc(e.play || ''), `${res}${st === 'card' ? ' ' + prof : ''}`,
+            `${esc(e.game || '')} · ${esc(nbasPrice(e.price))}`, st !== 'card');
+          return;
+        }
         h += `<tr style="border-top:1px solid #161b22${st !== 'card' ? ';opacity:.68' : ''}">`
           + `<td style="padding:3px 6px 3px 22px">${esc(e.game || '')}</td>`
           + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(e.play || '')}</td>`
@@ -457,6 +489,23 @@ function nbasRecordTable(d) {
     const stat = s.status === 'card'
       ? `<span style="color:${NBAS_GREEN};font-weight:600;font-size:11px">CARD</span>`
       : `<span style="color:${NBAS_DIM};font-size:11px">shadow</span>`;
+    if (nbasPhone()) {
+      const mechP = nbasShowMechanism === s.id
+        ? `<div style="margin-top:5px;font-size:11px;color:${NBAS_DIM};line-height:1.5">${esc(s.mechanism)}</div>` : '';
+      return `<tr style="border-top:1px solid #161b22${on ? ';background:rgba(124,92,255,0.15)' : ''}">
+        <td colspan="10" style="padding:7px 4px 7px 8px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+            <span onclick="nbasSetSystem('${s.id}')" style="cursor:pointer;font-weight:600">${on ? '▸ ' : ''}
+              <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${c};margin-right:6px"></span>${esc(s.name || s.id)}</span>
+            ${stat}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:1px 12px;margin-top:3px;font-size:12px">
+            <span style="white-space:nowrap">Live ${liveRec}
+              <span class="${nbasUClass(live.units)}">${live.n || live.p ? nbasUnits(live.units) : ''}</span></span>
+            ${live.pending ? `<span style="color:${NBAS_DIM};white-space:nowrap">${live.pending} pending</span>` : ''}
+            <span style="color:${NBAS_DIM};white-space:nowrap">2025-26 ${b.w}-${b.l} · ${bUnits}${conv} · ${nbasPct(b.roi)}</span>
+            <span onclick="nbasToggleMech('${s.id}')" style="cursor:pointer;color:${NBAS_DIM};white-space:nowrap">
+              ${nbasShowMechanism === s.id ? '▾' : '▸'} why</span></div>${mechP}</td></tr>`;
+    }
     return `<tr style="cursor:pointer${on ? ';background:rgba(124,92,255,0.15)' : ''}">
         <td onclick="nbasSetSystem('${s.id}')">${on ? '▸ ' : ''}
           <span style="display:inline-block;width:8px;height:8px;border-radius:2px;
@@ -501,8 +550,8 @@ function nbasRecordTable(d) {
           style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;
                  padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${tierSel}</select>
       </div>
-      <div style="overflow-x:auto"><table class="data">
-        <thead><tr>
+      <div style="overflow-x:auto"><table class="data" style="-webkit-text-size-adjust:100%;text-size-adjust:100%">
+        <thead${nbasPhone() ? ' style="display:none"' : ''}><tr>
           <th>System</th><th>Status</th><th>Tier</th><th>Market</th>
           <th class="center">Live W-L</th><th class="center">Live units</th>
           <th class="center">Pending</th>
@@ -633,6 +682,12 @@ function nbasLogTable(d) {
     const bp = (e.book_price !== null && e.book_price !== undefined
       && e.market === 'h2h' && e.book_price !== e.price)
       ? `<span style="color:${NBAS_DIM}" title="real book price">(${esc(nbasPrice(e.book_price))})</span>` : '';
+    if (nbasPhone()) {
+      return nbasPhonePlay(7, esc(e.play || ''), `${res} ${prof}`,
+        `${esc(nbasDate(e.date))}${e.backfilled ? ' seed' : ''} · ${esc(e.game || '')} · ${esc(nbasPrice(e.price))}<br>`
+        + `<span style="color:${c}">${esc(nbasName(d, e.system))}</span> ${e.status === 'card' ? 'CARD' : 'SHADOW'}`,
+        e.backfilled || e.status !== 'card');
+    }
     return `<tr style="border-top:1px solid #161b22${e.backfilled || e.status !== 'card' ? ';opacity:.6' : ''}">
       <td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasDate(e.date))}
         ${e.backfilled ? `<span style="font-size:10px;color:${NBAS_AMBER}" title="replayed 2025-26 backtest, held out of the live record">seed</span>` : ''}</td>
@@ -679,8 +734,8 @@ function nbasLogTable(d) {
           ${seedSum.w}-${seedSum.l}${seedSum.p ? '-' + seedSum.p : ''} ${nbasUnits(seedSum.u)}
           · ROI ${nbasPct(seedSum.roi)}</span>` : ''}
       </div>
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
-        <thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">
+      <div style="overflow-x:auto"><table style="${NBAS_TBL}">
+        <thead${nbasPhone() ? ' style="display:none"' : ''}><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">
           <th style="padding:4px 6px">Date</th><th>Game</th><th>Play</th>
           <th>Price</th><th>System</th>
           <th class="center">Result</th><th class="center">P/L</th>
