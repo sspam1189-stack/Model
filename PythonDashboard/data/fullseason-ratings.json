@@ -19439,7 +19439,7 @@
             "side0": "home",
             "at0": "2026-11-21T09:02:55-06:00",
             "lineLast": -11.5,
-            "atLast": "2026-11-21T10:47:29-06:00"
+            "atLast": "2026-11-21T13:17:46-06:00"
           }
         },
         {
@@ -19480,16 +19480,16 @@
             "dTS": -0.029100000000000015,
             "dTO": -0.013800000000000007,
             "dORR": 0.04369999999999996,
-            "dDEF": 0.3500000000000085,
+            "dDEF": 0.36999999999999034,
             "avgPace": 99.34
           },
           "_marginFeatures": {
             "dTS": -0.0289,
             "dTO": 0.0137,
             "dORR": 0.0434,
-            "dDEF": 0.3477,
+            "dDEF": 0.3676,
             "hca": 1.0,
-            "_baseline": -2.0563,
+            "_baseline": -2.0365,
             "_pace": 0.9934
           },
           "kalmanAdj": {
@@ -19516,7 +19516,7 @@
             "flagSide": "away",
             "flagAt": "2026-11-21T09:02:55-06:00",
             "lineLast": -3.5,
-            "atLast": "2026-11-21T10:47:29-06:00"
+            "atLast": "2026-11-21T13:17:46-06:00"
           }
         },
         {
@@ -19526,12 +19526,12 @@
           "total": 230.5,
           "startTimeUTC": "2026-11-22T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 176,
-          "home_ml": -210,
+          "away_ml": 160,
+          "home_ml": -190,
           "over_ml": -110,
           "under_ml": -110,
-          "spread_price_away": -110,
-          "spread_price_home": -110,
+          "spread_price_away": -120,
+          "spread_price_home": -102,
           "aS": 111.7,
           "hS": 117.7,
           "pT": 229.4,
@@ -19557,7 +19557,7 @@
             "dTS": -0.01869999999999994,
             "dTO": -0.008899999999999963,
             "dORR": 0.0479,
-            "dDEF": 2.430000000000007,
+            "dDEF": 2.4299999999999926,
             "avgPace": 101.795
           },
           "_marginFeatures": {
@@ -19588,7 +19588,7 @@
             "side0": "home",
             "at0": "2026-11-21T09:02:55-06:00",
             "lineLast": -5.5,
-            "atLast": "2026-11-21T10:47:29-06:00"
+            "atLast": "2026-11-21T13:17:46-06:00"
           }
         },
         {
@@ -19604,22 +19604,22 @@
           "under_ml": -110,
           "spread_price_away": -104,
           "spread_price_home": -118,
-          "aS": 107.6,
+          "aS": 113.8,
           "hS": 115.0,
-          "pT": 222.6,
-          "margin": 1.9,
-          "sDiff": 1.9,
-          "tDiff": -6.1,
-          "sPick": "PASS",
-          "sConf": "low",
+          "pT": 228.8,
+          "margin": -4.3,
+          "sDiff": 4.3,
+          "tDiff": -3.1,
+          "sPick": "Memphis Grizzlies +5.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Jerami Grant (out/bench), Cameron Boozer (out/starter) | Home: Jaylen Clark (out/bench)",
-          "pHomeCover": 0.551,
-          "pAwayCover": 0.449,
-          "pOver": 0.347,
-          "pUnder": 0.653,
-          "pCover": null,
+          "pHomeCover": 0.386,
+          "pAwayCover": 0.614,
+          "pOver": 0.421,
+          "pUnder": 0.579,
+          "pCover": 0.614,
           "pOU": null,
           "minGP": 16,
           "pCal": 0.5,
@@ -19638,7 +19638,7 @@
             "dORR": -0.0104,
             "dDEF": 5.5355,
             "hca": 1.0,
-            "_baseline": 0.4604,
+            "_baseline": -5.6583,
             "_pace": 1.0232
           },
           "kalmanAdj": {
@@ -19650,6 +19650,7 @@
           "h2hGames": 0,
           "h2hRecord": null,
           "h2hNote": null,
+          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- 8.9 \u00b7 Over 56.3% \u00b7 Under 43.8% \u00b7 O/U +/- 2.3",
             "home": "ATS +/- 7.2 \u00b7 Over 37.5% \u00b7 Under 62.5% \u00b7 O/U +/- -7.3"
@@ -19660,37 +19661,41 @@
             "side0": "home",
             "at0": "2026-11-21T09:02:55-06:00",
             "lineLast": -5.5,
-            "atLast": "2026-11-21T10:47:29-06:00"
+            "atLast": "2026-11-21T13:17:46-06:00",
+            "flagLine": -5.5,
+            "flagEdge": -4.3,
+            "flagSide": "away",
+            "flagAt": "2026-11-21T13:17:46-06:00"
           }
         },
         {
           "away": "New Orleans Pelicans",
           "home": "San Antonio Spurs",
-          "line": -17.5,
-          "total": 228.5,
+          "line": -18.5,
+          "total": 227.5,
           "startTimeUTC": "2026-11-22T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 870,
-          "home_ml": -1500,
-          "over_ml": -110,
-          "under_ml": -110,
-          "spread_price_away": -105,
-          "spread_price_home": -115,
-          "aS": 107.5,
+          "away_ml": 980,
+          "home_ml": -1800,
+          "over_ml": -115,
+          "under_ml": -105,
+          "spread_price_away": -108,
+          "spread_price_home": -112,
+          "aS": 106.8,
           "hS": 124.3,
-          "pT": 231.8,
-          "margin": -0.7,
-          "sDiff": 0.7,
-          "tDiff": -0.3,
+          "pT": 231.1,
+          "margin": -1.0,
+          "sDiff": 1.0,
+          "tDiff": 0.3,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Home: Dylan Harper (out/starter)",
-          "pHomeCover": 0.481,
-          "pAwayCover": 0.519,
-          "pOver": 0.492,
-          "pUnder": 0.508,
+          "pHomeCover": 0.473,
+          "pAwayCover": 0.527,
+          "pOver": 0.508,
+          "pUnder": 0.492,
           "pCover": null,
           "pOU": null,
           "minGP": 16,
@@ -19710,7 +19715,7 @@
             "dORR": 0.0344,
             "dDEF": 9.8951,
             "hca": 1.0,
-            "_baseline": 5.5167,
+            "_baseline": 6.2652,
             "_pace": 1.0254
           },
           "kalmanAdj": {
@@ -19738,8 +19743,8 @@
             "edge0": -0.7,
             "side0": "away",
             "at0": "2026-11-21T09:02:55-06:00",
-            "lineLast": -17.5,
-            "atLast": "2026-11-21T10:47:29-06:00"
+            "lineLast": -18.5,
+            "atLast": "2026-11-21T13:17:46-06:00"
           }
         },
         {
@@ -19749,12 +19754,12 @@
           "total": 217.5,
           "startTimeUTC": "2026-11-22T03:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -720,
-          "home_ml": 520,
-          "over_ml": -104,
-          "under_ml": -118,
-          "spread_price_away": -106,
-          "spread_price_home": -114,
+          "away_ml": -770,
+          "home_ml": 560,
+          "over_ml": -115,
+          "under_ml": -105,
+          "spread_price_away": -108,
+          "spread_price_home": -112,
           "aS": 119.8,
           "hS": 101.6,
           "pT": 221.4,
@@ -19789,7 +19794,7 @@
             "dORR": -0.0334,
             "dDEF": -9.9569,
             "hca": 1.0,
-            "_baseline": -9.6486,
+            "_baseline": -9.6585,
             "_pace": 0.9947
           },
           "kalmanAdj": {
@@ -19823,12 +19828,12 @@
             "flagSide": "away",
             "flagAt": "2026-11-21T09:02:55-06:00",
             "lineLast": 13.5,
-            "atLast": "2026-11-21T10:47:29-06:00"
+            "atLast": "2026-11-21T13:17:46-06:00"
           }
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         11-10-0   (52.4%)   [graded 21]\n  Elite:       11-10-0   (52.4%)   [graded 21]\n\nFAV/DOG (Spread)\n  Favorites:   4-4-0   (50.0%)   [graded 8]\n  Underdogs:   7-6-0   (53.8%)   [graded 13]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/21/2026, 10:47:29 AM"
+      "ranAt": "11/21/2026, 01:17:46 PM"
     }
   ],
   "weights": {

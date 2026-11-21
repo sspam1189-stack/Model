@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-21T16:46:04Z",
+ "generated": "2026-11-21T19:16:20Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -34643,8 +34643,8 @@
    "away": "Boston Celtics",
    "home": "Sacramento Kings",
    "line": 217.5,
-   "price": -118,
-   "book_price": -118,
+   "price": -105,
+   "book_price": -105,
    "stake": 1.0,
    "status": "card",
    "result": "pending",
@@ -34672,6 +34672,27 @@
    "profit": 0.0,
    "book_profit": 0.0,
    "startTimeUTC": "2026-11-22T00:40:00.000+00:00"
+  },
+  {
+   "date": "20261121",
+   "system": "fade_spread_move",
+   "tier": "watch",
+   "market": "spread",
+   "side": "TEAM",
+   "play": "New Orleans Pelicans +18.5",
+   "team": "New Orleans Pelicans",
+   "game": "New Orleans Pelicans @ San Antonio Spurs",
+   "away": "New Orleans Pelicans",
+   "home": "San Antonio Spurs",
+   "line": 18.5,
+   "price": -108,
+   "book_price": -108,
+   "stake": 1.0,
+   "status": "card",
+   "result": "pending",
+   "profit": 0.0,
+   "book_profit": 0.0,
+   "startTimeUTC": "2026-11-22T01:10:00.000+00:00"
   }
  ]
 }
