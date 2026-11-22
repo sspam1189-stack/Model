@@ -220,7 +220,11 @@ UNDER_ONLY_MARKETS = {"threes", "rebounds", "assists"}
 #   projection leans on recent games, so its lowest numbers (the picks) are
 #   cold streaks; when it strays from a player's season average the result
 #   lands on the average. Higher stated probability has meant worse results.
-SHADOW_MARKETS = {"threes": "2026-11-17"}
+#
+# 2026-11-22 (user): threes are no longer shadowed -- they count as plays again,
+# and the picks that were tagged shadow (11-17 to 11-22) were folded back into
+# the threes record.
+SHADOW_MARKETS = {}
 
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}
 
