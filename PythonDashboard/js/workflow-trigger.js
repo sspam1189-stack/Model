@@ -13,7 +13,7 @@
   // all three Run buttons. Real runs finish in 5-19 minutes.
   const STALE_RUN_MS = 2 * 60 * 60 * 1000;
   // Buttons that stay unclickable. Remove a key to turn its button back on.
-  const DISABLED_WORKFLOWS = new Set(["mlb"]);
+  const DISABLED_WORKFLOWS = new Set(["mlb", "wnba", "nfl"]);   // wnba + nfl disabled 2026-11-22 (user)
 
   // Last data file each workflow updates (the one written last in the serial
   // commit chain). Polled after the workflow completes to wait until Pages
