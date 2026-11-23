@@ -194,7 +194,7 @@ window.addEventListener('resize', () => {
 });
 
 function nbapTodayCard(d) {
-  d = Object.assign({}, d, { models: d.models.filter(m => !m.hidden) });   // visible models only
+  // all four models are shown here (user, 2026-11-23); the logs and team table stay on the visible ones
   nbapWasMobile = nbapMobile();
   const day = d.days.find(x => x.date === d.today);
   const groups = nbapGroups(d.models);
