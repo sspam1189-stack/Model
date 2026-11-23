@@ -19704,8 +19704,8 @@
           "total": 222.5,
           "startTimeUTC": "2026-11-24T00:40:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 370,
-          "home_ml": -480,
+          "away_ml": 360,
+          "home_ml": -460,
           "over_ml": -112,
           "under_ml": -108,
           "spread_price_away": -110,
@@ -19807,14 +19807,14 @@
           "marginStd": 18.3,
           "_features": {
             "dTS": 0.028325000000000045,
-            "dTO": 0.9157499999999998,
+            "dTO": 0.9198,
             "dORR": -0.06325,
             "dDEF": -1.5625,
             "avgPace": 100.11206250000001
           },
           "_marginFeatures": {
             "dTS": 0.0284,
-            "dTO": -0.9168,
+            "dTO": -0.9208,
             "dORR": -0.0633,
             "dDEF": -4.5976,
             "hca": 1.0,
@@ -19835,7 +19835,7 @@
               "OFF": -2.09,
               "DEF": 1.955,
               "TS": -0.013,
-              "TO": -0.9555,
+              "TO": -0.961,
               "ORR": -0.0073
             },
             "home": {
@@ -20059,32 +20059,32 @@
         {
           "away": "San Antonio Spurs",
           "home": "Sacramento Kings",
-          "line": 10.5,
+          "line": 13.5,
           "total": 224.5,
           "startTimeUTC": "2026-11-24T03:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -480,
-          "home_ml": 370,
+          "away_ml": -620,
+          "home_ml": 460,
           "over_ml": -108,
           "under_ml": -112,
-          "spread_price_away": -115,
-          "spread_price_home": -105,
+          "spread_price_away": -105,
+          "spread_price_home": -115,
           "aS": 123.8,
           "hS": 107.0,
           "pT": 230.8,
-          "margin": -6.3,
-          "sDiff": 6.3,
+          "margin": -3.3,
+          "sDiff": 3.3,
           "tDiff": -3.5,
-          "sPick": "San Antonio Spurs -10.5",
-          "sConf": "elite",
+          "sPick": "PASS",
+          "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Dylan Harper (out/starter)",
-          "pHomeCover": 0.368,
-          "pAwayCover": 0.632,
+          "pHomeCover": 0.43,
+          "pAwayCover": 0.57,
           "pOver": 0.429,
           "pUnder": 0.571,
-          "pCover": 0.632,
+          "pCover": null,
           "pOU": null,
           "minGP": 16.0,
           "pCal": 0.5,
@@ -20124,7 +20124,6 @@
               "ORR": 0.0027
             }
           },
-          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- -0.5 \u00b7 Over 29.4% \u00b7 Under 70.6% \u00b7 O/U +/- -5.0",
             "home": "ATS +/- -2.0 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- -3.4"
@@ -20207,7 +20206,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         20-40-0   (33.3%)   [graded 60]\n  Elite:       20-40-0   (33.3%)   [graded 60]\n\nFAV/DOG (Spread)\n  Favorites:   14-27-0   (34.1%)   [graded 41]\n  Underdogs:   6-13-0   (31.6%)   [graded 19]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/23/2026, 02:12:46 PM"
+      "ranAt": "11/23/2026, 02:56:04 PM"
     }
   ],
   "weights": {
