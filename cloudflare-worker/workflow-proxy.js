@@ -35,7 +35,7 @@ const SCHEDULE = [
   { cron: "15 17 * * *", wf: "python", tz: "America/Chicago" },  //  5:15 PM CT
   // Evening runs (2026-11-24, user): re-read the lines for the late tips, which
   // the 5:15 run sees hours before tip. Games already started keep their picks.
-  { cron: "0 19 * * *", wf: "python", tz: "America/Chicago" },   //  7:00 PM CT
+  { cron: "45 18 * * *", wf: "python", tz: "America/Chicago" },  //  6:45 PM CT
   { cron: "30 20 * * *", wf: "python", tz: "America/Chicago" },  //  8:30 PM CT
   // WNBA full season + props (wnba-run-daily.yml) -- PAUSED 2026-11-05: the
   // WNBA season is over. Uncomment both lines to resume next season (still
