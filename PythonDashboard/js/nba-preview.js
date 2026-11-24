@@ -12,8 +12,8 @@
 
 const NBAP_SEASON_START = '20261023';
 const NBAP_FIRE = 0.58, NBAP_ELITE = 0.65, NBAP_MAX_LINE = 18;
-// hidden: still run daily and still in the Records table, which keeps
-// updating; left out of the rest of this page (user, 2026-11-19).
+// A model marked hidden: true is left out of the logs and team table (it stays in
+// today's slate and the Records table). None are hidden now (user, 2026-11-24).
 const NBAP_MODELS = [
   // Display order (user, 2026-11-19): KalmanOff, Ratings, KalmanEarly, Full Season.
   { key: 'pyFullKalmanOff', name: 'KalmanOff', tab: 'fullseason-ko', local: 'data/fullseason-kalmanoff.json',
@@ -23,10 +23,10 @@ const NBAP_MODELS = [
   { key: 'pyFullRatings', name: 'Ratings', tab: 'fullseason-ratings', solo: true, local: 'data/fullseason-ratings.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/history.json',
     kal: 'data/kalman-ratings.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullRatings/data/kalman_state.json' },
-  { key: 'pyFullKalmanEarly', hidden: true, name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
+  { key: 'pyFullKalmanEarly', name: 'KalmanEarly', tab: 'fullseason-ke', local: 'data/fullseason-kalmanearly.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/history.json',
     kal: 'data/kalman-kalmanearly.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFullKalmanEarly/data/kalman_state.json' },
-  { key: 'pyFull', hidden: true, name: 'Full Season', tab: 'fullseason', local: 'data/fullseason.json',
+  { key: 'pyFull', name: 'Full Season', tab: 'fullseason', local: 'data/fullseason.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/history.json',
     kal: 'data/kalman-fullseason.json', kalRemote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/kalman_state.json' },
 ];
