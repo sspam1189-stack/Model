@@ -32,6 +32,7 @@ const SCHEDULE = [
   { cron: "45 8 * * *", wf: "python", tz: "America/Chicago" },   //  8:45 AM CT
   { cron: "45 10 * * *", wf: "python", tz: "America/Chicago" },  // 10:45 AM CT
   { cron: "45 12 * * *", wf: "python", tz: "America/Chicago" },  // 12:45 PM CT
+  { cron: "30 15 * * *", wf: "python", tz: "America/Chicago" },  //  3:30 PM CT
   { cron: "45 16 * * *", wf: "python", tz: "America/Chicago" },  //  4:45 PM CT
   // Evening runs (2026-11-24, user): re-read the lines for the late tips, which
   // the 4:45 run sees hours before tip. Games already started keep their picks.
