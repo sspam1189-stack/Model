@@ -29,12 +29,12 @@ const WORKFLOWS = {
 // UTC, so it keeps its local time across daylight-saving changes.
 const SCHEDULE = [
   // NBA full season + props (py-run-daily.yml), Central time year-round
-  { cron: "0 9 * * *", wf: "python", tz: "America/Chicago" },    //  9:00 AM CT
+  { cron: "45 8 * * *", wf: "python", tz: "America/Chicago" },   //  8:45 AM CT
   { cron: "45 10 * * *", wf: "python", tz: "America/Chicago" },  // 10:45 AM CT
-  { cron: "15 13 * * *", wf: "python", tz: "America/Chicago" },  //  1:15 PM CT
-  { cron: "15 17 * * *", wf: "python", tz: "America/Chicago" },  //  5:15 PM CT
+  { cron: "45 12 * * *", wf: "python", tz: "America/Chicago" },  // 12:45 PM CT
+  { cron: "45 16 * * *", wf: "python", tz: "America/Chicago" },  //  4:45 PM CT
   // Evening runs (2026-11-24, user): re-read the lines for the late tips, which
-  // the 5:15 run sees hours before tip. Games already started keep their picks.
+  // the 4:45 run sees hours before tip. Games already started keep their picks.
   { cron: "45 18 * * *", wf: "python", tz: "America/Chicago" },  //  6:45 PM CT
   { cron: "30 20 * * *", wf: "python", tz: "America/Chicago" },  //  8:30 PM CT
   // WNBA full season + props (wnba-run-daily.yml) -- PAUSED 2026-11-05: the
