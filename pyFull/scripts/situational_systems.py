@@ -421,6 +421,34 @@ SYSTEMS = [
             "team is; if the next line leans on it, the team is undervalued."),
         "test": lambda r: r.get("_3luck") is not None and r["_3luck"] <= -15,
     },
+    {
+        # Added 2026-11-25 (user decision), SHADOW. Found on 2026-27 only: the
+        # feed carried no spread prices before this season, so there is nothing
+        # earlier to test it on, and the rule was written after seeing these
+        # games.
+        "id": "juiced_side_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "label": "Spread priced -114 or worse, other side cheaper -> back the expensive side",
+        "name": (
+            "Juiced side ATS"),
+        "rule": (
+            "This team's spread is priced at -114 or worse and the other "
+            "side's price is cheaper -> back this team ATS at that price."),
+        "why": (
+            "Back the side the book charges more for. 99-68 (59%) +17.4u at "
+            "the real price in 2026-27 through Nov 24, in-sample; 55-40 "
+            "through Nov 8 and 44-28 after, and positive in every week. No "
+            "2025-26 backtest exists (no prices were saved). Shadow from "
+            "2026-11-25."),
+        "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
+        "mechanism": (
+            "A book that does not want to move a spread off its number "
+            "shades the price instead, so the heavier price marks the side it "
+            "expects the line to move toward. Taking that side at the current "
+            "number is taking the better half of a line that is about to "
+            "move. The same test on totals showed nothing (56-61)."),
+        "test": lambda r: (r.get("spread_price") is not None and r.get("_o_spread_price") is not None
+                           and r["spread_price"] <= -114 and r["_o_spread_price"] > r["spread_price"]),
+    },
 
     # ----------------------------------------------------------------- REFERENCE
     {

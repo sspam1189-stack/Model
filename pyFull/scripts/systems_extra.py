@@ -175,4 +175,5 @@ def attach(rows):
     for r in rows:
         o = by_gi[r["gi"]].get(not r["is_home"])
         r["_o_3own"] = o.get("_3own") if o else None
+        r["_o_spread_price"] = o.get("spread_price") if o else None   # juiced_side_ats
     return rows
