@@ -163,32 +163,10 @@ SYSTEMS = [
             "Fires from ~day 21."),
         "test": _elite_dog,
     },
-    {
-        "id": "rematch_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
-        "label": "Dog facing the same opponent as last game -> ML",
-        "name": (
-            "Rematch dog ML"),
-        "rule": (
-            "Getting points (spread > 0) AND the opponent is the same team this "
-            "side played in its previous game -> back the dog on the moneyline."),
-        "why": (
-            "Dog facing the team it just played -> its ML. 50-69 +30.5% (n=119) "
-            "at the CONVERTED price. WEAKEST IN THE REGISTRY: price-free z is "
-            "only +1.88 against a noise maximum averaging 2.52, and the ATS "
-            "twin of the same trigger is -0.5%, so the number lives in the "
-            "conversion rather than in the wins. First to drop. Carded "
-            "2026-09-02."),
-        "backtest": {"w": 50, "l": 69, "units": 36.3, "roi": 0.305, "z": 1.88,
-                     "priced": "converted"},
-        "mechanism": (
-            "Back-to-back meetings, mostly playoff series and scheduling "
-            "quirks: the market carries the first result forward harder than "
-            "it should. WEAKEST CANDIDATE IN THE FILE -- price-free z is only "
-            "+1.88 against a noise maximum averaging 2.52, and the ATS twin of "
-            "this same trigger is -0.5%, which means the whole number lives in "
-            "the conversion rather than in the wins. First to drop."),
-        "test": _rematch_dog,
-    },
+    # rematch_dog_ml REMOVED 2026-11-25 (user decision): 1-5 live in 2026-27
+    # after 50-69 at the converted price in 2025-26. Its logged plays stay in
+    # the ledger as carded plays; the system no longer fires. Recoverable from
+    # git history.
     {
         "id": "blowout_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ML",

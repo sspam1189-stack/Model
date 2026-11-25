@@ -125,7 +125,10 @@ function nbasCtTime(iso) {
 // id -> display name, so a play row reads "Home dog over" rather than an id
 function nbasName(d, id) {
   const s = (d.systems || []).find(x => x.id === id);
-  return (s && s.name) || id;
+  if (s && s.name) return s.name;
+  // a system no longer in the registry (its old plays stay in the log)
+  const t = String(id || '').replace(/_/g, ' ').replace(/\bml\b/i, 'ML').replace(/\bats\b/i, 'ATS');
+  return t ? t.charAt(0).toUpperCase() + t.slice(1) + ' (removed)' : '';
 }
 
 function nbasPrice(p) {

@@ -1,7 +1,7 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-11-25T05:41:11Z",
+ "generated": "2026-11-25T05:46:39Z",
  "date": "20261124",
  "dateDisplay": "2026-11-24",
  "registry_frozen": "2026-09-02",
@@ -31,26 +31,6 @@
     "units": 41.0,
     "roi": 0.386,
     "z": 2.66,
-    "priced": "converted"
-   },
-   "status": "card"
-  },
-  {
-   "id": "rematch_dog_ml",
-   "tier": "candidate",
-   "market": "h2h",
-   "side": "TEAM",
-   "label": "Dog facing the same opponent as last game -> ML",
-   "name": "Rematch dog ML",
-   "rule": "Getting points (spread > 0) AND the opponent is the same team this side played in its previous game -> back the dog on the moneyline.",
-   "why": "Dog facing the team it just played -> its ML. 50-69 +30.5% (n=119) at the CONVERTED price. WEAKEST IN THE REGISTRY: price-free z is only +1.88 against a noise maximum averaging 2.52, and the ATS twin of the same trigger is -0.5%, so the number lives in the conversion rather than in the wins. First to drop. Carded 2026-09-02.",
-   "mechanism": "Back-to-back meetings, mostly playoff series and scheduling quirks: the market carries the first result forward harder than it should. WEAKEST CANDIDATE IN THE FILE -- price-free z is only +1.88 against a noise maximum averaging 2.52, and the ATS twin of this same trigger is -0.5%, which means the whole number lives in the conversion rather than in the wins. First to drop.",
-   "backtest": {
-    "w": 50,
-    "l": 69,
-    "units": 36.3,
-    "roi": 0.305,
-    "z": 1.88,
     "priced": "converted"
    },
    "status": "card"
@@ -477,64 +457,6 @@
     "units": 41.0,
     "roi": 0.386,
     "z": 2.66,
-    "priced": "converted"
-   }
-  },
-  "rematch_dog_ml": {
-   "live": {
-    "w": 1,
-    "l": 5,
-    "p": 0,
-    "pending": 0,
-    "units": -3.2,
-    "book_units": -3.2,
-    "book_n": 6,
-    "n": 6,
-    "pct": 0.16666666666666666,
-    "roi": -0.5333333333333333
-   },
-   "shadow": {
-    "w": 0,
-    "l": 0,
-    "p": 0,
-    "pending": 0,
-    "units": 0.0,
-    "book_units": 0.0,
-    "book_n": 0,
-    "n": 0,
-    "pct": null,
-    "roi": null
-   },
-   "card": {
-    "w": 1,
-    "l": 5,
-    "p": 0,
-    "pending": 0,
-    "units": -3.2,
-    "book_units": -3.2,
-    "book_n": 6,
-    "n": 6,
-    "pct": 0.16666666666666666,
-    "roi": -0.5333333333333333
-   },
-   "seeded": {
-    "w": 50,
-    "l": 69,
-    "p": 0,
-    "pending": 0,
-    "units": 36.3,
-    "book_units": 0.0,
-    "book_n": 0,
-    "n": 119,
-    "pct": 0.42016806722689076,
-    "roi": 0.3050420168067228
-   },
-   "backtest": {
-    "w": 50,
-    "l": 69,
-    "units": 36.3,
-    "roi": 0.305,
-    "z": 1.88,
     "priced": "converted"
    }
   },
