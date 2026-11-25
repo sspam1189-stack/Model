@@ -172,7 +172,7 @@ SYSTEMS = [
     # the ledger as carded plays; the system no longer fires. Recoverable from
     # git history.
     {
-        "id": "blowout_dog_ml", "tier": "candidate", "status": SHADOW, "market": "h2h", "side": "TEAM",
+        "id": "blowout_dog_ml", "tier": "watch", "status": SHADOW, "market": "h2h", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ML",
         "name": (
             "Blowout dog ML"),
@@ -243,7 +243,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and abs(r["spread"]) <= 2,
     },
     {
-        "id": "blowout_dog_ats", "tier": "candidate", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "blowout_dog_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ATS",
         "name": (
             "Blowout dog ATS"),
@@ -269,7 +269,7 @@ SYSTEMS = [
         # 2026-27 plays went 11-18 on the over -- 18-11 on the under. The
         # 2025-26 backtest pointed the other way (over 166-120), so this is
         # a this-season read, not the backtest's claim.
-        "id": "home_dog_5_under", "tier": "candidate", "status": SHADOW, "market": "total", "side": "UNDER",
+        "id": "home_dog_5_under", "tier": "watch", "status": SHADOW, "market": "total", "side": "UNDER",
         "label": "Home dog of +5 or more -> UNDER",
         "name": (
             "Home dog under"),
@@ -330,7 +330,7 @@ SYSTEMS = [
     # 2026-11-25, user decision: unlucky_team_ats back to SHADOW (6-7 on plays
     # made live, 4-5 since it was carded). Its carded plays stay carded in the ledger.
     {
-        "id": "fade_spread_move", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
+        "id": "fade_spread_move", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Spread moved 1+ against a team during the day -> back it",
         "name": (
             "Fade spread move"),
@@ -352,7 +352,7 @@ SYSTEMS = [
         "test": lambda r: r.get("_spread_move") is not None and r["_spread_move"] >= 1.0,
     },
     {
-        "id": "total_move_over", "tier": "watch", "status": CARD, "market": "total", "side": "OVER",
+        "id": "total_move_over", "tier": "candidate", "status": CARD, "market": "total", "side": "OVER",
         "label": "Total moved up 1.5+ during the day -> OVER",
         "name": (
             "Follow total move (over)"),
@@ -371,7 +371,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r.get("_total_move") is not None and r["_total_move"] >= 1.5,
     },
     {
-        "id": "total_move_under", "tier": "watch", "status": CARD, "market": "total", "side": "UNDER",
+        "id": "total_move_under", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
         "label": "Total moved down 1.5+ during the day -> UNDER",
         "name": (
             "Follow total move (under)"),
@@ -387,7 +387,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r.get("_total_move") is not None and r["_total_move"] <= -1.5,
     },
     {
-        "id": "both_hot_under", "tier": "watch", "status": CARD, "market": "total", "side": "UNDER",
+        "id": "both_hot_under", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
         "label": "Both teams shot hot from three last game -> UNDER",
         "name": (
             "Both hot under"),
@@ -433,7 +433,7 @@ SYSTEMS = [
         # feed carried no spread prices before this season, so there is nothing
         # earlier to test it on, and the rule was written after seeing these
         # games.
-        "id": "juiced_side_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
+        "id": "juiced_side_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Spread priced -114 or worse, other side cheaper -> back the expensive side",
         "name": (
             "Juiced side ATS"),
@@ -463,7 +463,7 @@ SYSTEMS = [
         # systems are a bet on whether that correction helps or hurts. Found on
         # 2026-27 alone, after seeing the games; seven of the first 21 involved
         # one team (the Thunder).
-        "id": "ko_only_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
+        "id": "ko_only_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "KalmanOff plays this side, Full Season does not -> back it",
         "name": (
             "KalmanOff-only play"),
@@ -485,7 +485,7 @@ SYSTEMS = [
                            and not (r.get("_fs_p") is not None and r["_fs_p"] >= 0.58)),
     },
     {
-        "id": "fade_fs_only_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
+        "id": "fade_fs_only_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Full Season plays the other side, KalmanOff does not -> fade it",
         "name": (
             "Fade Full Season-only play"),
@@ -512,7 +512,7 @@ SYSTEMS = [
         # same trigger as the old model_over_60 (pOver >= .60), but the play
         # logged is the UNDER. (model_over_60: 67-46 in 2025-26, 4-10 in
         # 2026-27 to Nov 23, so the fade is 46-67 and 10-4.)
-        "id": "fade_model_over_60", "tier": "reference", "status": CARD, "market": "total", "side": "UNDER",
+        "id": "fade_model_over_60", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
         "label": "REF: model pOver >= .60 -> fade it, UNDER",
         "name": (
             "Fade model over (benchmark)"),
@@ -540,7 +540,8 @@ SYSTEMS = [
 ]
 
 BY_ID = {s["id"]: s for s in SYSTEMS}
-#: "watch" = shadow systems added 2026-11-15 (see WATCH above).
+#: 2026-11-25 (user): tier now simply follows status -- every CARD system is a
+#: "candidate", every SHADOW system is "watch". Change both together.
 #: "control" is retained in the ordering only so ledger rows written before
 #: the controls were dropped still sort and render.
 TIERS = ("candidate", "control", "watch", "reference")

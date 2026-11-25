@@ -35,9 +35,9 @@ const NBAS_TIER_COLOR = {
   reference: NBAS_DIM,
 };
 const NBAS_TIER_LABEL = {
-  candidate: 'CANDIDATE',
+  candidate: 'CANDIDATE — carded',
   control: 'CONTROL — known junk, same bar',
-  watch: 'WATCH — added 2026-11-15',
+  watch: 'WATCH — shadow, tracked not bet',
   reference: 'REFERENCE — the model itself',
 };
 
@@ -548,7 +548,7 @@ function nbasRecordTable(d) {
     return nbasGroupRow(label, 10, tot) + list.map(rowFor).join('');
   }).join('');
 
-  const tierSel = ['all', 'candidate', 'watch', 'control', 'reference']
+  const tierSel = ['all', 'candidate', 'watch']
     .map(t => `<option value="${t}" ${nbasFilters.tier === t ? 'selected' : ''}>`
       + `${t === 'all' ? 'All tiers' : t}</option>`).join('');
 
