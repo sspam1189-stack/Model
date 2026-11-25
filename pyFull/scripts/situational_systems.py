@@ -446,11 +446,12 @@ SYSTEMS = [
 
     # ----------------------------------------------------------------- REFERENCE
     {
+        # CARDED 2026-11-25 (user decision), on 14 plays this season.
         # 2026-11-25, user decision: the benchmark is the model's OVER, faded --
         # same trigger as the old model_over_60 (pOver >= .60), but the play
         # logged is the UNDER. (model_over_60: 67-46 in 2025-26, 4-10 in
         # 2026-27 to Nov 23, so the fade is 46-67 and 10-4.)
-        "id": "fade_model_over_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "UNDER",
+        "id": "fade_model_over_60", "tier": "reference", "status": CARD, "market": "total", "side": "UNDER",
         "label": "REF: model pOver >= .60 -> fade it, UNDER",
         "name": (
             "Fade model over (benchmark)"),
@@ -458,11 +459,11 @@ SYSTEMS = [
             "pyFull's own projected P(over) >= .60 -> take the UNDER (fade "
             "the model). Not situational."),
         "why": (
-            "NOT A SYSTEM and never bet from this tab: the model's own over "
+            "The model's own over "
             "call, faded. 46-67 -22.2% (n=113) in 2025-26 at a real -110, when "
             "the model's over was the right side; 10-4 in 2026-27 through "
             "Nov 23, when it has not been. Two seasons pointing opposite ways "
-            "on 127 games. Shadow."),
+            "on 127 games. Carded 2026-11-25."),
         "backtest": {"w": 46, "l": 67, "units": -25.2, "roi": -0.223,
                      "priced": "real -110"},
         "mechanism": (

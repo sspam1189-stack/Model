@@ -1,7 +1,7 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-11-25T03:44:06Z",
+ "generated": "2026-11-25T05:41:11Z",
  "date": "20261124",
  "dateDisplay": "2026-11-24",
  "registry_frozen": "2026-09-02",
@@ -267,7 +267,7 @@
    "label": "REF: model pOver >= .60 -> fade it, UNDER",
    "name": "Fade model over (benchmark)",
    "rule": "pyFull's own projected P(over) >= .60 -> take the UNDER (fade the model). Not situational.",
-   "why": "NOT A SYSTEM and never bet from this tab: the model's own over call, faded. 46-67 -22.2% (n=113) in 2025-26 at a real -110, when the model's over was the right side; 10-4 in 2026-27 through Nov 23, when it has not been. Two seasons pointing opposite ways on 127 games. Shadow.",
+   "why": "The model's own over call, faded. 46-67 -22.2% (n=113) in 2025-26 at a real -110, when the model's over was the right side; 10-4 in 2026-27 through Nov 23, when it has not been. Two seasons pointing opposite ways on 127 games. Carded 2026-11-25.",
    "mechanism": "The model projects an over at 60%+ only occasionally (113 of 1,105 games last season, 14 of 242 this season), when its totals number sits well above the line. Last season those games went over; this season they have gone under. Carried as a benchmark for whether fading the model's biggest totals disagreements means anything. Never carded from this tab.",
    "backtest": {
     "w": 46,
@@ -276,7 +276,7 @@
     "roi": -0.223,
     "priced": "real -110"
    },
-   "status": "shadow"
+   "status": "card"
   }
  ],
  "today": [
@@ -417,7 +417,7 @@
    "total": 212.5,
    "price": -108,
    "book_price": null,
-   "status": "shadow",
+   "status": "card",
    "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
   }
  ],
