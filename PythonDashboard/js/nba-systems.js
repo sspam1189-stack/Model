@@ -353,6 +353,78 @@ function nbasOpposedBadge() {
   return `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
     + `font-weight:700;background:rgba(210,153,34,.2);color:${NBAS_AMBER};white-space:nowrap">OPPOSED</span>`;
 }
+// THE RULES (user, 2026-11-25). For each side of each game that a carded system is on:
+//   ATS / moneyline
+//     - PLAY when two or more independent systems agree and nothing carded is
+//       on the other team, or when it is opposed but clearly outnumbers the
+//       other side (2+ systems and more than the other side has).
+//     - A Hot dog or Blowout dog play only counts with a non-dog system on the
+//       same team, and its moneyline is never taken when anything is against it.
+//     - LEAN: one non-dog system, unopposed.  PASS: everything else.
+//   Overs / unders
+//     - PLAY unless a carded system is on the other side; then only the side
+//       that clearly outnumbers the other is a play.
+const NBAS_DOG = { hot_dog: 1, blowout_dog: 1 };
+function nbasVerdicts(plays) {
+  const games = {};
+  plays.forEach(p => {
+    const g = games[nbasGameKey(p)] || (games[nbasGameKey(p)] = {});
+    const x = g[nbasSideKey(p)] || (g[nbasSideKey(p)] = { key: nbasSideKey(p), fam: new Set(), plays: [] });
+    x.fam.add(NBAS_FAMILY[p.system] || p.system);
+    x.plays.push(p);
+  });
+  const out = {};
+  Object.values(games).forEach(g => {
+    const sides = Object.values(g);
+    sides.forEach(x => {
+      const n = x.fam.size;
+      const m = Math.max(0, ...sides.filter(y => y !== x).map(y => y.fam.size));
+      const total = x.plays[0].market === 'total';
+      const nonDog = [...x.fam].filter(f => !NBAS_DOG[f]).length;
+      let kind, why;
+      if (m > 0) {
+        if (n >= 2 && n > m && (total || nonDog >= 1)) { kind = 'play'; why = `${n} systems against ${m}`; }
+        else { kind = 'pass'; why = n === m ? 'systems split evenly' : (n > m ? 'opposed, not a clear majority' : 'more systems on the other side'); }
+      } else if (total) { kind = 'play'; why = n >= 2 ? `${n} systems agree` : 'unopposed'; }
+      else if (n >= 2 && nonDog >= 1) { kind = 'play'; why = `${n} systems agree`; }
+      else if (nonDog === 0) { kind = 'pass'; why = 'dog system needs a second system on the same team'; }
+      else { kind = 'lean'; why = 'one system'; }
+      const spread = x.plays.filter(p => p.market === 'spread');
+      const lead = spread.find(p => !NBAS_DOG[NBAS_FAMILY[p.system]]) || spread[0] || x.plays[0];
+      out[x.key] = { kind, why, n, m, plays: x.plays, lead,
+        names: [...new Set(x.plays.map(p => (nbasData && nbasName(nbasData, p.system)) || p.system))] };
+    });
+  });
+  return out;
+}
+// What the side's verdict means for one particular play on it: a dog system's
+// moneyline is passed whenever anything is against it, even on a winning side.
+function nbasPlayVerdict(v, p) {
+  if (v.kind === 'play' && p.market === 'h2h' && v.m > 0) return { kind: 'pass', why: 'moneyline, with a system against it' };
+  return v;
+}
+function nbasVerdictBadge(v) {
+  const c = v.kind === 'play' ? [NBAS_GREEN, '63,185,80', 'PLAY'] : v.kind === 'lean' ? ['#58a6ff', '88,166,255', 'LEAN'] : [NBAS_AMBER, '210,153,34', 'PASS'];
+  return `<span title="${esc(v.why)}" style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
+    + `font-weight:700;background:rgba(${c[1]},.2);color:${c[0]};white-space:nowrap">${c[2]}</span>`;
+}
+// How the PLAY verdicts have done since the rules were adopted: one result per
+// side per game (the lead play), at its logged price.
+const NBAS_RULES_FROM = '20261125';
+function nbasRuleRecord(d) {
+  const byDay = {};
+  (d.log || []).forEach(e => {
+    if (e.no_play || e.backfilled || e.status !== 'card' || String(e.date) < NBAS_RULES_FROM) return;
+    (byDay[e.date] || (byDay[e.date] = [])).push(e);
+  });
+  let w = 0, l = 0, u = 0;
+  Object.values(byDay).forEach(list => Object.values(nbasVerdicts(list)).forEach(v => {
+    if (v.kind !== 'play') return;
+    const e = v.lead;
+    if (e.result === 'WIN') { w++; u += e.profit || 0; } else if (e.result === 'LOSS') { l++; u += e.profit || 0; }
+  }));
+  return (w + l) ? `${w}-${l} <span class="${nbasUClass(u)}">${nbasUnits(u)}</span>` : '';
+}
 function nbasAgreeBadge(n) {
   return `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
     + `font-weight:700;background:rgba(63,185,80,.2);color:${NBAS_GREEN};white-space:nowrap">${n} AGREE</span>`;
@@ -385,40 +457,31 @@ function nbasTodayBlock(d, which) {
 
   let h = `<div class="card card-games"${shadow ? ' style="opacity:.85"' : ''}><div class="card-title">${title}</div>`;
   const phone = nbasPhone();
-  const agree = shadow ? {} : nbasAgreement(d);
-  const agreeN = p => { const x = agree[nbasSideKey(p)]; return x && x.fam.size >= 2 ? x.fam.size : 0; };
-  const conflicts = shadow ? {} : nbasConflicts(d);
-  const opposed = p => !!conflicts[nbasGameKey(p)];
-  const tags = p => (agreeN(p) ? nbasAgreeBadge(agreeN(p)) : '') + (opposed(p) ? nbasOpposedBadge() : '');
+  // The betting rules (user, 2026-11-25) decide what each carded play is:
+  // PLAY, LEAN or PASS. See nbasVerdicts.
+  const verdicts = shadow ? {} : nbasVerdicts((d.today || []).filter(p => p.status === 'card'));
+  const vOf = p => verdicts[nbasSideKey(p)];
+  const tags = p => { const v = vOf(p); return v ? nbasVerdictBadge(nbasPlayVerdict(v, p)) : ''; };
+  const rowBg = p => { const v = vOf(p); if (!v) return ''; const k = nbasPlayVerdict(v, p).kind;
+    return k === 'play' ? ';background:rgba(63,185,80,.07)' : k === 'pass' ? ';background:rgba(210,153,34,.07)' : ''; };
   if (!shadow) {
-    const hits = Object.values(agree).filter(x => x.fam.size >= 2)
-      .sort((a, b) => b.fam.size - a.fam.size || String(a.plays[0].startTimeUTC || '').localeCompare(String(b.plays[0].startTimeUTC || '')));
-    if (hits.length) {
-      h += `<div style="margin:2px 10px 8px;padding:8px 10px;border:1px solid rgba(63,185,80,.45);border-radius:6px;`
-        + `background:rgba(63,185,80,.08);font-size:12px"><div style="font-weight:700;color:${NBAS_GREEN};margin-bottom:4px">`
-        + `Systems agree</div>` + hits.map(x => {
-          const lead = x.plays.find(p => p.market === 'spread') || x.plays[0];
-          const names = [...new Set(x.plays.map(p => nbasName(d, p.system)))].join(', ');
-          return `<div style="padding:2px 0"><b>${esc(lead.play)}</b>${nbasAgreeBadge(x.fam.size)}`
-            + `<span style="color:${NBAS_DIM}"> ${esc(nbasCtTime(lead.startTimeUTC))} · ${esc(names)}</span></div>`;
-        }).join('') + `</div>`;
-    }
-    const cl = Object.values(conflicts);
-    if (cl.length) {
-      const sideTxt = x => {
-        const lead = x.plays.find(p => p.market === 'spread') || x.plays[0];
-        return `<b>${esc(lead.play)}</b> <span style="color:${NBAS_DIM}">(${esc([...new Set(x.plays.map(p => nbasName(d, p.system)))].join(', '))})</span>`;
-      };
-      h += `<div style="margin:2px 10px 8px;padding:8px 10px;border:1px solid rgba(210,153,34,.5);border-radius:6px;`
-        + `background:rgba(210,153,34,.08);font-size:12px"><div style="font-weight:700;color:${NBAS_AMBER};margin-bottom:4px">`
-        + `Systems disagree</div>` + cl.map(sides => {
-          const srt = sides.slice().sort((a, b) => b.fam.size - a.fam.size);
-          const lean = srt[0].fam.size > srt[1].fam.size
-            ? `<span style="color:${NBAS_DIM}"> · more systems on ${esc((srt[0].plays.find(p => p.market === 'spread') || srt[0].plays[0]).play)}</span>`
-            : `<span style="color:${NBAS_DIM}"> · even</span>`;
-          return `<div style="padding:2px 0">${srt.map(sideTxt).join(' <span style="color:' + NBAS_AMBER + '">vs</span> ')}${lean}</div>`;
-        }).join('') + `</div>`;
-    }
+    const all = Object.values(verdicts).sort((a, b) =>
+      String(a.lead.startTimeUTC || '').localeCompare(String(b.lead.startTimeUTC || '')) || b.n - a.n);
+    const line = v => `<div style="padding:2px 0"><b>${esc(v.lead.play)}</b> `
+      + `<span style="color:${NBAS_DIM}">${esc(nbasPrice(v.lead.price))} · ${esc(nbasCtTime(v.lead.startTimeUTC))} · `
+      + `${esc(v.names.join(', '))}${v.kind !== 'play' || v.m ? ' · ' + esc(v.why) : ''}</span></div>`;
+    const box = (kind, title, color, rgb) => {
+      const list = all.filter(v => v.kind === kind);
+      if (!list.length) return '';
+      return `<div style="margin:2px 10px 8px;padding:8px 10px;border:1px solid rgba(${rgb},.45);border-radius:6px;`
+        + `background:rgba(${rgb},.08);font-size:12px"><div style="font-weight:700;color:${color};margin-bottom:4px">`
+        + `${title}</div>${list.map(line).join('')}</div>`;
+    };
+    const rec = nbasRuleRecord(d);
+    h += box('play', 'Plays' + (rec ? ` <span style="font-weight:400;color:${NBAS_DIM}">· since Nov 25: ${rec}</span>` : ''),
+             NBAS_GREEN, '63,185,80')
+      + box('lean', 'Leans — one system, not a play', '#58a6ff', '88,166,255')
+      + box('pass', 'Pass', NBAS_AMBER, '210,153,34');
   }
   h += `<div style="overflow-x:auto"><table style="${NBAS_TBL}">`
     + (phone ? '<tbody>' : `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
@@ -467,7 +530,7 @@ function nbasTodayBlock(d, which) {
         `${esc(nbasCtTime(p.startTimeUTC))} · ${esc(p.game)}`, false);
       continue;
     }
-    h += `<tr style="border-top:1px solid #161b22${dim}${opposed(p) ? ';background:rgba(210,153,34,.07)' : (agreeN(p) ? ';background:rgba(63,185,80,.07)' : '')}">`
+    h += `<tr style="border-top:1px solid #161b22${dim}${rowBg(p)}">`
       + `<td style="padding:3px 6px 3px 22px;color:${NBAS_DIM}">${esc(nbasCtTime(p.startTimeUTC))}</td>`
       + `<td style="padding:3px 6px">${esc(p.game)}</td>`
       + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(p.play)}${tags(p)}</td>`
