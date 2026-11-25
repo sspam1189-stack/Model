@@ -422,11 +422,12 @@ SYSTEMS = [
         "test": lambda r: r.get("_3luck") is not None and r["_3luck"] <= -15,
     },
     {
+        # CARDED 2026-11-25 (user decision), the same day it was added.
         # Added 2026-11-25 (user decision), SHADOW. Found on 2026-27 only: the
         # feed carried no spread prices before this season, so there is nothing
         # earlier to test it on, and the rule was written after seeing these
         # games.
-        "id": "juiced_side_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "juiced_side_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Spread priced -114 or worse, other side cheaper -> back the expensive side",
         "name": (
             "Juiced side ATS"),
@@ -437,7 +438,7 @@ SYSTEMS = [
             "Back the side the book charges more for. 99-68 (59%) +17.4u at "
             "the real price in 2026-27 through Nov 24, in-sample; 55-40 "
             "through Nov 8 and 44-28 after, and positive in every week. No "
-            "2025-26 backtest exists (no prices were saved). Shadow from "
+            "2025-26 backtest exists (no prices were saved). Carded "
             "2026-11-25."),
         "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
         "mechanism": (
@@ -450,12 +451,13 @@ SYSTEMS = [
                            and r["spread_price"] <= -114 and r["_o_spread_price"] > r["spread_price"]),
     },
     {
+        # Both CARDED 2026-11-25 (user decision), the same day they were added.
         # Added 2026-11-25 (user decision), SHADOW. The only difference between
         # KalmanOff and Full Season is the Kalman correction, so these two
         # systems are a bet on whether that correction helps or hurts. Found on
         # 2026-27 alone, after seeing the games; seven of the first 21 involved
         # one team (the Thunder).
-        "id": "ko_only_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "ko_only_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "KalmanOff plays this side, Full Season does not -> back it",
         "name": (
             "KalmanOff-only play"),
@@ -466,7 +468,7 @@ SYSTEMS = [
             "KalmanOff plays that Full Season does not share. 25-5 in 2026-27 "
             "through Nov 24, in-sample (6-2 through Nov 8, 19-3 after, when "
             "the Kalman correction became active). No earlier season to test "
-            "on. Shadow from 2026-11-25."),
+            "on. Carded 2026-11-25."),
         "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
         "mechanism": (
             "The Kalman correction moves each team toward how it has done "
@@ -477,7 +479,7 @@ SYSTEMS = [
                            and not (r.get("_fs_p") is not None and r["_fs_p"] >= 0.58)),
     },
     {
-        "id": "fade_fs_only_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "id": "fade_fs_only_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Full Season plays the other side, KalmanOff does not -> fade it",
         "name": (
             "Fade Full Season-only play"),
@@ -487,7 +489,7 @@ SYSTEMS = [
         "why": (
             "Fade Full Season plays that KalmanOff does not share. 16-6 in "
             "2026-27 through Nov 24, in-sample (1-1 through Nov 8, 15-5 "
-            "after). No earlier season to test on. Shadow from 2026-11-25."),
+            "after). No earlier season to test on. Carded 2026-11-25."),
         "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
         "mechanism": (
             "The mirror of KalmanOff-only play: a play that exists only "
