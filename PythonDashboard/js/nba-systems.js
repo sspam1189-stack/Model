@@ -313,23 +313,32 @@ function nbasBanner(d) {
 
 // ---------------------------------------------------------------------------
 // Panel 1 — tonight's card. Sectioned by tier, first pitch inside each.
+// Today's carded plays, then the shadow plays in a card of their own under it.
 function nbasTodayCard(d) {
+  return nbasTodayBlock(d, 'card') + nbasTodayBlock(d, 'shadow');
+}
+function nbasTodayBlock(d, which) {
+  const shadow = which === 'shadow';
   const plays = (d.today || []).filter(p =>
-    (nbasFilters.system === 'all' || p.system === nbasFilters.system));
-  const title = `Today's card — ${esc(d.dateDisplay || d.date || '')}`
-    + `<span style="color:${NBAS_DIM};font-weight:400;font-size:11px">`
-    + ` (${d.games_today || 0} game${d.games_today === 1 ? '' : 's'} on the slate`
-    + ` · CARD is bet · SHADOW is graded but never bet)</span>`;
+    (nbasFilters.system === 'all' || p.system === nbasFilters.system)
+    && (p.status === 'card') === !shadow);
+  const title = shadow
+    ? `Shadow — ${esc(d.dateDisplay || d.date || '')}`
+      + `<span style="color:${NBAS_DIM};font-weight:400;font-size:11px"> (graded, never bet)</span>`
+    : `Today's card — ${esc(d.dateDisplay || d.date || '')}`
+      + `<span style="color:${NBAS_DIM};font-weight:400;font-size:11px">`
+      + ` (${d.games_today || 0} game${d.games_today === 1 ? '' : 's'} on the slate · bet these)</span>`;
 
   if (!plays.length) {
+    if (shadow) return '';
     const why = (d.games_today || 0) === 0
       ? 'No games on the slate — the season is not running.'
-      : 'No system fired on this slate.';
+      : 'No carded system fired on this slate.';
     return `<div class="card card-games"><div class="card-title">${title}</div>
       <div style="padding:10px;font-size:12px;color:${NBAS_DIM}">${why}</div></div>`;
   }
 
-  let h = `<div class="card card-games"><div class="card-title">${title}</div>`;
+  let h = `<div class="card card-games"${shadow ? ' style="opacity:.85"' : ''}><div class="card-title">${title}</div>`;
   const phone = nbasPhone();
   h += `<div style="overflow-x:auto"><table style="${NBAS_TBL}">`
     + (phone ? '<tbody>' : `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
@@ -358,26 +367,23 @@ function nbasTodayCard(d) {
       status = null;
       h += nbasGroupRow((NBAS_GROUPS.find(x => x[0] === group) || [])[1] || group, 4);
     }
-    if (p.status !== status) {
+    if (p.status !== status) {      // one status per card now, so no sub-heading
       status = p.status;
       sys = null;
-      const sc = status === 'card' ? NBAS_GREEN : NBAS_DIM;
-      h += `<tr><td colspan="4" style="padding:7px 6px 3px;font-size:11px;font-weight:600;`
-        + `border-top:1px solid #30363d;color:${sc}">${esc(SECTION[status] || status)}</td></tr>`;
     }
     if (p.system !== sys) {
       sys = p.system;
       h += nbasSysRow(d, sys, 4, p.tier);
     }
     const c = NBAS_TIER_COLOR[p.tier] || NBAS_DIM;
-    const dim = p.status !== 'card' ? ';opacity:.68' : '';
+    const dim = '';
     // Moneylines grade at the real book price (2026-11-09). Only a play with no
     // real price falls back to the frozen conversion, and is marked.
     const conv = (p.market === 'h2h' && (p.book_price === null || p.book_price === undefined))
       ? `<span style="color:${NBAS_AMBER}" title="frozen spread-to-ML conversion, not a book quote">*</span>` : '';
     if (phone) {
       h += nbasPhonePlay(4, esc(p.play), `<span style="color:${NBAS_DIM}">${esc(nbasPrice(p.price))}${conv}</span>`,
-        `${esc(nbasCtTime(p.startTimeUTC))} · ${esc(p.game)}`, p.status !== 'card');
+        `${esc(nbasCtTime(p.startTimeUTC))} · ${esc(p.game)}`, false);
       continue;
     }
     h += `<tr style="border-top:1px solid #161b22${dim}">`
