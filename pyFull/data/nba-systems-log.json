@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-25T05:58:55Z",
+ "generated": "2026-11-25T06:05:03Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -27564,12 +27564,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27586,12 +27587,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-24T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27608,12 +27610,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27630,12 +27633,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-24T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27652,12 +27656,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27674,12 +27679,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27696,12 +27702,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-10-24T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27718,12 +27725,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27740,12 +27748,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-24T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27762,12 +27771,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27784,12 +27794,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-24T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27806,12 +27817,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27828,12 +27840,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-24T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261023",
@@ -27850,12 +27863,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-23T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -27935,12 +27949,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-24T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -27957,12 +27972,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -27979,12 +27995,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-10-25T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -28001,12 +28018,13 @@
    "price": -122,
    "book_price": -122,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8197,
    "book_profit": 0.8197,
    "startTimeUTC": "2026-10-25T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -28023,12 +28041,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-24T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -28045,12 +28064,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-24T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -28067,12 +28087,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261024",
@@ -28089,12 +28110,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-25T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28195,12 +28217,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-25T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28217,12 +28240,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28239,12 +28263,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28261,12 +28286,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28283,12 +28309,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-25T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28305,12 +28332,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-10-25T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28327,12 +28355,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261025",
@@ -28349,12 +28378,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-25T21:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28392,12 +28422,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-26T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28414,12 +28445,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-10-27T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28436,12 +28468,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-27T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28458,12 +28491,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-26T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28480,12 +28514,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-26T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28502,12 +28537,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-27T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28524,12 +28560,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-27T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28546,12 +28583,13 @@
    "price": -122,
    "book_price": -122,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-26T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261026",
@@ -28568,12 +28606,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-27T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261027",
@@ -28606,12 +28645,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9434,
    "book_profit": 0.9434,
    "startTimeUTC": "2026-10-27T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261027",
@@ -28628,12 +28668,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-27T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261027",
@@ -28650,12 +28691,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-27T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261027",
@@ -28672,12 +28714,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-28T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261027",
@@ -28694,12 +28737,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-28T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261027",
@@ -28716,12 +28760,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-28T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -28885,12 +28930,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9434,
    "book_profit": 0.9434,
    "startTimeUTC": "2026-10-28T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -28907,12 +28953,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-28T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -28929,12 +28976,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-10-28T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -28951,12 +28999,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-10-29T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -28973,12 +29022,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-29T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -28995,12 +29045,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-10-29T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29017,12 +29068,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-29T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29039,12 +29091,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-10-28T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29061,12 +29114,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-29T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29083,12 +29137,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-10-29T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29105,12 +29160,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-10-28T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29127,12 +29183,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-29T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29149,12 +29206,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-29T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29171,12 +29229,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-29T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29193,12 +29252,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-28T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261028",
@@ -29215,12 +29275,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-29T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261029",
@@ -29258,12 +29319,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-30T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261029",
@@ -29280,12 +29342,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-10-30T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261029",
@@ -29302,12 +29365,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-30T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29473,12 +29537,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29495,12 +29560,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29517,12 +29583,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29539,12 +29606,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29561,12 +29629,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-10-30T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29583,12 +29652,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29605,12 +29675,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29627,12 +29698,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29649,12 +29721,13 @@
    "price": -122,
    "book_price": -122,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8197,
    "book_profit": 0.8197,
    "startTimeUTC": "2026-10-31T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29671,12 +29744,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29693,12 +29767,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-10-30T23:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29715,12 +29790,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261030",
@@ -29737,12 +29813,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-10-30T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -29865,12 +29942,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -29931,12 +30009,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -29975,12 +30054,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -29997,12 +30077,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30019,12 +30100,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30041,12 +30123,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-10-31T19:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30063,12 +30146,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30085,12 +30169,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30107,12 +30192,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30129,12 +30215,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-01T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261031",
@@ -30151,12 +30238,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-10-31T19:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261101",
@@ -30216,12 +30304,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-02T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261101",
@@ -30238,12 +30327,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-01T20:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261101",
@@ -30260,12 +30350,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-02T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261101",
@@ -30282,12 +30373,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-01T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261101",
@@ -30304,12 +30396,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-02T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261101",
@@ -30326,12 +30419,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-01T20:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30583,12 +30677,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30605,12 +30700,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30627,12 +30723,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30671,12 +30768,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-03T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30693,12 +30791,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-03T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30715,12 +30814,13 @@
    "price": -102,
    "book_price": -102,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9804,
    "book_profit": 0.9804,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30737,12 +30837,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30803,12 +30904,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30825,12 +30927,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30847,12 +30950,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30869,12 +30973,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30891,12 +30996,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30913,12 +31019,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30935,12 +31042,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30957,12 +31065,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-03T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -30979,12 +31088,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31001,12 +31111,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-03T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31023,12 +31134,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31045,12 +31157,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-03T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31067,12 +31180,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31089,12 +31203,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-03T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31111,12 +31226,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31133,12 +31249,13 @@
    "price": -122,
    "book_price": -122,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8197,
    "book_profit": 0.8197,
    "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31155,12 +31272,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31177,12 +31295,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31199,12 +31318,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-03T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31221,12 +31341,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31243,12 +31364,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31265,12 +31387,13 @@
    "price": -102,
    "book_price": -102,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9804,
    "book_profit": 0.9804,
    "startTimeUTC": "2026-11-03T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261102",
@@ -31287,12 +31410,13 @@
    "price": -102,
    "book_price": -102,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9804,
    "book_profit": 0.9804,
    "startTimeUTC": "2026-11-03T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31480,12 +31604,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31524,12 +31649,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31568,12 +31694,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-05T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31590,12 +31717,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31612,12 +31740,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31634,12 +31763,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31656,12 +31786,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31678,12 +31809,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31700,12 +31832,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-05T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31744,12 +31877,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31766,12 +31900,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31788,12 +31923,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31810,12 +31946,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31832,12 +31969,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31854,12 +31992,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31876,12 +32015,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31898,12 +32038,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-05T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31920,12 +32061,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-05T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31942,12 +32084,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-05T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31964,12 +32107,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-05T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261104",
@@ -31986,12 +32130,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-05T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261105",
@@ -32029,12 +32174,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-06T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261105",
@@ -32051,12 +32197,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-06T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261105",
@@ -32073,12 +32220,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-06T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32180,12 +32328,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-07T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32224,12 +32373,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32246,12 +32396,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32268,12 +32419,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32290,12 +32442,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32312,12 +32465,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32334,12 +32488,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-07T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32356,12 +32511,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-07T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32400,12 +32556,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-07T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32422,12 +32579,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32444,12 +32602,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-07T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32466,12 +32625,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32488,12 +32648,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32510,12 +32671,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32532,12 +32694,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-07T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32554,12 +32717,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-07T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32576,12 +32740,13 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9615,
    "book_profit": 0.9615,
    "startTimeUTC": "2026-11-07T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261106",
@@ -32598,12 +32763,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32747,12 +32913,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-08T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32769,12 +32936,13 @@
    "price": -122,
    "book_price": -122,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32791,12 +32959,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32813,12 +32982,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-08T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32835,12 +33005,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-08T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32857,12 +33028,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32879,12 +33051,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-08T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32901,12 +33074,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-08T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32923,12 +33097,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-08T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32945,12 +33120,13 @@
    "price": -122,
    "book_price": -122,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32967,12 +33143,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-07T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -32989,12 +33166,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-08T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -33011,12 +33189,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -33033,12 +33212,13 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-07T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261107",
@@ -33055,12 +33235,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33183,12 +33364,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33205,12 +33387,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-08T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33249,12 +33432,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-09T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33271,12 +33455,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-09T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33293,12 +33478,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-09T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33315,12 +33501,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-09T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33337,12 +33524,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33359,12 +33547,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-08T20:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33381,12 +33570,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-09T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33403,12 +33593,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-09T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261108",
@@ -33425,12 +33616,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-09T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33574,12 +33766,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33596,12 +33789,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33640,12 +33834,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-10T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33662,12 +33857,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-10T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33684,12 +33880,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33728,12 +33925,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-10T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33750,12 +33948,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33772,12 +33971,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-10T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33794,12 +33994,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33816,12 +34017,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-11-10T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33838,12 +34040,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33860,12 +34063,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-10T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33904,12 +34108,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33926,12 +34131,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-10T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33948,12 +34154,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33970,12 +34177,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-10T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -33992,12 +34200,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-10T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -34014,12 +34223,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-10T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -34036,12 +34246,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-10T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261109",
@@ -34058,12 +34269,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-10T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34207,12 +34419,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-11T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34251,12 +34464,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-11T04:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34273,12 +34487,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-11T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34295,12 +34510,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-11T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34317,12 +34533,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-11T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34339,12 +34556,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-11-11T04:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261110",
@@ -34361,12 +34579,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-11-11T04:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34597,12 +34816,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34619,12 +34839,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34641,12 +34862,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34663,12 +34885,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34729,12 +34952,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34751,12 +34975,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34773,12 +34998,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-12T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34817,12 +35043,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34839,12 +35066,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34861,12 +35089,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34883,12 +35112,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34905,12 +35135,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34927,12 +35158,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-12T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34949,12 +35181,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-12T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34971,12 +35204,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -34993,12 +35227,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-12T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261111",
@@ -35015,12 +35250,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-12T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35101,12 +35337,13 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9615,
    "book_profit": 0.9615,
    "startTimeUTC": "2026-11-13T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35123,12 +35360,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9434,
    "book_profit": 0.9434,
    "startTimeUTC": "2026-11-13T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35167,12 +35405,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-13T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35189,12 +35428,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-13T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35211,12 +35451,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-13T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35233,12 +35474,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-13T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261112",
@@ -35255,12 +35497,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-13T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35404,12 +35647,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-14T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35426,12 +35670,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35470,12 +35715,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35492,12 +35738,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-14T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35514,12 +35761,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35536,12 +35784,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9434,
    "book_profit": 0.9434,
    "startTimeUTC": "2026-11-14T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35558,12 +35807,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-14T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35580,12 +35830,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-14T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35602,12 +35853,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35624,12 +35876,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-14T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35646,12 +35899,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35668,12 +35922,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35690,12 +35945,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-14T02:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35712,12 +35968,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-14T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261113",
@@ -35734,12 +35991,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-14T03:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35841,11 +36099,12 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
-   "startTimeUTC": "2026-11-15T00:40:00.000+00:00"
+   "startTimeUTC": "2026-11-15T00:40:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35862,11 +36121,12 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-15T00:40:00.000+00:00"
+   "startTimeUTC": "2026-11-15T00:40:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35904,11 +36164,12 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
-   "startTimeUTC": "2026-11-15T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35925,11 +36186,12 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-15T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35946,11 +36208,12 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-15T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35967,11 +36230,12 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
-   "startTimeUTC": "2026-11-15T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -35988,11 +36252,12 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9615,
    "book_profit": 0.9615,
-   "startTimeUTC": "2026-11-15T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36009,11 +36274,12 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
-   "startTimeUTC": "2026-11-15T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T00:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36051,12 +36317,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-15T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36073,12 +36340,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36095,12 +36363,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36117,12 +36386,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36139,12 +36409,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-15T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36161,12 +36432,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36183,12 +36455,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-15T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261114",
@@ -36205,12 +36478,13 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9615,
    "book_profit": 0.9615,
    "startTimeUTC": "2026-11-15T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36353,11 +36627,12 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-15T22:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T22:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36374,11 +36649,12 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
-   "startTimeUTC": "2026-11-16T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-16T00:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36395,11 +36671,12 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-15T23:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36416,11 +36693,12 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-16T02:10:00.000+00:00"
+   "startTimeUTC": "2026-11-16T02:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36437,11 +36715,12 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-15T22:10:00.000+00:00"
+   "startTimeUTC": "2026-11-15T22:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36458,11 +36737,12 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
-   "startTimeUTC": "2026-11-16T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-16T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36479,12 +36759,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-15T21:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36501,12 +36782,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-15T21:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36523,12 +36805,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-16T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36545,12 +36828,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36567,12 +36851,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-15T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36589,12 +36874,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36611,12 +36897,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-15T21:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36633,12 +36920,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-16T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36655,12 +36943,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-15T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261115",
@@ -36677,12 +36966,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-15T22:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36806,11 +37096,12 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
-   "startTimeUTC": "2026-11-17T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-17T00:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36827,11 +37118,12 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
-   "startTimeUTC": "2026-11-17T00:40:00.000+00:00"
+   "startTimeUTC": "2026-11-17T00:40:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36848,11 +37140,12 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
-   "startTimeUTC": "2026-11-17T00:10:00.000+00:00"
+   "startTimeUTC": "2026-11-17T00:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36869,11 +37162,12 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
-   "startTimeUTC": "2026-11-17T00:40:00.000+00:00"
+   "startTimeUTC": "2026-11-17T00:40:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36890,12 +37184,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-17T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36912,12 +37207,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-17T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36934,12 +37230,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-17T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36956,12 +37253,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-17T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -36978,12 +37276,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-17T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -37000,12 +37299,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-17T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -37022,12 +37322,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-17T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -37044,12 +37345,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-17T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261116",
@@ -37066,12 +37368,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-17T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37088,11 +37391,12 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
-   "startTimeUTC": "2026-11-18T03:40:00.000+00:00"
+   "startTimeUTC": "2026-11-18T03:40:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37259,12 +37563,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-18T03:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37281,12 +37586,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-18T04:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37303,12 +37609,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-18T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37325,12 +37632,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-18T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37347,12 +37655,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-18T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37369,12 +37678,13 @@
    "price": -105,
    "book_price": -105,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9524,
    "book_profit": 0.9524,
    "startTimeUTC": "2026-11-18T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261117",
@@ -37391,12 +37701,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-18T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38069,12 +38380,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-19T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38091,12 +38403,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-19T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38113,12 +38426,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-19T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38135,12 +38449,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-19T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38157,12 +38472,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-19T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38179,12 +38495,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-19T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38201,12 +38518,13 @@
    "price": -112,
    "book_price": -112,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8929,
    "book_profit": 0.8929,
    "startTimeUTC": "2026-11-19T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38223,12 +38541,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-19T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38245,12 +38564,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-19T02:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261118",
@@ -38267,12 +38587,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-19T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261119",
@@ -38500,12 +38821,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261119",
@@ -38522,12 +38844,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261119",
@@ -38544,12 +38867,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261119",
@@ -38566,12 +38890,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261119",
@@ -38588,12 +38913,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261119",
@@ -38610,12 +38936,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-20T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -38886,12 +39213,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -38908,12 +39236,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-21T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -38930,12 +39259,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -38952,12 +39282,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -38974,12 +39305,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-21T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -38996,12 +39328,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -39018,12 +39351,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-21T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -39040,12 +39374,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -39062,12 +39397,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9434,
    "book_profit": 0.9434,
    "startTimeUTC": "2026-11-21T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -39084,12 +39420,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -39106,12 +39443,13 @@
    "price": -106,
    "book_price": -106,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9434,
    "book_profit": 0.9434,
    "startTimeUTC": "2026-11-21T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261120",
@@ -39128,12 +39466,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-21T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261121",
@@ -39362,12 +39701,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-22T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261121",
@@ -39384,12 +39724,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-22T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261121",
@@ -39406,12 +39747,13 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8333,
    "book_profit": 0.8333,
    "startTimeUTC": "2026-11-21T18:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261121",
@@ -39428,12 +39770,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-22T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39660,12 +40003,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9259,
    "book_profit": 0.9259,
    "startTimeUTC": "2026-11-23T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39682,12 +40026,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-22T20:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39704,12 +40049,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-23T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39726,12 +40072,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-22T23:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39748,12 +40095,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-23T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39770,12 +40118,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-23T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39792,12 +40141,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-23T01:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261122",
@@ -39814,12 +40164,13 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-23T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40109,12 +40460,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-24T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40131,12 +40483,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-24T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40153,12 +40506,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-24T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40175,12 +40529,13 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8475,
    "book_profit": 0.8475,
    "startTimeUTC": "2026-11-24T00:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40197,12 +40552,13 @@
    "price": -115,
    "book_price": -115,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8696,
    "book_profit": 0.8696,
    "startTimeUTC": "2026-11-24T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40219,12 +40575,13 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.8772,
    "book_profit": 0.8772,
    "startTimeUTC": "2026-11-24T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40241,12 +40598,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-24T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40263,12 +40621,13 @@
    "price": -110,
    "book_price": -110,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "WIN",
    "profit": 0.9091,
    "book_profit": 0.9091,
    "startTimeUTC": "2026-11-24T03:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40285,12 +40644,13 @@
    "price": -104,
    "book_price": -104,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-24T01:10:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261123",
@@ -40307,12 +40667,13 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "LOSS",
    "profit": -1.0,
    "book_profit": -1.0,
    "startTimeUTC": "2026-11-24T00:40:00.000+00:00",
-   "hist": true
+   "hist": true,
+   "was_shadow": true
   },
   {
    "date": "20261124",
@@ -40456,11 +40817,12 @@
    "price": -108,
    "book_price": -108,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
+   "startTimeUTC": "2026-11-25T00:11:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261124",
@@ -40477,11 +40839,12 @@
    "price": -114,
    "book_price": -114,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-25T03:10:00.000+00:00"
+   "startTimeUTC": "2026-11-25T03:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261124",
@@ -40498,11 +40861,12 @@
    "price": -118,
    "book_price": -118,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
+   "startTimeUTC": "2026-11-25T00:11:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261124",
@@ -40519,11 +40883,12 @@
    "price": -120,
    "book_price": -120,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-25T01:10:00.000+00:00",
+   "was_shadow": true
   },
   {
    "date": "20261124",
@@ -40540,11 +40905,12 @@
    "price": -102,
    "book_price": -102,
    "stake": 1.0,
-   "status": "shadow",
+   "status": "card",
    "result": "pending",
    "profit": 0.0,
    "book_profit": 0.0,
-   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
+   "startTimeUTC": "2026-11-25T01:10:00.000+00:00",
+   "was_shadow": true
   }
  ]
 }
