@@ -469,7 +469,7 @@ function nbasTodayBlock(d, which) {
       String(a.lead.startTimeUTC || '').localeCompare(String(b.lead.startTimeUTC || '')) || b.n - a.n);
     const line = v => `<div style="padding:2px 0"><b>${esc(v.lead.play)}</b> `
       + `<span style="color:${NBAS_DIM}">${esc(nbasPrice(v.lead.price))} · ${esc(nbasCtTime(v.lead.startTimeUTC))} · `
-      + `${esc(v.names.join(', '))}${v.kind !== 'play' || v.m ? ' · ' + esc(v.why) : ''}</span></div>`;
+      + `<span style="color:#c9d1d9">${esc(v.lead.game || '')}</span> · ${esc(v.names.join(', '))}${v.kind !== 'play' || v.m ? ' · ' + esc(v.why) : ''}</span></div>`;
     const box = (kind, title, color, rgb) => {
       const list = all.filter(v => v.kind === kind);
       if (!list.length) return '';
