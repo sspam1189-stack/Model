@@ -110,6 +110,25 @@ SYSTEMS = [
         # of anything screened, but only ~15 games a year.
         "test": lambda c: 7 <= c.get("home_dog_pts", 0) < 10,
     },
+    {
+        # ADDED AND CARDED 2026-11-25 (user decision). NOT screened the way the
+        # systems above were: it was found on 2026 alone (weeks 1-11), after the
+        # games were played, as the best of 47 ideas tried that day. There is no
+        # earlier season to test it on -- the weekly line history only exists in
+        # this repo's git log from 2026.
+        #   32-18 (64.0%), 17-9 in weeks 1-6 and 15-9 in weeks 7-11; fading the
+        #   same move was 18-32, the worst of the 47.
+        # prob is that 64% shrunk toward breakeven with the same 100-game prior
+        # and 3.5pp line-quality haircut used above: (32+52.4)/150 - 0.035.
+        "id": "follow_spread_move",
+        "market": "spread",
+        # The side depends on which way the line went, so it is resolved from
+        # the context when the system fires (see evaluate).
+        "side": lambda c: "HOME" if c["spread_move"] < 0 else "AWAY",
+        "prob": 0.528,
+        "desc": "spread moved 1+ toward a team since the week's first line -> that team ATS",
+        "test": lambda c: c.get("spread_move") is not None and abs(c["spread_move"]) >= 1,
+    },
 ]
 
 # RETIRED 2026-09-10 -- mismatch_10_any_over ("|spread| >= 10, any window ->
@@ -163,6 +182,7 @@ def evaluate(ctx):
         temp                 float  Fahrenheit, None if unknown
         rematch              bool   2nd meeting of these teams this season
         home_lost_meeting1   bool
+        spread_move          float  home spread now minus the week's first home spread
 
     OVERLAP is fine and expected -- several systems can fire on one game and
     ALL of them are reported. What can't happen is two bets on the same
@@ -192,7 +212,8 @@ def evaluate(ctx):
     for s in SYSTEMS:
         try:
             if s["test"](ctx):
-                fired.append(s)
+                # a system whose side depends on the game resolves it here
+                fired.append({**s, "side": s["side"](ctx)} if callable(s["side"]) else s)
         except (TypeError, ValueError):
             continue
     out = {"total": None, "spread": None, "all": [s["id"] for s in fired],
@@ -242,12 +263,15 @@ def evaluate(ctx):
 
 def build_context(spread=None, week=None, primetime=None, backup_qb=False,
                   dome=False, temp=None, rematch=False, home_lost_meeting1=False,
-                  snf=False):
+                  snf=False, spread_move=None):
     """Assemble a context dict, deriving home_dog_pts from the spread."""
     ctx = dict(spread=spread, week=week, primetime=bool(primetime),
                backup_qb=bool(backup_qb), dome=bool(dome), temp=temp,
                rematch=bool(rematch), home_lost_meeting1=bool(home_lost_meeting1),
-               snf=bool(snf))
+               snf=bool(snf),
+               # current home spread minus the first home spread seen this week:
+               # negative = the line moved toward the home team
+               spread_move=spread_move)
     # spread convention here matches the engine: negative = home favoured,
     # so a positive spread means the home team is getting points.
     ctx["home_dog_pts"] = spread if (spread is not None and spread > 0) else 0.0

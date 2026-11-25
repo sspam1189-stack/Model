@@ -216,6 +216,7 @@ def _systems_only_game(game_data, home_name, away_name, situational):
             rematch=situational.get("rematch"),
             home_lost_meeting1=situational.get("home_lost_meeting1"),
             snf=situational.get("snf"),
+            spread_move=situational.get("spread_move"),
         )
         fired = _ev(ctx)
     except Exception:
@@ -432,6 +433,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
             rematch=situational.get("rematch"),
             home_lost_meeting1=situational.get("home_lost_meeting1"),
             snf=situational.get("snf"),
+            spread_move=situational.get("spread_move"),
         )
         _fired = _sys_eval(_ctx)
         systems_fired = _fired["all"]          # EVERY system that fired, not just the pick

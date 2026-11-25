@@ -1074,8 +1074,18 @@ def stage_project(season, week, store):
         print(f"[project] {n_all} games in odds feed, {len(odds)} in Week {week} window")
     print(f"[project] Analyzing {len(odds)} matchups...")
     games = []
+    # First line seen for each game this week (follow_spread_move). Carried
+    # forward on the game record as openLine from run to run.
+    _open_lines = {}
+    for _r in store.get("runs", []):
+        if _r.get("weekKey") == f"{season}_W{week}":
+            for _pg in _r.get("games", []):
+                _ol = _pg.get("openLine", _pg.get("line"))
+                if isinstance(_ol, (int, float)):
+                    _open_lines[(_pg.get("home"), _pg.get("away"))] = _ol
 
     for g in odds:
+        _open = None
         if not isinstance(g.get("line"), (int, float)) or not isinstance(g.get("total"), (int, float)):
             games.append({**g, "status": "MISSING_ODDS"})
             continue
@@ -1115,6 +1125,12 @@ def stage_project(season, week, store):
         try:
             # --- situational-system context ---
             game_situational = {"week": week}
+            _open = next((v for k, v in _open_lines.items()
+                          if k in ((g.get("_homeAbbr"), g.get("_awayAbbr")), (g.get("home"), g.get("away")))), None)
+            if _open is None and isinstance(g.get("line"), (int, float)):
+                _open = g["line"]                      # first time this game is seen
+            if isinstance(_open, (int, float)) and isinstance(g.get("line"), (int, float)):
+                game_situational["spread_move"] = g["line"] - _open
             if backup_qb_teams:
                 _hb = g.get("_homeAbbr", "") in backup_qb_teams
                 _ab = g.get("_awayAbbr", "") in backup_qb_teams
@@ -1176,6 +1192,8 @@ def stage_project(season, week, store):
         # feed does not survive it. The dashboard orders the week by this.
         if g.get("commenceTimeIso"):
             r["commenceTimeIso"] = g["commenceTimeIso"]
+        if isinstance(_open, (int, float)):
+            r["openLine"] = _open
 
         # LR confirmation / veto gate
         games.append(r)

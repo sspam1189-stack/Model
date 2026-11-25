@@ -2309,6 +2309,7 @@ const NFL_SYSTEM_LABELS = {
   week1_under:           'Week 1 — UNDER',
   snf_under:             'Sunday Night Football — UNDER',
   home_dog_7_10:         'Home dog of 7-10 — HOME',
+  follow_spread_move:    'Follow spread move (1+ since the week opened) — ATS',
 };
 
 // One colour per system so a group header, a record row and a filter all
@@ -2321,6 +2322,7 @@ const NFL_SYSTEM_COLORS = {
   week1_under:            'var(--purple)',
   snf_under:              '#818cf8',
   home_dog_7_10:          'var(--green)',
+  follow_spread_move:     '#2dd4bf',
 };
 const nflSystemColor = (id) => NFL_SYSTEM_COLORS[id] || 'var(--muted)';
 
