@@ -106,6 +106,18 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python run_daily.py
 
+      # Re-read the NBA systems now that every model has run: two of them
+      # compare KalmanOff's plays with Full Season's, and the build inside the
+      # Full Season run happens before KalmanOff has run. Never blocks the commit.
+      - name: Rebuild NBA systems (after all models)
+        continue-on-error: true
+        working-directory: pyFull/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python build_nba_systems.py
+
       # Replay-graded season record for the dashboard's NBA Preview tab (each
       # game graded at its last run before tip, same as the preview replay).
       # Re-runs only once a new day is fully final; never blocks the commit.

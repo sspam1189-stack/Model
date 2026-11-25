@@ -449,6 +449,53 @@ SYSTEMS = [
         "test": lambda r: (r.get("spread_price") is not None and r.get("_o_spread_price") is not None
                            and r["spread_price"] <= -114 and r["_o_spread_price"] > r["spread_price"]),
     },
+    {
+        # Added 2026-11-25 (user decision), SHADOW. The only difference between
+        # KalmanOff and Full Season is the Kalman correction, so these two
+        # systems are a bet on whether that correction helps or hurts. Found on
+        # 2026-27 alone, after seeing the games; seven of the first 21 involved
+        # one team (the Thunder).
+        "id": "ko_only_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "label": "KalmanOff plays this side, Full Season does not -> back it",
+        "name": (
+            "KalmanOff-only play"),
+        "rule": (
+            "KalmanOff has this team at 58%+ to cover (line inside 18) and "
+            "Full Season does not have the same play -> back the team ATS."),
+        "why": (
+            "KalmanOff plays that Full Season does not share. 25-5 in 2026-27 "
+            "through Nov 24, in-sample (6-2 through Nov 8, 19-3 after, when "
+            "the Kalman correction became active). No earlier season to test "
+            "on. Shadow from 2026-11-25."),
+        "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
+        "mechanism": (
+            "The Kalman correction moves each team toward how it has done "
+            "recently. When it talks Full Season out of a play KalmanOff "
+            "keeps, the play has won -- recent form the market has already "
+            "priced is being counted twice."),
+        "test": lambda r: (r.get("_ko_p") is not None and r["_ko_p"] >= 0.58
+                           and not (r.get("_fs_p") is not None and r["_fs_p"] >= 0.58)),
+    },
+    {
+        "id": "fade_fs_only_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
+        "label": "Full Season plays the other side, KalmanOff does not -> fade it",
+        "name": (
+            "Fade Full Season-only play"),
+        "rule": (
+            "Full Season has the OPPONENT at 58%+ to cover (line inside 18) "
+            "and KalmanOff does not have that play -> back this team ATS."),
+        "why": (
+            "Fade Full Season plays that KalmanOff does not share. 16-6 in "
+            "2026-27 through Nov 24, in-sample (1-1 through Nov 8, 15-5 "
+            "after). No earlier season to test on. Shadow from 2026-11-25."),
+        "backtest": {"w": 0, "l": 0, "units": None, "roi": None, "priced": "none"},
+        "mechanism": (
+            "The mirror of KalmanOff-only play: a play that exists only "
+            "because of the Kalman correction has lost. Two weeks of it, on "
+            "few games."),
+        "test": lambda r: (r.get("_fs_op") is not None and r["_fs_op"] >= 0.58
+                           and not (r.get("_ko_op") is not None and r["_ko_op"] >= 0.58)),
+    },
 
     # ----------------------------------------------------------------- REFERENCE
     {

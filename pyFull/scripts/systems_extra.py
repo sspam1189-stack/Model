@@ -159,6 +159,53 @@ def _line_moves(rows):
         r["_total_move"] = r["total"] - f[1]
 
 
+_MODEL_CACHE = {}
+
+
+def _model_probs(folder):
+    """{(date, away, home): (P(home covers), P(away covers), home line)} from a
+    model's history -- each game at that model's latest run. Empty when the
+    history is not there (a preview's throwaway copy, for instance)."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.normpath(os.path.join(here, "..", "..", folder, "data", "history.json"))
+    try:
+        key = (path, os.path.getmtime(path))
+    except OSError:
+        return {}
+    if key in _MODEL_CACHE:
+        return _MODEL_CACHE[key]
+    out = {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            for run in json.load(f).get("runs", []):
+                for g in run.get("games", []):
+                    if g.get("pHomeCover") is None or g.get("pAwayCover") is None or g.get("line") is None:
+                        continue
+                    out[(run.get("date"), g.get("away"), g.get("home"))] = (
+                        g["pHomeCover"], g["pAwayCover"], g["line"])
+    except Exception:
+        out = {}
+    _MODEL_CACHE.clear()
+    _MODEL_CACHE[key] = out
+    return out
+
+
+def _model_plays(rows):
+    """_ko_p / _fs_p: KalmanOff's and Full Season's P(this team covers), and
+    the opponent's. A model "plays" a side at .58+ on a line inside 18, the
+    same rule the models use. Read from each model's own history, so in a live
+    run these are current only once that model has run (the workflow rebuilds
+    the systems after all the models)."""
+    ko, fs = _model_probs("pyFullKalmanOff"), _model_probs("pyFull")
+    for r in rows:
+        away, home = (r["opp"], r["team"]) if r["is_home"] else (r["team"], r["opp"])
+        for tag, src in (("ko", ko), ("fs", fs)):
+            v = src.get((r["date"], away, home))
+            ok = v is not None and abs(v[2]) < 18
+            mine, theirs = ((v[0], v[1]) if r["is_home"] else (v[1], v[0])) if ok else (None, None)
+            r[f"_{tag}_p"], r[f"_{tag}_op"] = mine, theirs
+
+
 def attach(rows):
     """Add the extra fields to every team-row, then the opponent's _3own."""
     try:
@@ -169,6 +216,10 @@ def attach(rows):
         _line_moves(rows)
     except Exception as e:
         print(f"  [systems] line-move context failed (non-fatal): {e}")
+    try:
+        _model_plays(rows)
+    except Exception as e:
+        print(f"  [systems] model-play context failed (non-fatal): {e}")
     by_gi = collections.defaultdict(dict)
     for r in rows:
         by_gi[r["gi"]][r["is_home"]] = r
