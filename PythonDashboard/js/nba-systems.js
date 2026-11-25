@@ -333,6 +333,26 @@ function nbasAgreement(d) {
   });
   return m;
 }
+// DISAGREEMENT: carded systems on opposite sides of the same game (opposite
+// teams for ATS / moneyline, or an over against an under).
+function nbasGameKey(p) { return (p.game || '') + '|' + (p.market === 'total' ? 'T' : 'S'); }
+function nbasConflicts(d) {
+  const g = {};
+  (d.today || []).filter(p => p.status === 'card').forEach(p => {
+    const x = g[nbasGameKey(p)] || (g[nbasGameKey(p)] = {});
+    const k = nbasSideKey(p);
+    const y = x[k] || (x[k] = { fam: new Set(), plays: [] });
+    y.fam.add(NBAS_FAMILY[p.system] || p.system);
+    y.plays.push(p);
+  });
+  const out = {};
+  Object.keys(g).forEach(k => { if (Object.keys(g[k]).length > 1) out[k] = Object.values(g[k]); });
+  return out;
+}
+function nbasOpposedBadge() {
+  return `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
+    + `font-weight:700;background:rgba(210,153,34,.2);color:${NBAS_AMBER};white-space:nowrap">OPPOSED</span>`;
+}
 function nbasAgreeBadge(n) {
   return `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
     + `font-weight:700;background:rgba(63,185,80,.2);color:${NBAS_GREEN};white-space:nowrap">${n} AGREE</span>`;
@@ -367,6 +387,9 @@ function nbasTodayBlock(d, which) {
   const phone = nbasPhone();
   const agree = shadow ? {} : nbasAgreement(d);
   const agreeN = p => { const x = agree[nbasSideKey(p)]; return x && x.fam.size >= 2 ? x.fam.size : 0; };
+  const conflicts = shadow ? {} : nbasConflicts(d);
+  const opposed = p => !!conflicts[nbasGameKey(p)];
+  const tags = p => (agreeN(p) ? nbasAgreeBadge(agreeN(p)) : '') + (opposed(p) ? nbasOpposedBadge() : '');
   if (!shadow) {
     const hits = Object.values(agree).filter(x => x.fam.size >= 2)
       .sort((a, b) => b.fam.size - a.fam.size || String(a.plays[0].startTimeUTC || '').localeCompare(String(b.plays[0].startTimeUTC || '')));
@@ -378,6 +401,22 @@ function nbasTodayBlock(d, which) {
           const names = [...new Set(x.plays.map(p => nbasName(d, p.system)))].join(', ');
           return `<div style="padding:2px 0"><b>${esc(lead.play)}</b>${nbasAgreeBadge(x.fam.size)}`
             + `<span style="color:${NBAS_DIM}"> ${esc(nbasCtTime(lead.startTimeUTC))} · ${esc(names)}</span></div>`;
+        }).join('') + `</div>`;
+    }
+    const cl = Object.values(conflicts);
+    if (cl.length) {
+      const sideTxt = x => {
+        const lead = x.plays.find(p => p.market === 'spread') || x.plays[0];
+        return `<b>${esc(lead.play)}</b> <span style="color:${NBAS_DIM}">(${esc([...new Set(x.plays.map(p => nbasName(d, p.system)))].join(', '))})</span>`;
+      };
+      h += `<div style="margin:2px 10px 8px;padding:8px 10px;border:1px solid rgba(210,153,34,.5);border-radius:6px;`
+        + `background:rgba(210,153,34,.08);font-size:12px"><div style="font-weight:700;color:${NBAS_AMBER};margin-bottom:4px">`
+        + `Systems disagree</div>` + cl.map(sides => {
+          const srt = sides.slice().sort((a, b) => b.fam.size - a.fam.size);
+          const lean = srt[0].fam.size > srt[1].fam.size
+            ? `<span style="color:${NBAS_DIM}"> · more systems on ${esc((srt[0].plays.find(p => p.market === 'spread') || srt[0].plays[0]).play)}</span>`
+            : `<span style="color:${NBAS_DIM}"> · even</span>`;
+          return `<div style="padding:2px 0">${srt.map(sideTxt).join(' <span style="color:' + NBAS_AMBER + '">vs</span> ')}${lean}</div>`;
         }).join('') + `</div>`;
     }
   }
@@ -423,15 +462,15 @@ function nbasTodayBlock(d, which) {
     const conv = (p.market === 'h2h' && (p.book_price === null || p.book_price === undefined))
       ? `<span style="color:${NBAS_AMBER}" title="frozen spread-to-ML conversion, not a book quote">*</span>` : '';
     if (phone) {
-      h += nbasPhonePlay(4, esc(p.play) + (agreeN(p) ? nbasAgreeBadge(agreeN(p)) : ''),
+      h += nbasPhonePlay(4, esc(p.play) + tags(p),
         `<span style="color:${NBAS_DIM}">${esc(nbasPrice(p.price))}${conv}</span>`,
         `${esc(nbasCtTime(p.startTimeUTC))} · ${esc(p.game)}`, false);
       continue;
     }
-    h += `<tr style="border-top:1px solid #161b22${dim}${agreeN(p) ? ';background:rgba(63,185,80,.07)' : ''}">`
+    h += `<tr style="border-top:1px solid #161b22${dim}${opposed(p) ? ';background:rgba(210,153,34,.07)' : (agreeN(p) ? ';background:rgba(63,185,80,.07)' : '')}">`
       + `<td style="padding:3px 6px 3px 22px;color:${NBAS_DIM}">${esc(nbasCtTime(p.startTimeUTC))}</td>`
       + `<td style="padding:3px 6px">${esc(p.game)}</td>`
-      + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(p.play)}${agreeN(p) ? nbasAgreeBadge(agreeN(p)) : ''}</td>`
+      + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(p.play)}${tags(p)}</td>`
       + `<td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasPrice(p.price))}${conv}</td></tr>`;
   }
   h += '</tbody></table></div>';
