@@ -21463,8 +21463,11 @@
             "flagSide": "away",
             "flagAt": "2026-11-24T08:47:48-06:00",
             "lineLast": 2.5,
-            "atLast": "2026-11-24T18:47:21-06:00"
-          }
+            "atLast": "2026-11-24T20:32:42-06:00"
+          },
+          "awayScore": 104.0,
+          "homeScore": 86.0,
+          "sResult": "WIN"
         },
         {
           "away": "Boston Celtics",
@@ -21535,42 +21538,42 @@
             "side0": "home",
             "at0": "2026-11-24T08:47:48-06:00",
             "lineLast": 10.5,
-            "atLast": "2026-11-24T18:47:21-06:00"
+            "atLast": "2026-11-24T20:32:42-06:00"
           }
         },
         {
           "away": "Dallas Mavericks",
           "home": "Denver Nuggets",
-          "line": -8.5,
-          "total": 233.5,
+          "line": -7.5,
+          "total": 234.5,
           "startTimeUTC": "2026-11-25T03:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 245,
-          "home_ml": -300,
+          "away_ml": 235,
+          "home_ml": -290,
           "over_ml": -114,
           "under_ml": -106,
-          "spread_price_away": -114,
-          "spread_price_home": -106,
+          "spread_price_away": -106,
+          "spread_price_home": -114,
           "aS": 112.8,
           "hS": 117.2,
           "pT": 230.0,
-          "margin": -4.1,
-          "sDiff": 4.1,
-          "tDiff": -8.5,
-          "sPick": "Dallas Mavericks +8.5",
+          "margin": -3.1,
+          "sDiff": 3.1,
+          "tDiff": -9.5,
+          "sPick": "Dallas Mavericks +7.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.388,
-          "pAwayCover": 0.612,
-          "pOver": 0.287,
-          "pUnder": 0.713,
-          "pCover": 0.612,
+          "pHomeCover": 0.415,
+          "pAwayCover": 0.585,
+          "pOver": 0.265,
+          "pUnder": 0.735,
+          "pCover": 0.585,
           "pOU": null,
           "minGP": 15,
           "pCal": 0.5,
-          "marginVar": 207.5,
+          "marginVar": 207.2,
           "marginStd": 14.4,
           "_features": {
             "dTS": 0.032299999999999995,
@@ -21611,13 +21614,13 @@
             "flagEdge": -4.1,
             "flagSide": "away",
             "flagAt": "2026-11-24T08:47:48-06:00",
-            "lineLast": -8.5,
-            "atLast": "2026-11-24T18:47:21-06:00"
+            "lineLast": -7.5,
+            "atLast": "2026-11-24T20:32:42-06:00"
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         15-12-0   (55.6%)   [graded 27]\n  Elite:       15-12-0   (55.6%)   [graded 27]\n\nFAV/DOG (Spread)\n  Favorites:   6-4-0   (60.0%)   [graded 10]\n  Underdogs:   9-8-0   (52.9%)   [graded 17]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/24/2026, 06:47:21 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         16-12-0   (57.1%)   [graded 28]\n  Elite:       16-12-0   (57.1%)   [graded 28]\n\nFAV/DOG (Spread)\n  Favorites:   7-4-0   (63.6%)   [graded 11]\n  Underdogs:   9-8-0   (52.9%)   [graded 17]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "11/24/2026, 08:32:42 PM"
     }
   ],
   "weights": {
@@ -21649,5 +21652,5 @@
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 207.3
+  "residualVar": 207.0
 }
