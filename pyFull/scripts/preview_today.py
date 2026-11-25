@@ -134,18 +134,89 @@ def replay_model(model, dates, stats, boards):
         shutil.rmtree(root, ignore_errors=True)
 
 
+SYSTEMS_PREVIEW = {}      # the systems feed pyFull's throwaway run wrote (live preview only)
+
+
 def run_model(model):
     root = _setup(model)
+    if model == "pyFull":
+        # today's recorded lines so far, for the systems that read line moves
+        import datetime as _dt
+        _today = _dt.datetime.now().strftime("%Y%m%d")
+        _src = os.path.join(REPO, "data", "run_inputs", "nba", _today)
+        if os.path.isdir(_src):
+            shutil.copytree(_src, os.path.join(root, "data", "run_inputs", "nba", _today), dirs_exist_ok=True)
     env = {k: v for k, v in os.environ.items() if not k.startswith("GMAIL")}
     p = subprocess.run([sys.executable, "run_daily.py"], cwd=os.path.join(root, model, "scripts"),
                        env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
     print(f"--- {model} run_daily exit {p.returncode}; last lines:")
     print("\n".join((p.stdout + p.stderr).strip().splitlines()[-15:]))
     try:
+        if model == "pyFull":
+            try:
+                with open(os.path.join(root, model, "data", "nba-systems.json"), encoding="utf-8") as f:
+                    SYSTEMS_PREVIEW.update(json.load(f))
+            except Exception as e:
+                print(f"  [systems preview] not available: {e}")
         runs = json.load(open(os.path.join(root, model, "data", "history.json"), encoding="utf-8"))["runs"]
         return runs[-1]
     finally:
         shutil.rmtree(root, ignore_errors=True)
+
+
+def systems_lines(date, runs):
+    """The system plays as of this preview: pyFull's throwaway systems build,
+    plus the two systems that compare KalmanOff with Full Season (worked out
+    here, because each model previews in its own folder)."""
+    feed = SYSTEMS_PREVIEW
+    if not feed or feed.get("date") != date:
+        return []
+    names = {s["id"]: (s.get("name") or s["id"], s.get("status")) for s in feed.get("systems", [])}
+    plays = [p for p in feed.get("today", []) if p.get("system") not in ("ko_only_ats", "fade_fs_only_ats")]
+
+    def prob(model):
+        out = {}
+        for g in (runs.get(model) or {}).get("games", []):
+            if g.get("pHomeCover") is None or g.get("line") is None or abs(g["line"]) >= 18:
+                continue
+            out[(g["away"], g["home"])] = g
+        return out
+    ko, fs = prob("pyFullKalmanOff"), prob("pyFull")
+    for key in ko:
+        if key not in fs:
+            continue
+        a, h = key
+        for team, opp, kp, fp, line in ((h, a, ko[key]["pHomeCover"], fs[key]["pHomeCover"], ko[key]["line"]),
+                                        (a, h, ko[key]["pAwayCover"], fs[key]["pAwayCover"], -ko[key]["line"])):
+            lbl = f"{team} {'+' if line > 0 else ''}{line:g}"
+            base = {"game": f"{a} @ {h}", "play": lbl, "price": None, "market": "spread",
+                    "startTimeUTC": ko[key].get("startTimeUTC")}
+            if kp >= 0.58 and not fp >= 0.58:
+                plays.append({**base, "system": "ko_only_ats", "status": names.get("ko_only_ats", ("", "card"))[1]})
+        # fade a Full Season play KalmanOff does not share: back the other side
+        for team, fp_opp, kp_opp, line in ((h, fs[key]["pAwayCover"], ko[key]["pAwayCover"], ko[key]["line"]),
+                                           (a, fs[key]["pHomeCover"], ko[key]["pHomeCover"], -ko[key]["line"])):
+            if fp_opp >= 0.58 and not kp_opp >= 0.58:
+                plays.append({"game": f"{a} @ {h}", "play": f"{team} {'+' if line > 0 else ''}{line:g}",
+                              "price": None, "market": "spread", "system": "fade_fs_only_ats",
+                              "status": names.get("fade_fs_only_ats", ("", "card"))[1]})
+    if not plays:
+        return ["## System plays (preview)", "", "No system fires on the current lines.", ""]
+    out = ["## System plays (preview)", "",
+           "As of this run's lines. The line-move systems are decided by the last run before tip, so these can change.", ""]
+    for status, title in (("card", "Carded"), ("shadow", "Shadow (tracked, not bet)")):
+        for grp, gname in ((False, "ATS & ML"), (True, "Overs & Unders")):
+            sel = [p for p in plays if (p.get("status") == "card") == (status == "card")
+                   and (p.get("market") == "total") == grp]
+            if not sel:
+                continue
+            out += [f"**{title} - {gname}**", "", "| System | Play | Price | Game |", "|---|---|---|---|"]
+            for p in sorted(sel, key=lambda p: (names.get(p["system"], (p["system"],))[0], p.get("game") or "")):
+                pr = p.get("price")
+                out.append(f"| {names.get(p['system'], (p['system'],))[0]} | {p['play']} | "
+                           f"{('+' if pr > 0 else '') + str(pr) if isinstance(pr, (int, float)) else '-'} | {p.get('game', '')} |")
+            out.append("")
+    return out
 
 
 def _days(d0, d1):
@@ -433,6 +504,11 @@ def main():
              + " (burn-in lowered: MIN_GP 1, picks at 0 GP)", ""]
     for d in dates:
         lines += table(d, out[d], finals[d], total) + [""]
+    if not a.date:
+        try:
+            lines += systems_lines(dates[0], out[dates[0]])
+        except Exception as e:
+            lines += [f"(system plays preview failed: {e})", ""]
     if len(dates) > 1:
         lines += ["## Total", "", "Plays (engine-fired, 1u/2u): " + ", ".join(
             _rec(n, total[m]) for m, n in TRACKED)]

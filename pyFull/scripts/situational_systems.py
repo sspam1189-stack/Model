@@ -481,8 +481,9 @@ SYSTEMS = [
             "recently. When it talks Full Season out of a play KalmanOff "
             "keeps, the play has won -- recent form the market has already "
             "priced is being counted twice."),
-        "test": lambda r: (r.get("_ko_p") is not None and r["_ko_p"] >= 0.58
-                           and not (r.get("_fs_p") is not None and r["_fs_p"] >= 0.58)),
+        # both models must have a number for the game, or nothing fires
+        "test": lambda r: (r.get("_ko_p") is not None and r.get("_fs_p") is not None
+                           and r["_ko_p"] >= 0.58 and not r["_fs_p"] >= 0.58),
     },
     {
         "id": "fade_fs_only_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
@@ -501,8 +502,8 @@ SYSTEMS = [
             "The mirror of KalmanOff-only play: a play that exists only "
             "because of the Kalman correction has lost. Two weeks of it, on "
             "few games."),
-        "test": lambda r: (r.get("_fs_op") is not None and r["_fs_op"] >= 0.58
-                           and not (r.get("_ko_op") is not None and r["_ko_op"] >= 0.58)),
+        "test": lambda r: (r.get("_fs_op") is not None and r.get("_ko_op") is not None
+                           and r["_fs_op"] >= 0.58 and not r["_ko_op"] >= 0.58),
     },
 
     # ----------------------------------------------------------------- REFERENCE
