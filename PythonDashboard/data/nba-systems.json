@@ -1,7 +1,7 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-11-25T05:50:58Z",
+ "generated": "2026-11-25T05:56:46Z",
  "date": "20261124",
  "dateDisplay": "2026-11-24",
  "registry_frozen": "2026-09-02",
@@ -141,7 +141,7 @@
     "h2": null,
     "priced": "real -110"
    },
-   "status": "card"
+   "status": "shadow"
   },
   {
    "id": "fade_spread_move",
@@ -237,7 +237,7 @@
     "z": 1.8,
     "priced": "assumed -110"
    },
-   "status": "card"
+   "status": "shadow"
   },
   {
    "id": "juiced_side_ats",
@@ -359,51 +359,11 @@
   },
   {
    "date": "20261124",
-   "system": "home_dog_5_under",
-   "tier": "candidate",
-   "market": "total",
-   "side": "UNDER",
-   "label": "Home dog of +5 or more -> UNDER",
-   "play": "UNDER 218.5",
-   "team": "Washington Wizards",
-   "game": "Boston Celtics @ Washington Wizards",
-   "away": "Boston Celtics",
-   "home": "Washington Wizards",
-   "line": 218.5,
-   "spread": 10.5,
-   "total": 218.5,
-   "price": -108,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
-  },
-  {
-   "date": "20261124",
    "system": "juiced_side_ats",
    "tier": "watch",
    "market": "spread",
    "side": "TEAM",
    "label": "Spread priced -114 or worse, other side cheaper -> back the expensive side",
-   "play": "Orlando Magic +2.5",
-   "team": "Orlando Magic",
-   "game": "Detroit Pistons @ Orlando Magic",
-   "away": "Detroit Pistons",
-   "home": "Orlando Magic",
-   "line": 2.5,
-   "spread": 2.5,
-   "total": 212.5,
-   "price": -118,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
-  },
-  {
-   "date": "20261124",
-   "system": "unlucky_team_ats",
-   "tier": "watch",
-   "market": "spread",
-   "side": "TEAM",
-   "label": "Team lost 15+ points to three-point luck last game -> ATS",
    "play": "Orlando Magic +2.5",
    "team": "Orlando Magic",
    "game": "Detroit Pistons @ Orlando Magic",
@@ -535,6 +495,46 @@
    "price": -108,
    "book_price": null,
    "status": "card",
+   "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
+  },
+  {
+   "date": "20261124",
+   "system": "home_dog_5_under",
+   "tier": "candidate",
+   "market": "total",
+   "side": "UNDER",
+   "label": "Home dog of +5 or more -> UNDER",
+   "play": "UNDER 218.5",
+   "team": "Washington Wizards",
+   "game": "Boston Celtics @ Washington Wizards",
+   "away": "Boston Celtics",
+   "home": "Washington Wizards",
+   "line": 218.5,
+   "spread": 10.5,
+   "total": 218.5,
+   "price": -108,
+   "book_price": null,
+   "status": "shadow",
+   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
+  },
+  {
+   "date": "20261124",
+   "system": "unlucky_team_ats",
+   "tier": "watch",
+   "market": "spread",
+   "side": "TEAM",
+   "label": "Team lost 15+ points to three-point luck last game -> ATS",
+   "play": "Orlando Magic +2.5",
+   "team": "Orlando Magic",
+   "game": "Detroit Pistons @ Orlando Magic",
+   "away": "Detroit Pistons",
+   "home": "Orlando Magic",
+   "line": 2.5,
+   "spread": 2.5,
+   "total": 212.5,
+   "price": -118,
+   "book_price": null,
+   "status": "shadow",
    "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
   }
  ],

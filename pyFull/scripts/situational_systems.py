@@ -85,6 +85,8 @@ PROMOTION_MIN_PLAYS = 25   # live plays before a shadow system may be promoted
 # 2026-11-17, user decision: elite_dog_ml and elite_dog_ats moved CARD ->
 # SHADOW. Still evaluated, logged and graded every day; no longer bet. Plays
 # already logged as carded keep that status in the ledger.
+# 2026-11-25, user decision: home_dog_5_under moved CARD -> SHADOW (34-25 on the
+# season but 11-12 over the last two weeks). Its carded plays stay carded.
 # 2026-11-19, user decision: that was a mistake -- both are CARD again. Their
 # six plays logged as shadow in between (Nov 17-18) were re-marked carded.
 
@@ -265,7 +267,7 @@ SYSTEMS = [
         # 2026-27 plays went 11-18 on the over -- 18-11 on the under. The
         # 2025-26 backtest pointed the other way (over 166-120), so this is
         # a this-season read, not the backtest's claim.
-        "id": "home_dog_5_under", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
+        "id": "home_dog_5_under", "tier": "candidate", "status": SHADOW, "market": "total", "side": "UNDER",
         "label": "Home dog of +5 or more -> UNDER",
         "name": (
             "Home dog under"),
@@ -323,6 +325,8 @@ SYSTEMS = [
     # rest of its record is the 2026-27 history above). both_hot_under was
     # carded the same day, a little later. Plays already logged as shadow keep
     # that status in the ledger.
+    # 2026-11-25, user decision: unlucky_team_ats back to SHADOW (6-7 on plays
+    # made live, 4-5 since it was carded). Its carded plays stay carded in the ledger.
     {
         "id": "fade_spread_move", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Spread moved 1+ against a team during the day -> back it",
@@ -402,7 +406,7 @@ SYSTEMS = [
                            and r["_3own"] >= 6 and r["_o_3own"] >= 6),
     },
     {
-        "id": "unlucky_team_ats", "tier": "watch", "status": CARD, "market": "spread", "side": "TEAM",
+        "id": "unlucky_team_ats", "tier": "watch", "status": SHADOW, "market": "spread", "side": "TEAM",
         "label": "Team lost 15+ points to three-point luck last game -> ATS",
         "name": (
             "Unlucky team ATS"),
