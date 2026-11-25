@@ -193,6 +193,58 @@ window.addEventListener('resize', () => {
   nbapWasMobile = m;
 });
 
+// What to take today: the system plays that pass the betting rules (the PLAY
+// verdicts from the NBA Systems tab) and KalmanOff's own plays, with a mark
+// where the two land on the same side.
+function nbapTakeCard(d) {
+  const day = d.days.find(x => x.date === d.today);
+  const games = day ? day.games : [];
+  const feed = d.systemsFeed;
+  const box = (title, color, rgb, inner) => `<div style="margin:2px 10px 10px;padding:8px 10px;border:1px solid rgba(${rgb},.45);
+      border-radius:6px;background:rgba(${rgb},.08);font-size:13px"><div style="font-weight:700;color:${color};margin-bottom:4px">${title}</div>${inner}</div>`;
+  const tag = t => `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;font-weight:700;
+      background:rgba(163,113,247,.2);color:#a371f7;white-space:nowrap">${t}</span>`;
+  // KalmanOff's plays today
+  const ko = [];
+  games.forEach(g => {
+    const o = (g.official || {}).pyFullKalmanOff || ((g.models.pyFullKalmanOff || {}).units ? g.models.pyFullKalmanOff : null);
+    if (!o || !o.units || g.final) return;
+    ko.push({ g, team: o.side === 'home' ? g.home : g.away, play: nbapPlay(g, o.side), units: o.units, p: o.p });
+  });
+  // system plays that pass the rules
+  let sys = [], sysNote = '';
+  const haveRules = typeof nbasVerdicts === 'function';
+  if (!feed || String(feed.date) !== String(d.today)) sysNote = 'The system card for today has not been built yet.';
+  else if (haveRules) {
+    const names = {};
+    (feed.systems || []).forEach(x => { names[x.id] = x.name || x.id; });
+    const started = new Set(games.filter(g => g.final).map(g => g.away + ' @ ' + g.home));
+    sys = Object.values(nbasVerdicts((feed.today || []).filter(p => p.status === 'card')))
+      .filter(v => v.kind === 'play' && !started.has(v.lead.game))
+      .map(v => ({ v, names: [...new Set(v.plays.map(p => names[p.system] || p.system))] }))
+      .sort((a, b) => String(a.v.lead.startTimeUTC || '').localeCompare(String(b.v.lead.startTimeUTC || '')) || b.v.n - a.v.n);
+  }
+  const koTeams = new Set(ko.map(x => x.g.away + ' @ ' + x.g.home + '|' + x.team));
+  const sysTeams = new Set(sys.filter(x => x.v.lead.market !== 'total').map(x => x.v.lead.game + '|' + x.v.lead.team));
+  const price = p => (p == null ? '' : (p > 0 ? '+' : '') + p);
+  const sysHtml = sys.length ? sys.map(({ v, names }) => `<div style="padding:3px 0"><b>${nbapEsc(v.lead.play)}</b>
+      <span style="color:${NBAP_DIM}">${nbapEsc(price(v.lead.price))} · ${nbapTime(v.lead.startTimeUTC)} · ${nbapEsc(String(v.lead.game || '').split(' @ ').map(nbapNick).join(' @ '))} · ${nbapEsc(names.join(', '))}</span>
+      ${v.lead.market !== 'total' && koTeams.has(v.lead.game + '|' + v.lead.team) ? tag('ALSO KALMANOFF') : ''}</div>`).join('')
+    : `<div style="color:${NBAP_DIM}">${sysNote || 'No system play passes the rules on the current card.'}</div>`;
+  const koHtml = ko.length ? ko.sort((a, b) => b.units - a.units || String(a.g.start || '').localeCompare(String(b.g.start || '')))
+      .map(x => `<div style="padding:3px 0"><b>${nbapEsc(x.play)}</b>
+      <span style="color:${x.units === 2 ? '#3fb950' : '#58a6ff'};font-weight:700"> ${x.units}u</span>
+      <span style="color:${NBAP_DIM}">${x.p != null ? (x.p * 100).toFixed(1) + '% · ' : ''}${nbapTime(x.g.start)} · ${nbapEsc(nbapNick(x.g.away))} @ ${nbapEsc(nbapNick(x.g.home))}</span>
+      ${sysTeams.has(x.g.away + ' @ ' + x.g.home + '|' + x.team) ? tag('ALSO A SYSTEM PLAY') : ''}</div>`).join('')
+    : `<div style="color:${NBAP_DIM}">No KalmanOff play on the remaining games.</div>`;
+  return `<div class="card card-games" style="border-left:3px solid #3fb950">
+    <div class="card-title">What to take — ${nbapIso(d.today)}
+      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">games not yet final</span></div>
+    ${box('System plays', '#3fb950', '63,185,80', sysHtml)}
+    ${box('KalmanOff plays', '#58a6ff', '88,166,255', koHtml)}
+  </div>`;
+}
+
 function nbapTodayCard(d) {
   // all four models are shown here (user, 2026-11-23); the logs and team table stay on the visible ones
   nbapWasMobile = nbapMobile();
@@ -884,8 +936,20 @@ async function renderNBAPreview() {
   }));
   const data = nbapBuild(histories, replay);
   data.kalman = kalman;
+  // today's system card, for the "What to take" section
+  const grabS = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.today)) ? j : null;
+    } catch (e) { return null; }
+  };
+  data.systemsFeed = (await Promise.all([grabS('data/nba-systems.json'),
+    grabS('https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/nba-systems.json')]))
+    .filter(Boolean).sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
   nbapData = data;
   if (typeof updateLastRunInfo === 'function') updateLastRunInfo();   // data is loaded now
-  el.innerHTML = nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-teams"></div><div id="nbap-log"></div>';
+  el.innerHTML = nbapTakeCard(data) + nbapTodayCard(data) + '<div id="nbap-records"></div><div id="nbap-teams"></div><div id="nbap-log"></div>';
   nbapRerender();
 }
