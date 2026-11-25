@@ -313,6 +313,31 @@ function nbasBanner(d) {
 
 // ---------------------------------------------------------------------------
 // Panel 1 — tonight's card. Sectioned by tier, first pitch inside each.
+// AGREEMENT: two or more carded systems on the same side of the same game.
+// Twin systems that always pick together count once (the ML and ATS versions
+// of a dog system, and the two KalmanOff-vs-Full-Season systems), so "2 agree"
+// means two independent reasons.
+const NBAS_FAMILY = { elite_dog_ml: 'hot_dog', elite_dog_ats: 'hot_dog',
+  blowout_dog_ml: 'blowout_dog', blowout_dog_ats: 'blowout_dog',
+  ko_only_ats: 'kalman', fade_fs_only_ats: 'kalman' };
+function nbasSideKey(p) {
+  return (p.game || '') + '|' + (p.market === 'total' ? 'T:' + (p.side || String(p.play).split(' ')[0]) : 'S:' + (p.team || ''));
+}
+function nbasAgreement(d) {
+  const m = {};
+  (d.today || []).filter(p => p.status === 'card').forEach(p => {
+    const k = nbasSideKey(p);
+    const x = m[k] || (m[k] = { fam: new Set(), plays: [] });
+    x.fam.add(NBAS_FAMILY[p.system] || p.system);
+    x.plays.push(p);
+  });
+  return m;
+}
+function nbasAgreeBadge(n) {
+  return `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
+    + `font-weight:700;background:rgba(63,185,80,.2);color:${NBAS_GREEN};white-space:nowrap">${n} AGREE</span>`;
+}
+
 // Today's carded plays, then the shadow plays in a card of their own under it.
 function nbasTodayCard(d) {
   return nbasTodayBlock(d, 'card') + nbasTodayBlock(d, 'shadow');
@@ -340,6 +365,22 @@ function nbasTodayBlock(d, which) {
 
   let h = `<div class="card card-games"${shadow ? ' style="opacity:.85"' : ''}><div class="card-title">${title}</div>`;
   const phone = nbasPhone();
+  const agree = shadow ? {} : nbasAgreement(d);
+  const agreeN = p => { const x = agree[nbasSideKey(p)]; return x && x.fam.size >= 2 ? x.fam.size : 0; };
+  if (!shadow) {
+    const hits = Object.values(agree).filter(x => x.fam.size >= 2)
+      .sort((a, b) => b.fam.size - a.fam.size || String(a.plays[0].startTimeUTC || '').localeCompare(String(b.plays[0].startTimeUTC || '')));
+    if (hits.length) {
+      h += `<div style="margin:2px 10px 8px;padding:8px 10px;border:1px solid rgba(63,185,80,.45);border-radius:6px;`
+        + `background:rgba(63,185,80,.08);font-size:12px"><div style="font-weight:700;color:${NBAS_GREEN};margin-bottom:4px">`
+        + `Systems agree</div>` + hits.map(x => {
+          const lead = x.plays.find(p => p.market === 'spread') || x.plays[0];
+          const names = [...new Set(x.plays.map(p => nbasName(d, p.system)))].join(', ');
+          return `<div style="padding:2px 0"><b>${esc(lead.play)}</b>${nbasAgreeBadge(x.fam.size)}`
+            + `<span style="color:${NBAS_DIM}"> ${esc(nbasCtTime(lead.startTimeUTC))} · ${esc(names)}</span></div>`;
+        }).join('') + `</div>`;
+    }
+  }
   h += `<div style="overflow-x:auto"><table style="${NBAS_TBL}">`
     + (phone ? '<tbody>' : `<thead><tr style="text-align:left;color:${NBAS_DIM};border-bottom:1px solid #30363d">`
     + '<th style="padding:4px 6px 4px 22px">CT</th><th>Game</th><th>Play</th>'
@@ -382,14 +423,15 @@ function nbasTodayBlock(d, which) {
     const conv = (p.market === 'h2h' && (p.book_price === null || p.book_price === undefined))
       ? `<span style="color:${NBAS_AMBER}" title="frozen spread-to-ML conversion, not a book quote">*</span>` : '';
     if (phone) {
-      h += nbasPhonePlay(4, esc(p.play), `<span style="color:${NBAS_DIM}">${esc(nbasPrice(p.price))}${conv}</span>`,
+      h += nbasPhonePlay(4, esc(p.play) + (agreeN(p) ? nbasAgreeBadge(agreeN(p)) : ''),
+        `<span style="color:${NBAS_DIM}">${esc(nbasPrice(p.price))}${conv}</span>`,
         `${esc(nbasCtTime(p.startTimeUTC))} · ${esc(p.game)}`, false);
       continue;
     }
-    h += `<tr style="border-top:1px solid #161b22${dim}">`
+    h += `<tr style="border-top:1px solid #161b22${dim}${agreeN(p) ? ';background:rgba(63,185,80,.07)' : ''}">`
       + `<td style="padding:3px 6px 3px 22px;color:${NBAS_DIM}">${esc(nbasCtTime(p.startTimeUTC))}</td>`
       + `<td style="padding:3px 6px">${esc(p.game)}</td>`
-      + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(p.play)}</td>`
+      + `<td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(p.play)}${agreeN(p) ? nbasAgreeBadge(agreeN(p)) : ''}</td>`
       + `<td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasPrice(p.price))}${conv}</td></tr>`;
   }
   h += '</tbody></table></div>';
