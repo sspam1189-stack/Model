@@ -446,28 +446,29 @@ SYSTEMS = [
 
     # ----------------------------------------------------------------- REFERENCE
     {
-        "id": "model_over_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "OVER",
-        "label": "REF: model pOver >= .60 -> OVER",
+        # 2026-11-25, user decision: the benchmark is the model's UNDER, not its
+        # over (was model_over_60: 67-46 in 2025-26, 4-10 in 2026-27 to Nov 23).
+        "id": "model_under_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "UNDER",
+        "label": "REF: model pUnder >= .60 -> UNDER",
         "name": (
-            "Model over (benchmark)"),
+            "Model under (benchmark)"),
         "rule": (
-            "pyFull's own projected P(over) >= .60 -> OVER. Not situational."),
+            "pyFull's own projected P(under) >= .60 -> UNDER. Not situational."),
         "why": (
             "NOT A SYSTEM and never bet from this tab: the model's own totals "
             "probability, carried as the benchmark a situational system has to "
-            "beat to justify existing. 67-46 +13.2% (n=113), and among the few "
-            "things in the whole screen that held up out of sample (+4.5u where "
-            "selected, +10.4u after). Shadow."),
-        "backtest": {"w": 67, "l": 46, "units": 14.9, "roi": 0.132,
-                     "h1": 4.5, "h2": 10.4, "priced": "real -110"},
+            "beat to justify existing. 304-226 +9.5% (n=530) in 2025-26 at a "
+            "real -110, but nearly all of it in the first half (+44.3u, then "
+            "+6.1u); 45-46 -5.9% in 2026-27 through Nov 23. Shadow."),
+        "backtest": {"w": 304, "l": 226, "units": 50.4, "roi": 0.095,
+                     "h1": 44.3, "h2": 6.1, "priced": "real -110"},
         "mechanism": (
             "pyFull's own totals probability, not a situational system. Here "
-            "as the benchmark: it was among the few things in the whole screen "
-            "that held up out of sample (+4.5u selected, +10.4u after). A "
-            "situational system that cannot beat this has no reason to be bet. "
-            "Never carded from this tab -- the model has its own."),
+            "as the benchmark: a situational under that cannot beat simply "
+            "following the model's under has no reason to be bet. Never carded "
+            "from this tab -- the model has its own."),
         "test": lambda r: (r["is_home"] and r.get("_pOver") is not None
-                           and r["_pOver"] >= 0.60),
+                           and r["_pOver"] <= 0.40),
     },
 ]
 
