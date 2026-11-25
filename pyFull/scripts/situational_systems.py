@@ -85,6 +85,8 @@ PROMOTION_MIN_PLAYS = 25   # live plays before a shadow system may be promoted
 # 2026-11-17, user decision: elite_dog_ml and elite_dog_ats moved CARD ->
 # SHADOW. Still evaluated, logged and graded every day; no longer bet. Plays
 # already logged as carded keep that status in the ledger.
+# 2026-11-25, user decision: blowout_dog_ml (8-11) and blowout_dog_ats (9-10)
+# moved CARD -> SHADOW. Their carded plays stay carded.
 # 2026-11-25, user decision: home_dog_5_under moved CARD -> SHADOW (34-25 on the
 # season but 11-12 over the last two weeks). Its carded plays stay carded.
 # 2026-11-19, user decision: that was a mistake -- both are CARD again. Their
@@ -170,7 +172,7 @@ SYSTEMS = [
     # the ledger as carded plays; the system no longer fires. Recoverable from
     # git history.
     {
-        "id": "blowout_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
+        "id": "blowout_dog_ml", "tier": "candidate", "status": SHADOW, "market": "h2h", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ML",
         "name": (
             "Blowout dog ML"),
@@ -241,7 +243,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and abs(r["spread"]) <= 2,
     },
     {
-        "id": "blowout_dog_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
+        "id": "blowout_dog_ats", "tier": "candidate", "status": SHADOW, "market": "spread", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ATS",
         "name": (
             "Blowout dog ATS"),

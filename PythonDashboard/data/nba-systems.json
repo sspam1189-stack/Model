@@ -1,7 +1,7 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-11-25T05:56:46Z",
+ "generated": "2026-11-25T05:58:55Z",
  "date": "20261124",
  "dateDisplay": "2026-11-24",
  "registry_frozen": "2026-09-02",
@@ -53,7 +53,7 @@
     "z": 2.63,
     "priced": "converted"
    },
-   "status": "card"
+   "status": "shadow"
   },
   {
    "id": "elite_dog_ats",
@@ -119,7 +119,7 @@
     "h2": 8.5,
     "priced": "real -110"
    },
-   "status": "card"
+   "status": "shadow"
   },
   {
    "id": "home_dog_5_under",
@@ -319,46 +319,6 @@
  "today": [
   {
    "date": "20261124",
-   "system": "blowout_dog_ats",
-   "tier": "candidate",
-   "market": "spread",
-   "side": "TEAM",
-   "label": "Dog off a 15+ point win -> ATS",
-   "play": "Washington Wizards +10.5",
-   "team": "Washington Wizards",
-   "game": "Boston Celtics @ Washington Wizards",
-   "away": "Boston Celtics",
-   "home": "Washington Wizards",
-   "line": 10.5,
-   "spread": 10.5,
-   "total": 218.5,
-   "price": -102,
-   "book_price": null,
-   "status": "card",
-   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
-  },
-  {
-   "date": "20261124",
-   "system": "blowout_dog_ml",
-   "tier": "candidate",
-   "market": "h2h",
-   "side": "TEAM",
-   "label": "Dog off a 15+ point win -> ML",
-   "play": "Washington Wizards ML",
-   "team": "Washington Wizards",
-   "game": "Boston Celtics @ Washington Wizards",
-   "away": "Boston Celtics",
-   "home": "Washington Wizards",
-   "line": 10.5,
-   "spread": 10.5,
-   "total": 218.5,
-   "price": 360,
-   "book_price": 360,
-   "status": "card",
-   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
-  },
-  {
-   "date": "20261124",
    "system": "juiced_side_ats",
    "tier": "watch",
    "market": "spread",
@@ -496,6 +456,46 @@
    "book_price": null,
    "status": "card",
    "startTimeUTC": "2026-11-25T00:11:00.000+00:00"
+  },
+  {
+   "date": "20261124",
+   "system": "blowout_dog_ats",
+   "tier": "candidate",
+   "market": "spread",
+   "side": "TEAM",
+   "label": "Dog off a 15+ point win -> ATS",
+   "play": "Washington Wizards +10.5",
+   "team": "Washington Wizards",
+   "game": "Boston Celtics @ Washington Wizards",
+   "away": "Boston Celtics",
+   "home": "Washington Wizards",
+   "line": 10.5,
+   "spread": 10.5,
+   "total": 218.5,
+   "price": -102,
+   "book_price": null,
+   "status": "shadow",
+   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
+  },
+  {
+   "date": "20261124",
+   "system": "blowout_dog_ml",
+   "tier": "candidate",
+   "market": "h2h",
+   "side": "TEAM",
+   "label": "Dog off a 15+ point win -> ML",
+   "play": "Washington Wizards ML",
+   "team": "Washington Wizards",
+   "game": "Boston Celtics @ Washington Wizards",
+   "away": "Boston Celtics",
+   "home": "Washington Wizards",
+   "line": 10.5,
+   "spread": 10.5,
+   "total": 218.5,
+   "price": 360,
+   "book_price": 360,
+   "status": "shadow",
+   "startTimeUTC": "2026-11-25T01:10:00.000+00:00"
   },
   {
    "date": "20261124",
