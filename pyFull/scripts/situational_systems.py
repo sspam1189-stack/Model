@@ -446,29 +446,34 @@ SYSTEMS = [
 
     # ----------------------------------------------------------------- REFERENCE
     {
-        # 2026-11-25, user decision: the benchmark is the model's UNDER, not its
-        # over (was model_over_60: 67-46 in 2025-26, 4-10 in 2026-27 to Nov 23).
-        "id": "model_under_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "UNDER",
-        "label": "REF: model pUnder >= .60 -> UNDER",
+        # 2026-11-25, user decision: the benchmark is the model's OVER, faded --
+        # same trigger as the old model_over_60 (pOver >= .60), but the play
+        # logged is the UNDER. (model_over_60: 67-46 in 2025-26, 4-10 in
+        # 2026-27 to Nov 23, so the fade is 46-67 and 10-4.)
+        "id": "fade_model_over_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "UNDER",
+        "label": "REF: model pOver >= .60 -> fade it, UNDER",
         "name": (
-            "Model under (benchmark)"),
+            "Fade model over (benchmark)"),
         "rule": (
-            "pyFull's own projected P(under) >= .60 -> UNDER. Not situational."),
+            "pyFull's own projected P(over) >= .60 -> take the UNDER (fade "
+            "the model). Not situational."),
         "why": (
-            "NOT A SYSTEM and never bet from this tab: the model's own totals "
-            "probability, carried as the benchmark a situational system has to "
-            "beat to justify existing. 304-226 +9.5% (n=530) in 2025-26 at a "
-            "real -110, but nearly all of it in the first half (+44.3u, then "
-            "+6.1u); 45-46 -5.9% in 2026-27 through Nov 23. Shadow."),
-        "backtest": {"w": 304, "l": 226, "units": 50.4, "roi": 0.095,
-                     "h1": 44.3, "h2": 6.1, "priced": "real -110"},
+            "NOT A SYSTEM and never bet from this tab: the model's own over "
+            "call, faded. 46-67 -22.2% (n=113) in 2025-26 at a real -110, when "
+            "the model's over was the right side; 10-4 in 2026-27 through "
+            "Nov 23, when it has not been. Two seasons pointing opposite ways "
+            "on 127 games. Shadow."),
+        "backtest": {"w": 46, "l": 67, "units": -25.2, "roi": -0.223,
+                     "priced": "real -110"},
         "mechanism": (
-            "pyFull's own totals probability, not a situational system. Here "
-            "as the benchmark: a situational under that cannot beat simply "
-            "following the model's under has no reason to be bet. Never carded "
-            "from this tab -- the model has its own."),
+            "The model projects an over at 60%+ only occasionally (113 of "
+            "1,105 games last season, 14 of 242 this season), when its totals "
+            "number sits well above the line. Last season those games went over; this season they have "
+            "gone under. Carried as a benchmark for whether fading the "
+            "model's biggest totals disagreements means anything. Never "
+            "carded from this tab."),
         "test": lambda r: (r["is_home"] and r.get("_pOver") is not None
-                           and r["_pOver"] <= 0.40),
+                           and r["_pOver"] >= 0.60),
     },
 ]
 
