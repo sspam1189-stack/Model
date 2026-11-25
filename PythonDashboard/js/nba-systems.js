@@ -192,10 +192,10 @@ async function renderNBASystems() {
     + '<div id="nbas-log">' + nbasLogTable(data) + '</div>';
 }
 
-// Sides (ATS + moneyline) and totals (overs / unders) are different bets and
-// are kept in separate sections everywhere on this tab.
-const NBAS_GROUPS = [['sides', 'ATS & ML'], ['totals', 'Overs & Unders']];
-function nbasGroup(market) { return market === 'total' ? 'totals' : 'sides'; }
+// ATS, moneyline and totals (overs / unders) are different bets and are kept
+// in separate sections everywhere on this tab.
+const NBAS_GROUPS = [['ats', 'ATS'], ['ml', 'Moneyline'], ['totals', 'Overs & Unders']];
+function nbasGroup(market) { return market === 'total' ? 'totals' : (market === 'h2h' ? 'ml' : 'ats'); }
 function nbasGroupRow(label, cols, extra) {
   return `<tr><td colspan="${cols}" style="padding:12px 6px 5px;font-size:13px;font-weight:700;`
     + `color:#e6edf3;border-bottom:1px solid #30363d">${esc(label)}${extra || ''}</td></tr>`;
@@ -625,7 +625,7 @@ function nbasLogTable(d) {
   const rows = all.filter(e =>
     (f.system === 'all' || e.system === f.system) &&
     (f.tier === 'all' || e.tier === f.tier) &&
-    (f.market === 'all' || e.market === f.market || (f.market === 'sides' && e.market !== 'total')) &&
+    (f.market === 'all' || e.market === f.market) &&
     (f.result === 'all' || (f.result === 'pending'
       ? e.result === 'pending' : e.result === f.result)) &&
     (f.season === 'all' || nbasSeason(e.date) === f.season) &&
@@ -723,8 +723,8 @@ function nbasLogTable(d) {
         ${dayInput}
         ${sel('system', ['all'].concat(d.systems.map(s => s.id)),
               ['All systems'].concat(d.systems.map(s => s.id)))}
-        ${sel('market', ['all', 'sides', 'total', 'spread', 'h2h'],
-              ['All markets', 'ATS & ML', 'Overs & Unders', 'ATS only', 'ML only'])}
+        ${sel('market', ['all', 'spread', 'h2h', 'total'],
+              ['All markets', 'ATS', 'Moneyline', 'Overs & Unders'])}
         ${sel('result', ['all', 'WIN', 'LOSS', 'PUSH', 'pending'],
               ['All results', 'Wins', 'Losses', 'Pushes', 'Pending'])}
       </div>

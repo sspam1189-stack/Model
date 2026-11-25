@@ -205,9 +205,9 @@ def systems_lines(date, runs):
     out = ["## System plays (preview)", "",
            "As of this run's lines. The line-move systems are decided by the last run before tip, so these can change.", ""]
     for status, title in (("card", "Carded"), ("shadow", "Shadow (tracked, not bet)")):
-        for grp, gname in ((False, "ATS & ML"), (True, "Overs & Unders")):
+        for grp, gname in (("spread", "ATS"), ("h2h", "Moneyline"), ("total", "Overs & Unders")):
             sel = [p for p in plays if (p.get("status") == "card") == (status == "card")
-                   and (p.get("market") == "total") == grp]
+                   and (p.get("market") or "spread") == grp]
             if not sel:
                 continue
             out += [f"**{title} - {gname}**", "", "| System | Play | Price | Game |", "|---|---|---|---|"]
