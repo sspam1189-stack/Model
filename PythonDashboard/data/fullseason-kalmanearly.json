@@ -21797,7 +21797,7 @@
         "recentWeight": 0.35,
         "locationWeight": 0.25,
         "h2hWeight": 0.0,
-        "edgeShrink": 0.07055238769958916
+        "edgeShrink": 0.06892660114240771
       },
       "weightsNext": {
         "wOFF": 1,
@@ -21819,7 +21819,7 @@
         "recentWeight": 0.35,
         "locationWeight": 0.25,
         "h2hWeight": 0.0,
-        "edgeShrink": 0.07055238769958916
+        "edgeShrink": 0.06892660114240771
       },
       "games": [
         {
@@ -21900,7 +21900,10 @@
           "trends": {
             "away": "ATS +/- -1.9 \u00b7 Over 56.3% \u00b7 Under 43.8% \u00b7 O/U +/- 5.6",
             "home": "ATS +/- -1.5 \u00b7 Over 55.6% \u00b7 Under 44.4% \u00b7 O/U +/- 0.4"
-          }
+          },
+          "awayScore": 104.0,
+          "homeScore": 111.0,
+          "sResult": "LOSS"
         },
         {
           "away": "Chicago Bulls",
@@ -22155,12 +22158,12 @@
           "total": 227.5,
           "startTimeUTC": "2026-11-26T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 225,
-          "home_ml": -275,
-          "over_ml": -110,
-          "under_ml": -110,
-          "spread_price_away": -114,
-          "spread_price_home": -106,
+          "away_ml": 215,
+          "home_ml": -260,
+          "over_ml": -114,
+          "under_ml": -106,
+          "spread_price_away": -115,
+          "spread_price_home": -105,
           "aS": 107.9,
           "hS": 122.6,
           "pT": 230.5,
@@ -22180,7 +22183,7 @@
           "pOU": null,
           "minGP": 16.0,
           "pCal": 0.512,
-          "marginVar": 270.2,
+          "marginVar": 269.7,
           "marginStd": 16.4,
           "_features": {
             "dTS": 0.03634999999999999,
@@ -22229,12 +22232,12 @@
           "total": 234.5,
           "startTimeUTC": "2026-11-26T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 100,
-          "home_ml": -118,
-          "over_ml": -106,
-          "under_ml": -114,
-          "spread_price_away": -108,
-          "spread_price_home": -112,
+          "away_ml": -102,
+          "home_ml": -116,
+          "over_ml": -110,
+          "under_ml": -110,
+          "spread_price_away": -114,
+          "spread_price_home": -106,
           "aS": 111.2,
           "hS": 111.8,
           "pT": 223.0,
@@ -22253,8 +22256,8 @@
           "pCover": null,
           "pOU": null,
           "minGP": 16.0,
-          "pCal": 0.502,
-          "marginVar": 273.6,
+          "pCal": 0.501,
+          "marginVar": 273.2,
           "marginStd": 16.5,
           "_features": {
             "dTS": -0.02839999999999998,
@@ -22308,12 +22311,12 @@
           "total": 222.5,
           "startTimeUTC": "2026-11-26T01:40:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 300,
-          "home_ml": -375,
-          "over_ml": -112,
-          "under_ml": -108,
-          "spread_price_away": -115,
-          "spread_price_home": -105,
+          "away_ml": 295,
+          "home_ml": -370,
+          "over_ml": -118,
+          "under_ml": -104,
+          "spread_price_away": -118,
+          "spread_price_home": -104,
           "aS": 116.2,
           "hS": 120.1,
           "pT": 236.3,
@@ -22332,8 +22335,8 @@
           "pCover": 0.634,
           "pOU": null,
           "minGP": 16.0,
-          "pCal": 0.51,
-          "marginVar": 269.1,
+          "pCal": 0.509,
+          "marginVar": 268.6,
           "marginStd": 16.4,
           "_features": {
             "dTS": 0.013149999999999995,
@@ -22379,8 +22382,8 @@
           "total": 215.5,
           "startTimeUTC": "2026-11-26T03:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 280,
-          "home_ml": -350,
+          "away_ml": 250,
+          "home_ml": -320,
           "over_ml": -105,
           "under_ml": -115,
           "spread_price_away": -115,
@@ -22404,7 +22407,7 @@
           "pOU": null,
           "minGP": 17.0,
           "pCal": 0.507,
-          "marginVar": 270.4,
+          "marginVar": 269.9,
           "marginStd": 16.4,
           "_features": {
             "dTS": 0.02035000000000009,
@@ -22456,13 +22459,13 @@
           "away": "San Antonio Spurs",
           "home": "Portland Trail Blazers",
           "line": 3.5,
-          "total": 224.5,
+          "total": 226.5,
           "startTimeUTC": "2026-11-26T03:10:00.000+00:00",
           "_book": "FanDuel",
           "away_ml": -156,
           "home_ml": 132,
-          "over_ml": -115,
-          "under_ml": -105,
+          "over_ml": -106,
+          "under_ml": -114,
           "spread_price_away": -108,
           "spread_price_home": -112,
           "aS": 120.7,
@@ -22470,7 +22473,7 @@
           "pT": 234.5,
           "margin": -3.4,
           "sDiff": 3.4,
-          "tDiff": -2.6,
+          "tDiff": -4.6,
           "sPick": "San Antonio Spurs -3.5",
           "sConf": "elite",
           "oPick": "PASS",
@@ -22478,13 +22481,13 @@
           "injuryNote": "Away: Dylan Harper (out/starter)",
           "pHomeCover": 0.418,
           "pAwayCover": 0.582,
-          "pOver": 0.44,
-          "pUnder": 0.56,
+          "pOver": 0.395,
+          "pUnder": 0.605,
           "pCover": 0.582,
           "pOU": null,
           "minGP": 17.0,
           "pCal": 0.506,
-          "marginVar": 271.6,
+          "marginVar": 271.1,
           "marginStd": 16.5,
           "_features": {
             "dTS": 0.01969999999999994,
@@ -22533,8 +22536,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         21-29-0   (42.0%)   [graded 50]\n  Elite:       21-29-0   (42.0%)   [graded 50]\n\nFAV/DOG (Spread)\n  Favorites:   14-19-0   (42.4%)   [graded 33]\n  Underdogs:   7-10-0   (41.2%)   [graded 17]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/25/2026, 04:47:24 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         21-30-0   (41.2%)   [graded 51]\n  Elite:       21-30-0   (41.2%)   [graded 51]\n\nFAV/DOG (Spread)\n  Favorites:   14-20-0   (41.2%)   [graded 34]\n  Underdogs:   7-10-0   (41.2%)   [graded 17]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "11/25/2026, 06:47:12 PM"
     }
   ],
   "weights": {
@@ -22567,5 +22570,5 @@
     "constant": 4.0
   },
   "lastTuneDate": "20261112",
-  "residualVar": 251.8
+  "residualVar": 251.3
 }
