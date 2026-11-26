@@ -411,19 +411,42 @@ function nbasVerdictBadge(v) {
 // How the PLAY verdicts have done since the rules were adopted: one result per
 // side per game (the lead play), at its logged price.
 const NBAS_RULES_FROM = '20261125';
-function nbasRuleRecord(d) {
+function nbasRuleTally(d) {
+  const end = String(d.date || '');
+  let from7 = '';
+  if (/^\d{8}$/.test(end)) {
+    const dt = new Date(Date.UTC(+end.slice(0, 4), +end.slice(4, 6) - 1, +end.slice(6, 8)));
+    dt.setUTCDate(dt.getUTCDate() - 7);
+    from7 = dt.toISOString().slice(0, 10).replace(/-/g, '');
+  }
   const byDay = {};
   (d.log || []).forEach(e => {
     if (e.no_play || e.backfilled || e.status !== 'card' || String(e.date) < NBAS_RULES_FROM) return;
     (byDay[e.date] || (byDay[e.date] = [])).push(e);
   });
-  let w = 0, l = 0, u = 0;
-  Object.values(byDay).forEach(list => Object.values(nbasVerdicts(list)).forEach(v => {
+  const mk = () => ({ w: 0, l: 0, u: 0 });
+  const t = { all: mk(), d7: mk(), ats: mk(), tot: mk() };
+  const add = (r, e) => { if (e.result === 'WIN') { r.w++; r.u += e.profit || 0; } else if (e.result === 'LOSS') { r.l++; r.u += e.profit || 0; } };
+  Object.keys(byDay).forEach(date => Object.values(nbasVerdicts(byDay[date])).forEach(v => {
     if (v.kind !== 'play') return;
     const e = v.lead;
-    if (e.result === 'WIN') { w++; u += e.profit || 0; } else if (e.result === 'LOSS') { l++; u += e.profit || 0; }
+    add(t.all, e);
+    if (from7 && String(date) >= from7) add(t.d7, e);
+    add(e.market === 'total' ? t.tot : t.ats, e);
   }));
-  return (w + l) ? `${w}-${l} <span class="${nbasUClass(u)}">${nbasUnits(u)}</span>` : '';
+  return t;
+}
+// The "What to take" system: every side the rules call a PLAY, one result per
+// side per game, tracked from the day the rules were adopted (user, 2026-11-26).
+function nbasTakeSystemRow(d) {
+  const t = nbasRuleTally(d);
+  const part = (label, r) => (r.w + r.l)
+    ? `<span style="white-space:nowrap">${label} ${r.w}-${r.l} <span class="${nbasUClass(r.u)}">${nbasUnits(r.u)}</span></span>` : '';
+  const recs = [part('since Nov 25', t.all), part('last 7d', t.d7), part('ATS', t.ats), part('overs & unders', t.tot)].filter(Boolean);
+  return `<div style="margin:4px 10px 8px"><span style="display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;`
+    + `font-size:12px;white-space:nowrap;background:rgba(63,185,80,.2);color:${NBAS_GREEN}">What to take</span>`
+    + `<div style="display:flex;flex-wrap:wrap;gap:1px 12px;margin-top:3px;font-size:11px;color:${NBAS_DIM}">`
+    + `${recs.length ? recs.join('') : 'tracked from Nov 25 · no graded plays yet'}</div></div>`;
 }
 function nbasAgreeBadge(n) {
   return `<span style="display:inline-block;margin-left:8px;padding:0 6px;border-radius:3px;font-size:10px;`
@@ -477,9 +500,7 @@ function nbasTodayBlock(d, which) {
         + `background:rgba(${rgb},.08);font-size:12px"><div style="font-weight:700;color:${color};margin-bottom:4px">`
         + `${title}</div>${list.map(line).join('')}</div>`;
     };
-    const rec = nbasRuleRecord(d);
-    h += box('play', 'Plays' + (rec ? ` <span style="font-weight:400;color:${NBAS_DIM}">· since Nov 25: ${rec}</span>` : ''),
-             NBAS_GREEN, '63,185,80')
+    h += nbasTakeSystemRow(d) + box('play', 'Plays', NBAS_GREEN, '63,185,80')
       + box('lean', 'Leans — one system, not a play', '#58a6ff', '88,166,255')
       + box('pass', 'Pass', NBAS_AMBER, '210,153,34');
   }
