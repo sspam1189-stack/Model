@@ -21808,7 +21808,7 @@
         "recentWeight": 0.35,
         "locationWeight": 0.25,
         "h2hWeight": 0.0,
-        "edgeShrink": 0.1280312386940116
+        "edgeShrink": 0.1299174800358953
       },
       "weightsNext": {
         "wOFF": 1,
@@ -21830,7 +21830,7 @@
         "recentWeight": 0.35,
         "locationWeight": 0.25,
         "h2hWeight": 0.0,
-        "edgeShrink": 0.1280312386940116
+        "edgeShrink": 0.1299174800358953
       },
       "games": [
         {
@@ -21908,8 +21908,8 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1.9 \u00b7 Over 52.9% \u00b7 Under 47.1% \u00b7 O/U +/- 3.9",
-            "home": "ATS +/- -1.5 \u00b7 Over 52.6% \u00b7 Under 47.4% \u00b7 O/U +/- -0.8"
+            "away": "ATS +/- -2.1 \u00b7 Over 52.9% \u00b7 Under 47.1% \u00b7 O/U +/- 3.9",
+            "home": "ATS +/- -1.1 \u00b7 Over 52.6% \u00b7 Under 47.4% \u00b7 O/U +/- -0.8"
           },
           "awayScore": 104.0,
           "homeScore": 111.0
@@ -21999,7 +21999,10 @@
           "trends": {
             "away": "ATS +/- 1.7 \u00b7 Over 41.2% \u00b7 Under 58.8% \u00b7 O/U +/- 1.7",
             "home": "ATS +/- -6.8 \u00b7 Over 43.8% \u00b7 Under 56.3% \u00b7 O/U +/- -5.6"
-          }
+          },
+          "awayScore": 107.0,
+          "homeScore": 105.0,
+          "sResult": "WIN"
         },
         {
           "away": "Minnesota Timberwolves",
@@ -22391,7 +22394,7 @@
           "startTimeUTC": "2026-11-26T03:10:00.000+00:00",
           "_book": "FanDuel",
           "away_ml": 285,
-          "home_ml": -360,
+          "home_ml": -355,
           "over_ml": -112,
           "under_ml": -108,
           "spread_price_away": -104,
@@ -22407,15 +22410,15 @@
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Zach LaVine (out/star)",
-          "pHomeCover": 0.462,
-          "pAwayCover": 0.538,
+          "pHomeCover": 0.461,
+          "pAwayCover": 0.539,
           "pOver": 0.614,
           "pUnder": 0.386,
           "pCover": null,
           "pOU": null,
           "minGP": 17.0,
           "pCal": 0.505,
-          "marginVar": 241.3,
+          "marginVar": 240.4,
           "marginStd": 15.5,
           "_features": {
             "dTS": 0.02035000000000009,
@@ -22466,50 +22469,50 @@
           "away": "San Antonio Spurs",
           "home": "Portland Trail Blazers",
           "line": 3.5,
-          "total": 227.5,
+          "total": 225.5,
           "startTimeUTC": "2026-11-26T03:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": -158,
-          "home_ml": 134,
-          "over_ml": -106,
-          "under_ml": -114,
-          "spread_price_away": -108,
-          "spread_price_home": -112,
-          "aS": 115.6,
-          "hS": 114.5,
-          "pT": 230.1,
-          "margin": 2.4,
-          "sDiff": 2.4,
-          "tDiff": -5.6,
-          "sPick": "PASS",
-          "sConf": "low",
+          "away_ml": -168,
+          "home_ml": 142,
+          "over_ml": -105,
+          "under_ml": -115,
+          "spread_price_away": -115,
+          "spread_price_home": -105,
+          "aS": 114.7,
+          "hS": 114.9,
+          "pT": 229.6,
+          "margin": 3.7,
+          "sDiff": 3.7,
+          "tDiff": -3.6,
+          "sPick": "Portland Trail Blazers +3.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
-          "injuryNote": "Away: Dylan Harper (out/starter)",
-          "pHomeCover": 0.561,
-          "pAwayCover": 0.439,
-          "pOver": 0.366,
-          "pUnder": 0.634,
-          "pCover": null,
+          "injuryNote": "Away: De'Aaron Fox (out/bench), Dylan Harper (out/starter)",
+          "pHomeCover": 0.594,
+          "pAwayCover": 0.406,
+          "pOver": 0.413,
+          "pUnder": 0.587,
+          "pCover": 0.594,
           "pOU": null,
           "minGP": 17.0,
-          "pCal": 0.508,
-          "marginVar": 243.0,
-          "marginStd": 15.6,
+          "pCal": 0.512,
+          "marginVar": 241.6,
+          "marginStd": 15.5,
           "_features": {
-            "dTS": 0.01969999999999994,
-            "dTO": -0.25465,
-            "dORR": -0.007799999999999974,
-            "dDEF": -3.3149999999999977,
+            "dTS": 0.024799999999999933,
+            "dTO": 0.5205500000000001,
+            "dORR": -0.013500000000000012,
+            "dDEF": -2.2849999999999966,
             "avgPace": 99.11175
           },
           "_marginFeatures": {
-            "dTS": 0.0195,
-            "dTO": 0.2524,
-            "dORR": -0.0077,
-            "dDEF": -3.2855,
+            "dTS": 0.0246,
+            "dTO": -0.5159,
+            "dORR": -0.0134,
+            "dDEF": -2.2647,
             "hca": 1.0,
-            "_baseline": -1.2728,
+            "_baseline": -0.4354,
             "_pace": 0.9911
           },
           "kalmanAdj": {
@@ -22522,28 +22525,29 @@
           "h2hRecord": null,
           "h2hNote": null,
           "lineupAdj": {
-            "homeMargin": 0.65,
+            "homeMargin": 0.64,
             "strength": 0.5,
             "home": "lineup +0.2 pts (out: Ja Morant, Shaedon Sharpe, Chris Youngblood)",
-            "away": "lineup -1.1 pts (out: Dylan Harper, Tobias Harris)"
+            "away": "lineup -1.1 pts (out: Dylan Harper, De'Aaron Fox, Tobias Harris)"
           },
           "_adjDeltas": {
             "away": {
-              "OFF": -0.88,
-              "DEF": 0.785,
-              "TS": -0.0031,
-              "TO": 0.2907,
-              "ORR": 0.0028
+              "OFF": -1.73,
+              "DEF": 1.815,
+              "TS": -0.0082,
+              "TO": -0.4845,
+              "ORR": 0.0086
             }
           },
+          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- -0.1 \u00b7 Over 33.3% \u00b7 Under 66.7% \u00b7 O/U +/- -4.3",
             "home": "ATS +/- 4.6 \u00b7 Over 41.2% \u00b7 Under 58.8% \u00b7 O/U +/- -1.9"
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         31-21-0   (59.6%)   [graded 52]\n  Elite:       31-21-0   (59.6%)   [graded 52]\n\nFAV/DOG (Spread)\n  Favorites:   11-7-0   (61.1%)   [graded 18]\n  Underdogs:   20-14-0   (58.8%)   [graded 34]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/25/2026, 07:22:13 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         32-21-0   (60.4%)   [graded 53]\n  Elite:       32-21-0   (60.4%)   [graded 53]\n\nFAV/DOG (Spread)\n  Favorites:   11-7-0   (61.1%)   [graded 18]\n  Underdogs:   21-14-0   (60.0%)   [graded 35]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "11/25/2026, 08:31:27 PM"
     }
   ],
   "weights": {
@@ -22576,5 +22580,5 @@
     "constant": 4.0
   },
   "lastTuneDate": "20261112",
-  "residualVar": 239.9
+  "residualVar": 239.0
 }
