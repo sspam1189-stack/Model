@@ -255,21 +255,21 @@ function nbapTakeCard(d) {
     <div class="card-title">What to take — ${nbapIso(d.today)}
       <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">every play today, started games included</span></div>
     ${box('System plays' + recTag(tr.sys), '#3fb950', '63,185,80', sysHtml)}
-    ${box('KalmanOff plays' + recTag(tr.ko), '#58a6ff', '88,166,255', koHtml)}
+    ${box('KalmanOff plays', '#58a6ff', '88,166,255', koHtml)}
     ${nbapTakeLog(tr)}
   </div>`;
 }
 
 // Tracking of the "What to take" plays (user, 2026-11-26), from the day the
-// betting rules were adopted. System plays: every side the rules call a PLAY,
-// graded once per side at its logged price. KalmanOff: its official plays.
+// betting rules were adopted: every side the rules call a PLAY, graded once per
+// side at its logged price. System plays only -- KalmanOff has its own record.
 const NBAP_TAKE_FROM = '20261125';
 function nbapTakeFromLabel() {
   return new Date(Date.UTC(+NBAP_TAKE_FROM.slice(0, 4), +NBAP_TAKE_FROM.slice(4, 6) - 1, +NBAP_TAKE_FROM.slice(6, 8)))
     .toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
 }
 function nbapTakeTrack(d) {
-  const sys = nbapNewRec(), ko = nbapNewRec(), rows = [];
+  const sys = nbapNewRec(), rows = [];
   const feed = d.systemsFeed;
   if (feed && typeof nbasVerdicts === 'function') {
     const names = {};
@@ -287,18 +287,8 @@ function nbapTakeTrack(d) {
         why: [...new Set(v.plays.map(p => names[p.system] || p.system))].join(', '), t: e.startTimeUTC || '' });
     }));
   }
-  (d.days || []).forEach(x => {
-    if (String(x.date) < NBAP_TAKE_FROM) return;
-    x.games.forEach(g => {
-      const o = (g.official || {}).pyFullKalmanOff;
-      if (!o || !o.units) return;
-      nbapAdd(ko, o.result, o.units);
-      rows.push({ date: String(x.date), kind: 'KalmanOff', play: nbapPlay(g, o.side) + ' · ' + o.units + 'u', game: g.away + ' @ ' + g.home,
-        res: o.result || '', u: o.result === 'W' ? o.units : o.result === 'L' ? -1.1 * o.units : o.result === 'P' ? 0 : null, why: '', t: g.start || '' });
-    });
-  });
-  rows.sort((a, b) => b.date.localeCompare(a.date) || (a.kind < b.kind ? 1 : a.kind > b.kind ? -1 : 0) || String(a.t).localeCompare(String(b.t)));
-  return { sys, ko, rows };
+  rows.sort((a, b) => b.date.localeCompare(a.date) || String(a.t).localeCompare(String(b.t)));
+  return { sys, rows };
 }
 function nbapTakeLog(tr) {
   const graded = tr.rows;
@@ -310,10 +300,10 @@ function nbapTakeLog(tr) {
     last = r.date;
     return head + `<div style="display:flex;gap:8px;padding:2px 0;align-items:baseline">
       <span style="flex:0 0 14px;font-weight:700;color:${col[r.res] || NBAP_DIM}">${r.res || '·'}</span>
-      <span style="flex:1"><b>${nbapEsc(r.play)}</b> <span style="color:${NBAP_DIM}">${nbapEsc(r.kind)} · ${nbapEsc(String(r.game || '').split(' @ ').map(nbapNick).join(' @ '))}${r.why ? ' · ' + nbapEsc(r.why) : ''}</span></span>
+      <span style="flex:1"><b>${nbapEsc(r.play)}</b> <span style="color:${NBAP_DIM}">${nbapEsc(String(r.game || '').split(' @ ').map(nbapNick).join(' @ '))}${r.why ? ' · ' + nbapEsc(r.why) : ''}</span></span>
       <span style="flex:0 0 auto" class="${r.u == null ? '' : nbapUClass(r.u)}">${r.u == null ? '<span style="color:' + NBAP_DIM + '">pending</span>' : nbapUnits(r.u)}</span></div>`;
   }).join('');
-  return `<details style="margin:2px 10px 10px;font-size:12px"><summary style="cursor:pointer;color:${NBAP_DIM}">Tracked plays since ${nbapTakeFromLabel()} (${graded.length})</summary>${body}</details>`;
+  return `<details style="margin:2px 10px 10px;font-size:12px"><summary style="cursor:pointer;color:${NBAP_DIM}">Tracked system plays since ${nbapTakeFromLabel()} (${graded.length})</summary>${body}</details>`;
 }
 
 function nbapTodayCard(d) {
