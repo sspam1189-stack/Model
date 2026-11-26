@@ -4,7 +4,7 @@
  "description": "Forward record for the pre-registered NBA situational systems. Seven candidates are CARDED (bet) and the model reference is SHADOW (graded, never bet); the carding decision was taken at registry freeze on in-sample evidence, without waiting for the promotion gate, and the five known-junk controls that would have served as the null were dropped the same day. The 2025-26 backtest lives in backtest_history and is held out of the live record on purpose: it is the claim being tested, not evidence for it.",
  "registry_frozen": "2026-09-02",
  "promotion_min_plays": 25,
- "generated": "2026-11-26T02:32:37Z",
+ "generated": "2026-11-26T14:47:56Z",
  "backtest_history": {
   "elite_dog_ml": {
    "w": 54,
@@ -40949,9 +40949,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": 0.9091,
    "startTimeUTC": "2026-11-26T01:10:00.000+00:00"
   },
   {
@@ -40970,9 +40970,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9091,
+   "book_profit": 0.9091,
    "startTimeUTC": "2026-11-26T01:10:00.000+00:00"
   },
   {
@@ -40991,9 +40991,9 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41013,9 +41013,9 @@
    "conv_price": 126,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 1.14,
+   "book_profit": 1.14,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41035,9 +41035,9 @@
    "conv_price": 126,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 1.14,
+   "book_profit": 1.14,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41056,9 +41056,9 @@
    "book_price": -114,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8772,
+   "book_profit": 0.8772,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41077,9 +41077,9 @@
    "book_price": -114,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8772,
+   "book_profit": 0.8772,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41141,9 +41141,9 @@
    "conv_price": 143,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 1.42,
+   "book_profit": 1.42,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41162,9 +41162,9 @@
    "book_price": -105,
    "stake": 1.0,
    "status": "shadow",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9524,
+   "book_profit": 0.9524,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41183,9 +41183,9 @@
    "book_price": -118,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8475,
+   "book_profit": 0.8475,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41204,9 +41204,9 @@
    "book_price": -104,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9615,
+   "book_profit": 0.9615,
    "startTimeUTC": "2026-11-26T01:40:00.000+00:00"
   },
   {
@@ -41246,9 +41246,9 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T01:10:00.000+00:00"
   },
   {
@@ -41288,9 +41288,9 @@
    "book_price": -118,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T01:40:00.000+00:00"
   },
   {
@@ -41309,9 +41309,9 @@
    "book_price": -108,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41330,9 +41330,9 @@
    "book_price": -108,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41351,9 +41351,9 @@
    "book_price": -104,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41436,9 +41436,9 @@
    "book_price": -105,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9524,
+   "book_profit": 0.9524,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41478,9 +41478,9 @@
    "book_price": -110,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T01:10:00.000+00:00"
   },
   {
@@ -41499,9 +41499,9 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41520,9 +41520,9 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41541,9 +41541,9 @@
    "book_price": -114,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8772,
+   "book_profit": 0.8772,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41562,9 +41562,9 @@
    "book_price": -114,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8772,
+   "book_profit": 0.8772,
    "startTimeUTC": "2026-11-26T00:40:00.000+00:00"
   },
   {
@@ -41583,9 +41583,9 @@
    "book_price": -114,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8772,
+   "book_profit": 0.8772,
    "startTimeUTC": "2026-11-26T01:10:00.000+00:00"
   },
   {
@@ -41604,9 +41604,9 @@
    "book_price": -118,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.8475,
+   "book_profit": 0.8475,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41625,9 +41625,9 @@
    "book_price": -115,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "LOSS",
+   "profit": -1.0,
+   "book_profit": -1.0,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   },
   {
@@ -41646,9 +41646,9 @@
    "book_price": -105,
    "stake": 1.0,
    "status": "card",
-   "result": "pending",
-   "profit": 0.0,
-   "book_profit": 0.0,
+   "result": "WIN",
+   "profit": 0.9524,
+   "book_profit": 0.9524,
    "startTimeUTC": "2026-11-26T03:10:00.000+00:00"
   }
  ]
