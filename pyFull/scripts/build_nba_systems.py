@@ -163,11 +163,33 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
     blob["entries"] = kept
     if dropped:
         print("  [systems] dropped {0} play(s) that no longer fire".format(dropped))
+    # A game that has already tipped is closed (2026-11-26): a run after tip
+    # may see live or moved numbers, and must neither add a play to it nor
+    # change what the card showed for it.
+    def _row_started(row):
+        st = row.get("startTimeUTC")
+        return bool(row.get("settled")) or (bool(st) and str(st).replace("Z", "+00:00") <= now_utc)
     added = 0
     for row in todays:
+        if _row_started(row):
+            continue
         for s in R.evaluate(row):
             if LOG.add(blob, date=date, system=s["id"], row=row) is not None:
                 added += 1
+    # the card for a started game is what the ledger holds for it
+    started_games = {tuple(LOG._sides(row)) for row in todays if _row_started(row)}
+    if started_games:
+        plays = [p for p in plays if (p.get("away"), p.get("home")) not in started_games]
+        for e in blob["entries"]:
+            if (e.get("date") == date and not e.get("no_play")
+                    and (e.get("away"), e.get("home")) in started_games):
+                q = dict(e)
+                q["started"] = True
+                q.setdefault("label", R.BY_ID[e["system"]]["label"] if e["system"] in R.BY_ID else "")
+                plays.append(q)
+        plays.sort(key=lambda p: (0 if p["status"] == LOG.CARD else 1,
+                                  R.TIERS.index(p["tier"]) if p["tier"] in R.TIERS else 9,
+                                  str(p.get("startTimeUTC") or ""), p["system"]))
     if todays and not plays:
         LOG.add_no_play(blob, date, "slate had games, no system fired")
     LOG.save(blob)

@@ -208,8 +208,8 @@ function nbapTakeCard(d) {
   const ko = [];
   games.forEach(g => {
     const o = (g.official || {}).pyFullKalmanOff || ((g.models.pyFullKalmanOff || {}).units ? g.models.pyFullKalmanOff : null);
-    if (!o || !o.units || g.final) return;
-    ko.push({ g, team: o.side === 'home' ? g.home : g.away, play: nbapPlay(g, o.side), units: o.units, p: o.p });
+    if (!o || !o.units) return;
+    ko.push({ g, team: o.side === 'home' ? g.home : g.away, play: nbapPlay(g, o.side), units: o.units, p: o.p, res: o.result });
   });
   // system plays that pass the rules
   let sys = [], sysNote = '';
@@ -218,30 +218,42 @@ function nbapTakeCard(d) {
   else if (haveRules) {
     const names = {};
     (feed.systems || []).forEach(x => { names[x.id] = x.name || x.id; });
-    const started = new Set(games.filter(g => g.final).map(g => g.away + ' @ ' + g.home));
     sys = Object.values(nbasVerdicts((feed.today || []).filter(p => p.status === 'card')))
-      .filter(v => v.kind === 'play' && !started.has(v.lead.game))
+      .filter(v => v.kind === 'play')
       .map(v => ({ v, names: [...new Set(v.plays.map(p => names[p.system] || p.system))] }))
       .sort((a, b) => String(a.v.lead.startTimeUTC || '').localeCompare(String(b.v.lead.startTimeUTC || '')) || b.v.n - a.v.n);
   }
   const koTeams = new Set(ko.map(x => x.g.away + ' @ ' + x.g.home + '|' + x.team));
   const sysTeams = new Set(sys.filter(x => x.v.lead.market !== 'total').map(x => x.v.lead.game + '|' + x.v.lead.team));
   const price = p => (p == null ? '' : (p > 0 ? '+' : '') + p);
-  const sysHtml = sys.length ? sys.map(({ v, names }) => `<div style="padding:3px 0"><b>${nbapEsc(v.lead.play)}</b>
+  // a play stays on the card after its game starts (user, 2026-11-26); it is
+  // marked with its result, or as started
+  const now = Date.now();
+  const logRes = {};
+  ((feed && feed.log) || []).forEach(e => { if (String(e.date) === String(d.today) && e.system) logRes[e.system + '|' + e.team] = e.result; });
+  const chip = (t, c) => `<span style="display:inline-block;margin-right:6px;padding:0 5px;border-radius:3px;font-size:10px;font-weight:700;color:${c};border:1px solid ${c}">${t}</span>`;
+  const mark = (res, start) => {
+    if (res === 'WIN' || res === 'W') return chip('W', '#3fb950');
+    if (res === 'LOSS' || res === 'L') return chip('L', '#f85149');
+    if (res === 'PUSH' || res === 'P') return chip('P', NBAP_DIM);
+    const t = start ? Date.parse(start) : NaN;
+    return t && t <= now ? chip('STARTED', NBAP_DIM) : '';
+  };
+  const sysHtml = sys.length ? sys.map(({ v, names }) => `<div style="padding:3px 0">${mark(v.lead.result || logRes[v.lead.system + '|' + v.lead.team], v.lead.startTimeUTC)}<b>${nbapEsc(v.lead.play)}</b>
       <span style="color:${NBAP_DIM}">${nbapEsc(price(v.lead.price))} · ${nbapTime(v.lead.startTimeUTC)} · ${nbapEsc(String(v.lead.game || '').split(' @ ').map(nbapNick).join(' @ '))} · ${nbapEsc(names.join(', '))}</span>
       ${v.lead.market !== 'total' && koTeams.has(v.lead.game + '|' + v.lead.team) ? tag('ALSO KALMANOFF') : ''}</div>`).join('')
     : `<div style="color:${NBAP_DIM}">${sysNote || 'No system play passes the rules on the current card.'}</div>`;
   const koHtml = ko.length ? ko.sort((a, b) => b.units - a.units || String(a.g.start || '').localeCompare(String(b.g.start || '')))
-      .map(x => `<div style="padding:3px 0"><b>${nbapEsc(x.play)}</b>
+      .map(x => `<div style="padding:3px 0">${mark(x.res, x.g.start)}<b>${nbapEsc(x.play)}</b>
       <span style="color:${x.units === 2 ? '#3fb950' : '#58a6ff'};font-weight:700"> ${x.units}u</span>
       <span style="color:${NBAP_DIM}">${x.p != null ? (x.p * 100).toFixed(1) + '% · ' : ''}${nbapTime(x.g.start)} · ${nbapEsc(nbapNick(x.g.away))} @ ${nbapEsc(nbapNick(x.g.home))}</span>
       ${sysTeams.has(x.g.away + ' @ ' + x.g.home + '|' + x.team) ? tag('ALSO A SYSTEM PLAY') : ''}</div>`).join('')
-    : `<div style="color:${NBAP_DIM}">No KalmanOff play on the remaining games.</div>`;
+    : `<div style="color:${NBAP_DIM}">No KalmanOff play today.</div>`;
   const tr = nbapTakeTrack(d);
   const recTag = r => (r.w + r.l + r.p) ? ` <span style="font-weight:400;color:${NBAP_DIM}">· since ${nbapTakeFromLabel()}: </span><span style="font-weight:400">${nbapRecCell(r)}</span>` : '';
   return `<div class="card card-games" style="border-left:3px solid #3fb950">
     <div class="card-title">What to take — ${nbapIso(d.today)}
-      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">games not yet final</span></div>
+      <span style="color:${NBAP_DIM};font-weight:400;font-size:11px">every play today, started games included</span></div>
     ${box('System plays' + recTag(tr.sys), '#3fb950', '63,185,80', sysHtml)}
     ${box('KalmanOff plays' + recTag(tr.ko), '#58a6ff', '88,166,255', koHtml)}
     ${nbapTakeLog(tr)}
