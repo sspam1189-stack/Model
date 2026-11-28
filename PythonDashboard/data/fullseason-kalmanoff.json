@@ -23717,7 +23717,7 @@
             "homeMargin": 0.16,
             "strength": 0.5,
             "home": "lineup -1.0 pts (out: Justin Champagnie, Tristan Vukcevic, Reece Beekman, Jamir Watkins)",
-            "away": "lineup -1.3 pts (out: Paolo Banchero, Kevin Porter Jr., Colin Castleton, Jonathan Isaac)"
+            "away": "lineup -1.3 pts (out: Paolo Banchero, Kevin Porter Jr., Jonathan Isaac, Noah Penda)"
           },
           "trends": {
             "away": "ATS +/- -5.0 \u00b7 Over 47.1% \u00b7 Under 52.9% \u00b7 O/U +/- -2.5",
@@ -23731,15 +23731,15 @@
           "total": 212.5,
           "startTimeUTC": "2026-11-28T23:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 210,
-          "home_ml": -255,
+          "away_ml": 215,
+          "home_ml": -260,
           "over_ml": -110,
           "under_ml": -110,
-          "spread_price_away": -110,
-          "spread_price_home": -110,
-          "aS": 108.3,
-          "hS": 106.9,
-          "pT": 215.2,
+          "spread_price_away": -108,
+          "spread_price_home": -112,
+          "aS": 108.4,
+          "hS": 107.0,
+          "pT": 215.4,
           "margin": -7.9,
           "sDiff": 7.9,
           "tDiff": 5.4,
@@ -23756,22 +23756,22 @@
           "pOU": null,
           "minGP": 17.0,
           "pCal": 0.528,
-          "marginVar": 232.5,
+          "marginVar": 232.4,
           "marginStd": 15.2,
           "_features": {
-            "dTS": -0.06535000000000002,
-            "dTO": -0.376825,
-            "dORR": 0.057274999999999965,
-            "dDEF": 5.712500000000006,
+            "dTS": -0.05747499999999994,
+            "dTO": -0.358825,
+            "dORR": 0.05735000000000001,
+            "dDEF": 5.577499999999986,
             "avgPace": 97.0804
           },
           "_marginFeatures": {
-            "dTS": -0.0634,
-            "dTO": 0.3658,
-            "dORR": 0.0556,
-            "dDEF": 5.5457,
+            "dTS": -0.0558,
+            "dTO": 0.3483,
+            "dORR": 0.0557,
+            "dDEF": 5.4146,
             "hca": 1.0,
-            "_baseline": -5.112,
+            "_baseline": -5.0181,
             "_pace": 0.9708
           },
           "kalmanAdj": {
@@ -23784,18 +23784,18 @@
           "h2hRecord": null,
           "h2hNote": null,
           "lineupAdj": {
-            "homeMargin": -0.19,
+            "homeMargin": 0.12,
             "strength": 0.5,
             "home": "lineup -0.5 pts (out: Grayson Allen, Kon Knueppel)",
-            "away": "lineup -0.1 pts (out: Nolan Traore)"
+            "away": "lineup -0.7 pts (out: Moritz Wagner, Nolan Traore)"
           },
           "_adjDeltas": {
             "away": {
-              "OFF": -1.69,
-              "DEF": 0.38,
-              "TS": -0.0033,
-              "TO": 0.1734,
-              "ORR": 0.002
+              "OFF": -1.4,
+              "DEF": 0.2,
+              "TS": -0.0138,
+              "TO": 0.1494,
+              "ORR": 0.0019
             },
             "home": {
               "OFF": -0.1255,
@@ -23815,35 +23815,35 @@
         {
           "away": "Indiana Pacers",
           "home": "Chicago Bulls",
-          "line": -2.5,
-          "total": 232.5,
+          "line": -1.5,
+          "total": 231.5,
           "startTimeUTC": "2026-11-29T01:10:00.000+00:00",
           "_book": "FanDuel",
-          "away_ml": 110,
-          "home_ml": -130,
+          "away_ml": -102,
+          "home_ml": -118,
           "over_ml": -110,
           "under_ml": -110,
-          "spread_price_away": -118,
-          "spread_price_home": -104,
+          "spread_price_away": -112,
+          "spread_price_home": -108,
           "aS": 111.8,
           "hS": 117.2,
           "pT": 229.0,
-          "margin": 2.9,
-          "sDiff": 2.9,
-          "tDiff": -4.1,
-          "sPick": "PASS",
-          "sConf": "low",
+          "margin": 3.9,
+          "sDiff": 3.9,
+          "tDiff": -3.1,
+          "sPick": "Chicago Bulls -1.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Home: Norman Powell (out/starter)",
-          "pHomeCover": 0.576,
-          "pAwayCover": 0.424,
-          "pOver": 0.398,
-          "pUnder": 0.602,
-          "pCover": null,
+          "pHomeCover": 0.601,
+          "pAwayCover": 0.399,
+          "pOver": 0.423,
+          "pUnder": 0.577,
+          "pCover": 0.601,
           "pOU": null,
           "minGP": 18.0,
-          "pCal": 0.51,
+          "pCal": 0.514,
           "marginVar": 230.7,
           "marginStd": 15.2,
           "_features": {
@@ -23890,6 +23890,7 @@
               "ORR": 0.0037
             }
           },
+          "stakeUnits": 1,
           "trends": {
             "away": "ATS +/- -1.0 \u00b7 Over 42.1% \u00b7 Under 57.9% \u00b7 O/U +/- -3.4",
             "home": "ATS +/- 2.0 \u00b7 Over 38.9% \u00b7 Under 61.1% \u00b7 O/U +/- 1.3"
@@ -23994,25 +23995,25 @@
           "under_ml": -110,
           "spread_price_away": -105,
           "spread_price_home": -115,
-          "aS": 110.7,
-          "hS": 123.0,
+          "aS": 110.6,
+          "hS": 123.1,
           "pT": 233.7,
-          "margin": -0.2,
-          "sDiff": 0.2,
+          "margin": 0.0,
+          "sDiff": 0.0,
           "tDiff": 6.4,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Joel Embiid (out/starter), LeBron James (out/star), Jaylen Brown (out/star)",
-          "pHomeCover": 0.495,
-          "pAwayCover": 0.505,
+          "pHomeCover": 0.5,
+          "pAwayCover": 0.5,
           "pOver": 0.656,
           "pUnder": 0.344,
           "pCover": null,
           "pOU": null,
           "minGP": 19.0,
-          "pCal": 0.501,
+          "pCal": 0.5,
           "marginVar": 229.8,
           "marginStd": 15.2,
           "_features": {
@@ -24028,7 +24029,7 @@
             "dORR": 0.0985,
             "dDEF": 2.1278,
             "hca": 1.0,
-            "_baseline": 9.903,
+            "_baseline": 10.088,
             "_pace": 0.9817
           },
           "kalmanAdj": {
@@ -24041,9 +24042,9 @@
           "h2hRecord": null,
           "h2hNote": null,
           "lineupAdj": {
-            "homeMargin": 3.29,
+            "homeMargin": 3.47,
             "strength": 0.5,
-            "home": null,
+            "home": "lineup +0.2 pts (out: Steven Adams)",
             "away": "lineup -6.8 pts (out: Joel Embiid, LeBron James, Jaylen Brown, Ariel Hukporti)"
           },
           "_adjDeltas": {
@@ -24063,7 +24064,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         37-22-0   (62.7%)   [graded 59]\n  Elite:       37-22-0   (62.7%)   [graded 59]\n\nFAV/DOG (Spread)\n  Favorites:   12-7-0   (63.2%)   [graded 19]\n  Underdogs:   25-15-0   (62.5%)   [graded 40]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "11/28/2026, 10:46:24 AM"
+      "ranAt": "11/28/2026, 12:46:45 PM"
     }
   ],
   "weights": {
